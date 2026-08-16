@@ -108,7 +108,7 @@
           <span id="dailyProgressText" class="text-xs text-indigo-300 font-bold">0 / 3 完了</span>
         </div>
         <div class="space-y-2 text-xs">
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <div id="questCardVocab" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-lg">📖</span>
               <div>
@@ -119,7 +119,7 @@
             <button onclick="startMode('vocab', 5)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
           </div>
 
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <div id="questCardGrammar" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-lg">🪄</span>
               <div>
@@ -130,7 +130,7 @@
             <button onclick="startMode('grammar', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
           </div>
 
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <div id="questCardListening" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-lg">🎧</span>
               <div>
@@ -184,7 +184,7 @@
           <button id="btnUseHint" onclick="use5050Hint()" class="bg-indigo-800 hover:bg-indigo-700 border border-amber-400 text-amber-300 text-[10px] font-black px-2.5 py-1 rounded-full shadow transition active:scale-95">
             💡 ヒント (<span id="hintStockCount">0</span>)
           </button>
-          <div class="text-xs font-black text-yellow-300 bg-amber-500/20 border border-amber-500/40 px-2 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
+          <div class="text-xs font-black text-yellow-300 bg-amber-500/20 border border-amber-500/40 px-2.5 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
         </div>
       </div>
 
@@ -208,7 +208,8 @@
         <div class="text-center min-h-[60px] flex items-center justify-center px-2 mb-2">
           <p id="quizQuestion" class="text-lg font-black text-white leading-snug whitespace-pre-line"></p>
         </div>
-        <p id="quizSubText" class="text-center text-xs text-indigo-300 font-medium min-h-[18px]"></p>
+        <!-- 文法・単語時は日本語訳を表示 / リスニング時は指示メッセージ -->
+        <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[18px] bg-indigo-950/60 p-2 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
       </div>
 
       <!-- 4択ボタン -->
@@ -220,7 +221,7 @@
           <span id="feedbackIcon" class="text-2xl">⭕</span>
           <h4 id="feedbackTitle" class="text-base font-black text-amber-300"></h4>
         </div>
-        <p id="feedbackExplain" class="text-xs text-slate-200 leading-relaxed"></p>
+        <p id="feedbackExplain" class="text-xs text-slate-200 leading-relaxed whitespace-pre-line"></p>
         <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
           つぎへ進む ➔
         </button>
@@ -358,7 +359,7 @@
 
   </main>
 
-  <!-- ボトムナビゲーションバー（4メニュー） -->
+  <!-- ボトムナビゲーションバー -->
   <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
     <div class="max-w-md mx-auto flex justify-around text-xs font-bold">
       <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-400">
@@ -388,7 +389,7 @@
       });
     }
 
-    // ==================== 必須単語・重要熟語 700語 完全データベース ====================
+    // ==================== 必須単語・重要熟語 700語 データベース ====================
     const RAW_VOCAB_DATA = [
       ["listen to ~", "〜を聞く"], ["look for ~", "〜をさがす"], ["look at ~", "〜を見る"], ["look after ~", "〜の世話をする"],
       ["take care of ~", "〜の世話をする"], ["arrive at ~", "〜に到着する"], ["arrive in ~", "〜（大都市など）に到着する"],
@@ -453,61 +454,61 @@
       ["actually", "実際に・実は"], ["immediately", "直ちに・すぐに"], ["hardly", "ほとんど〜ない"], ["nearly", "ほぼ・もう少しで"], ["quietly", "静かに"]
     ];
 
-    // ==================== 文法・会話 100問 網羅データベース ====================
+    // ==================== 文法・会話 100問 データベース ====================
     const RAW_GRAMMAR_DATA = [
-      { q: "I ( ) to the park yesterday.", sub: "昨日公園へ「行った」過去形は？", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので go の過去形 went を使います。", aud: "I went to the park yesterday." },
-      { q: "My father ( ) a new car last week.", sub: "先週車を「買った」過去形は？", opt: ["buy", "buys", "bought", "buying"], ans: 2, exp: "buy の過去形は不規則変化の bought です。", aud: "My father bought a new car last week." },
-      { q: "She ( ) an interesting movie last night.", sub: "昨夜映画を「見た」過去形は？", opt: ["see", "saw", "seen", "sees"], ans: 1, exp: "see の過去形は saw です。", aud: "She saw an interesting movie last night." },
-      { q: "We ( ) lunch together two hours ago.", sub: "2時間前に昼食を「食べた」過去形は？", opt: ["eat", "ate", "eaten", "eating"], ans: 1, exp: "eat の過去形は ate です。", aud: "We ate lunch together two hours ago." },
-      { q: "He ( ) a letter to his grandmother last Sunday.", sub: "手紙を「書いた」過去形は？", opt: ["write", "wrote", "written", "writing"], ans: 1, exp: "write の過去形は wrote です。", aud: "He wrote a letter to his grandmother last Sunday." },
-      { q: "They ( ) home late last night.", sub: "昨夜遅くに家に「帰ってきた」過去形は？", opt: ["come", "came", "coming", "comes"], ans: 1, exp: "come の過去形は came です。", aud: "They came home late last night." },
-      { q: "I ( ) my homework before dinner yesterday.", sub: "宿題を「した」過去形は？", opt: ["do", "did", "done", "doing"], ans: 1, exp: "do の過去形は did です。", aud: "I did my homework before dinner yesterday." },
-      { q: "She ( ) her keys this morning.", sub: "鍵を「見つけた」過去形は？", opt: ["find", "found", "finding", "finds"], ans: 1, exp: "find の過去形は found です。", aud: "She found her keys this morning." },
-      { q: "We ( ) English hard for the test.", sub: "熱心に「勉強した」過去形は？", opt: ["study", "studied", "studying", "studies"], ans: 1, exp: "study の過去形は y を i に変えて studied です。", aud: "We studied English hard for the test." },
-      { q: "He ( ) soccer with his friends last Friday.", sub: "サッカーを「した」過去形は？", opt: ["play", "played", "playing", "plays"], ans: 1, exp: "play の過去形は規則変化の played です。", aud: "He played soccer with his friends last Friday." },
+      { q: "I ( ) to the park yesterday.", sub: "【訳】私は昨日、公園に行きました。", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので過去形の went を使います。", aud_complete: "I went to the park yesterday." },
+      { q: "My father ( ) a new car last week.", sub: "【訳】私の父は先週、新しい車を買いました。", opt: ["buy", "buys", "bought", "buying"], ans: 2, exp: "buy の過去形は不規則変化の bought です。", aud_complete: "My father bought a new car last week." },
+      { q: "She ( ) an interesting movie last night.", sub: "【訳】彼女は昨夜、面白い映画を見ました。", opt: ["see", "saw", "seen", "sees"], ans: 1, exp: "see の過去形は saw です。", aud_complete: "She saw an interesting movie last night." },
+      { q: "We ( ) lunch together two hours ago.", sub: "【訳】私たちは2時間前、一緒に昼食を食べました。", opt: ["eat", "ate", "eaten", "eating"], ans: 1, exp: "eat の過去形は ate です。", aud_complete: "We ate lunch together two hours ago." },
+      { q: "He ( ) a letter to his grandmother last Sunday.", sub: "【訳】彼はこの前の日曜日、祖母に手紙を書きました。", opt: ["write", "wrote", "written", "writing"], ans: 1, exp: "write の過去形は wrote です。", aud_complete: "He wrote a letter to his grandmother last Sunday." },
+      { q: "They ( ) home late last night.", sub: "【訳】彼らは昨夜遅くに帰宅しました。", opt: ["come", "came", "coming", "comes"], ans: 1, exp: "come の過去形は came です。", aud_complete: "They came home late last night." },
+      { q: "I ( ) my homework before dinner yesterday.", sub: "【訳】私は昨日、夕食前に宿題をしました。", opt: ["do", "did", "done", "doing"], ans: 1, exp: "do の過去形は did です。", aud_complete: "I did my homework before dinner yesterday." },
+      { q: "She ( ) her keys this morning.", sub: "【訳】彼女は今朝、鍵を見つけました。", opt: ["find", "found", "finding", "finds"], ans: 1, exp: "find の過去形は found です。", aud_complete: "She found her keys this morning." },
+      { q: "We ( ) English hard for the test.", sub: "【訳】私たちはテストのために一生懸命英語を勉強しました。", opt: ["study", "studied", "studying", "studies"], ans: 1, exp: "study の過去形は y を i に変えて studied です。", aud_complete: "We studied English hard for the test." },
+      { q: "He ( ) soccer with his friends last Friday.", sub: "【訳】彼はこの前の金曜日、友達とサッカーをしました。", opt: ["play", "played", "playing", "plays"], ans: 1, exp: "play の過去形は規則変化の played です。", aud_complete: "He played soccer with his friends last Friday." },
 
-      { q: "We will ( ) soccer tomorrow afternoon.", sub: "will（未来）の後の動詞の形は？", opt: ["play", "played", "playing", "plays"], ans: 0, exp: "助動詞 will の後は常に「動詞の原形」がきます。", aud: "We will play soccer tomorrow afternoon." },
-      { q: "I am going to ( ) Kyoto next weekend.", sub: "be going to の後の形は？", opt: ["visit", "visited", "visiting", "visits"], ans: 0, exp: "be going to の後も「動詞の原形」を使います。", aud: "I am going to visit Kyoto next weekend." },
-      { q: "They were ( ) TV when I called them.", sub: "電話した時「テレビを見ていた」過去進行形は？", opt: ["watch", "watched", "watching", "watches"], ans: 2, exp: "過去進行形は was / were + 動詞のing形 です。", aud: "They were watching TV when I called them." },
-      { q: "Look! The baby is ( ) in the bed.", sub: "今まさに「眠っている」現在進行形は？", opt: ["sleep", "slept", "sleeping", "sleeps"], ans: 2, exp: "現在進行形は is / am / are + 動詞のing形 です。", aud: "Look! The baby is sleeping in the bed." },
-      { q: "What ( ) you doing at eight last night?", sub: "昨夜8時に何を「していましたか」？", opt: ["were", "did", "are", "do"], ans: 0, exp: "過去のその時点でしていたことを聞くので were you doing となります。", aud: "What were you doing at eight last night?" },
+      { q: "We will ( ) soccer tomorrow afternoon.", sub: "【訳】私たちは明日の午後、サッカーをする予定です。", opt: ["play", "played", "playing", "plays"], ans: 0, exp: "助動詞 will の後は常に「動詞の原形」がきます。", aud_complete: "We will play soccer tomorrow afternoon." },
+      { q: "I am going to ( ) Kyoto next weekend.", sub: "【訳】私は来週末、京都を訪れる予定です。", opt: ["visit", "visited", "visiting", "visits"], ans: 0, exp: "be going to の後も「動詞の原形」を使います。", aud_complete: "I am going to visit Kyoto next weekend." },
+      { q: "They were ( ) TV when I called them.", sub: "【訳】私が電話した時、彼らはテレビを見ていました。", opt: ["watch", "watched", "watching", "watches"], ans: 2, exp: "過去進行形は was / were + 動詞のing形 です。", aud_complete: "They were watching TV when I called them." },
+      { q: "Look! The baby is ( ) in the bed.", sub: "【訳】見て！赤ちゃんがベッドで眠っています。", opt: ["sleep", "slept", "sleeping", "sleeps"], ans: 2, exp: "現在進行形は is / am / are + 動詞のing形 です。", aud_complete: "Look! The baby is sleeping in the bed." },
+      { q: "What ( ) you doing at eight last night?", sub: "【訳】昨夜8時にあなたは何をしていましたか？", opt: ["were", "did", "are", "do"], ans: 0, exp: "過去のその時点でしていたことを聞くので were you doing となります。", aud_complete: "What were you doing at eight last night?" },
 
-      { q: "You ( ) wash your hands before eating.", sub: "手を洗わ「なければならない」強い義務は？", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は「〜しなければならない」という義務を表します。", aud: "You must wash your hands before eating." },
-      { q: "A: ( ) I use your dictionary?\nB: Sure, go ahead.", sub: "辞書を使っても「いいですか（許可）」は？", opt: ["May", "Must", "Should", "Will"], ans: 0, exp: "May I ~? で「〜してもよいですか？」という丁寧な許可求めになります。", aud: "May I use your dictionary?" },
-      { q: "You ( ) eat too much sweet food.", sub: "〜すべきではない（助動詞）は？", opt: ["should not", "must", "may", "can"], ans: 0, exp: "should not で「〜すべきではない」という忠告・アドバイスを表します。", aud: "You should not eat too much sweet food." },
-      { q: "I ( ) swim across this river when I was young.", sub: "〜することが「できた（過去の能力）」は？", opt: ["could", "must", "may", "should"], ans: 0, exp: "can の過去形 could で「〜することができた」を表します。", aud: "I could swim across this river when I was young." },
-      { q: "We have to ( ) early tomorrow morning.", sub: "have to の後の動詞の形は？", opt: ["get up", "got up", "getting up", "gets up"], ans: 0, exp: "have to（〜しなければならない）の後は「動詞の原形」がきます。", aud: "We have to get up early tomorrow morning." },
+      { q: "You ( ) wash your hands before eating.", sub: "【訳】食べる前に手を洗わなければなりません。", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は「〜しなければならない」という強い義務を表します。", aud_complete: "You must wash your hands before eating." },
+      { q: "A: ( ) I use your dictionary?\nB: Sure, go ahead.", sub: "【訳】A: 辞書を使ってもいいですか？\nB: もちろん、どうぞ。", opt: ["May", "Must", "Should", "Will"], ans: 0, exp: "May I ~? で「〜してもよいですか？」という丁寧な許可求めになります。", aud_complete: "May I use your dictionary?" },
+      { q: "You ( ) eat too much sweet food.", sub: "【訳】甘い食べ物を食べ過ぎるべきではありません。", opt: ["should not", "must", "may", "can"], ans: 0, exp: "should not で「〜すべきではない」という忠告を表します。", aud_complete: "You should not eat too much sweet food." },
+      { q: "I ( ) swim across this river when I was young.", sub: "【訳】私は若い頃、この川を泳いで渡ることができました。", opt: ["could", "must", "may", "should"], ans: 0, exp: "can の過去形 could で「〜することができた」を表します。", aud_complete: "I could swim across this river when I was young." },
+      { q: "We have to ( ) early tomorrow morning.", sub: "【訳】私たちは明日、早起きしなければなりません。", opt: ["get up", "got up", "getting up", "gets up"], ans: 0, exp: "have to（〜しなければならない）の後は「動詞の原形」がきます。", aud_complete: "We have to get up early tomorrow morning." },
 
-      { q: "I want ( ) a professional soccer player.", sub: "選手に「なること」を望む不定詞は？", opt: ["become", "became", "to become", "becoming"], ans: 2, exp: "want to + 動詞の原形で「〜になりたい」を表します。", aud: "I want to become a professional soccer player." },
-      { q: "Thank you for ( ) me with my homework.", sub: "前置詞 for の後の動詞の形は？", opt: ["help", "helped", "helping", "to help"], ans: 2, exp: "前置詞の直後には動名詞 (〜ing) を使います。", aud: "Thank you for helping me with my homework." },
-      { q: "She decided ( ) abroad next year.", sub: "留学「すること」を決めた不定詞は？", opt: ["study", "studied", "to study", "studying"], ans: 2, exp: "decide to + 原形で「〜することを決める」という意味です。", aud: "She decided to study abroad next year." },
-      { q: "Stop ( ) so loudly in the library.", sub: "話すのを「やめる」動名詞は？", opt: ["talk", "talked", "talking", "to talk"], ans: 2, exp: "stop 〜ing で「〜するのをやめる」という意味になります。", aud: "Stop talking so loudly in the library." },
-      { q: "He went to the station ( ) his friend.", sub: "友達に「会うために（目的）」駅に行った不定詞は？", opt: ["meet", "met", "to meet", "meeting"], ans: 2, exp: "to + 原形で「〜するために」という目的を表します。", aud: "He went to the station to meet his friend." },
+      { q: "I want ( ) a professional soccer player.", sub: "【訳】私は将来プロサッカー選手になりたいです。", opt: ["become", "became", "to become", "becoming"], ans: 2, exp: "want to + 動詞の原形で「〜になりたい」を表します。", aud_complete: "I want to become a professional soccer player." },
+      { q: "Thank you for ( ) me with my homework.", sub: "【訳】宿題を手伝ってくれてありがとう。", opt: ["help", "helped", "helping", "to help"], ans: 2, exp: "前置詞 for の直後には動名詞 (〜ing) を使います。", aud_complete: "Thank you for helping me with my homework." },
+      { q: "She decided ( ) abroad next year.", sub: "【訳】彼女は来年、留学することを決めました。", opt: ["study", "studied", "to study", "studying"], ans: 2, exp: "decide to + 原形で「〜することを決める」という意味です。", aud_complete: "She decided to study abroad next year." },
+      { q: "Stop ( ) so loudly in the library.", sub: "【訳】図書館の中でそんなに大声で話すのをやめなさい。", opt: ["talk", "talked", "talking", "to talk"], ans: 2, exp: "stop 〜ing で「〜するのをやめる」という意味になります。", aud_complete: "Stop talking so loudly in the library." },
+      { q: "He went to the station ( ) his friend.", sub: "【訳】彼は友達に会うために駅に行きました。", opt: ["meet", "met", "to meet", "meeting"], ans: 2, exp: "to + 原形で「〜するために」という目的を表します。", aud_complete: "He went to the station to meet his friend." },
 
-      { q: "Ken is ( ) than Tom.", sub: "2人を比べる比較級は？", opt: ["tall", "taller", "tallest", "more tall"], ans: 1, exp: "than（〜より）があるので比較級の taller が正解です。", aud: "Ken is taller than Tom." },
-      { q: "Mount Fuji is the ( ) mountain in Japan.", sub: "最も高い最上級は？", opt: ["high", "higher", "highest", "most high"], ans: 2, exp: "the + 最上級 (highest) で「最も高い」を表します。", aud: "Mount Fuji is the highest mountain in Japan." },
-      { q: "This comic is as ( ) as that movie.", sub: "as 〜 as の間に入る形は？", opt: ["interesting", "more interesting", "most interesting", "interestingly"], ans: 0, exp: "as 〜 as（同じくらい〜）の間には「原級」が入ります。", aud: "This comic is as interesting as that movie." },
-      { q: "A: ( ) is your birthday?\nB: It is May 5th.", sub: "誕生日（いつ）をたずねる疑問詞は？", opt: ["Where", "Who", "When", "What"], ans: 2, exp: "日付（いつ）を聞いているので When が正解です。", aud: "When is your birthday?" },
-      { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "「だれの〜」と所有者をたずねる疑問詞は？", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。", aud: "Whose notebook is this?" }
+      { q: "Ken is ( ) than Tom.", sub: "【訳】ケンはトムよりも背が高いです。", opt: ["tall", "taller", "tallest", "more tall"], ans: 1, exp: "than（〜より）があるので比較級の taller が正解です。", aud_complete: "Ken is taller than Tom." },
+      { q: "Mount Fuji is the ( ) mountain in Japan.", sub: "【訳】富士山は日本で最も高い山です。", opt: ["high", "higher", "highest", "most high"], ans: 2, exp: "the + 最上級 (highest) で「最も高い」を表します。", aud_complete: "Mount Fuji is the highest mountain in Japan." },
+      { q: "This comic is as ( ) as that movie.", sub: "【訳】この漫画はその映画と同じくらい面白いです。", opt: ["interesting", "more interesting", "most interesting", "interestingly"], ans: 0, exp: "as 〜 as の間には「原級」が入ります。", aud_complete: "This comic is as interesting as that movie." },
+      { q: "A: ( ) is your birthday?\nB: It is May 5th.", sub: "【訳】A: あなたの誕生日はいつですか？\nB: 5月5日です。", opt: ["Where", "Who", "When", "What"], ans: 2, exp: "日付（いつ）を聞いているので When が正解です。", aud_complete: "When is your birthday?" },
+      { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。", aud_complete: "Whose notebook is this?" }
     ];
 
-    // ==================== リスニング 100問 網羅データベース ====================
+    // ==================== リスニング 100問 データベース（画面上の英文を隠す仕様） ====================
     const RAW_LISTENING_DATA = [
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"What time do you usually get up?\"", sub: "起床時間を答えているのは？", opt: ["At seven o'clock.", "By bus.", "Yes, I do.", "In my room."], ans: 0, exp: "What time（何時？）と聞かれているので「7時です」と答えます。", aud: "What time do you usually get up?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"May I help you?\"", sub: "店員への返答を選ぼう", opt: ["Yes, I am.", "No, thank you. I'm just looking.", "Here you are.", "You're welcome."], ans: 1, exp: "「いらっしゃいませ（何かお手伝いしましょうか？）」に対して「見ているだけです」と答えます。", aud: "May I help you?" },
-      { q: "音声を聞いて、場所を当てよう。\n\"Where are you going this weekend?\"", sub: "行き先を答えているのは？", opt: ["I will go to the zoo.", "I played soccer.", "It is sunny.", "With my brother."], ans: 0, exp: "Where（どこに行くの？）に対して動物園に行くと答えている文が正解です。", aud: "Where are you going this weekend?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"How was your trip to Kyoto?\"", sub: "旅行の感想に答えているのは？", opt: ["It was great!", "Yes, I was.", "Next week.", "By train."], ans: 0, exp: "How was ~?（〜はどうでしたか？）に対して「とても楽しかった(It was great)」と答えます。", aud: "How was your trip to Kyoto?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"Shall we play video games together?\"", sub: "ゲームの誘いへの返答を選ぼう", opt: ["Sounds good!", "I am a student.", "No, it isn't.", "You are kind."], ans: 0, exp: "Shall we ~?（〜しませんか？）に対して「いいね！(Sounds good!)」と賛同します。", aud: "Shall we play video games together?" },
-      { q: "音声を聞いて、天気を当てよう。\n\"How is the weather in Tokyo today?\"", sub: "天気について答えているのは？", opt: ["It is cloudy and cold.", "It is two o'clock.", "I like Tokyo.", "At the station."], ans: 0, exp: "How is the weather?（天気はどう？）に対して「曇りで寒いです」と答えます。", aud: "How is the weather in Tokyo today?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"Could you pass me the salt, please?\"", sub: "依頼に対する返答を選ぼう", opt: ["Sure. Here you are.", "I am fine.", "No, I don't.", "Thank you."], ans: 0, exp: "塩を取ってほしいという頼みに対して「もちろん。どうぞ(Sure. Here you are.)」と渡します。", aud: "Could you pass me the salt, please?" },
-      { q: "音声を聞いて、予定を当てよう。\n\"What are you going to do this afternoon?\"", sub: "午後の予定を答えているのは？", opt: ["I am going to clean my room.", "I went to school.", "Yesterday.", "It was fun."], ans: 0, exp: "be going to（〜する予定）と聞かれているので、同じく予定を答えている文が正解です。", aud: "What are you going to do this afternoon?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"How do you come to school?\"", sub: "通学手段に答えているのは？", opt: ["By bike.", "At eight.", "With my sister.", "Yes, I do."], ans: 0, exp: "How do you come?（どうやって来るの？）に対して「自転車で(By bike)」と答えます。", aud: "How do you come to school?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"Why were you late for school today?\"", sub: "遅刻の理由に答えているのは？", opt: ["Because I missed the bus.", "Yes, I was.", "Tomorrow morning.", "At seven."], ans: 0, exp: "Why（なぜ？）に対して「バスに乗り遅れたからです(Because ~)」と理由を答えます。", aud: "Why were you late for school today?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"Would you like some orange juice?\"", sub: "飲み物の案内に答えているのは？", opt: ["Yes, please.", "No, I am not.", "I like apples.", "Here it is."], ans: 0, exp: "Would you like some ~?（〜はいかがですか？）に対して「はい、お願いします」と答えます。", aud: "Would you like some orange juice?" },
-      { q: "音声を聞いて、適切な応答を選ぼう。\n\"How long have you lived in Japan?\"", sub: "滞在期間に答えているのは？", opt: ["For three years.", "In Tokyo.", "With my family.", "Yes, I have."], ans: 0, exp: "How long ~?（どのくらいの期間？）に対して「3年間です(For three years)」と答えます。", aud: "How long have you lived in Japan?" }
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["At seven o'clock.", "By bus.", "Yes, I do.", "In my room."], ans: 0, exp: "【聞き取った英文】\n\"What time do you usually get up?\"\n（普段何時に起きますか？）\n\n【解説】時間（何時？）を聞かれているので「7時です(At seven o'clock)」が正解です。", aud_listen: "What time do you usually get up?", aud_complete: "What time do you usually get up? At seven o'clock." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["Yes, I am.", "No, thank you. I'm just looking.", "Here you are.", "You're welcome."], ans: 1, exp: "【聞き取った英文】\n\"May I help you?\"\n（いらっしゃいませ。何かお手伝いしましょうか？）\n\n【解説】お店での声かけに対し「見ているだけです(I'm just looking)」と答えます。", aud_listen: "May I help you?", aud_complete: "May I help you? No, thank you. I'm just looking." },
+      { q: "音声を聞いて、場所を当てよう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["I will go to the zoo.", "I played soccer.", "It is sunny.", "With my brother."], ans: 0, exp: "【聞き取った英文】\n\"Where are you going this weekend?\"\n（今週末どこに行く予定ですか？）\n\n【解説】Where（どこ？）に対して動物園に行くと答えている文が正解です。", aud_listen: "Where are you going this weekend?", aud_complete: "Where are you going this weekend? I will go to the zoo." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["It was great!", "Yes, I was.", "Next week.", "By train."], ans: 0, exp: "【聞き取った英文】\n\"How was your trip to Kyoto?\"\n（京都への旅行はどうでしたか？）\n\n【解説】How was ~?（どうでしたか？）に対して「とても楽しかった(It was great)」と答えます。", aud_listen: "How was your trip to Kyoto?", aud_complete: "How was your trip to Kyoto? It was great!" },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["Sounds good!", "I am a student.", "No, it isn't.", "You are kind."], ans: 0, exp: "【聞き取った英文】\n\"Shall we play video games together?\"\n（一緒にテレビゲームをしませんか？）\n\n【解説】Shall we ~?（〜しませんか？）に対して「いいね！(Sounds good!)」と賛同します。", aud_listen: "Shall we play video games together?", aud_complete: "Shall we play video games together? Sounds good!" },
+      { q: "音声を聞いて、天気を当てよう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["It is cloudy and cold.", "It is two o'clock.", "I like Tokyo.", "At the station."], ans: 0, exp: "【聞き取った英文】\n\"How is the weather in Tokyo today?\"\n（今日の東京の天気はどうですか？）\n\n【解説】How is the weather?（天気はどう？）に対して「曇りで寒いです」と答えます。", aud_listen: "How is the weather in Tokyo today?", aud_complete: "How is the weather in Tokyo today? It is cloudy and cold." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["Sure. Here you are.", "I am fine.", "No, I don't.", "Thank you."], ans: 0, exp: "【聞き取った英文】\n\"Could you pass me the salt, please?\"\n（塩を取っていただけますか？）\n\n【解説】頼みに対して「もちろん。どうぞ(Sure. Here you are.)」と渡します。", aud_listen: "Could you pass me the salt, please?", aud_complete: "Could you pass me the salt, please? Sure. Here you are." },
+      { q: "音声を聞いて、予定を当てよう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["I am going to clean my room.", "I went to school.", "Yesterday.", "It was fun."], ans: 0, exp: "【聞き取った英文】\n\"What are you going to do this afternoon?\"\n（今日の午後何をする予定ですか？）\n\n【解説】be going to（〜する予定）に対して部屋を掃除すると答えています。", aud_listen: "What are you going to do this afternoon?", aud_complete: "What are you going to do this afternoon? I am going to clean my room." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["By bike.", "At eight.", "With my sister.", "Yes, I do."], ans: 0, exp: "【聞き取った英文】\n\"How do you come to school?\"\n（どうやって学校に来ていますか？）\n\n【解説】How do you come?（交通手段は？）に対して「自転車で(By bike)」と答えます。", aud_listen: "How do you come to school?", aud_complete: "How do you come to school? By bike." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["Because I missed the bus.", "Yes, I was.", "Tomorrow morning.", "At seven."], ans: 0, exp: "【聞き取った英文】\n\"Why were you late for school today?\"\n（なぜ今日学校に遅刻したのですか？）\n\n【解説】Why（なぜ？）に対して「バスに乗り遅れたからです」と理由を答えます。", aud_listen: "Why were you late for school today?", aud_complete: "Why were you late for school today? Because I missed the bus." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["Yes, please.", "No, I am not.", "I like apples.", "Here it is."], ans: 0, exp: "【聞き取った英文】\n\"Would you like some orange juice?\"\n（オレンジジュースはいかがですか？）\n\n【解説】勧めに対して「はい、お願いします(Yes, please.)」と答えます。", aud_listen: "Would you like some orange juice?", aud_complete: "Would you like some orange juice? Yes, please." },
+      { q: "音声を聞いて、適切な応答を選ぼう。", sub: "🎧 音声をよく聞いて、正しい答えを選んでね", opt: ["For three years.", "In Tokyo.", "With my family.", "Yes, I have."], ans: 0, exp: "【聞き取った英文】\n\"How long have you lived in Japan?\"\n（日本にどのくらいの期間住んでいますか？）\n\n【解説】How long ~?（期間は？）に対して「3年間です(For three years)」と答えます。", aud_listen: "How long have you lived in Japan?", aud_complete: "How long have you lived in Japan? For three years." }
     ];
 
-    // ==================== 音声読み上げエンジン (Web Speech API) ====================
+    // ==================== 音声読み上げエンジン ====================
     let voiceSpeed = 0.8;
 
     function toggleVoiceSpeed() {
@@ -525,7 +526,7 @@
       window.speechSynthesis.speak(uttr);
     }
 
-    // ==================== レトロゲーム風 BGM & SE エンジン (Web Audio API) ====================
+    // ==================== BGM & SE エンジン ====================
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let actx = null;
     let isBgmEnabled = false;
@@ -635,8 +636,8 @@
       }
     }
 
-    // ==================== ユーザーデータ & 進捗管理 (LocalStorage) ====================
-    const STORAGE_KEY = 'eiken4_data_v6';
+    // ==================== ユーザーデータ管理 ====================
+    const STORAGE_KEY = 'eiken4_data_v8';
     let userData = {
       level: 1,
       exp: 0,
@@ -782,11 +783,11 @@
       renderShopEquips();
     }
 
-    // ==================== 💎 ショップ・ガチャ・アイテム処理 ====================
+    // ==================== ショップ・アイテム処理 ====================
     function buyItem(itemType, cost) {
       initAudio();
       if (userData.gems < cost) {
-        alert('💎 ダイヤが足りません！クエストをクリアしてダイヤを集めよう！');
+        alert('💎 ダイヤが足りません！');
         return;
       }
       userData.gems -= cost;
@@ -837,7 +838,7 @@
       userData.gems -= price;
       userData.unlockedEquips.push(equipId);
       playSE('correct');
-      alert('装備を購入しました！早速そうびしてみよう！');
+      alert('装備を購入しました！');
       saveData();
     }
 
@@ -874,7 +875,7 @@
 
     function use5050Hint() {
       if (!userData.inventory.hint || userData.inventory.hint <= 0) {
-        alert('💡 ヒントの書がありません！ショップで購入しよう！');
+        alert('💡 ヒントの書がありません！');
         return;
       }
 
@@ -892,7 +893,7 @@
       saveData();
     }
 
-    // ==================== クイズ＆バトルエンジン ====================
+    // ==================== クイズ生成エンジン ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
@@ -920,11 +921,12 @@
         id: 'v_' + item[0],
         type: 'vocab',
         q: item[0],
-        sub: 'この単語・熟語の意味は？',
+        sub: `【意味】${correctMeaning}`,
         options: options,
         ans: options.indexOf(correctMeaning),
         explain: `「${item[0]}」は「${correctMeaning}」という意味です。`,
-        audio: item[0]
+        audio_question: item[0],
+        audio_complete: item[0]
       };
     }
 
@@ -932,6 +934,9 @@
       const correctOption = item.opt[item.ans];
       const shuffledOptions = shuffleArray(item.opt);
       const newAnsIndex = shuffledOptions.indexOf(correctOption);
+      
+      const questionAudioText = item.q.replace(/\([^)]*\)/g, 'blank');
+
       return {
         id: 'g_' + idx,
         type: 'grammar',
@@ -940,7 +945,8 @@
         options: shuffledOptions,
         ans: newAnsIndex,
         explain: item.exp,
-        audio: item.aud
+        audio_question: questionAudioText,
+        audio_complete: item.aud_complete
       };
     }
 
@@ -951,12 +957,13 @@
       return {
         id: 'l_' + idx,
         type: 'listening',
-        q: item.q,
-        sub: item.sub,
+        q: item.q, // 画面には「音声を聞いて、適切な応答を選ぼう。」のみ表示
+        sub: item.sub, // 英文を隠し、指示メッセージのみ表示
         options: shuffledOptions,
         ans: newAnsIndex,
-        explain: item.exp,
-        audio: item.aud
+        explain: item.exp, // 解答後に英文スクリプトと日本語訳を初公開
+        audio_question: item.aud_listen,
+        audio_complete: item.aud_complete
       };
     }
 
@@ -1029,8 +1036,8 @@
       document.getElementById('quizQuestion').innerText = q.q;
       document.getElementById('quizSubText').innerText = q.sub || '';
 
-      if (q.audio) {
-        speakText(q.audio);
+      if (q.audio_question) {
+        speakText(q.audio_question);
       }
 
       const optContainer = document.getElementById('quizOptions');
@@ -1046,7 +1053,7 @@
 
     function playCurrentAudio() {
       const q = currentQueue[currentIndex];
-      if (q && q.audio) speakText(q.audio);
+      if (q && q.audio_question) speakText(q.audio_question);
     }
 
     function handleAnswer(selectedIdx) {
@@ -1077,6 +1084,11 @@
         feedbackIcon.innerText = '⭕';
         feedbackTitle.innerText = `正解！ Excellent! ${combo >= 2 ? `(${combo}連続正解!)` : ''}`;
         feedbackTitle.className = "text-base font-black text-emerald-400";
+
+        // 正解時は完全な音声で復習
+        if (q.audio_complete) {
+          setTimeout(() => speakText(q.audio_complete), 300);
+        }
       } else {
         playSE('wrong');
         combo = 0;
@@ -1210,4 +1222,4 @@
     document.body.addEventListener('click', initAudio, { once: true });
   </script>
 </body>
-  </html>
+</html>
