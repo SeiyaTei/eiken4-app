@@ -68,7 +68,7 @@
     <!-- ==================== 1. ホーム画面 ==================== -->
     <div id="viewHome" class="space-y-4">
       
-      <!-- 相棒モンスター & レベル & 装備（オーラ・頭・武器の3重レイヤー表示） -->
+      <!-- 相棒モンスター & レベル & 装備 -->
       <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative">
@@ -104,7 +104,7 @@
         </div>
       </div>
 
-      <!-- 👑 過去問ボスバトル巨大カード（全分野ランダム10問実戦模試） -->
+      <!-- 👑 過去問ボスバトル巨大カード（PDF収録の実際の過去問からランダム10問） -->
       <div class="bg-gradient-to-r from-red-900 via-purple-900 to-indigo-900 border-2 border-red-500/80 rounded-3xl p-4 shadow-2xl glow-red relative overflow-hidden">
         <div class="flex items-center justify-between">
           <div>
@@ -112,7 +112,7 @@
             <h3 class="text-base font-black text-amber-300 mt-1 flex items-center gap-1.5">
               👑 過去問ボスバトル (10問)
             </h3>
-            <p class="text-[10px] text-indigo-200 mt-0.5">全過去問からランダム出題！高額ダイヤ獲得！</p>
+            <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問から10問ランダム出題！</p>
             <div class="text-[10px] text-amber-300 font-black mt-1">
               討伐報酬: <span class="text-emerald-400">EXP +120 / 💎 +30</span>
             </div>
@@ -552,7 +552,7 @@
       { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。" }
     ];
 
-    // ==================== 本格リスニング データベース（最低2往復以上の対話＋質問） ====================
+    // ==================== 本格リスニング データベース ====================
     const RAW_LISTENING_DATA = [
       {
         q: "音声を聞いて、質問に答えよう。",
@@ -598,115 +598,318 @@
           { speaker: 'narrator', text: "Question. Where is Mary going this weekend?" }
         ],
         aud_complete: "Where is Mary going this weekend? To the zoo."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["It was very fun.", "It was terrible.", "It was rainy every day.", "It was boring."],
-        ans: 0,
-        exp: "【対話スクリプト】\nGirl: How was your school trip to Kyoto, Ken?\nBoy: It was really great! I saw many ancient temples.\nGirl: Did you take a lot of photos there?\nBoy: Yes, I took more than one hundred photos.\nQuestion: How was Ken's school trip?\n\n【解説】ケンは「とても楽しかった(really great / very fun)」と答えています。",
-        dialogue: [
-          { speaker: 'female', text: "How was your school trip to Kyoto, Ken?" },
-          { speaker: 'male', text: "It was really great! I saw many ancient temples." },
-          { speaker: 'female', text: "Did you take a lot of photos there?" },
-          { speaker: 'male', text: "Yes, I took more than one hundred photos." },
-          { speaker: 'narrator', text: "Question. How was Ken's school trip?" }
-        ],
-        aud_complete: "How was Ken's school trip? It was very fun."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["Play a video game.", "Study for the exam.", "Go to the library.", "Clean the room."],
-        ans: 0,
-        exp: "【対話スクリプト】\nBoy: Shall we play a new video game at my house today?\nGirl: Sounds fun! But did you finish your homework?\nBoy: Yes, I finished it during lunch time.\nGirl: Great! Let's go to your house now.\nQuestion: What are they going to do today?\n\n【解説】2人は「テレビゲームをする(Play a video game)」と決めています。",
-        dialogue: [
-          { speaker: 'male', text: "Shall we play a new video game at my house today?" },
-          { speaker: 'female', text: "Sounds fun! But did you finish your homework?" },
-          { speaker: 'male', text: "Yes, I finished it during lunch time." },
-          { speaker: 'female', text: "Great! Let's go to your house now." },
-          { speaker: 'narrator', text: "Question. What are they going to do today?" }
-        ],
-        aud_complete: "What are they going to do today? Play a video game."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["Cloudy and cold.", "Sunny and warm.", "Raining heavily.", "Snowy and windy."],
-        ans: 0,
-        exp: "【対話スクリプト】\nBoy: How is the weather in Tokyo today?\nGirl: It is cloudy and very cold.\nBoy: Should I take a heavy jacket?\nGirl: Yes, you definitely should wear a warm coat.\nQuestion: How is the weather in Tokyo today?\n\n【解説】東京の天気は「曇りで寒い(cloudy and cold)」と言っています。",
-        dialogue: [
-          { speaker: 'male', text: "How is the weather in Tokyo today?" },
-          { speaker: 'female', text: "It is cloudy and very cold." },
-          { speaker: 'male', text: "Should I take a heavy jacket?" },
-          { speaker: 'female', text: "Yes, you definitely should wear a warm coat." },
-          { speaker: 'narrator', text: "Question. How is the weather in Tokyo today?" }
-        ],
-        aud_complete: "How is the weather in Tokyo today? Cloudy and cold."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["The salt.", "The sugar.", "A glass of water.", "A spoon."],
-        ans: 0,
-        exp: "【対話スクリプト】\nFather: Lucy, could you pass me the salt, please?\nGirl: Sure, Dad. Here it is.\nFather: Thank you. This soup needs a little bit more taste.\nGirl: You're welcome, Dad.\nQuestion: What did the father ask for?\n\n【解説】お父さんは「塩(the salt)」を頼んでいます。",
-        dialogue: [
-          { speaker: 'male', text: "Lucy, could you pass me the salt, please?" },
-          { speaker: 'female', text: "Sure, Dad. Here it is." },
-          { speaker: 'male', text: "Thank you. This soup needs a little bit more taste." },
-          { speaker: 'female', text: "You're welcome, Dad." },
-          { speaker: 'narrator', text: "Question. What did the father ask for?" }
-        ],
-        aud_complete: "What did the father ask for? The salt."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["Clean her bedroom.", "Go shopping.", "Study English.", "Play tennis with friends."],
-        ans: 0,
-        exp: "【対話スクリプト】\nMother: Lucy, what are you going to do this afternoon?\nGirl: I am going to clean my bedroom.\nMother: That's great! Will you help me make dinner after that?\nGirl: Sure, I would love to.\nQuestion: What will Lucy do first this afternoon?\n\n【解説】ルーシーは午後の最初に「自分の部屋を掃除する(Clean her bedroom)」と答えています。",
-        dialogue: [
-          { speaker: 'female', text: "Lucy, what are you going to do this afternoon?" },
-          { speaker: 'female', text: "I am going to clean my bedroom." },
-          { speaker: 'female', text: "That's great! Will you help me make dinner after that?" },
-          { speaker: 'female', text: "Sure, I would love to." },
-          { speaker: 'narrator', text: "Question. What will Lucy do first this afternoon?" }
-        ],
-        aud_complete: "What will Lucy do first this afternoon? Clean her bedroom."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["By bicycle.", "On foot.", "By train.", "By school bus."],
-        ans: 0,
-        exp: "【対話スクリプト】\nTeacher: Jack, how do you usually come to school?\nBoy: I usually come by bicycle.\nTeacher: Do you ride your bike when it rains too?\nBoy: No, when it rains, I take the city bus.\nQuestion: How does Jack usually come to school on sunny days?\n\n【解説】ジャックは普段は「自転車で(By bicycle)」通学しています。",
-        dialogue: [
-          { speaker: 'female', text: "Jack, how do you usually come to school?" },
-          { speaker: 'male', text: "I usually come by bicycle." },
-          { speaker: 'female', text: "Do you ride your bike when it rains too?" },
-          { speaker: 'male', text: "No, when it rains, I take the city bus." },
-          { speaker: 'narrator', text: "Question. How does Jack usually come to school on sunny days?" }
-        ],
-        aud_complete: "How does Jack usually come to school on sunny days? By bicycle."
-      },
-      {
-        q: "音声を聞いて、質問に答えよう。",
-        sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
-        opt: ["He missed the morning bus.", "He was sick in bed.", "He lost his school bag.", "He woke up too late."],
-        ans: 0,
-        exp: "【対話スクリプト】\nTeacher: Tom, why were you late for the first class today?\nBoy: Because I missed the morning bus at eight.\nTeacher: Did you leave home on time?\nBoy: Yes, but the traffic was very heavy.\nQuestion: Why was Tom late for school?\n\n【解説】トムは「バスに乗り遅れた(He missed the morning bus)」と言っています。",
-        dialogue: [
-          { speaker: 'female', text: "Tom, why were you late for the first class today?" },
-          { speaker: 'male', text: "Because I missed the morning bus at eight." },
-          { speaker: 'female', text: "Did you leave home on time?" },
-          { speaker: 'male', text: "Yes, but the traffic was very heavy." },
-          { speaker: 'narrator', text: "Question. Why was Tom late for school?" }
-        ],
-        aud_complete: "Why was Tom late for school? He missed the morning bus."
       }
     ];
 
-    // ==================== 音声読み上げエンジン（男女・ナレーター切り替え） ====================
+    // ==================== 👑 添付PDF 実際の過去問完全データベース (ボス戦用) ====================
+    const ACTUAL_PAST_EXAM_DATA = [
+      // --- 2026年度 第1回 筆記 ---
+      {
+        id: 'past_2026_1_1',
+        type: 'grammar',
+        q: "A : I want to make some pancakes for breakfast, but we don’t have any ( ).\nB : I’ll go to the store and get some.",
+        sub: "【2026-1 筆記 大問1(1)】文脈に合う名詞を選ぼう",
+        options: ["flowers", "eggs", "books", "sports"],
+        ans: 1, // eggs
+        explain: "【訳】\nA: 朝食にパンケーキを作りたいけれど、（卵）が全くないよ。\nB: お店に行って買ってくるね。\n\n【解説】パンケーキを作る材料として適切なのは eggs（卵）です。",
+        audio_complete: "I want to make some pancakes for breakfast, but we don't have any eggs."
+      },
+      {
+        id: 'past_2026_1_2',
+        type: 'grammar',
+        q: "A : I want to call my mother, but I don’t have a phone.\nB : You can ( ) my phone.",
+        sub: "【2026-1 筆記 大問1(2)】文脈に合う動詞を選ぼう",
+        options: ["climb", "leave", "use", "send"],
+        ans: 2, // use
+        explain: "【訳】\nA: 母に電話したいけれど、電話を持っていないんだ。\nB: 僕の電話を（使って）いいよ。\n\n【解説】電話を「使う」なので use が正解です。",
+        audio_complete: "You can use my phone."
+      },
+      {
+        id: 'past_2026_1_13',
+        type: 'grammar',
+        q: "A : Today, apples are ( ) than bananas.\nB : OK. Let’s get some apples.",
+        sub: "【2026-1 筆記 大問1(13)】than に続く適切な形を選ぼう",
+        options: ["cheap", "cheapest", "the cheapest", "cheaper"],
+        ans: 3, // cheaper
+        explain: "【訳】\nA: 今日はリンゴがバナナより（安い）よ。\nB: わかった。リンゴを買おう。\n\n【解説】than（〜より）があるので比較級 cheaper が正解です。",
+        audio_complete: "Today, apples are cheaper than bananas."
+      },
+      {
+        id: 'past_2026_1_14',
+        type: 'grammar',
+        q: "The students ( ) 50 meters in the school pool yesterday.",
+        sub: "【2026-1 筆記 大問1(14)】過去を表す動詞の形を選ぼう",
+        options: ["swim", "swam", "swimming", "to swim"],
+        ans: 1, // swam
+        explain: "【訳】生徒たちは昨日、学校のプールで50メートル（泳ぎました）。\n\n【解説】yesterday（昨日）があるので swim の過去形 swam が正解です。",
+        audio_complete: "The students swam 50 meters in the school pool yesterday."
+      },
+      {
+        id: 'past_2026_1_15',
+        type: 'grammar',
+        q: "A : You ( ) read this book before the test next Monday.\nB : OK, Mr. Peterson.",
+        sub: "【2026-1 筆記 大問1(15)】義務・必要を表す助動詞を選ぼう",
+        options: ["have", "be", "must", "were"],
+        ans: 2, // must
+        explain: "【訳】\nA: 来週の月曜日のテストの前に、この本を読ま（なければなりません）。\nB: わかりました、ピーターソン先生。\n\n【解説】動詞の原形 read の前で「〜しなければならない」を表す助動詞 must が適切です。",
+        audio_complete: "You must read this book before the test next Monday."
+      },
+      {
+        id: 'past_2026_1_16',
+        type: 'grammar',
+        q: "Girl : I forgot my red pen. ( )\nBoy : Of course you can. Here you are.",
+        sub: "【2026-1 筆記 大問2(16)】会話の流れに合う表現を選ぼう",
+        options: ["Will you go home soon?", "Is the color OK?", "Do you like writing?", "Can I borrow yours?"],
+        ans: 3, // Can I borrow yours?
+        explain: "【訳】\n女の子: 赤ペンを忘れちゃった。（あなたのを借りてもいい？）\n男の子: もちろんいいよ。はい、どうぞ。\n\n【解説】ペンを忘れて相手に借りる表現 Can I borrow yours? が正解です。",
+        audio_complete: "Can I borrow yours? Of course you can. Here you are."
+      },
+      {
+        id: 'past_2026_1_18',
+        type: 'grammar',
+        q: "Man : Excuse me. I want to buy these socks. ( )\nClerk : Two dollars.",
+        sub: "【2026-1 筆記 大問2(18)】値段をたずねる会話文",
+        options: ["How are you doing?", "How many do you have?", "How tall are you?", "How much are they?"],
+        ans: 3, // How much are they?
+        explain: "【訳】\n男性: すみません。この靴下を買いたいのですが。（いくらですか？）\n店員: 2ドルです。\n\n【解説】値段を聞く定番表現 How much are they? が正解です。",
+        audio_complete: "How much are they? Two dollars."
+      },
+      {
+        id: 'past_2026_1_21',
+        type: 'grammar',
+        q: "【並び替え】なぜあなたは今朝、そんなに早く起きたのですか。\n( ① you  ② up  ③ get  ④ why  ⑤ did )\n[   ] [ 2番目 ] [   ] [ 4番目 ] so early this morning?",
+        sub: "【2026-1 筆記 大問3(21)】2番目と4番目に来る組み合わせを選ぼう",
+        options: ["① ─ ②", "⑤ ─ ③", "③ ─ ⑤", "④ ─ ①"],
+        ans: 1, // ⑤ ─ ③ (Why did you get up ...)
+        explain: "【正しい順序】Why did you get up so early this morning?\n(④ → ⑤ → ① → ③ → ②)\n2番目は ⑤ did、4番目は ③ get となるため ⑤ ─ ③ が正解です。",
+        audio_complete: "Why did you get up so early this morning?"
+      },
+      {
+        id: 'past_2026_1_25',
+        type: 'grammar',
+        q: "【並び替え】これらのコーヒーカップを洗ってくれますか。\n( ① wash  ② you  ③ coffee cups  ④ could  ⑤ these )\n[   ] [ 2番目 ] [   ] [ 4番目 ] , please?",
+        sub: "【2026-1 筆記 大問3(25)】2番目と4番目に来る組み合わせを選ぼう",
+        options: ["④ ─ ⑤", "③ ─ ①", "② ─ ⑤", "① ─ ②"],
+        ans: 2, // ② ─ ⑤ (Could you wash these coffee cups)
+        explain: "【正しい順序】Could you wash these coffee cups, please?\n(④ → ② → ① → ⑤ → ③)\n2番目は ② you、4番目は ⑤ these となるため ② ─ ⑤ が正解です。",
+        audio_complete: "Could you wash these coffee cups, please?"
+      },
+
+      // --- 2026年度 第1回 リスニング ---
+      {
+        id: 'past_2026_1_l12',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2026-1 リスニング 第2部 No.12】",
+        options: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."],
+        ans: 1, // Ken's mother
+        explain: "【対話スクリプト】\nGirl: How was your weekend, Ken?\nBoy: Not so good. My mom was sick, so my dad took her to the doctor.\nGirl: Is she OK now?\nBoy: Yes, she’s much better.\nQuestion: Who was sick?\n\n【解説】ケンが「お母さんが病気だった(My mom was sick)」と答えています。",
+        dialogue: [
+          { speaker: 'female', text: "How was your weekend, Ken?" },
+          { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." },
+          { speaker: 'female', text: "Is she OK now?" },
+          { speaker: 'male', text: "Yes, she’s much better." },
+          { speaker: 'narrator', text: "Question. Who was sick?" }
+        ],
+        audio_complete: "Who was sick? Ken's mother."
+      },
+      {
+        id: 'past_2026_1_l19',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2026-1 リスニング 第2部 No.19】",
+        options: ["To a Chinese restaurant.", "To a Japanese restaurant.", "To a Spanish restaurant.", "To an Italian restaurant."],
+        ans: 3, // To an Italian restaurant
+        explain: "【対話スクリプト】\nBoy: Can we go to a Japanese restaurant for dinner?\nGirl: No, I had Japanese food for lunch.\nBoy: Where should we go?\nGirl: Let’s go to an Italian restaurant.\nQuestion: Where will they go for dinner?\n\n【解説】女の子が「イタリア料理店に行こう(Let's go to an Italian restaurant)」と提案しています。",
+        dialogue: [
+          { speaker: 'male', text: "Can we go to a Japanese restaurant for dinner?" },
+          { speaker: 'female', text: "No, I had Japanese food for lunch." },
+          { speaker: 'male', text: "Where should we go?" },
+          { speaker: 'female', text: "Let’s go to an Italian restaurant." },
+          { speaker: 'narrator', text: "Question. Where will they go for dinner?" }
+        ],
+        audio_complete: "Where will they go for dinner? To an Italian restaurant."
+      },
+      {
+        id: 'past_2026_1_l21',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2026-1 リスニング 第3部 No.21】",
+        options: ["Visit her friend.", "Go shopping.", "Go to a party.", "Make a cake."],
+        ans: 1, // Go shopping
+        explain: "【英文スクリプト】\nEmma enjoys shopping. This weekend she will go to the new shopping center with her friend. She is going to buy a birthday present for her mother.\nQuestion: What will Emma do this weekend?\n\n【解説】エマは新しいショッピングセンターに行く（買い物に行く＝Go shopping）予定です。",
+        dialogue: [
+          { speaker: 'female', text: "Emma enjoys shopping. This weekend she will go to the new shopping center with her friend. She is going to buy a birthday present for her mother." },
+          { speaker: 'narrator', text: "Question. What will Emma do this weekend?" }
+        ],
+        audio_complete: "What will Emma do this weekend? Go shopping."
+      },
+
+      // --- 2025年度 第3回 筆記 ---
+      {
+        id: 'past_2025_3_3',
+        type: 'grammar',
+        q: "A : Where’s the ( )? I want to wash my hands.\nB : It’s over there.",
+        sub: "【2025-3 筆記 大問1(3)】文脈に合う名詞を選ぼう",
+        options: ["candy", "tea", "soap", "fish"],
+        ans: 2, // soap
+        explain: "【訳】\nA: （石けん）はどこですか？手を洗いたいのですが。\nB: あそこにありますよ。\n\n【解説】手を洗う時に使うのは soap（石けん）です。",
+        audio_complete: "Where's the soap? I want to wash my hands."
+      },
+      {
+        id: 'past_2025_3_5',
+        type: 'grammar',
+        q: "Kelly wants to be a ( ). She likes to help sick people.",
+        sub: "【2025-3 筆記 大問1(5)】職業を表す名詞を選ぼう",
+        options: ["hobby", "class", "present", "doctor"],
+        ans: 3, // doctor
+        explain: "【訳】ケリーは（医者）になりたいと思っています。彼女は病気の人々を助けるのが好きです。\n\n【解説】病気の人を助ける職業は doctor（医者）です。",
+        audio_complete: "Kelly wants to be a doctor. She likes to help sick people."
+      },
+      {
+        id: 'past_2025_3_15',
+        type: 'grammar',
+        q: "A : What animal is the ( ) in this zoo?\nB : This elephant is.",
+        sub: "【2025-3 筆記 大問1(15)】the に続く最上級を選ぼう",
+        options: ["too old", "older", "oldest", "much older"],
+        ans: 2, // oldest
+        explain: "【訳】\nA: この動物園で最も（年老いた）動物は何ですか？\nB: このゾウです。\n\n【解説】the + 最上級で「最も〜」を表すので oldest が正解です。",
+        audio_complete: "What animal is the oldest in this zoo?"
+      },
+      {
+        id: 'past_2025_3_20',
+        type: 'grammar',
+        q: "Brother : I can’t finish my homework. It’s too difficult.\nSister : ( ) I can help you.\nBrother : Thanks.",
+        sub: "【2025-3 筆記 大問2(20)】相手を安心させる表現",
+        options: ["Take care.", "Nice talking to you.", "It’s ready.", "Don’t worry."],
+        ans: 3, // Don't worry.
+        explain: "【訳】\n弟: 宿題が終わらないよ。難しすぎる。\n姉: （心配しないで。）手伝ってあげるわ。\n弟: ありがとう。\n\n【解説】困っている相手を安心させる Don't worry.（心配しないで）が適切です。",
+        audio_complete: "Don't worry. I can help you."
+      },
+
+      // --- 2025年度 第3回 リスニング ---
+      {
+        id: 'past_2025_3_l16',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2025-3 リスニング 第2部 No.16】",
+        options: ["Eating an apple.", "Buying a banana.", "Eating a banana.", "Making lunch for the girl."],
+        ans: 0, // Eating an apple.
+        explain: "【対話スクリプト】\nGirl: What are you eating, Mark?\nBoy: An apple.\nGirl: Don’t you like bananas?\nBoy: I do, but I always eat them at lunch.\nQuestion: What is Mark doing now?\n\n【解説】マークは「リンゴを食べている(Eating an apple)」と答えています。",
+        dialogue: [
+          { speaker: 'female', text: "What are you eating, Mark?" },
+          { speaker: 'male', text: "An apple." },
+          { speaker: 'female', text: "Don’t you like bananas?" },
+          { speaker: 'male', text: "I do, but I always eat them at lunch." },
+          { speaker: 'narrator', text: "Question. What is Mark doing now?" }
+        ],
+        audio_complete: "What is Mark doing now? Eating an apple."
+      },
+      {
+        id: 'past_2025_3_l26',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2025-3 リスニング 第3部 No.26】",
+        options: ["Sunny.", "Cloudy.", "Windy.", "Rainy."],
+        ans: 0, // Sunny.
+        explain: "【英文スクリプト】\nYesterday, the weather changed many times. It was cloudy in the morning but sunny in the afternoon. After I returned home at night, it started to rain.\nQuestion: How was the weather yesterday afternoon?\n\n【解説】午後の天気は「晴れ(sunny in the afternoon)」でした。",
+        dialogue: [
+          { speaker: 'male', text: "Yesterday, the weather changed many times. It was cloudy in the morning but sunny in the afternoon. After I returned home at night, it started to rain." },
+          { speaker: 'narrator', text: "Question. How was the weather yesterday afternoon?" }
+        ],
+        audio_complete: "How was the weather yesterday afternoon? Sunny."
+      },
+
+      // --- 2025年度 第2回 筆記 ---
+      {
+        id: 'past_2025_2_1',
+        type: 'grammar',
+        q: "Last night, Paul studied with his sister. She couldn’t ( ) her homework, so Paul helped her.",
+        sub: "【2025-2 筆記 大問1(1)】文脈に合う動詞を選ぼう",
+        options: ["wash", "understand", "play", "open"],
+        ans: 1, // understand
+        explain: "【訳】昨夜、ポールは妹と一緒に勉強しました。彼女は宿題を（理解する）ことができなかったので、ポールが手伝いました。\n\n【解説】宿題が分からなかった文脈なので understand（理解する）が正解です。",
+        audio_complete: "She couldn't understand her homework, so Paul helped her."
+      },
+      {
+        id: 'past_2025_2_6',
+        type: 'grammar',
+        q: "After the big game yesterday, the soccer team was very happy. Today is a ( ), so the players can relax.",
+        sub: "【2025-2 筆記 大問1(6)】文脈に合う名詞を選ぼう",
+        options: ["holiday", "bank", "friend", "pool"],
+        ans: 0, // holiday
+        explain: "【訳】昨日の大一番の試合の後、サッカーチームはとても喜んでいました。今日は（休日）なので、選手たちはリラックスできます。\n\n【解説】休養できる日を表す holiday（休日）が正解です。",
+        audio_complete: "Today is a holiday, so the players can relax."
+      },
+      {
+        id: 'past_2025_2_13',
+        type: 'grammar',
+        q: "Henry ( ) home from school early yesterday because he was sick.",
+        sub: "【2025-2 筆記 大問1(13)】過去を表す動詞の形を選ぼう",
+        options: ["came", "comes", "come", "coming"],
+        ans: 0, // came
+        explain: "【訳】ヘンリーは昨日、病気だったため学校から早く家に（帰ってきました）。\n\n【解説】yesterday（昨日）があるので come の過去形 came が正解です。",
+        audio_complete: "Henry came home from school early yesterday because he was sick."
+      },
+      {
+        id: 'past_2025_2_14',
+        type: 'grammar',
+        q: "A : Many of the buildings in this city are very big.\nB : Yes, but this one is the ( ).",
+        sub: "【2025-2 筆記 大問1(14)】the に続く最上級を選ぼう",
+        options: ["large", "largest", "larger", "too large"],
+        ans: 1, // largest
+        explain: "【訳】\nA: この街の建物の多くはとても大きいです。\nB: ええ、でもこれが（一番大きい）です。\n\n【解説】the + 最上級で「最も大きい」を表す largest が適切です。",
+        audio_complete: "Yes, but this one is the largest."
+      },
+      {
+        id: 'past_2025_2_19',
+        type: 'grammar',
+        q: "Man : ( ) Susan. How was your camping trip?\nWoman : It was wonderful.",
+        sub: "【2025-2 筆記 大問2(19)】旅行から戻った人への挨拶",
+        options: ["Good luck,", "Welcome back,", "Have a good day,", "Not at all,"],
+        ans: 1, // Welcome back,
+        explain: "【訳】\n男性: （お帰りなさい、）スーザン。キャンプ旅行はどうだった？\n女性: 素晴らしかったわ。\n\n【解説】旅行から帰ってきた人への声かけ Welcome back（お帰りなさい）が正解です。",
+        audio_complete: "Welcome back, Susan. How was your camping trip?"
+      },
+
+      // --- 2025年度 第2回 リスニング ---
+      {
+        id: 'past_2025_2_l11',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2025-2 リスニング 第2部 No.11】",
+        options: ["History.", "Math.", "English.", "Science."],
+        ans: 0, // History.
+        explain: "【対話スクリプト】\nBoy: What’s our next class, Gina?\nGirl: History.\nBoy: Oh, that’s right.\nGirl: We have math after lunch.\nQuestion: Which class do they have next?\n\n【解説】次の授業は「歴史(History)」です。",
+        dialogue: [
+          { speaker: 'male', text: "What’s our next class, Gina?" },
+          { speaker: 'female', text: "History." },
+          { speaker: 'male', text: "Oh, that’s right." },
+          { speaker: 'female', text: "We have math after lunch." },
+          { speaker: 'narrator', text: "Question. Which class do they have next?" }
+        ],
+        audio_complete: "Which class do they have next? History."
+      },
+      {
+        id: 'past_2025_2_l20',
+        type: 'listening',
+        q: "音声を聞いて、質問に答えよう。",
+        sub: "🎧 【2025-2 リスニング 第2部 No.20】",
+        options: ["One minute.", "Five minutes.", "Seven minutes.", "Fifteen minutes."],
+        ans: 1, // Five minutes.
+        explain: "【対話スクリプト】\nMan: Excuse me, where is the nearest station?\nWoman: There’s one at the end of this street.\nMan: How long does it take to walk there?\nWoman: It takes five minutes to walk there.\nQuestion: How long does it take to walk to the station?\n\n【解説】駅までは「歩いて5分(five minutes)」かかります。",
+        dialogue: [
+          { speaker: 'male', text: "Excuse me, where is the nearest station?" },
+          { speaker: 'female', text: "There’s one at the end of this street." },
+          { speaker: 'male', text: "How long does it take to walk there?" },
+          { speaker: 'female', text: "It takes five minutes to walk there." },
+          { speaker: 'narrator', text: "Question. How long does it take to walk to the station?" }
+        ],
+        audio_complete: "How long does it take to walk to the station? Five minutes."
+      }
+    ];
+
+    // ==================== 音声読み上げエンジン ====================
     let voiceSpeed = 0.8;
 
     function toggleVoiceSpeed() {
@@ -743,11 +946,11 @@
           uttr.rate = voiceSpeed;
 
           if (segment.speaker === 'female') {
-            uttr.pitch = 1.35; // 高音・女性
+            uttr.pitch = 1.35;
           } else if (segment.speaker === 'male') {
-            uttr.pitch = 0.78; // 低音・男性
+            uttr.pitch = 0.78;
           } else {
-            uttr.pitch = 1.05; // 標準・ナレーター
+            uttr.pitch = 1.05;
           }
 
           uttr.onend = () => {
@@ -768,7 +971,7 @@
       }
     }
 
-    // ==================== BGM & SE エンジン (Web Audio API) ====================
+    // ==================== BGM & SE エンジン ====================
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let actx = null;
     let isBgmEnabled = false;
@@ -920,7 +1123,7 @@
     ];
 
     // ==================== ユーザーデータ管理 (LocalStorage) ====================
-    const STORAGE_KEY = 'eiken4_data_v14';
+    const STORAGE_KEY = 'eiken4_data_v15';
     let userData = {
       level: 1,
       exp: 0,
@@ -945,7 +1148,7 @@
 
     let currentShopTab = 'hat';
     let isDailyCurrentSession = false;
-    let isBossMode = false; // ボス戦フラグ
+    let isBossMode = false;
 
     function getTodayString() {
       const d = new Date();
@@ -1364,19 +1567,33 @@
       };
     }
 
-    // 👑 過去問ボスバトル開始（全分野ランダム10問）
+    // 👑 過去問ボスバトル開始（添付PDFの実際問プールからランダム10問抽出）
     function startBossBattle() {
       initAudio();
       isBossMode = true;
       isDailyCurrentSession = false;
       currentMode = 'boss';
 
-      // 全分野（単語4問、文法3問、リスニング3問）を抽出して10問にまとめる
-      const selectedVocab = shuffleArray(RAW_VOCAB_DATA).slice(0, 4).map(item => generateVocabQuiz(item));
-      const selectedGrammar = shuffleArray(RAW_GRAMMAR_DATA).slice(0, 3).map((item, i) => generateGrammarQuiz(item, i));
-      const selectedListening = shuffleArray(RAW_LISTENING_DATA).slice(0, 3).map((item, i) => generateListeningQuiz(item, i));
+      // 過去問プール（ACTUAL_PAST_EXAM_DATA）から重複なしで10問を抽出
+      const shuffledPastExams = shuffleArray(ACTUAL_PAST_EXAM_DATA).slice(0, 10);
 
-      currentQueue = shuffleArray([...selectedVocab, ...selectedGrammar, ...selectedListening]);
+      currentQueue = shuffledPastExams.map(item => {
+        const correctOption = item.options[item.ans];
+        const shuffledOptions = shuffleArray(item.options);
+        return {
+          id: item.id,
+          type: item.type,
+          q: item.q,
+          sub: item.sub,
+          options: shuffledOptions,
+          ans: shuffledOptions.indexOf(correctOption),
+          explain: item.explain,
+          dialogue: item.dialogue || null,
+          audio_question: item.audio_question || null,
+          audio_complete: item.audio_complete || null
+        };
+      });
+
       startSession();
     }
 
@@ -1419,6 +1636,24 @@
         } else if (id.startsWith('l_')) {
           const idx = parseInt(id.replace('l_', ''));
           if (RAW_LISTENING_DATA[idx]) currentQueue.push(generateListeningQuiz(RAW_LISTENING_DATA[idx], idx));
+        } else if (id.startsWith('past_')) {
+          const found = ACTUAL_PAST_EXAM_DATA.find(x => x.id === id);
+          if (found) {
+            const correctOption = found.options[found.ans];
+            const shuffledOptions = shuffleArray(found.options);
+            currentQueue.push({
+              id: found.id,
+              type: found.type,
+              q: found.q,
+              sub: found.sub,
+              options: shuffledOptions,
+              ans: shuffledOptions.indexOf(correctOption),
+              explain: found.explain,
+              dialogue: found.dialogue || null,
+              audio_question: found.audio_question || null,
+              audio_complete: found.audio_complete || null
+            });
+          }
         }
       });
       currentQueue = shuffleArray(currentQueue);
@@ -1493,9 +1728,9 @@
       if (isBossMode) {
         if (q.type === 'listening') {
           audioBtnContainer.classList.remove('hidden');
-          if (q.dialogue) playDialogueSpeech(q.dialogue); // リスニングのみ出題時に喋る
+          if (q.dialogue) playDialogueSpeech(q.dialogue);
         } else {
-          audioBtnContainer.classList.add('hidden'); // 単語・文法は出題時喋らない＆ボタン隠す
+          audioBtnContainer.classList.add('hidden');
         }
       } else {
         audioBtnContainer.classList.remove('hidden');
@@ -1568,7 +1803,6 @@
         feedbackTitle.innerText = `正解！ Excellent! ${combo >= 2 ? `(${combo}連続正解!)` : ''}`;
         feedbackTitle.className = "text-base font-black text-emerald-400";
 
-        // 解答後はボス戦・通常問わず「発音確認のために全文を喋る」！
         if (q.audio_complete) {
           setTimeout(() => speakText(q.audio_complete), 300);
         }
@@ -1607,13 +1841,13 @@
       let earnedGems = 0;
 
       if (isBossMode) {
-        // === 👑 過去問ボスバトルの超高額報酬 ===
-        const isBossDefeated = (quizScore >= 7); // 7問以上でボス討伐成功
+        // === 👑 過去問ボスバトルの報酬 ===
+        const isBossDefeated = (quizScore >= 7);
         document.getElementById('resultModeBadge').innerText = isBossDefeated ? '👑 BOSS 討伐完全勝利！' : '⚔️ BOSS 戦 奮闘終了';
         document.getElementById('resultModeBadge').className = isBossDefeated ? 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow' : 'text-[10px] font-black bg-indigo-800 text-indigo-300 px-3 py-1 rounded-full inline-block mb-1';
         document.getElementById('resultEmoji').innerText = isBossDefeated ? '🐲' : '🛡️';
         document.getElementById('resultTitle').innerText = isBossDefeated ? '暗黒竜を撃破した！' : 'ボス戦クリア！';
-        document.getElementById('resultComment').innerText = isBossDefeated ? '全過去問を克服する圧倒的な実力です！' : 'ナイスファイト！次は完全撃破を目指そう！';
+        document.getElementById('resultComment').innerText = isBossDefeated ? '実際の過去問を克服する圧倒的な実力です！' : 'ナイスファイト！次は完全撃破を目指そう！';
 
         earnedExp = isBossDefeated ? 120 + (quizScore * 5) : 50 + (quizScore * 3);
         earnedGems = isBossDefeated ? 30 : Math.floor(quizScore / 2);
@@ -1699,11 +1933,11 @@
       const navParent = document.getElementById('navParent');
       
       [navHome, navWeak, navShop, navParent].forEach(btn => {
-        if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
+        if (btn) btn.className = "flex-1 flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
       });
-      if (active === 'home' && navHome) navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'shop' && navShop) navShop.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'parent' && navParent) navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'home' && navHome) navHome.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'shop' && navShop) navShop.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'parent' && navParent) navParent.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
     }
 
     // ==================== データ管理 (インポート/エクスポート) ====================
