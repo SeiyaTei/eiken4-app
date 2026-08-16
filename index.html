@@ -67,12 +67,17 @@
       <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative">
-            <div id="heroAvatarContainer" class="w-20 h-20 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-3xl shadow-inner animate-bounce-slow relative">
-              <span id="equipHatIcon" class="absolute -top-3 text-lg"></span>
-              <span id="heroAvatar">🐣</span>
-              <span id="equipWeaponIcon" class="absolute -right-2 bottom-1 text-base"></span>
+            <div id="heroAvatarContainer" class="w-24 h-24 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-3xl shadow-inner animate-bounce-slow relative overflow-visible">
+              <!-- オーラ（背面レイヤー） -->
+              <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-5xl opacity-70 pointer-events-none scale-125 z-0"></span>
+              <!-- 頭装備（上部レイヤー） -->
+              <span id="equipHatIcon" class="absolute -top-3.5 z-20 text-2xl drop-shadow"></span>
+              <!-- 相棒本体 -->
+              <span id="heroAvatar" class="z-10 text-4xl">🐣</span>
+              <!-- 武器装備（右下レイヤー） -->
+              <span id="equipWeaponIcon" class="absolute -right-2.5 bottom-0 z-20 text-2xl drop-shadow"></span>
             </div>
-            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow">
+            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow z-30">
               見習いヒナ
             </span>
           </div>
@@ -99,75 +104,105 @@
         </div>
       </div>
 
-      <!-- 今日の3大デイリークエスト -->
-      <div class="bg-indigo-900/60 border border-indigo-800 rounded-2xl p-4 shadow-lg">
-        <div class="flex justify-between items-center mb-2.5">
-          <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5">
-            📜 今日のデイリークエスト
-          </h3>
-          <span id="dailyProgressText" class="text-xs text-indigo-300 font-bold">0 / 3 完了</span>
+      <!-- 今日の3大デイリークエスト（1日1回限定・超豪華報酬） -->
+      <div class="bg-gradient-to-br from-indigo-900 via-indigo-900 to-purple-950 border-2 border-amber-500/60 rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-sm text-amber-400 flex items-center gap-1.5">
+              📜 本日の限定デイリークエスト
+            </h3>
+            <p class="text-[9.5px] text-indigo-200">1日各1回限定！超大量ダイヤ＆EXPボーナス</p>
+          </div>
+          <span id="dailyProgressText" class="text-xs bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold">0 / 3</span>
         </div>
+
         <div class="space-y-2 text-xs">
-          <div id="questCardVocab" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <!-- デイリー単語 -->
+          <div id="questCardVocab" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-lg">📖</span>
+              <span class="text-xl">📖</span>
               <div>
-                <div class="font-bold text-slate-200">必須単語・熟語 5問</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div>
+                <div class="font-bold text-slate-200">必須単語 5問特訓</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+50 EXP / 💎+15</div>
               </div>
             </div>
-            <button onclick="startMode('vocab', 5)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
+            <div id="questActionVocab">
+              <button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            </div>
           </div>
 
-          <div id="questCardGrammar" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <!-- デイリー文法 -->
+          <div id="questCardGrammar" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-lg">🪄</span>
+              <span class="text-xl">🪄</span>
               <div>
-                <div class="font-bold text-slate-200">文法・会話 3問</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div>
+                <div class="font-bold text-slate-200">重要文法 3問特訓</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+60 EXP / 💎+20</div>
               </div>
             </div>
-            <button onclick="startMode('grammar', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
+            <div id="questActionGrammar">
+              <button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            </div>
           </div>
 
-          <div id="questCardListening" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+          <!-- デイリーリスニング -->
+          <div id="questCardListening" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-lg">🎧</span>
+              <span class="text-xl">🎧</span>
               <div>
-                <div class="font-bold text-slate-200">本番リスニング 3問</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+40 EXP / 💎+10</div>
+                <div class="font-bold text-slate-200">対話リスニング 3問特訓</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
               </div>
             </div>
-            <button onclick="startMode('listening', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
+            <div id="questActionListening">
+              <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            </div>
           </div>
+        </div>
+
+        <!-- 3大デイリー全制覇コンプリートボーナスボタン -->
+        <div id="dailyBonusArea" class="hidden pt-1">
+          <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2.5 rounded-2xl text-xs shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95">
+            <span>🎁 3大デイリー全制覇ボーナス受取！</span>
+            <span class="bg-indigo-950 text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold">+150 EXP / 💎+50</span>
+          </button>
+        </div>
+        <div id="dailyBonusClaimedArea" class="hidden text-center text-[10px] font-bold text-emerald-400 pt-1">
+          ✨ 本日のデイリーミッション＆全制覇ボーナス獲得済み！また明日挑戦しよう！
         </div>
       </div>
 
-      <!-- 特訓コース選択メニュー -->
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="startMode('vocab', 10)" class="bg-gradient-to-br from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 p-3.5 rounded-2xl border border-blue-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">📚</div>
-          <div class="font-black text-sm text-white">単語・熟語 (700語)</div>
-          <div class="text-[10px] text-blue-200 mt-0.5">でる順 ランダム10問</div>
-        </button>
+      <!-- 通常特訓コース（何度でも無制限に挑戦可能） -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-baseline px-1">
+          <h3 class="font-black text-xs text-indigo-200">⚔️ 通常特訓コース（無制限・腕試し）</h3>
+          <span class="text-[9px] text-indigo-400">いつでも何回でも練習可能</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button onclick="startNormalMode('vocab', 10)" class="bg-gradient-to-br from-blue-600/90 to-indigo-700/90 hover:from-blue-500 hover:to-indigo-600 p-3 rounded-2xl border border-blue-400/30 text-left shadow transition active:scale-95">
+            <div class="text-xl mb-0.5">📚</div>
+            <div class="font-black text-xs text-white">単語・熟語 (700語)</div>
+            <div class="text-[9px] text-blue-200 mt-0.5">でる順 ランダム10問</div>
+          </button>
 
-        <button onclick="startMode('grammar', 5)" class="bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 p-3.5 rounded-2xl border border-emerald-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">🪄</div>
-          <div class="font-black text-sm text-white">文法・会話 (100問)</div>
-          <div class="text-[10px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
-        </button>
+          <button onclick="startNormalMode('grammar', 5)" class="bg-gradient-to-br from-emerald-600/90 to-teal-700/90 hover:from-emerald-500 hover:to-teal-600 p-3 rounded-2xl border border-emerald-400/30 text-left shadow transition active:scale-95">
+            <div class="text-xl mb-0.5">🪄</div>
+            <div class="font-black text-xs text-white">文法・会話 (100問)</div>
+            <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
+          </button>
 
-        <button onclick="startMode('listening', 5)" class="bg-gradient-to-br from-purple-600 to-pink-700 hover:from-purple-500 hover:to-pink-600 p-3.5 rounded-2xl border border-purple-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">🎧</div>
-          <div class="font-black text-sm text-white">リスニング (100問)</div>
-          <div class="text-[10px] text-purple-200 mt-0.5">対話・質問 5問</div>
-        </button>
+          <button onclick="startNormalMode('listening', 5)" class="bg-gradient-to-br from-purple-600/90 to-pink-700/90 hover:from-purple-500 hover:to-pink-600 p-3 rounded-2xl border border-purple-400/30 text-left shadow transition active:scale-95">
+            <div class="text-xl mb-0.5">🎧</div>
+            <div class="font-black text-xs text-white">リスニング (100問)</div>
+            <div class="text-[9px] text-purple-200 mt-0.5">対話・質問 5問</div>
+          </button>
 
-        <button onclick="startWeakMode()" class="bg-gradient-to-br from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 p-3.5 rounded-2xl border border-rose-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">👾</div>
-          <div class="font-black text-sm text-white">にがて討伐</div>
-          <div class="text-[10px] text-rose-200 mt-0.5">ミス問題 (<span id="weakBadgeCount">0</span>問)</div>
-        </button>
+          <button onclick="startWeakMode()" class="bg-gradient-to-br from-rose-600/90 to-red-700/90 hover:from-rose-500 hover:to-red-600 p-3 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95">
+            <div class="text-xl mb-0.5">👾</div>
+            <div class="font-black text-xs text-white">にがて討伐</div>
+            <div class="text-[9px] text-rose-200 mt-0.5">ミス問題 (<span id="weakBadgeCount">0</span>問)</div>
+          </button>
+        </div>
       </div>
 
     </div>
@@ -208,7 +243,7 @@
         <div class="text-center min-h-[60px] flex items-center justify-center px-2 mb-2">
           <p id="quizQuestion" class="text-lg font-black text-white leading-snug whitespace-pre-line"></p>
         </div>
-        <!-- 完全な日本語訳 または リスニング時の案内 -->
+        <!-- 指示または文法時の日本語訳（単語時は答えを出さない） -->
         <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[18px] bg-indigo-950/60 p-2 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
       </div>
 
@@ -235,6 +270,7 @@
       <div class="bg-gradient-to-b from-indigo-800 to-indigo-950 border-2 border-amber-400 rounded-3xl p-6 shadow-2xl space-y-4 glow-gold">
         <div class="text-6xl animate-bounce">🏆</div>
         <div>
+          <span id="resultModeBadge" class="text-[10px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1">デイリークエストクリア</span>
           <h3 class="text-xl font-black text-amber-300">クエストクリア！</h3>
           <p id="resultComment" class="text-xs text-indigo-200 mt-1">素晴らしい集中力です！</p>
         </div>
@@ -250,7 +286,7 @@
           </div>
           <div>
             <div class="text-indigo-400 text-[10px] font-bold">獲得ダイヤ</div>
-            <div id="resultGems" class="font-black text-base text-emerald-400">💎+5</div>
+            <div id="resultGems" class="font-black text-base text-emerald-400">💎+15</div>
           </div>
         </div>
 
@@ -270,7 +306,7 @@
         <h3 class="font-black text-base text-amber-300">ラッキーダイヤガチャ</h3>
         <p class="text-[10px] text-indigo-200">レア装備や大量EXP、アイテムが当たる！</p>
         <button onclick="playGacha()" class="bg-gradient-to-r from-amber-400 to-yellow-300 text-indigo-950 font-black px-6 py-2.5 rounded-full text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
-          ガチャを引く (💎 15個)
+          ガチャを引く (💎 20個)
         </button>
       </div>
 
@@ -289,8 +325,8 @@
                 <div class="text-[10px] text-indigo-300">バトル中に間違いを2つ消去（所持: <span id="shopHintCount">0</span>個）</div>
               </div>
             </div>
-            <button onclick="buyItem('hint', 10)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
-              💎 10
+            <button onclick="buyItem('hint', 15)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
+              💎 15
             </button>
           </div>
 
@@ -303,19 +339,36 @@
                 <div class="text-[10px] text-indigo-300">次のクエストで獲得EXPが2倍（所持: <span id="shopPotionCount">0</span>個）</div>
               </div>
             </div>
-            <button onclick="buyItem('potion', 20)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
-              💎 20
+            <button onclick="buyItem('potion', 30)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
+              💎 30
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 相棒の着せ替え装備 -->
-      <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
-        <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
-          👑 相棒の着せ替え・装備
-        </h3>
-        <div class="grid grid-cols-2 gap-2 text-xs" id="equipShopList">
+      <!-- 相棒の着せ替え装備（カテゴリタブ付き） -->
+      <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
+            👑 相棒の着せ替え・装備コレクション
+          </h3>
+        </div>
+
+        <!-- カテゴリ切り替えタブ -->
+        <div class="flex bg-indigo-950 p-1 rounded-xl border border-indigo-800 text-[11px] font-bold">
+          <button id="tabEquipHat" onclick="switchEquipTab('hat')" class="flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition">
+            👑 あたま (9)
+          </button>
+          <button id="tabEquipWeapon" onclick="switchEquipTab('weapon')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
+            ⚔️ ぶき (9)
+          </button>
+          <button id="tabEquipAura" onclick="switchEquipTab('aura')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
+            ✨ オーラ (8)
+          </button>
+        </div>
+
+        <!-- 装備アイテム一覧 -->
+        <div class="grid grid-cols-2 gap-2 text-xs max-h-96 overflow-y-auto pr-1" id="equipShopList">
           <!-- 動的生成 -->
         </div>
       </div>
@@ -456,40 +509,40 @@
 
     // ==================== 文法・会話 100問 データベース ====================
     const RAW_GRAMMAR_DATA = [
-      { q: "I ( ) to the park yesterday.", sub: "【訳】私は昨日、公園に行きました。", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので過去形の went を使います。", aud_complete: "I went to the park yesterday." },
-      { q: "My father ( ) a new car last week.", sub: "【訳】私の父は先週、新しい車を買いました。", opt: ["buy", "buys", "bought", "buying"], ans: 2, exp: "buy の過去形は不規則変化の bought です。", aud_complete: "My father bought a new car last week." },
-      { q: "She ( ) an interesting movie last night.", sub: "【訳】彼女は昨夜、面白い映画を見ました。", opt: ["see", "saw", "seen", "sees"], ans: 1, exp: "see の過去形は saw です。", aud_complete: "She saw an interesting movie last night." },
-      { q: "We ( ) lunch together two hours ago.", sub: "【訳】私たちは2時間前、一緒に昼食を食べました。", opt: ["eat", "ate", "eaten", "eating"], ans: 1, exp: "eat の過去形は ate です。", aud_complete: "We ate lunch together two hours ago." },
-      { q: "He ( ) a letter to his grandmother last Sunday.", sub: "【訳】彼はこの前の日曜日、祖母に手紙を書きました。", opt: ["write", "wrote", "written", "writing"], ans: 1, exp: "write の過去形は wrote です。", aud_complete: "He wrote a letter to his grandmother last Sunday." },
-      { q: "They ( ) home late last night.", sub: "【訳】彼らは昨夜遅くに帰宅しました。", opt: ["come", "came", "coming", "comes"], ans: 1, exp: "come の過去形は came です。", aud_complete: "They came home late last night." },
-      { q: "I ( ) my homework before dinner yesterday.", sub: "【訳】私は昨日、夕食前に宿題をしました。", opt: ["do", "did", "done", "doing"], ans: 1, exp: "do の過去形は did です。", aud_complete: "I did my homework before dinner yesterday." },
-      { q: "She ( ) her keys this morning.", sub: "【訳】彼女は今朝、鍵を見つけました。", opt: ["find", "found", "finding", "finds"], ans: 1, exp: "find の過去形は found です。", aud_complete: "She found her keys this morning." },
-      { q: "We ( ) English hard for the test.", sub: "【訳】私たちはテストのために一生懸命英語を勉強しました。", opt: ["study", "studied", "studying", "studies"], ans: 1, exp: "study の過去形は y を i に変えて studied です。", aud_complete: "We studied English hard for the test." },
-      { q: "He ( ) soccer with his friends last Friday.", sub: "【訳】彼はこの前の金曜日、友達とサッカーをしました。", opt: ["play", "played", "playing", "plays"], ans: 1, exp: "play の過去形は規則変化の played です。", aud_complete: "He played soccer with his friends last Friday." },
+      { q: "I ( ) to the park yesterday.", sub: "【訳】私は昨日、公園に行きました。", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので過去形の went を使います。" },
+      { q: "My father ( ) a new car last week.", sub: "【訳】私の父は先週、新しい車を買いました。", opt: ["buy", "buys", "bought", "buying"], ans: 2, exp: "buy の過去形は不規則変化の bought です。" },
+      { q: "She ( ) an interesting movie last night.", sub: "【訳】彼女は昨夜、面白い映画を見ました。", opt: ["see", "saw", "seen", "sees"], ans: 1, exp: "see の過去形は saw です。" },
+      { q: "We ( ) lunch together two hours ago.", sub: "【訳】私たちは2時間前、一緒に昼食を食べました。", opt: ["eat", "ate", "eaten", "eating"], ans: 1, exp: "eat の過去形は ate です。" },
+      { q: "He ( ) a letter to his grandmother last Sunday.", sub: "【訳】彼はこの前の日曜日、祖母に手紙を書きました。", opt: ["write", "wrote", "written", "writing"], ans: 1, exp: "write の過去形は wrote です。" },
+      { q: "They ( ) home late last night.", sub: "【訳】彼らは昨夜遅くに帰宅しました。", opt: ["come", "came", "coming", "comes"], ans: 1, exp: "come の過去形は came です。" },
+      { q: "I ( ) my homework before dinner yesterday.", sub: "【訳】私は昨日、夕食前に宿題をしました。", opt: ["do", "did", "done", "doing"], ans: 1, exp: "do の過去形は did です。" },
+      { q: "She ( ) her keys this morning.", sub: "【訳】彼女は今朝、鍵を見つけました。", opt: ["find", "found", "finding", "finds"], ans: 1, exp: "find の過去形は found です。" },
+      { q: "We ( ) English hard for the test.", sub: "【訳】私たちはテストのために一生懸命英語を勉強しました。", opt: ["study", "studied", "studying", "studies"], ans: 1, exp: "study の過去形は y を i に変えて studied です。" },
+      { q: "He ( ) soccer with his friends last Friday.", sub: "【訳】彼はこの前の金曜日、友達とサッカーをしました。", opt: ["play", "played", "playing", "plays"], ans: 1, exp: "play の過去形は規則変化の played です。" },
 
-      { q: "We will ( ) soccer tomorrow afternoon.", sub: "【訳】私たちは明日の午後、サッカーをする予定です。", opt: ["play", "played", "playing", "plays"], ans: 0, exp: "助動詞 will の後は常に「動詞の原形」がきます。", aud_complete: "We will play soccer tomorrow afternoon." },
-      { q: "I am going to ( ) Kyoto next weekend.", sub: "【訳】私は来週末、京都を訪れる予定です。", opt: ["visit", "visited", "visiting", "visits"], ans: 0, exp: "be going to の後も「動詞の原形」を使います。", aud_complete: "I am going to visit Kyoto next weekend." },
-      { q: "They were ( ) TV when I called them.", sub: "【訳】私が電話した時、彼らはテレビを見ていました。", opt: ["watch", "watched", "watching", "watches"], ans: 2, exp: "過去進行形は was / were + 動詞のing形 です。", aud_complete: "They were watching TV when I called them." },
-      { q: "Look! The baby is ( ) in the bed.", sub: "【訳】見て！赤ちゃんがベッドで眠っています。", opt: ["sleep", "slept", "sleeping", "sleeps"], ans: 2, exp: "現在進行形は is / am / are + 動詞のing形 です。", aud_complete: "Look! The baby is sleeping in the bed." },
-      { q: "What ( ) you doing at eight last night?", sub: "【訳】昨夜8時にあなたは何をしていましたか？", opt: ["were", "did", "are", "do"], ans: 0, exp: "過去のその時点でしていたことを聞くので were you doing となります。", aud_complete: "What were you doing at eight last night?" },
+      { q: "We will ( ) soccer tomorrow afternoon.", sub: "【訳】私たちは明日の午後、サッカーをする予定です。", opt: ["play", "played", "playing", "plays"], ans: 0, exp: "助動詞 will の後は常に「動詞の原形」がきます。" },
+      { q: "I am going to ( ) Kyoto next weekend.", sub: "【訳】私は来週末、京都を訪れる予定です。", opt: ["visit", "visited", "visiting", "visits"], ans: 0, exp: "be going to の後も「動詞の原形」を使います。" },
+      { q: "They were ( ) TV when I called them.", sub: "【訳】私が電話した時、彼らはテレビを見ていました。", opt: ["watch", "watched", "watching", "watches"], ans: 2, exp: "過去進行形は was / were + 動詞のing形 です。" },
+      { q: "Look! The baby is ( ) in the bed.", sub: "【訳】見て！赤ちゃんがベッドで眠っています。", opt: ["sleep", "slept", "sleeping", "sleeps"], ans: 2, exp: "現在進行形は is / am / are + 動詞のing形 です。" },
+      { q: "What ( ) you doing at eight last night?", sub: "【訳】昨夜8時にあなたは何をしていましたか？", opt: ["were", "did", "are", "do"], ans: 0, exp: "過去のその時点でしていたことを聞くので were you doing となります。" },
 
-      { q: "You ( ) wash your hands before eating.", sub: "【訳】食べる前に手を洗わなければなりません。", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は「〜しなければならない」という強い義務を表します。", aud_complete: "You must wash your hands before eating." },
-      { q: "A: ( ) I use your dictionary?\nB: Sure, go ahead.", sub: "【訳】A: 辞書を使ってもいいですか？\nB: もちろん、どうぞ。", opt: ["May", "Must", "Should", "Will"], ans: 0, exp: "May I ~? で「〜してもよいですか？」という丁寧な許可求めになります。", aud_complete: "May I use your dictionary?" },
-      { q: "You ( ) eat too much sweet food.", sub: "【訳】甘い食べ物を食べ過ぎるべきではありません。", opt: ["should not", "must", "may", "can"], ans: 0, exp: "should not で「〜すべきではない」という忠告を表します。", aud_complete: "You should not eat too much sweet food." },
-      { q: "I ( ) swim across this river when I was young.", sub: "【訳】私は若い頃、この川を泳いで渡ることができました。", opt: ["could", "must", "may", "should"], ans: 0, exp: "can の過去形 could で「〜することができた」を表します。", aud_complete: "I could swim across this river when I was young." },
-      { q: "We have to ( ) early tomorrow morning.", sub: "【訳】私たちは明日、早起きしなければなりません。", opt: ["get up", "got up", "getting up", "gets up"], ans: 0, exp: "have to（〜しなければならない）の後は「動詞の原形」がきます。", aud_complete: "We have to get up early tomorrow morning." },
+      { q: "You ( ) wash your hands before eating.", sub: "【訳】食べる前に手を洗わなければなりません。", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は「〜しなければならない」という強い義務を表します。" },
+      { q: "A: ( ) I use your dictionary?\nB: Sure, go ahead.", sub: "【訳】A: 辞書を使ってもいいですか？\nB: もちろん、どうぞ。", opt: ["May", "Must", "Should", "Will"], ans: 0, exp: "May I ~? で「〜してもよいですか？」という丁寧な許可求めになります。" },
+      { q: "You ( ) eat too much sweet food.", sub: "【訳】甘い食べ物を食べ過ぎるべきではありません。", opt: ["should not", "must", "may", "can"], ans: 0, exp: "should not で「〜すべきではない」という忠告を表します。" },
+      { q: "I ( ) swim across this river when I was young.", sub: "【訳】私は若い頃、この川を泳いで渡ることができました。", opt: ["could", "must", "may", "should"], ans: 0, exp: "can の過去形 could で「〜することができた」を表します。" },
+      { q: "We have to ( ) early tomorrow morning.", sub: "【訳】私たちは明日、早起きしなければなりません。", opt: ["get up", "got up", "getting up", "gets up"], ans: 0, exp: "have to（〜しなければならない）の後は「動詞の原形」がきます。" },
 
-      { q: "I want ( ) a professional soccer player.", sub: "【訳】私は将来プロサッカー選手になりたいです。", opt: ["become", "became", "to become", "becoming"], ans: 2, exp: "want to + 動詞の原形で「〜になりたい」を表します。", aud_complete: "I want to become a professional soccer player." },
-      { q: "Thank you for ( ) me with my homework.", sub: "【訳】宿題を手伝ってくれてありがとう。", opt: ["help", "helped", "helping", "to help"], ans: 2, exp: "前置詞 for の直後には動名詞 (〜ing) を使います。", aud_complete: "Thank you for helping me with my homework." },
-      { q: "She decided ( ) abroad next year.", sub: "【訳】彼女は来年、留学することを決めました。", opt: ["study", "studied", "to study", "studying"], ans: 2, exp: "decide to + 原形で「〜することを決める」という意味です。", aud_complete: "She decided to study abroad next year." },
-      { q: "Stop ( ) so loudly in the library.", sub: "【訳】図書館の中でそんなに大声で話すのをやめなさい。", opt: ["talk", "talked", "talking", "to talk"], ans: 2, exp: "stop 〜ing で「〜するのをやめる」という意味になります。", aud_complete: "Stop talking so loudly in the library." },
-      { q: "He went to the station ( ) his friend.", sub: "【訳】彼は友達に会うために駅に行きました。", opt: ["meet", "met", "to meet", "meeting"], ans: 2, exp: "to + 原形で「〜するために」という目的を表します。", aud_complete: "He went to the station to meet his friend." },
+      { q: "I want ( ) a professional soccer player.", sub: "【訳】私は将来プロサッカー選手になりたいです。", opt: ["become", "became", "to become", "becoming"], ans: 2, exp: "want to + 動詞の原形で「〜になりたい」を表します。" },
+      { q: "Thank you for ( ) me with my homework.", sub: "【訳】宿題を手伝ってくれてありがとう。", opt: ["help", "helped", "helping", "to help"], ans: 2, exp: "前置詞 for の直後には動名詞 (〜ing) を使います。" },
+      { q: "She decided ( ) abroad next year.", sub: "【訳】彼女は来年、留学することを決めました。", opt: ["study", "studied", "to study", "studying"], ans: 2, exp: "decide to + 原形で「〜することを決める」という意味です。" },
+      { q: "Stop ( ) so loudly in the library.", sub: "【訳】図書館の中でそんなに大声で話すのをやめなさい。", opt: ["talk", "talked", "talking", "to talk"], ans: 2, exp: "stop 〜ing で「〜するのをやめる」という意味になります。" },
+      { q: "He went to the station ( ) his friend.", sub: "【訳】彼は友達に会うために駅に行きました。", opt: ["meet", "met", "to meet", "meeting"], ans: 2, exp: "to + 原形で「〜するために」という目的を表します。" },
 
-      { q: "Ken is ( ) than Tom.", sub: "【訳】ケンはトムよりも背が高いです。", opt: ["tall", "taller", "tallest", "more tall"], ans: 1, exp: "than（〜より）があるので比較級の taller が正解です。", aud_complete: "Ken is taller than Tom." },
-      { q: "Mount Fuji is the ( ) mountain in Japan.", sub: "【訳】富士山は日本で最も高い山です。", opt: ["high", "higher", "highest", "most high"], ans: 2, exp: "the + 最上級 (highest) で「最も高い」を表します。", aud_complete: "Mount Fuji is the highest mountain in Japan." },
-      { q: "This comic is as ( ) as that movie.", sub: "【訳】この漫画はその映画と同じくらい面白いです。", opt: ["interesting", "more interesting", "most interesting", "interestingly"], ans: 0, exp: "as 〜 as の間には「原級」が入ります。", aud_complete: "This comic is as interesting as that movie." },
-      { q: "A: ( ) is your birthday?\nB: It is May 5th.", sub: "【訳】A: あなたの誕生日はいつですか？\nB: 5月5日です。", opt: ["Where", "Who", "When", "What"], ans: 2, exp: "日付（いつ）を聞いているので When が正解です。", aud_complete: "When is your birthday?" },
-      { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。", aud_complete: "Whose notebook is this?" }
+      { q: "Ken is ( ) than Tom.", sub: "【訳】ケンはトムよりも背が高いです。", opt: ["tall", "taller", "tallest", "more tall"], ans: 1, exp: "than（〜より）があるので比較級の taller が正解です。" },
+      { q: "Mount Fuji is the ( ) mountain in Japan.", sub: "【訳】富士山は日本で最も高い山です。", opt: ["high", "higher", "highest", "most high"], ans: 2, exp: "the + 最上級 (highest) で「最も高い」を表します。" },
+      { q: "This comic is as ( ) as that movie.", sub: "【訳】この漫画はその映画と同じくらい面白いです。", opt: ["interesting", "more interesting", "most interesting", "interestingly"], ans: 0, exp: "as 〜 as の間には「原級」が入ります。" },
+      { q: "A: ( ) is your birthday?\nB: It is May 5th.", sub: "【訳】A: あなたの誕生日はいつですか？\nB: 5月5日です。", opt: ["Where", "Who", "When", "What"], ans: 2, exp: "日付（いつ）を聞いているので When が正解です。" },
+      { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。" }
     ];
 
     // ==================== 本格リスニング データベース ====================
@@ -727,14 +780,14 @@
           gain.gain.setValueAtTime(0.12, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
           osc.start(now); osc.stop(now + 0.3);
-        } else if(type === 'levelup') {
+        } else if(type === 'levelup' || type === 'bonus') {
           osc.type = 'triangle';
-          [523, 659, 783, 1046].forEach((freq, idx) => {
-            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+          [523, 659, 783, 1046, 1318].forEach((freq, idx) => {
+            osc.frequency.setValueAtTime(freq, now + idx * 0.09);
           });
-          gain.gain.setValueAtTime(0.2, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-          osc.start(now); osc.stop(now + 0.5);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+          osc.start(now); osc.stop(now + 0.6);
         } else if(type === 'gacha') {
           osc.type = 'triangle';
           [440, 554, 659, 880].forEach((freq, idx) => {
@@ -747,8 +800,40 @@
       } catch(e) {}
     }
 
-    // ==================== ユーザーデータ安全管理 (LocalStorage) ====================
-    const STORAGE_KEY = 'eiken4_data_v9';
+    // ==================== 着せ替え・装備データベース ====================
+    const SHOP_EQUIP_DATA = [
+      { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', desc: '英語学習の第一歩' },
+      { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', desc: '元気いっぱいな帽子' },
+      { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', desc: 'やる気が湧き上がる' },
+      { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', desc: 'リスニング力がアップ？' },
+      { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', desc: '文法の魔力が宿る' },
+      { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', desc: '集中力を研ぎ澄ます' },
+      { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', desc: '知識の王者の証' },
+      { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', desc: '未知の領域へ飛び立つ' },
+      { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', desc: '完全制覇者に捧ぐ冠' },
+
+      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', desc: 'マークシートの強い味方' },
+      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', desc: '小さな魔法を放つ' },
+      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', desc: '正解を射抜く' },
+      { id: 'wp_sword', name: '勇者のブロードソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', desc: 'どんな難問も断ち切る' },
+      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', desc: '英語のリズムに乗る' },
+      { id: 'wp_axe', name: '狂戦士のバトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', desc: '圧倒的な勉強量で粉砕' },
+      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', desc: '海のように深い知識' },
+      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', desc: '暗闇を照らす光の剣' },
+      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', desc: '絶対合格の伝説の聖剣' },
+
+      { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', desc: '爽やかな学びの風' },
+      { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', desc: '合格への桜咲く' },
+      { id: 'aura_angel', name: '天使の純白の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', desc: '高みへと羽ばたく' },
+      { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', desc: '秘めたる力を解放' },
+      { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', desc: '電光石火の早解き' },
+      { id: 'aura_fire', name: '爆炎のドラゴンオーラ', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', desc: '燃え盛る情熱の炎' },
+      { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', desc: '満点合格の架け橋' },
+      { id: 'aura_cosmic', name: '銀河のコズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', desc: '全宇宙の叡智をまとう' }
+    ];
+
+    // ==================== ユーザーデータ管理 (LocalStorage) ====================
+    const STORAGE_KEY = 'eiken4_data_v12';
     let userData = {
       level: 1,
       exp: 0,
@@ -758,18 +843,11 @@
       weakList: [],
       totalAnswered: 0,
       totalCorrect: 0,
-      dailyDone: { vocab: false, grammar: false, listening: false },
+      dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
       inventory: { hint: 1, potion: 0 },
-      equipped: { hat: '', weapon: '' },
+      equipped: { hat: '', weapon: '', aura: '' },
       unlockedEquips: []
     };
-
-    const SHOP_EQUIP_DATA = [
-      { id: 'hat_crown', name: '王者の王冠', type: 'hat', icon: '👑', price: 30, desc: '合格を勝ち取る者の冠' },
-      { id: 'hat_wizard', name: '魔法使いの帽子', type: 'hat', icon: '🧙', price: 20, desc: '英語の魔力がアップ' },
-      { id: 'wp_sword', name: '勇者の聖剣', type: 'weapon', icon: '🗡️', price: 35, desc: 'どんな難問も切り裂く' },
-      { id: 'wp_wing', name: '天空の翼', type: 'weapon', icon: '🪽', price: 25, desc: 'どこまでも高く羽ばたく' }
-    ];
 
     const AVATARS = [
       { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
@@ -777,6 +855,9 @@
       { minLv: 10, emoji: '🦅', rank: '天空のタカ', name: 'スカイホーク' },
       { minLv: 20, emoji: '🐉', rank: '伝説の英検ドラゴン', name: 'ドラゴニクス' }
     ];
+
+    let currentShopTab = 'hat';
+    let isDailyCurrentSession = false; // 今回のセッションがデイリーか通常か
 
     function getTodayString() {
       const d = new Date();
@@ -788,9 +869,11 @@
       if (!userData.inventory || typeof userData.inventory !== 'object') userData.inventory = { hint: 1, potion: 0 };
       if (typeof userData.inventory.hint !== 'number') userData.inventory.hint = 1;
       if (typeof userData.inventory.potion !== 'number') userData.inventory.potion = 0;
-      if (!userData.equipped || typeof userData.equipped !== 'object') userData.equipped = { hat: '', weapon: '' };
+      if (!userData.equipped || typeof userData.equipped !== 'object') userData.equipped = { hat: '', weapon: '', aura: '' };
+      if (!userData.equipped.aura) userData.equipped.aura = '';
       if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
-      if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false };
+      if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
+      if (typeof userData.dailyDone.allClaimed !== 'boolean') userData.dailyDone.allClaimed = false;
       if (typeof userData.level !== 'number' || userData.level < 1) userData.level = 1;
       if (typeof userData.exp !== 'number') userData.exp = 0;
       if (typeof userData.gems !== 'number') userData.gems = 10;
@@ -836,7 +919,8 @@
             userData.streak = 1;
           }
           userData.lastLoginDate = today;
-          userData.dailyDone = { vocab: false, grammar: false, listening: false };
+          // 日付が変わったらデイリーをリセット！
+          userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
         }
       } catch(e) {
         userData.lastLoginDate = getTodayString();
@@ -900,6 +984,8 @@
       setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
       const weaponEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
       setText('equipWeaponIcon', weaponEquip ? weaponEquip.icon : '');
+      const auraEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
+      setText('equipAuraIcon', auraEquip ? auraEquip.icon : '');
 
       // 試験までの日数
       try {
@@ -914,12 +1000,52 @@
         setText('countdownDays', '49 日');
       }
 
-      // デイリー進捗
+      // デイリー進捗＆UI切り替え（1回限定制御）
       let doneCount = 0;
       if (userData.dailyDone.vocab) doneCount++;
       if (userData.dailyDone.grammar) doneCount++;
       if (userData.dailyDone.listening) doneCount++;
       setText('dailyProgressText', `${doneCount} / 3 完了`);
+
+      // デイリー単語ボタン
+      const actVocab = document.getElementById('questActionVocab');
+      if (actVocab) {
+        actVocab.innerHTML = userData.dailyDone.vocab
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+      }
+
+      // デイリー文法ボタン
+      const actGrammar = document.getElementById('questActionGrammar');
+      if (actGrammar) {
+        actGrammar.innerHTML = userData.dailyDone.grammar
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+      }
+
+      // デイリーリスニングボタン
+      const actListening = document.getElementById('questActionListening');
+      if (actListening) {
+        actListening.innerHTML = userData.dailyDone.listening
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+      }
+
+      // 全制覇ボーナスボタン
+      const bonusArea = document.getElementById('dailyBonusArea');
+      const bonusClaimedArea = document.getElementById('dailyBonusClaimedArea');
+      if (bonusArea && bonusClaimedArea) {
+        if (doneCount === 3 && !userData.dailyDone.allClaimed) {
+          bonusArea.classList.remove('hidden');
+          bonusClaimedArea.classList.add('hidden');
+        } else if (doneCount === 3 && userData.dailyDone.allClaimed) {
+          bonusArea.classList.add('hidden');
+          bonusClaimedArea.classList.remove('hidden');
+        } else {
+          bonusArea.classList.add('hidden');
+          bonusClaimedArea.classList.add('hidden');
+        }
+      }
 
       // 保護者ダッシュボード
       setText('statTotalAnswers', `${userData.totalAnswered}問`);
@@ -937,11 +1063,80 @@
       renderShopEquips();
     }
 
-    // ==================== ショップ・アイテム処理 ====================
+    // ==================== デイリー全制覇ボーナス受取 ====================
+    function claimDailyAllBonus() {
+      initAudio();
+      if (userData.dailyDone.allClaimed) return;
+      
+      userData.dailyDone.allClaimed = true;
+      const bonusGems = 50;
+      const bonusExp = 150;
+      userData.gems += bonusGems;
+      
+      playSE('bonus');
+      alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
+      addExp(bonusExp);
+    }
+
+    // ==================== ショップ・着せ替え処理 ====================
+    function switchEquipTab(tab) {
+      currentShopTab = tab;
+      const tabHat = document.getElementById('tabEquipHat');
+      const tabWp = document.getElementById('tabEquipWeapon');
+      const tabAura = document.getElementById('tabEquipAura');
+
+      [tabHat, tabWp, tabAura].forEach(btn => {
+        if (btn) btn.className = "flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition";
+      });
+
+      if (tab === 'hat' && tabHat) tabHat.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+      if (tab === 'weapon' && tabWp) tabWp.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+      if (tab === 'aura' && tabAura) tabAura.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+
+      renderShopEquips();
+    }
+
+    function renderShopEquips() {
+      const container = document.getElementById('equipShopList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filtered = SHOP_EQUIP_DATA.filter(e => e.type === currentShopTab);
+
+      filtered.forEach(eq => {
+        const isUnlocked = userData.unlockedEquips.includes(eq.id);
+        const isEquipped = (userData.equipped[eq.type] === eq.id);
+
+        const card = document.createElement('div');
+        card.className = "bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex flex-col justify-between relative overflow-hidden";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start mb-1">
+              <span class="text-3xl">${eq.icon}</span>
+              <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-indigo-900 border border-indigo-700 text-amber-300">${eq.rank}</span>
+            </div>
+            <div class="font-bold text-white text-[11px] mb-0.5">${eq.name}</div>
+            <div class="text-[9px] text-indigo-300 mb-2 leading-tight">${eq.desc}</div>
+          </div>
+          <div>
+            ${isUnlocked 
+              ? `<button onclick="toggleEquip('${eq.id}', '${eq.type}')" class="${isEquipped ? 'bg-amber-500 text-indigo-950 font-black' : 'bg-indigo-800 text-white font-bold'} w-full py-1.5 rounded-lg text-[10px] transition active:scale-95">
+                  ${isEquipped ? '✓ そうび中' : 'そうびする'}
+                 </button>`
+              : `<button onclick="buyEquip('${eq.id}', ${eq.price})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black w-full py-1.5 rounded-lg text-[10px] transition active:scale-95 flex items-center justify-center gap-1">
+                  <span>💎 ${eq.price}</span>
+                 </button>`
+            }
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
     function buyItem(itemType, cost) {
       initAudio();
       if (userData.gems < cost) {
-        alert('💎 ダイヤが足りません！');
+        alert('💎 ダイヤが足りません！デイリークエストをクリアして集めよう！');
         return;
       }
       userData.gems -= cost;
@@ -952,47 +1147,16 @@
       saveData();
     }
 
-    function renderShopEquips() {
-      const container = document.getElementById('equipShopList');
-      if (!container) return;
-      container.innerHTML = '';
-      SHOP_EQUIP_DATA.forEach(eq => {
-        const isUnlocked = userData.unlockedEquips.includes(eq.id);
-        const isEquipped = (userData.equipped[eq.type] === eq.id);
-
-        const card = document.createElement('div');
-        card.className = "bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex flex-col justify-between";
-        card.innerHTML = `
-          <div>
-            <div class="text-2xl mb-1">${eq.icon}</div>
-            <div class="font-bold text-white text-[11px]">${eq.name}</div>
-            <div class="text-[9px] text-indigo-300 mb-2">${eq.desc}</div>
-          </div>
-          <div>
-            ${isUnlocked 
-              ? `<button onclick="toggleEquip('${eq.id}', '${eq.type}')" class="${isEquipped ? 'bg-amber-500 text-indigo-950 font-black' : 'bg-indigo-800 text-white'} w-full py-1 rounded text-[10px]">
-                  ${isEquipped ? 'はずす' : 'そうび'}
-                 </button>`
-              : `<button onclick="buyEquip('${eq.id}', ${eq.price})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black w-full py-1 rounded text-[10px]">
-                  💎 ${eq.price}
-                 </button>`
-            }
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
     function buyEquip(equipId, price) {
       initAudio();
       if (userData.gems < price) {
-        alert('💎 ダイヤが足りません！');
+        alert(`💎 ダイヤが足りません！（必要: 💎 ${price}個 / 所持: 💎 ${userData.gems}個）\n毎日デイリークエストに挑戦して貯めよう！`);
         return;
       }
       userData.gems -= price;
       userData.unlockedEquips.push(equipId);
       playSE('correct');
-      alert('装備を購入しました！');
+      alert('装備を購入しました！早速そうびしてみよう！');
       saveData();
     }
 
@@ -1007,18 +1171,18 @@
 
     function playGacha() {
       initAudio();
-      if (userData.gems < 15) {
-        alert('💎 ダイヤが15個必要です！');
+      if (userData.gems < 20) {
+        alert('💎 ダイヤが20個必要です！');
         return;
       }
-      userData.gems -= 15;
+      userData.gems -= 20;
       playSE('gacha');
 
       const prizes = [
-        { type: 'item_hint', name: '💡 ヒントの書 x2', fn: () => userData.inventory.hint = (userData.inventory.hint || 0) + 2 },
-        { type: 'item_potion', name: '🧪 EXPの秘薬 x1', fn: () => userData.inventory.potion = (userData.inventory.potion || 0) + 1 },
-        { type: 'exp', name: '✨ 経験値 +100 EXP', fn: () => addExp(100) },
-        { type: 'gems', name: '💎 超大当たり！ダイヤ +30個', fn: () => userData.gems += 30 }
+        { name: '💡 ヒントの書 x2', fn: () => userData.inventory.hint = (userData.inventory.hint || 0) + 2 },
+        { name: '🧪 EXPの秘薬 x1', fn: () => userData.inventory.potion = (userData.inventory.potion || 0) + 1 },
+        { name: '✨ 経験値 +100 EXP', fn: () => addExp(100) },
+        { name: '💎 超大当たり！ダイヤ +50個', fn: () => userData.gems += 50 }
       ];
 
       const won = prizes[Math.floor(Math.random() * prizes.length)];
@@ -1029,7 +1193,7 @@
 
     function use5050Hint() {
       if (!userData.inventory.hint || userData.inventory.hint <= 0) {
-        alert('💡 ヒントの書がありません！');
+        alert('💡 ヒントの書がありません！ショップで購入しよう！');
         return;
       }
 
@@ -1050,13 +1214,14 @@
       saveData();
     }
 
-    // ==================== クイズ生成エンジン ====================
+    // ==================== クイズ生成＆セッション実行 ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
     let quizScore = 0;
     let combo = 0;
     let maxCombo = 0;
+    let isAnswered = false;
 
     const MONSTERS = ['👹', '👾', '🐲', '🧟', '🎃', '🐺'];
 
@@ -1078,7 +1243,7 @@
         id: 'v_' + item[0],
         type: 'vocab',
         q: item[0],
-        sub: `【意味】${correctMeaning}`,
+        sub: '📖 正しい日本語の意味を選ぼう',
         options: options,
         ans: options.indexOf(correctMeaning),
         explain: `「${item[0]}」は「${correctMeaning}」という意味です。`,
@@ -1093,6 +1258,7 @@
       const newAnsIndex = shuffledOptions.indexOf(correctOption);
       
       const questionAudioText = item.q.replace(/\([^)]*\)/g, ' , ');
+      const completeSentence = item.q.replace(/\([^)]*\)/g, correctOption);
 
       return {
         id: 'g_' + idx,
@@ -1101,9 +1267,9 @@
         sub: item.sub,
         options: shuffledOptions,
         ans: newAnsIndex,
-        explain: item.exp,
+        explain: item.exp + `\n\n【正解の英文】\n${completeSentence}`,
         audio_question: questionAudioText,
-        audio_complete: item.aud_complete
+        audio_complete: completeSentence
       };
     }
 
@@ -1124,20 +1290,20 @@
       };
     }
 
-    function startMode(type, count) {
-      initAudio();
-      currentMode = type;
-      if (type === 'vocab') {
-        const selectedItems = shuffleArray(RAW_VOCAB_DATA).slice(0, count);
-        currentQueue = selectedItems.map(item => generateVocabQuiz(item));
-      } else if (type === 'grammar') {
-        const selected = shuffleArray(RAW_GRAMMAR_DATA).slice(0, count);
-        currentQueue = selected.map((item, i) => generateGrammarQuiz(item, i));
-      } else if (type === 'listening') {
-        const selected = shuffleArray(RAW_LISTENING_DATA).slice(0, count);
-        currentQueue = selected.map((item, i) => generateListeningQuiz(item, i));
+    // デイリークエスト開始
+    function startDailyQuest(type, count) {
+      if (userData.dailyDone[type]) {
+        alert('本日のこのデイリークエストは既にクリア済みです！通常特訓コースに挑戦しよう！');
+        return;
       }
-      startSession();
+      isDailyCurrentSession = true;
+      startSessionInternal(type, count);
+    }
+
+    // 通常特訓コース開始（無制限）
+    function startNormalMode(type, count) {
+      isDailyCurrentSession = false;
+      startSessionInternal(type, count);
     }
 
     function startWeakMode() {
@@ -1146,6 +1312,7 @@
         alert('現在にがてリストに登録された問題はありません！');
         return;
       }
+      isDailyCurrentSession = false;
       currentMode = 'weak';
       currentQueue = [];
       userData.weakList.forEach(id => {
@@ -1162,6 +1329,22 @@
         }
       });
       currentQueue = shuffleArray(currentQueue);
+      startSession();
+    }
+
+    function startSessionInternal(type, count) {
+      initAudio();
+      currentMode = type;
+      if (type === 'vocab') {
+        const selectedItems = shuffleArray(RAW_VOCAB_DATA).slice(0, count);
+        currentQueue = selectedItems.map(item => generateVocabQuiz(item));
+      } else if (type === 'grammar') {
+        const selected = shuffleArray(RAW_GRAMMAR_DATA).slice(0, count);
+        currentQueue = selected.map((item, i) => generateGrammarQuiz(item, i));
+      } else if (type === 'listening') {
+        const selected = shuffleArray(RAW_LISTENING_DATA).slice(0, count);
+        currentQueue = selected.map((item, i) => generateListeningQuiz(item, i));
+      }
       startSession();
     }
 
@@ -1182,6 +1365,7 @@
     }
 
     function renderQuestion() {
+      isAnswered = false;
       const q = currentQueue[currentIndex];
       document.getElementById('quizFeedback').classList.add('hidden');
       document.getElementById('quizProgress').innerText = `第 ${currentIndex + 1} / ${currentQueue.length} 問`;
@@ -1210,10 +1394,18 @@
 
     function playCurrentAudio() {
       const q = currentQueue[currentIndex];
-      if (q && q.audio_question) speakText(q.audio_question);
+      if (!q) return;
+      if (isAnswered && q.audio_complete) {
+        speakText(q.audio_complete);
+      } else if (q.audio_question) {
+        speakText(q.audio_question);
+      }
     }
 
     function handleAnswer(selectedIdx) {
+      if (isAnswered) return;
+      isAnswered = true;
+
       const q = currentQueue[currentIndex];
       const isCorrect = (selectedIdx === q.ans);
       
@@ -1276,16 +1468,38 @@
       document.getElementById('viewResult').classList.remove('hidden');
       playBGM('result');
 
-      const earnedExp = quizScore * 10 + (maxCombo * 5);
-      const earnedGems = Math.floor(quizScore / 2) + (maxCombo >= 3 ? 2 : 0);
+      let earnedExp = 0;
+      let earnedGems = 0;
+
+      if (isDailyCurrentSession) {
+        // === デイリークエストの超豪華報酬 ===
+        document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
+        document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-amber-400 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+
+        if (currentMode === 'vocab') {
+          userData.dailyDone.vocab = true;
+          earnedExp = 50 + (quizScore * 5);
+          earnedGems = 15;
+        } else if (currentMode === 'grammar') {
+          userData.dailyDone.grammar = true;
+          earnedExp = 60 + (quizScore * 10);
+          earnedGems = 20;
+        } else if (currentMode === 'listening') {
+          userData.dailyDone.listening = true;
+          earnedExp = 80 + (quizScore * 10);
+          earnedGems = 25;
+        }
+      } else {
+        // === 通常特訓コースのコツコツ報酬 ===
+        document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
+        document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full inline-block mb-1';
+        earnedExp = quizScore * 5 + (maxCombo * 2);
+        earnedGems = Math.floor(quizScore / 3);
+      }
 
       document.getElementById('resultScore').innerText = `${quizScore} / ${currentQueue.length}`;
       document.getElementById('resultExp').innerText = `+${earnedExp}`;
       document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
-
-      if (currentMode === 'vocab') userData.dailyDone.vocab = true;
-      if (currentMode === 'grammar') userData.dailyDone.grammar = true;
-      if (currentMode === 'listening') userData.dailyDone.listening = true;
 
       userData.gems += earnedGems;
       addExp(earnedExp);
