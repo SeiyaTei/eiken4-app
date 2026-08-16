@@ -492,7 +492,7 @@
       { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。", aud_complete: "Whose notebook is this?" }
     ];
 
-    // ==================== 本格リスニング データベース（対話文＋質問 Question: 〜） ====================
+    // ==================== 本格リスニング データベース ====================
     const RAW_LISTENING_DATA = [
       {
         q: "音声を聞いて、質問に答えよう。",
@@ -604,7 +604,453 @@
       }
     ];
 
-    // ==================== クイズ生成エンジン（()内読み上げ防止＆本番リスニング対応） ====================
+    // ==================== 音声読み上げエンジン (Web Speech API) ====================
+    let voiceSpeed = 0.8;
+
+    function toggleVoiceSpeed() {
+      voiceSpeed = (voiceSpeed === 0.8) ? 1.0 : 0.8;
+      const el = document.getElementById('btnSpeedToggle');
+      if (el) el.innerText = (voiceSpeed === 0.8) ? '🗣️ ゆっくり' : '🗣️ ふつう';
+      speakText(voiceSpeed === 0.8 ? 'Slow speed' : 'Normal speed');
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const uttr = new SpeechSynthesisUtterance(text);
+        uttr.lang = 'en-US';
+        uttr.rate = voiceSpeed;
+        window.speechSynthesis.speak(uttr);
+      } catch(e) {
+        console.log('Speech error', e);
+      }
+    }
+
+    // ==================== BGM & SE エンジン (Web Audio API) ====================
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let actx = null;
+    let isBgmEnabled = false;
+    let bgmTimer = null;
+    let currentSequence = [];
+    let currentStep = 0;
+    
+    const noteFreq = { 'G3':196, 'A3':220, 'C4':261.6, 'D4':293.7, 'E4':329.6, 'F4':349.2, 'G4':392.0, 'A4':440.0, 'B4':493.9, 'C5':523.3, 'D5':587.3, 'E5':659.3, 'G5':784.0, 'C6':1046.5 };
+
+    const BGM_DATA = {
+      home: { seq: ['C4',null,'E4',null,'G4',null,'C5',null,'G4',null,'E4',null], speed: 280, type: 'triangle', vol: 0.03 },
+      battle: { seq: ['A3','A3','C4','E4','D4','D4','F4','G4'], speed: 170, type: 'square', vol: 0.02 },
+      result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 }
+    };
+
+    function initAudio() {
+      try {
+        if(!actx && AudioContext) actx = new AudioContext();
+        if(actx && actx.state === 'suspended') actx.resume();
+      } catch(e) {
+        console.log('AudioContext init error', e);
+      }
+    }
+
+    function toggleBGM() {
+      initAudio();
+      isBgmEnabled = !isBgmEnabled;
+      const btn = document.getElementById('btnBgmToggle');
+      if (btn) {
+        btn.innerHTML = isBgmEnabled ? '🎵 ON' : '🎵 OFF';
+        btn.className = isBgmEnabled 
+          ? "bg-amber-500 border border-amber-400 px-2 py-1 rounded-full text-[10px] font-black text-indigo-950 transition"
+          : "bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-slate-300 transition";
+      }
+      if(isBgmEnabled) playBGM('home');
+      else stopBGM();
+    }
+
+    function playBGM(scene) {
+      if(!isBgmEnabled || !actx) return;
+      stopBGM();
+      const track = BGM_DATA[scene];
+      if (!track) return;
+      currentSequence = track.seq;
+      currentStep = 0;
+      
+      function schedule() {
+        if(isBgmEnabled && currentSequence.length > 0 && actx) {
+          try {
+            const note = currentSequence[currentStep % currentSequence.length];
+            if(note && noteFreq[note]) {
+              const osc = actx.createOscillator();
+              const gain = actx.createGain();
+              osc.type = track.type;
+              osc.frequency.value = noteFreq[note];
+              osc.connect(gain);
+              gain.connect(actx.destination);
+              gain.gain.setValueAtTime(track.vol, actx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + (track.speed/1000)*0.8);
+              osc.start(actx.currentTime);
+              osc.stop(actx.currentTime + (track.speed/1000));
+            }
+          } catch(e) {}
+          currentStep++;
+          bgmTimer = setTimeout(schedule, track.speed);
+        }
+      }
+      schedule();
+    }
+
+    function stopBGM() {
+      clearTimeout(bgmTimer);
+      currentSequence = [];
+    }
+
+    function playSE(type) {
+      if(!actx) return;
+      try {
+        const now = actx.currentTime;
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.connect(gain);
+        gain.connect(actx.destination);
+
+        if(type === 'correct') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now); osc.stop(now + 0.35);
+        } else if(type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.setValueAtTime(196, now + 0.15);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now); osc.stop(now + 0.3);
+        } else if(type === 'levelup') {
+          osc.type = 'triangle';
+          [523, 659, 783, 1046].forEach((freq, idx) => {
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+          });
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+          osc.start(now); osc.stop(now + 0.5);
+        } else if(type === 'gacha') {
+          osc.type = 'triangle';
+          [440, 554, 659, 880].forEach((freq, idx) => {
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          });
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+          osc.start(now); osc.stop(now + 0.4);
+        }
+      } catch(e) {}
+    }
+
+    // ==================== ユーザーデータ安全管理 (LocalStorage) ====================
+    const STORAGE_KEY = 'eiken4_data_v9';
+    let userData = {
+      level: 1,
+      exp: 0,
+      gems: 10,
+      streak: 1,
+      lastLoginDate: getTodayString(),
+      weakList: [],
+      totalAnswered: 0,
+      totalCorrect: 0,
+      dailyDone: { vocab: false, grammar: false, listening: false },
+      inventory: { hint: 1, potion: 0 },
+      equipped: { hat: '', weapon: '' },
+      unlockedEquips: []
+    };
+
+    const SHOP_EQUIP_DATA = [
+      { id: 'hat_crown', name: '王者の王冠', type: 'hat', icon: '👑', price: 30, desc: '合格を勝ち取る者の冠' },
+      { id: 'hat_wizard', name: '魔法使いの帽子', type: 'hat', icon: '🧙', price: 20, desc: '英語の魔力がアップ' },
+      { id: 'wp_sword', name: '勇者の聖剣', type: 'weapon', icon: '🗡️', price: 35, desc: 'どんな難問も切り裂く' },
+      { id: 'wp_wing', name: '天空の翼', type: 'weapon', icon: '🪽', price: 25, desc: 'どこまでも高く羽ばたく' }
+    ];
+
+    const AVATARS = [
+      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+      { minLv: 5, emoji: '🐥', rank: '勇敢なトリ', name: 'バードン' },
+      { minLv: 10, emoji: '🦅', rank: '天空のタカ', name: 'スカイホーク' },
+      { minLv: 20, emoji: '🐉', rank: '伝説の英検ドラゴン', name: 'ドラゴニクス' }
+    ];
+
+    function getTodayString() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    function sanitizeUserData() {
+      if (!Array.isArray(userData.weakList)) userData.weakList = [];
+      if (!userData.inventory || typeof userData.inventory !== 'object') userData.inventory = { hint: 1, potion: 0 };
+      if (typeof userData.inventory.hint !== 'number') userData.inventory.hint = 1;
+      if (typeof userData.inventory.potion !== 'number') userData.inventory.potion = 0;
+      if (!userData.equipped || typeof userData.equipped !== 'object') userData.equipped = { hat: '', weapon: '' };
+      if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
+      if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false };
+      if (typeof userData.level !== 'number' || userData.level < 1) userData.level = 1;
+      if (typeof userData.exp !== 'number') userData.exp = 0;
+      if (typeof userData.gems !== 'number') userData.gems = 10;
+      if (typeof userData.streak !== 'number') userData.streak = 1;
+      if (!userData.lastLoginDate) userData.lastLoginDate = getTodayString();
+    }
+
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          userData = { ...userData, ...JSON.parse(saved) };
+        }
+      } catch(e) {
+        console.error("データ読み込みスキップ", e);
+      }
+      sanitizeUserData();
+      checkDailyStreak();
+      updateUiState();
+    }
+
+    function saveData() {
+      sanitizeUserData();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+      } catch(e) {
+        console.error("データ保存スキップ", e);
+      }
+      updateUiState();
+    }
+
+    function checkDailyStreak() {
+      try {
+        const today = getTodayString();
+        if (userData.lastLoginDate !== today) {
+          const lastStr = (userData.lastLoginDate || today).replace(/-/g, '/');
+          const last = new Date(lastStr);
+          const current = new Date(today.replace(/-/g, '/'));
+          const diffDays = Math.round((current - last) / (1000 * 60 * 60 * 24));
+          if (diffDays === 1) {
+            userData.streak += 1;
+          } else if (diffDays > 1) {
+            userData.streak = 1;
+          }
+          userData.lastLoginDate = today;
+          userData.dailyDone = { vocab: false, grammar: false, listening: false };
+        }
+      } catch(e) {
+        userData.lastLoginDate = getTodayString();
+      }
+    }
+
+    function addExp(amount) {
+      let finalExp = amount;
+      if (userData.inventory.potion > 0) {
+        finalExp *= 2;
+        userData.inventory.potion--;
+        alert('🧪 EXPの秘薬の効果で獲得経験値が2倍になりました！');
+      }
+
+      userData.exp += finalExp;
+      let needed = userData.level * 100;
+      let leveledUp = false;
+      while (userData.exp >= needed) {
+        userData.exp -= needed;
+        userData.level += 1;
+        needed = userData.level * 100;
+        leveledUp = true;
+      }
+      if (leveledUp) {
+        playSE('levelup');
+        alert(`🎉 レベルアップ！ Lv.${userData.level} に到達しました！`);
+      }
+      saveData();
+    }
+
+    function updateUiState() {
+      sanitizeUserData();
+
+      const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
+
+      setText('headerLevel', `Lv.${userData.level}`);
+      setText('levelLabel', `Lv.${userData.level}`);
+      setText('streakCount', userData.streak);
+      setText('gemCount', userData.gems);
+      setText('weakBadgeCount', userData.weakList.length);
+      setText('hintStockCount', userData.inventory.hint || 0);
+      setText('shopHintCount', userData.inventory.hint || 0);
+      setText('shopPotionCount', userData.inventory.potion || 0);
+
+      const needed = userData.level * 100;
+      const pct = Math.min(100, Math.round((userData.exp / needed) * 100));
+      const expBar = document.getElementById('expBar');
+      if (expBar) expBar.style.width = `${pct}%`;
+      setText('expText', `${userData.exp} / ${needed}`);
+
+      // アバター & 装備
+      const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+      setText('heroAvatar', currentAvatar.emoji);
+      setText('heroRank', currentAvatar.rank);
+      setText('heroName', currentAvatar.name);
+
+      const hatEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
+      setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
+      const weaponEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
+      setText('equipWeaponIcon', weaponEquip ? weaponEquip.icon : '');
+
+      // 試験までの日数
+      try {
+        const examDate = new Date(2026, 9, 4);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        examDate.setHours(0,0,0,0);
+        const diffTime = examDate.getTime() - today.getTime();
+        const daysLeft = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        setText('countdownDays', `${daysLeft} 日`);
+      } catch(e) {
+        setText('countdownDays', '49 日');
+      }
+
+      // デイリー進捗
+      let doneCount = 0;
+      if (userData.dailyDone.vocab) doneCount++;
+      if (userData.dailyDone.grammar) doneCount++;
+      if (userData.dailyDone.listening) doneCount++;
+      setText('dailyProgressText', `${doneCount} / 3 完了`);
+
+      // 保護者ダッシュボード
+      setText('statTotalAnswers', `${userData.totalAnswered}問`);
+      const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 0;
+      setText('statAccuracy', `(${acc}%)`);
+      
+      let passRate = '判定中 (15問以上で判定)';
+      if (userData.totalAnswered >= 15) {
+        if (acc >= 75) passRate = '💮 合格圏内 (A判定)';
+        else if (acc >= 60) passRate = '✨ 合格可能 (B判定)';
+        else passRate = '🔥 基礎強化中 (C判定)';
+      }
+      setText('statPassRate', passRate);
+
+      renderShopEquips();
+    }
+
+    // ==================== ショップ・アイテム処理 ====================
+    function buyItem(itemType, cost) {
+      initAudio();
+      if (userData.gems < cost) {
+        alert('💎 ダイヤが足りません！');
+        return;
+      }
+      userData.gems -= cost;
+      if (itemType === 'hint') userData.inventory.hint = (userData.inventory.hint || 0) + 1;
+      if (itemType === 'potion') userData.inventory.potion = (userData.inventory.potion || 0) + 1;
+      playSE('correct');
+      alert('アイテムを購入しました！');
+      saveData();
+    }
+
+    function renderShopEquips() {
+      const container = document.getElementById('equipShopList');
+      if (!container) return;
+      container.innerHTML = '';
+      SHOP_EQUIP_DATA.forEach(eq => {
+        const isUnlocked = userData.unlockedEquips.includes(eq.id);
+        const isEquipped = (userData.equipped[eq.type] === eq.id);
+
+        const card = document.createElement('div');
+        card.className = "bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="text-2xl mb-1">${eq.icon}</div>
+            <div class="font-bold text-white text-[11px]">${eq.name}</div>
+            <div class="text-[9px] text-indigo-300 mb-2">${eq.desc}</div>
+          </div>
+          <div>
+            ${isUnlocked 
+              ? `<button onclick="toggleEquip('${eq.id}', '${eq.type}')" class="${isEquipped ? 'bg-amber-500 text-indigo-950 font-black' : 'bg-indigo-800 text-white'} w-full py-1 rounded text-[10px]">
+                  ${isEquipped ? 'はずす' : 'そうび'}
+                 </button>`
+              : `<button onclick="buyEquip('${eq.id}', ${eq.price})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black w-full py-1 rounded text-[10px]">
+                  💎 ${eq.price}
+                 </button>`
+            }
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function buyEquip(equipId, price) {
+      initAudio();
+      if (userData.gems < price) {
+        alert('💎 ダイヤが足りません！');
+        return;
+      }
+      userData.gems -= price;
+      userData.unlockedEquips.push(equipId);
+      playSE('correct');
+      alert('装備を購入しました！');
+      saveData();
+    }
+
+    function toggleEquip(equipId, equipType) {
+      if (userData.equipped[equipType] === equipId) {
+        userData.equipped[equipType] = '';
+      } else {
+        userData.equipped[equipType] = equipId;
+      }
+      saveData();
+    }
+
+    function playGacha() {
+      initAudio();
+      if (userData.gems < 15) {
+        alert('💎 ダイヤが15個必要です！');
+        return;
+      }
+      userData.gems -= 15;
+      playSE('gacha');
+
+      const prizes = [
+        { type: 'item_hint', name: '💡 ヒントの書 x2', fn: () => userData.inventory.hint = (userData.inventory.hint || 0) + 2 },
+        { type: 'item_potion', name: '🧪 EXPの秘薬 x1', fn: () => userData.inventory.potion = (userData.inventory.potion || 0) + 1 },
+        { type: 'exp', name: '✨ 経験値 +100 EXP', fn: () => addExp(100) },
+        { type: 'gems', name: '💎 超大当たり！ダイヤ +30個', fn: () => userData.gems += 30 }
+      ];
+
+      const won = prizes[Math.floor(Math.random() * prizes.length)];
+      won.fn();
+      alert(`🎰 ガチャ結果：\n【 ${won.name} 】が当たりました！`);
+      saveData();
+    }
+
+    function use5050Hint() {
+      if (!userData.inventory.hint || userData.inventory.hint <= 0) {
+        alert('💡 ヒントの書がありません！');
+        return;
+      }
+
+      const q = currentQueue[currentIndex];
+      const optButtons = Array.from(document.getElementById('quizOptions').children);
+      const wrongIndices = [0, 1, 2, 3].filter(idx => idx !== q.ans);
+      const toHide = shuffleArray(wrongIndices).slice(0, 2);
+
+      toHide.forEach(idx => {
+        if (optButtons[idx]) {
+          optButtons[idx].classList.add('opacity-20', 'pointer-events-none');
+        }
+      });
+
+      userData.inventory.hint--;
+      const stockEl = document.getElementById('hintStockCount');
+      if (stockEl) stockEl.innerText = userData.inventory.hint;
+      saveData();
+    }
+
+    // ==================== クイズ生成エンジン ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
@@ -646,7 +1092,6 @@
       const shuffledOptions = shuffleArray(item.opt);
       const newAnsIndex = shuffledOptions.indexOf(correctOption);
       
-      // 出題時はカッコ内を完全に読まないようにポーズ用カンマに置換
       const questionAudioText = item.q.replace(/\([^)]*\)/g, ' , ');
 
       return {
@@ -669,12 +1114,12 @@
       return {
         id: 'l_' + idx,
         type: 'listening',
-        q: item.q, // 画面上は「音声を聞いて、質問に答えよう。」のみ表示
+        q: item.q,
         sub: item.sub,
         options: shuffledOptions,
         ans: newAnsIndex,
-        explain: item.exp, // 解答後に英文スクリプト、Question、日本語訳を表示
-        audio_question: item.aud_listen, // 対話＋Questionの音声
+        explain: item.exp,
+        audio_question: item.aud_listen,
         audio_complete: item.aud_complete
       };
     }
@@ -748,7 +1193,6 @@
       document.getElementById('quizQuestion').innerText = q.q;
       document.getElementById('quizSubText').innerText = q.sub || '';
 
-      // 出題時は答えを読まずに音声を再生
       if (q.audio_question) {
         speakText(q.audio_question);
       }
@@ -798,7 +1242,6 @@
         feedbackTitle.innerText = `正解！ Excellent! ${combo >= 2 ? `(${combo}連続正解!)` : ''}`;
         feedbackTitle.className = "text-base font-black text-emerald-400";
 
-        // 正解時は完成した英文音声で復習
         if (q.audio_complete) {
           setTimeout(() => speakText(q.audio_complete), 300);
         }
@@ -891,10 +1334,12 @@
       const navShop = document.getElementById('navShop');
       const navParent = document.getElementById('navParent');
       
-      [navHome, navWeak, navShop, navParent].forEach(btn => btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200");
-      if (active === 'home') navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'shop') navShop.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'parent') navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      [navHome, navWeak, navShop, navParent].forEach(btn => {
+        if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
+      });
+      if (active === 'home' && navHome) navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'shop' && navShop) navShop.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'parent' && navParent) navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
     }
 
     // ==================== データ管理 (インポート/エクスポート) ====================
@@ -925,13 +1370,17 @@
 
     function resetAllProgress() {
       if (confirm('すべての学習記録、レベル、獲得ダイヤを初期化しますか？')) {
-        localStorage.removeItem(STORAGE_KEY);
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch(e) {}
         location.reload();
       }
     }
 
     // 起動
-    loadData();
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData();
+    });
     document.body.addEventListener('click', initAudio, { once: true });
   </script>
 </body>
