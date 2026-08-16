@@ -78,7 +78,7 @@
               <span id="heroAvatar" class="z-10 text-4xl">🐣</span>
               <span id="equipWeaponIcon" class="absolute -right-2.5 bottom-0 z-20 text-2xl drop-shadow"></span>
             </div>
-            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow z-30">
+            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow z-30 whitespace-nowrap">
               見習いヒナ
             </span>
           </div>
@@ -533,7 +533,7 @@
       { q: "Look! The baby is ( ) in the bed.", sub: "【訳】見て！赤ちゃんがベッドで眠っています。", opt: ["sleep", "slept", "sleeping", "sleeps"], ans: 2, exp: "現在進行形は is / am / are + 動詞のing形 です。" },
       { q: "What ( ) you doing at eight last night?", sub: "【訳】昨夜8時にあなたは何をしていましたか？", opt: ["were", "did", "are", "do"], ans: 0, exp: "過去のその時点でしていたことを聞くので were you doing となります。" },
 
-      { q: "You ( ) wash your hands before eating.", sub: "【訳】食べる前に手を洗わなければなりません。", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は " + "〜しなければならない" + " という強い義務を表します。" },
+      { q: "You ( ) wash your hands before eating.", sub: "【訳】食べる前に手を洗わなければなりません。", opt: ["must", "may", "can", "shall"], ans: 0, exp: "must は「〜しなければならない」という強い義務を表します。" },
       { q: "A: ( ) I use your dictionary?\nB: Sure, go ahead.", sub: "【訳】A: 辞書を使ってもいいですか？\nB: もちろん、どうぞ。", opt: ["May", "Must", "Should", "Will"], ans: 0, exp: "May I ~? で「〜してもよいですか？」という丁寧な許可求めになります。" },
       { q: "You ( ) eat too much sweet food.", sub: "【訳】甘い食べ物を食べ過ぎるべきではありません。", opt: ["should not", "must", "may", "can"], ans: 0, exp: "should not で「〜すべきではない」という忠告を表します。" },
       { q: "I ( ) swim across this river when I was young.", sub: "【訳】私は若い頃、この川を泳いで渡ることができました。", opt: ["could", "must", "may", "should"], ans: 0, exp: "can の過去形 could で「〜することができた」を表します。" },
@@ -752,6 +752,21 @@
       }
     ];
 
+    // ==================== レベル10ごと全11段階の進化ツリー (Lv.1〜Lv.100) ====================
+    const AVATARS = [
+      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+      { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
+      { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
+      { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
+      { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
+      { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
+      { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
+      { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
+      { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
+      { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
+      { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
+    ];
+
     // ==================== 音声読み上げエンジン ====================
     let voiceSpeed = 0.8;
 
@@ -965,8 +980,8 @@
       { id: 'aura_cosmic', name: '銀河のコズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', desc: '全宇宙の叡智をまとう' }
     ];
 
-    // ==================== ユーザーデータ管理 ====================
-    const STORAGE_KEY = 'eiken4_data_v16';
+    // ==================== ユーザーデータ管理 (LocalStorage) ====================
+    const STORAGE_KEY = 'eiken4_data_v17';
     let userData = {
       level: 1,
       exp: 0,
@@ -981,13 +996,6 @@
       equipped: { hat: '', weapon: '', aura: '' },
       unlockedEquips: []
     };
-
-    const AVATARS = [
-      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
-      { minLv: 5, emoji: '🐥', rank: '勇敢なトリ', name: 'バードン' },
-      { minLv: 10, emoji: '🦅', rank: '天空のタカ', name: 'スカイホーク' },
-      { minLv: 20, emoji: '🐉', rank: '伝説の英検ドラゴン', name: 'ドラゴニクス' }
-    ];
 
     let currentShopTab = 'hat';
     let isDailyCurrentSession = false;
@@ -1075,7 +1083,8 @@
       }
       if (leveledUp) {
         playSE('levelup');
-        alert(`🎉 レベルアップ！ Lv.${userData.level} に到達しました！`);
+        const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+        alert(`🎉 レベルアップ！ Lv.${userData.level} に到達しました！\n相棒の姿：【${currentAvatar.rank}】${currentAvatar.name}`);
       }
       saveData();
     }
@@ -1103,6 +1112,7 @@
       if (expBar) expBar.style.width = `${pct}%`;
       setText('expText', `${userData.exp} / ${needed}`);
 
+      // レベルに応じたアバター・ランク・名前の自動適用
       const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
       setText('heroAvatar', currentAvatar.emoji);
       setText('heroRank', currentAvatar.rank);
@@ -1425,7 +1435,7 @@
           id: item.id,
           type: item.type,
           q: item.q,
-          sub: item.sub, // ここに「いつの出題か」の表示テキストが入ります
+          sub: item.sub,
           options: shuffledOptions,
           ans: shuffledOptions.indexOf(correctOption),
           explain: item.explain,
@@ -1532,7 +1542,6 @@
         document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-5 shadow-2xl relative glow-red";
         document.getElementById('enemyName').innerText = "👑 過去問暗黒竜（BOSS）";
         document.getElementById('enemyName').className = "text-[11px] font-black text-amber-300";
-        // ボス戦開始時はHP満タン(100%)
         document.getElementById('enemyHpBar').style.width = '100%';
       } else {
         playBGM('battle');
@@ -1553,14 +1562,12 @@
       document.getElementById('comboCounter').innerText = `🔥 ${combo} 連続`;
       
       if (isBossMode) {
-        // ボス戦のモンスター絵柄は固定の強そうなやつ（🐉）に設定
         document.getElementById('enemyAvatar').innerText = '🐲';
       } else {
         document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
       }
 
       document.getElementById('quizQuestion').innerText = q.q;
-      // ボス戦の場合は「いつの出題か（sub）」のみを表示する
       document.getElementById('quizSubText').innerText = q.sub || '';
 
       const audioBtnContainer = document.getElementById('audioBtnContainer');
@@ -1630,7 +1637,6 @@
         if (combo > maxCombo) maxCombo = combo;
         userData.totalCorrect += 1;
 
-        // 正解ごとにボスのHPが減り続ける（全10問なら1問正解ごとに10%ずつ減少）
         if (isBossMode) {
           const remainingHp = Math.max(0, 100 - (quizScore * (100 / currentQueue.length)));
           document.getElementById('enemyHpBar').style.width = `${remainingHp}%`;
