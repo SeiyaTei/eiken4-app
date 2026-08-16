@@ -68,13 +68,9 @@
         <div class="flex items-center gap-4">
           <div class="relative">
             <div id="heroAvatarContainer" class="w-24 h-24 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-3xl shadow-inner animate-bounce-slow relative overflow-visible">
-              <!-- オーラ（背面レイヤー） -->
               <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-5xl opacity-70 pointer-events-none scale-125 z-0"></span>
-              <!-- 頭装備（上部レイヤー） -->
               <span id="equipHatIcon" class="absolute -top-3.5 z-20 text-2xl drop-shadow"></span>
-              <!-- 相棒本体 -->
               <span id="heroAvatar" class="z-10 text-4xl">🐣</span>
-              <!-- 武器装備（右下レイヤー） -->
               <span id="equipWeaponIcon" class="absolute -right-2.5 bottom-0 z-20 text-2xl drop-shadow"></span>
             </div>
             <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow z-30">
@@ -86,7 +82,6 @@
               <h2 id="heroName" class="font-black text-base text-white truncate">タマゴン</h2>
               <span id="levelLabel" class="text-xs font-black text-amber-400">Lv.1</span>
             </div>
-            <!-- EXPバー -->
             <div class="w-full bg-indigo-950/80 rounded-full h-3 border border-indigo-700 overflow-hidden mb-1">
               <div id="expBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
             </div>
@@ -104,7 +99,7 @@
         </div>
       </div>
 
-      <!-- 今日の3大デイリークエスト（1日1回限定・超豪華報酬） -->
+      <!-- 今日の3大デイリークエスト -->
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-900 to-purple-950 border-2 border-amber-500/60 rounded-3xl p-4 shadow-xl space-y-3">
         <div class="flex justify-between items-center">
           <div>
@@ -117,7 +112,6 @@
         </div>
 
         <div class="space-y-2 text-xs">
-          <!-- デイリー単語 -->
           <div id="questCardVocab" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-xl">📖</span>
@@ -131,7 +125,6 @@
             </div>
           </div>
 
-          <!-- デイリー文法 -->
           <div id="questCardGrammar" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-xl">🪄</span>
@@ -145,7 +138,6 @@
             </div>
           </div>
 
-          <!-- デイリーリスニング -->
           <div id="questCardListening" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-xl">🎧</span>
@@ -160,7 +152,6 @@
           </div>
         </div>
 
-        <!-- 3大デイリー全制覇コンプリートボーナスボタン -->
         <div id="dailyBonusArea" class="hidden pt-1">
           <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2.5 rounded-2xl text-xs shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95">
             <span>🎁 3大デイリー全制覇ボーナス受取！</span>
@@ -172,7 +163,7 @@
         </div>
       </div>
 
-      <!-- 通常特訓コース（何度でも無制限に挑戦可能） -->
+      <!-- 通常特訓コース -->
       <div class="space-y-2">
         <div class="flex justify-between items-baseline px-1">
           <h3 class="font-black text-xs text-indigo-200">⚔️ 通常特訓コース（無制限・腕試し）</h3>
@@ -215,7 +206,6 @@
         <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2.5 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
         <div class="text-xs font-bold text-amber-400" id="quizProgress">第 1 / 5 問</div>
         <div class="flex items-center gap-2">
-          <!-- 💡 50:50 ヒント使用ボタン -->
           <button id="btnUseHint" onclick="use5050Hint()" class="bg-indigo-800 hover:bg-indigo-700 border border-amber-400 text-amber-300 text-[10px] font-black px-2.5 py-1 rounded-full shadow transition active:scale-95">
             💡 ヒント (<span id="hintStockCount">0</span>)
           </button>
@@ -243,7 +233,6 @@
         <div class="text-center min-h-[60px] flex items-center justify-center px-2 mb-2">
           <p id="quizQuestion" class="text-lg font-black text-white leading-snug whitespace-pre-line"></p>
         </div>
-        <!-- 指示または文法時の日本語訳（単語時は答えを出さない） -->
         <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[18px] bg-indigo-950/60 p-2 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
       </div>
 
@@ -316,7 +305,6 @@
           💡 バトル補助アイテム
         </h3>
         <div class="space-y-2 text-xs">
-          <!-- ヒントの書 -->
           <div class="bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-2xl">💡</span>
@@ -330,7 +318,6 @@
             </button>
           </div>
 
-          <!-- EXPブースト薬 -->
           <div class="bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-2xl">🧪</span>
@@ -346,7 +333,7 @@
         </div>
       </div>
 
-      <!-- 相棒の着せ替え装備（カテゴリタブ付き） -->
+      <!-- 相棒の着せ替え装備 -->
       <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
@@ -354,7 +341,6 @@
           </h3>
         </div>
 
-        <!-- カテゴリ切り替えタブ -->
         <div class="flex bg-indigo-950 p-1 rounded-xl border border-indigo-800 text-[11px] font-bold">
           <button id="tabEquipHat" onclick="switchEquipTab('hat')" class="flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition">
             👑 あたま (9)
@@ -367,10 +353,7 @@
           </button>
         </div>
 
-        <!-- 装備アイテム一覧 -->
-        <div class="grid grid-cols-2 gap-2 text-xs max-h-96 overflow-y-auto pr-1" id="equipShopList">
-          <!-- 動的生成 -->
-        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs max-h-96 overflow-y-auto pr-1" id="equipShopList"></div>
       </div>
 
     </div>
@@ -545,15 +528,19 @@
       { q: "A: ( ) notebook is this?\nB: It is mine.", sub: "【訳】A: これはだれのノートですか？\nB: 私のものです。", opt: ["Whose", "Which", "Who", "Where"], ans: 0, exp: "「だれのノートですか？」と聞くときは Whose を使います。" }
     ];
 
-    // ==================== 本格リスニング データベース ====================
+    // ==================== 本格リスニング データベース（男女・ナレーターのセリフ構造化） ====================
     const RAW_LISTENING_DATA = [
       {
         q: "音声を聞いて、質問に答えよう。",
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["At seven o'clock.", "By bus.", "Yes, I do.", "In his room."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nGirl: What time do you usually get up, Tom?\nBoy: I usually get up at seven o'clock.\nQuestion: What time does the boy get up?\n\n【解説】男の子は「7時に起きる(at seven o'clock)」と言っているので 1 が正解です。",
-        aud_listen: "Girl: What time do you usually get up, Tom? Boy: I usually get up at seven o'clock. Question: What time does the boy get up?",
+        exp: "【対話と質問】\nGirl: What time do you usually get up, Tom?\nBoy: I usually get up at seven o'clock.\nQuestion: What time does the boy get up?\n\n【解説】男の子は「7時に起きる(at seven o'clock)」と言っているので 1 が正解です。",
+        dialogue: [
+          { speaker: 'female', text: "What time do you usually get up, Tom?" },
+          { speaker: 'male', text: "I usually get up at seven o'clock." },
+          { speaker: 'narrator', text: "Question. What time does the boy get up?" }
+        ],
         aud_complete: "What time does the boy get up? At seven o'clock."
       },
       {
@@ -561,8 +548,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["She is buying shoes.", "She is just looking.", "She is waiting for a bus.", "She is eating lunch."],
         ans: 1,
-        exp: "【聞き取った対話と質問】\nClerk: May I help you?\nGirl: No, thank you. I'm just looking.\nQuestion: What is the girl doing?\n\n【解説】女の子は「見ているだけです(I'm just looking)」と答えています。",
-        aud_listen: "Clerk: May I help you? Girl: No, thank you. I'm just looking. Question: What is the girl doing?",
+        exp: "【対話と質問】\nClerk: May I help you?\nGirl: No, thank you. I'm just looking.\nQuestion: What is the girl doing?\n\n【解説】女の子は「見ているだけです(I'm just looking)」と答えています。",
+        dialogue: [
+          { speaker: 'male', text: "May I help you?" },
+          { speaker: 'female', text: "No, thank you. I'm just looking." },
+          { speaker: 'narrator', text: "Question. What is the girl doing?" }
+        ],
         aud_complete: "What is the girl doing? She is just looking."
       },
       {
@@ -570,8 +561,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["To the zoo.", "To the school.", "To the park.", "To the station."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nBoy: Where are you going this weekend, Mary?\nGirl: I am going to the zoo with my family.\nQuestion: Where is Mary going this weekend?\n\n【解説】メアリーは「動物園に行く(to the zoo)」と答えています。",
-        aud_listen: "Boy: Where are you going this weekend, Mary? Girl: I am going to the zoo with my family. Question: Where is Mary going this weekend?",
+        exp: "【対話と質問】\nBoy: Where are you going this weekend, Mary?\nGirl: I am going to the zoo with my family.\nQuestion: Where is Mary going this weekend?\n\n【解説】メアリーは「動物園に行く(to the zoo)」と答えています。",
+        dialogue: [
+          { speaker: 'male', text: "Where are you going this weekend, Mary?" },
+          { speaker: 'female', text: "I am going to the zoo with my family." },
+          { speaker: 'narrator', text: "Question. Where is Mary going this weekend?" }
+        ],
         aud_complete: "Where is Mary going this weekend? To the zoo."
       },
       {
@@ -579,8 +574,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["It was great.", "It was terrible.", "It was rainy all day.", "It was boring."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nGirl: How was your trip to Kyoto, Ken?\nBoy: It was great! I saw many beautiful temples.\nQuestion: How was Ken's trip?\n\n【解説】ケンは「とても楽しかった(It was great)」と答えています。",
-        aud_listen: "Girl: How was your trip to Kyoto, Ken? Boy: It was great! I saw many beautiful temples. Question: How was Ken's trip?",
+        exp: "【対話と質問】\nGirl: How was your trip to Kyoto, Ken?\nBoy: It was great! I saw many beautiful temples.\nQuestion: How was Ken's trip?\n\n【解説】ケンは「とても楽しかった(It was great)」と答えています。",
+        dialogue: [
+          { speaker: 'female', text: "How was your trip to Kyoto, Ken?" },
+          { speaker: 'male', text: "It was great! I saw many beautiful temples." },
+          { speaker: 'narrator', text: "Question. How was Ken's trip?" }
+        ],
         aud_complete: "How was Ken's trip? It was great."
       },
       {
@@ -588,8 +587,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["Play video games.", "Do homework.", "Go to the library.", "Clean the room."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nBoy: Shall we play video games at my house?\nGirl: Sounds good! Let's go.\nQuestion: What are they going to do?\n\n【解説】2人は「テレビゲームをする(Play video games)」と約束しています。",
-        aud_listen: "Boy: Shall we play video games at my house? Girl: Sounds good! Let's go. Question: What are they going to do?",
+        exp: "【対話と質問】\nBoy: Shall we play video games at my house?\nGirl: Sounds good! Let's go.\nQuestion: What are they going to do?\n\n【解説】2人は「テレビゲームをする(Play video games)」と約束しています。",
+        dialogue: [
+          { speaker: 'male', text: "Shall we play video games at my house?" },
+          { speaker: 'female', text: "Sounds good! Let's go." },
+          { speaker: 'narrator', text: "Question. What are they going to do?" }
+        ],
         aud_complete: "What are they going to do? Play video games."
       },
       {
@@ -597,8 +600,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["It is cloudy and cold.", "It is sunny and warm.", "It is raining heavily.", "It is snowy."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nBoy: How is the weather in Tokyo today?\nGirl: It is cloudy and very cold.\nQuestion: How is the weather in Tokyo?\n\n【解説】東京の天気は「曇りで寒い(cloudy and cold)」と言っています。",
-        aud_listen: "Boy: How is the weather in Tokyo today? Girl: It is cloudy and very cold. Question: How is the weather in Tokyo?",
+        exp: "【対話と質問】\nBoy: How is the weather in Tokyo today?\nGirl: It is cloudy and very cold.\nQuestion: How is the weather in Tokyo?\n\n【解説】東京の天気は「曇りで寒い(cloudy and cold)」と言っています。",
+        dialogue: [
+          { speaker: 'male', text: "How is the weather in Tokyo today?" },
+          { speaker: 'female', text: "It is cloudy and very cold." },
+          { speaker: 'narrator', text: "Question. How is the weather in Tokyo?" }
+        ],
         aud_complete: "How is the weather in Tokyo? It is cloudy and cold."
       },
       {
@@ -606,8 +613,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["The salt.", "The sugar.", "A cup of tea.", "A glass of water."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nFather: Could you pass me the salt, please?\nGirl: Sure, Dad. Here you are.\nQuestion: What does the father want?\n\n【解説】お父さんは「塩(the salt)」を頼んでいます。",
-        aud_listen: "Father: Could you pass me the salt, please? Girl: Sure, Dad. Here you are. Question: What does the father want?",
+        exp: "【対話と質問】\nFather: Could you pass me the salt, please?\nGirl: Sure, Dad. Here you are.\nQuestion: What does the father want?\n\n【解説】お父さんは「塩(the salt)」を頼んでいます。",
+        dialogue: [
+          { speaker: 'male', text: "Could you pass me the salt, please?" },
+          { speaker: 'female', text: "Sure, Dad. Here you are." },
+          { speaker: 'narrator', text: "Question. What does the father want?" }
+        ],
         aud_complete: "What does the father want? The salt."
       },
       {
@@ -615,8 +626,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["Clean her room.", "Go shopping.", "Study English.", "Play tennis."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nMother: What are you going to do this afternoon, Lucy?\nGirl: I am going to clean my room.\nQuestion: What will Lucy do this afternoon?\n\n【解説】ルーシーは「部屋を掃除する(clean her room)」と答えています。",
-        aud_listen: "Mother: What are you going to do this afternoon, Lucy? Girl: I am going to clean my room. Question: What will Lucy do this afternoon?",
+        exp: "【対話と質問】\nMother: What are you going to do this afternoon, Lucy?\nGirl: I am going to clean my room.\nQuestion: What will Lucy do this afternoon?\n\n【解説】ルーシーは「部屋を掃除する(clean her room)」と答えています。",
+        dialogue: [
+          { speaker: 'female', text: "What are you going to do this afternoon, Lucy?" },
+          { speaker: 'female', text: "I am going to clean my room." },
+          { speaker: 'narrator', text: "Question. What will Lucy do this afternoon?" }
+        ],
         aud_complete: "What will Lucy do this afternoon? Clean her room."
       },
       {
@@ -624,8 +639,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["By bicycle.", "On foot.", "By train.", "By car."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nTeacher: How do you come to school, Jack?\nBoy: I usually come by bicycle.\nQuestion: How does Jack come to school?\n\n【解説】ジャックは「自転車で(By bicycle)」通学しています。",
-        aud_listen: "Teacher: How do you come to school, Jack? Boy: I usually come by bicycle. Question: How does Jack come to school?",
+        exp: "【対話と質問】\nTeacher: How do you come to school, Jack?\nBoy: I usually come by bicycle.\nQuestion: How does Jack come to school?\n\n【解説】ジャックは「自転車で(By bicycle)」通学しています。",
+        dialogue: [
+          { speaker: 'female', text: "How do you come to school, Jack?" },
+          { speaker: 'male', text: "I usually come by bicycle." },
+          { speaker: 'narrator', text: "Question. How does Jack come to school?" }
+        ],
         aud_complete: "How does Jack come to school? By bicycle."
       },
       {
@@ -633,8 +652,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["He missed the bus.", "He was sick in bed.", "He lost his bag.", "He overslept."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nTeacher: Why were you late for school today, Tom?\nBoy: Because I missed the morning bus.\nQuestion: Why was Tom late?\n\n【解説】トムは「バスに乗り遅れた(He missed the bus)」と言っています。",
-        aud_listen: "Teacher: Why were you late for school today, Tom? Boy: Because I missed the morning bus. Question: Why was Tom late?",
+        exp: "【対話と質問】\nTeacher: Why were you late for school today, Tom?\nBoy: Because I missed the morning bus.\nQuestion: Why was Tom late?\n\n【解説】トムは「バスに乗り遅れた(He missed the bus)」と言っています。",
+        dialogue: [
+          { speaker: 'female', text: "Why were you late for school today, Tom?" },
+          { speaker: 'male', text: "Because I missed the morning bus." },
+          { speaker: 'narrator', text: "Question. Why was Tom late?" }
+        ],
         aud_complete: "Why was Tom late? He missed the bus."
       },
       {
@@ -642,8 +665,12 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["Yes, please.", "No, she wants water.", "She likes apples.", "She is full."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nBoy: Would you like some orange juice, Emma?\nGirl: Yes, please. I am very thirsty.\nQuestion: Does Emma want orange juice?\n\n【解説】エマは喉が渇いているので「はい、お願いします(Yes, please.)」と答えています。",
-        aud_listen: "Boy: Would you like some orange juice, Emma? Girl: Yes, please. I am very thirsty. Question: Does Emma want orange juice?",
+        exp: "【対話と質問】\nBoy: Would you like some orange juice, Emma?\nGirl: Yes, please. I am very thirsty.\nQuestion: Does Emma want orange juice?\n\n【解説】エマは喉が渇いているので「はい、お願いします(Yes, please.)」と答えています。",
+        dialogue: [
+          { speaker: 'male', text: "Would you like some orange juice, Emma?" },
+          { speaker: 'female', text: "Yes, please. I am very thirsty." },
+          { speaker: 'narrator', text: "Question. Does Emma want orange juice?" }
+        ],
         aud_complete: "Does Emma want orange juice? Yes, please."
       },
       {
@@ -651,13 +678,17 @@
         sub: "🎧 対話と最後の質問を聞いて、答えを選んでね",
         opt: ["For three years.", "For one year.", "Since yesterday.", "For five months."],
         ans: 0,
-        exp: "【聞き取った対話と質問】\nGirl: How long have you lived in Japan, Mike?\nBoy: I have lived here for three years.\nQuestion: How long has Mike lived in Japan?\n\n【解説】マイクは「3年間(for three years)」住んでいると答えています。",
-        aud_listen: "Girl: How long have you lived in Japan, Mike? Boy: I have lived here for three years. Question: How long has Mike lived in Japan?",
+        exp: "【対話と質問】\nGirl: How long have you lived in Japan, Mike?\nBoy: I have lived here for three years.\nQuestion: How long has Mike lived in Japan?\n\n【解説】マイクは「3年間(for three years)」住んでいると答えています。",
+        dialogue: [
+          { speaker: 'female', text: "How long have you lived in Japan, Mike?" },
+          { speaker: 'male', text: "I have lived here for three years." },
+          { speaker: 'narrator', text: "Question. How long has Mike lived in Japan?" }
+        ],
         aud_complete: "How long has Mike lived in Japan? For three years."
       }
     ];
 
-    // ==================== 音声読み上げエンジン (Web Speech API) ====================
+    // ==================== 音声読み上げエンジン（男女ボイス自動切り替え） ====================
     let voiceSpeed = 0.8;
 
     function toggleVoiceSpeed() {
@@ -677,6 +708,47 @@
         window.speechSynthesis.speak(uttr);
       } catch(e) {
         console.log('Speech error', e);
+      }
+    }
+
+    // リスニング専用：男女・ナレーターを交互に逐次発音するエンジン
+    function playDialogueSpeech(dialogueArray) {
+      if (!('speechSynthesis' in window) || !dialogueArray || dialogueArray.length === 0) return;
+      try {
+        window.speechSynthesis.cancel();
+        let index = 0;
+
+        function speakNextSegment() {
+          if (index >= dialogueArray.length) return;
+          const segment = dialogueArray[index];
+          const uttr = new SpeechSynthesisUtterance(segment.text);
+          uttr.lang = 'en-US';
+          uttr.rate = voiceSpeed;
+
+          // 声色・ピッチの自動割り当て
+          if (segment.speaker === 'female') {
+            uttr.pitch = 1.35; // 高め・女性の声
+          } else if (segment.speaker === 'male') {
+            uttr.pitch = 0.78; // 低め・男性の声
+          } else {
+            uttr.pitch = 1.05; // 標準・ナレーター
+          }
+
+          uttr.onend = () => {
+            index++;
+            setTimeout(speakNextSegment, 350); // セリフ間の自然なポーズ
+          };
+          uttr.onerror = () => {
+            index++;
+            speakNextSegment();
+          };
+
+          window.speechSynthesis.speak(uttr);
+        }
+
+        speakNextSegment();
+      } catch(e) {
+        console.log('Dialogue speech error', e);
       }
     }
 
@@ -833,7 +905,7 @@
     ];
 
     // ==================== ユーザーデータ管理 (LocalStorage) ====================
-    const STORAGE_KEY = 'eiken4_data_v12';
+    const STORAGE_KEY = 'eiken4_data_v13';
     let userData = {
       level: 1,
       exp: 0,
@@ -857,7 +929,7 @@
     ];
 
     let currentShopTab = 'hat';
-    let isDailyCurrentSession = false; // 今回のセッションがデイリーか通常か
+    let isDailyCurrentSession = false;
 
     function getTodayString() {
       const d = new Date();
@@ -919,7 +991,6 @@
             userData.streak = 1;
           }
           userData.lastLoginDate = today;
-          // 日付が変わったらデイリーをリセット！
           userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
         }
       } catch(e) {
@@ -974,7 +1045,6 @@
       if (expBar) expBar.style.width = `${pct}%`;
       setText('expText', `${userData.exp} / ${needed}`);
 
-      // アバター & 装備
       const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
       setText('heroAvatar', currentAvatar.emoji);
       setText('heroRank', currentAvatar.rank);
@@ -987,7 +1057,6 @@
       const auraEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
       setText('equipAuraIcon', auraEquip ? auraEquip.icon : '');
 
-      // 試験までの日数
       try {
         const examDate = new Date(2026, 9, 4);
         const today = new Date();
@@ -1000,14 +1069,12 @@
         setText('countdownDays', '49 日');
       }
 
-      // デイリー進捗＆UI切り替え（1回限定制御）
       let doneCount = 0;
       if (userData.dailyDone.vocab) doneCount++;
       if (userData.dailyDone.grammar) doneCount++;
       if (userData.dailyDone.listening) doneCount++;
       setText('dailyProgressText', `${doneCount} / 3 完了`);
 
-      // デイリー単語ボタン
       const actVocab = document.getElementById('questActionVocab');
       if (actVocab) {
         actVocab.innerHTML = userData.dailyDone.vocab
@@ -1015,7 +1082,6 @@
           : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
       }
 
-      // デイリー文法ボタン
       const actGrammar = document.getElementById('questActionGrammar');
       if (actGrammar) {
         actGrammar.innerHTML = userData.dailyDone.grammar
@@ -1023,7 +1089,6 @@
           : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
       }
 
-      // デイリーリスニングボタン
       const actListening = document.getElementById('questActionListening');
       if (actListening) {
         actListening.innerHTML = userData.dailyDone.listening
@@ -1031,7 +1096,6 @@
           : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
       }
 
-      // 全制覇ボーナスボタン
       const bonusArea = document.getElementById('dailyBonusArea');
       const bonusClaimedArea = document.getElementById('dailyBonusClaimedArea');
       if (bonusArea && bonusClaimedArea) {
@@ -1047,7 +1111,6 @@
         }
       }
 
-      // 保護者ダッシュボード
       setText('statTotalAnswers', `${userData.totalAnswered}問`);
       const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 0;
       setText('statAccuracy', `(${acc}%)`);
@@ -1063,7 +1126,6 @@
       renderShopEquips();
     }
 
-    // ==================== デイリー全制覇ボーナス受取 ====================
     function claimDailyAllBonus() {
       initAudio();
       if (userData.dailyDone.allClaimed) return;
@@ -1078,7 +1140,6 @@
       addExp(bonusExp);
     }
 
-    // ==================== ショップ・着せ替え処理 ====================
     function switchEquipTab(tab) {
       currentShopTab = tab;
       const tabHat = document.getElementById('tabEquipHat');
@@ -1285,12 +1346,11 @@
         options: shuffledOptions,
         ans: newAnsIndex,
         explain: item.exp,
-        audio_question: item.aud_listen,
+        dialogue: item.dialogue, // 男女のセリフ配列
         audio_complete: item.aud_complete
       };
     }
 
-    // デイリークエスト開始
     function startDailyQuest(type, count) {
       if (userData.dailyDone[type]) {
         alert('本日のこのデイリークエストは既にクリア済みです！通常特訓コースに挑戦しよう！');
@@ -1300,7 +1360,6 @@
       startSessionInternal(type, count);
     }
 
-    // 通常特訓コース開始（無制限）
     function startNormalMode(type, count) {
       isDailyCurrentSession = false;
       startSessionInternal(type, count);
@@ -1377,7 +1436,10 @@
       document.getElementById('quizQuestion').innerText = q.q;
       document.getElementById('quizSubText').innerText = q.sub || '';
 
-      if (q.audio_question) {
+      // 音声自動再生
+      if (q.type === 'listening' && q.dialogue) {
+        playDialogueSpeech(q.dialogue); // 男女の声で対話再生
+      } else if (q.audio_question) {
         speakText(q.audio_question);
       }
 
@@ -1397,6 +1459,8 @@
       if (!q) return;
       if (isAnswered && q.audio_complete) {
         speakText(q.audio_complete);
+      } else if (q.type === 'listening' && q.dialogue) {
+        playDialogueSpeech(q.dialogue);
       } else if (q.audio_question) {
         speakText(q.audio_question);
       }
@@ -1472,7 +1536,6 @@
       let earnedGems = 0;
 
       if (isDailyCurrentSession) {
-        // === デイリークエストの超豪華報酬 ===
         document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-amber-400 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
 
@@ -1490,7 +1553,6 @@
           earnedGems = 25;
         }
       } else {
-        // === 通常特訓コースのコツコツ報酬 ===
         document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full inline-block mb-1';
         earnedExp = quizScore * 5 + (maxCombo * 2);
