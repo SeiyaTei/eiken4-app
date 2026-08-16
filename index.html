@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>英検4級 合格クエスト</title>
+  <title>英検4級 合格クエスト 〜50日間の冒険〜</title>
   
-  <!-- アプリ化（PWA）必須タグ -->
+  <!-- PWA アプリ化設定 -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1e1b4b">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/5260/5260505.png">
@@ -13,143 +13,200 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes bounce-slow {
-      0%, 100% { transform: translateY(-5%); }
-      50% { transform: translateY(5%); }
+      0%, 100% { transform: translateY(-4%); }
+      50% { transform: translateY(4%); }
     }
     .animate-bounce-slow { animation: bounce-slow 2s infinite ease-in-out; }
     @keyframes pulse-gold {
-      0%, 100% { box-shadow: 0 0 15px rgba(234, 179, 8, 0.5); }
-      50% { box-shadow: 0 0 25px rgba(234, 179, 8, 0.9); }
+      0%, 100% { box-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(234, 179, 8, 0.8); }
     }
     .glow-gold { animation: pulse-gold 2s infinite; }
   </style>
 </head>
-<body class="bg-indigo-950 text-slate-100 min-h-screen pb-20 font-sans selection:bg-amber-400 selection:text-indigo-950 select-none">
+<body class="bg-indigo-950 text-slate-100 min-h-screen pb-24 font-sans selection:bg-amber-400 selection:text-indigo-950 select-none">
 
-  <!-- ヘッダー -->
-  <header class="bg-indigo-900/90 backdrop-blur border-b border-indigo-700/50 sticky top-0 z-40 px-4 py-2.5">
+  <!-- ヘッダー / ステータスバー -->
+  <header class="bg-indigo-900/90 backdrop-blur border-b border-indigo-700/50 sticky top-0 z-40 px-3 py-2">
     <div class="max-w-md mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5">
         <span class="text-2xl">⚔️</span>
         <div>
-          <h1 class="text-[10px] font-black tracking-wider text-amber-400 uppercase">Eiken Grade 4</h1>
-          <div class="text-sm font-black text-white flex items-center gap-1">
-            合格クエスト <span id="headerLevel" class="text-xs bg-amber-500 text-indigo-950 px-1.5 py-0.2 rounded font-black">Lv.1</span>
+          <h1 class="text-[9px] font-black tracking-wider text-amber-400 uppercase">Eiken Grade 4</h1>
+          <div class="text-xs font-black text-white flex items-center gap-1">
+            合格クエスト <span id="headerLevel" class="text-[10px] bg-amber-500 text-indigo-950 px-1 py-0.2 rounded font-black">Lv.1</span>
           </div>
         </div>
       </div>
-      <div class="flex items-center gap-2 text-xs">
-        <button id="btnBgmToggle" onclick="toggleBGM()" class="bg-indigo-800 border border-indigo-600 px-2.5 py-1 rounded-full text-slate-300 font-bold active:scale-95 transition">
+      
+      <!-- オーディオ設定 & ステータス -->
+      <div class="flex items-center gap-1.5 text-xs">
+        <button id="btnSpeedToggle" onclick="toggleVoiceSpeed()" class="bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-indigo-200">
+          🗣️ ゆっくり
+        </button>
+        <button id="btnBgmToggle" onclick="toggleBGM()" class="bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-slate-300">
           🎵 OFF
         </button>
-        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full flex items-center gap-1 font-bold text-amber-300">
-          🔥 <span id="streakCount">0</span>
+        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full text-[10px] font-bold text-amber-300">
+          🔥 <span id="streakCount">1</span>日
         </div>
-        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full flex items-center gap-1 font-bold text-emerald-400">
+        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full text-[10px] font-bold text-emerald-400">
           💎 <span id="gemCount">0</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- メインコンテンツ -->
+  <!-- メイン画面コンテナ -->
   <main class="max-w-md mx-auto p-4 space-y-4">
 
-    <!-- 1. ホーム画面 -->
+    <!-- ==================== 1. ホーム画面 ==================== -->
     <div id="viewHome" class="space-y-4">
-      <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+      
+      <!-- 相棒モンスター & レベル -->
+      <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative">
-            <div id="heroAvatar" class="w-20 h-20 rounded-2xl bg-indigo-950/60 border-2 border-amber-400 flex items-center justify-center text-4xl shadow-inner animate-bounce-slow">🐣</div>
-            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[10px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow">見習い</span>
+            <div id="heroAvatar" class="w-20 h-20 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-4xl shadow-inner animate-bounce-slow">
+              🐣
+            </div>
+            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow">
+              見習いヒナ
+            </span>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-baseline mb-1">
               <h2 id="heroName" class="font-black text-base text-white truncate">タマゴン</h2>
               <span id="levelLabel" class="text-xs font-black text-amber-400">Lv.1</span>
             </div>
+            <!-- EXPバー -->
             <div class="w-full bg-indigo-950/80 rounded-full h-3 border border-indigo-700 overflow-hidden mb-1">
               <div id="expBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
             </div>
             <div class="flex justify-between text-[10px] text-indigo-300 font-bold">
-              <span>EXP</span><span id="expText">0 / 100</span>
+              <span>EXP</span>
+              <span id="expText">0 / 100</span>
             </div>
           </div>
         </div>
-        <div class="mt-4 pt-3 border-t border-indigo-700/50 flex justify-between items-center text-xs">
-          <span class="text-indigo-200">🎯 10月試験まで あと</span>
+
+        <!-- 10月試験までのカウントダウン -->
+        <div class="mt-3 pt-2.5 border-t border-indigo-700/50 flex justify-between items-center text-xs">
+          <span class="text-indigo-200">🎯 10月試験本番まで あと</span>
           <span id="countdownDays" class="font-black text-amber-300 text-sm">-- 日</span>
         </div>
       </div>
 
+      <!-- 今日の3大デイリークエスト -->
       <div class="bg-indigo-900/60 border border-indigo-800 rounded-2xl p-4 shadow-lg">
-        <div class="flex justify-between items-center mb-3">
-          <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5">📜 今日のクエスト</h3>
-          <span id="dailyProgressText" class="text-xs text-indigo-300 font-bold">0/3 完了</span>
+        <div class="flex justify-between items-center mb-2.5">
+          <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5">
+            📜 今日のデイリークエスト
+          </h3>
+          <span id="dailyProgressText" class="text-xs text-indigo-300 font-bold">0 / 3 完了</span>
         </div>
         <div class="space-y-2 text-xs">
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-3 rounded-xl flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
+          <div id="questCardVocab" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
               <span class="text-lg">📖</span>
-              <div><div class="font-bold text-slate-200">重要単語 5問</div><div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div></div>
+              <div>
+                <div class="font-bold text-slate-200" id="questTitleVocab">重要単語 5問バトル</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div>
+              </div>
             </div>
-            <button onclick="startMode('vocab', 5)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg transition active:scale-95">挑戦</button>
+            <button onclick="startMode('vocab', 5)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
           </div>
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-3 rounded-xl flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
+
+          <div id="questCardGrammar" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
               <span class="text-lg">🪄</span>
-              <div><div class="font-bold text-slate-200">文法・会話 3問</div><div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div></div>
+              <div>
+                <div class="font-bold text-slate-200" id="questTitleGrammar">文法・会話 3問バトル</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+30 EXP / 💎+5</div>
+              </div>
             </div>
-            <button onclick="startMode('grammar', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg transition active:scale-95">挑戦</button>
+            <button onclick="startMode('grammar', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
           </div>
-          <div class="bg-indigo-950/70 border border-indigo-700/60 p-3 rounded-xl flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
+
+          <div id="questCardListening" class="bg-indigo-950/70 border border-indigo-700/60 p-2.5 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
               <span class="text-lg">🎧</span>
-              <div><div class="font-bold text-slate-200">リスニング 3問</div><div class="text-[10px] text-amber-400 font-semibold">+40 EXP / 💎+10</div></div>
+              <div>
+                <div class="font-bold text-slate-200" id="questTitleListening">リスニング 3問バトル</div>
+                <div class="text-[10px] text-amber-400 font-semibold">+40 EXP / 💎+10</div>
+              </div>
             </div>
-            <button onclick="startMode('listening', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg transition active:scale-95">挑戦</button>
+            <button onclick="startMode('listening', 3)" class="bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">挑戦</button>
           </div>
         </div>
       </div>
 
+      <!-- 特訓コース選択メニュー -->
       <div class="grid grid-cols-2 gap-3">
-        <button onclick="startMode('vocab', 10)" class="bg-gradient-to-br from-blue-600 to-indigo-700 p-4 rounded-2xl border border-blue-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">📚</div><div class="font-black text-sm text-white">単語バトル</div><div class="text-[10px] text-blue-200 mt-0.5">でる順 4級単語</div>
+        <button onclick="startMode('vocab', 10)" class="bg-gradient-to-br from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 p-3.5 rounded-2xl border border-blue-400/40 text-left shadow-lg transition active:scale-95">
+          <div class="text-2xl mb-1">📚</div>
+          <div class="font-black text-sm text-white">単語・熟語バトル</div>
+          <div class="text-[10px] text-blue-200 mt-0.5">でる順 10問特訓</div>
         </button>
-        <button onclick="startWeakMode()" class="bg-gradient-to-br from-rose-600 to-red-700 p-4 rounded-2xl border border-rose-400/40 text-left shadow-lg transition active:scale-95">
-          <div class="text-2xl mb-1">👾</div><div class="font-black text-sm text-white">にがて討伐</div><div class="text-[10px] text-rose-200 mt-0.5">復習 (<span id="weakBadgeCount">0</span>問)</div>
+
+        <button onclick="startMode('grammar', 5)" class="bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 p-3.5 rounded-2xl border border-emerald-400/40 text-left shadow-lg transition active:scale-95">
+          <div class="text-2xl mb-1">🪄</div>
+          <div class="font-black text-sm text-white">文法・会話の森</div>
+          <div class="text-[10px] text-emerald-200 mt-0.5">過去形・助動詞・比較</div>
+        </button>
+
+        <button onclick="startMode('listening', 5)" class="bg-gradient-to-br from-purple-600 to-pink-700 hover:from-purple-500 hover:to-pink-600 p-3.5 rounded-2xl border border-purple-400/40 text-left shadow-lg transition active:scale-95">
+          <div class="text-2xl mb-1">🎧</div>
+          <div class="font-black text-sm text-white">リスニングの塔</div>
+          <div class="text-[10px] text-purple-200 mt-0.5">音声聞き取り 5問</div>
+        </button>
+
+        <button onclick="startWeakMode()" class="bg-gradient-to-br from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 p-3.5 rounded-2xl border border-rose-400/40 text-left shadow-lg transition active:scale-95">
+          <div class="text-2xl mb-1">👾</div>
+          <div class="font-black text-sm text-white">にがて討伐</div>
+          <div class="text-[10px] text-rose-200 mt-0.5">ミス問題 (<span id="weakBadgeCount">0</span>問)</div>
         </button>
       </div>
+
     </div>
 
-    <!-- 2. バトル画面 -->
+
+    <!-- ==================== 2. クイズ・バトル画面 ==================== -->
     <div id="viewQuiz" class="hidden space-y-4">
-      <div class="flex items-center justify-between bg-indigo-900/70 p-3 rounded-2xl border border-indigo-800">
-        <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
+      
+      <div class="flex items-center justify-between bg-indigo-900/70 p-2.5 rounded-2xl border border-indigo-800">
+        <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2.5 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
         <div class="text-xs font-bold text-amber-400" id="quizProgress">第 1 / 5 問</div>
-        <div class="text-xs font-black text-yellow-300 bg-amber-500/20 border border-amber-500/40 px-2 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
+        <div class="text-xs font-black text-yellow-300 bg-amber-500/20 border border-amber-500/40 px-2.5 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
       </div>
 
+      <!-- モンスター＆出題カード -->
       <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-5 shadow-2xl relative">
-        <div class="flex flex-col items-center justify-center mb-4">
-          <div id="enemyAvatar" class="text-5xl mb-2 animate-bounce-slow">👹</div>
+        <div class="flex flex-col items-center justify-center mb-3">
+          <div id="enemyAvatar" class="text-5xl mb-1.5 animate-bounce-slow">👹</div>
+          <div id="enemyName" class="text-[10px] font-bold text-indigo-300">英語モンスター</div>
           <div class="w-32 bg-indigo-950 rounded-full h-2 border border-indigo-700 mt-1 overflow-hidden">
             <div id="enemyHpBar" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
+
+        <!-- 音声再生ボタン -->
         <div class="flex justify-center mb-3">
-          <button onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
-            🔊 音声をきく
+          <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
+            🔊 もう一度きく
           </button>
         </div>
+
         <div class="text-center min-h-[60px] flex items-center justify-center px-2 mb-2">
-          <p id="quizQuestion" class="text-lg font-black text-white leading-snug"></p>
+          <p id="quizQuestion" class="text-lg font-black text-white leading-snug whitespace-pre-line"></p>
         </div>
         <p id="quizSubText" class="text-center text-xs text-indigo-300 font-medium min-h-[18px]"></p>
       </div>
 
+      <!-- 4択ボタン -->
       <div id="quizOptions" class="grid grid-cols-1 gap-2.5"></div>
 
+      <!-- 正解・不正解の解説フィードバック -->
       <div id="quizFeedback" class="hidden bg-indigo-900 border-2 border-amber-400 p-4 rounded-2xl space-y-2 shadow-2xl">
         <div class="flex items-center gap-2">
           <span id="feedbackIcon" class="text-2xl">⭕</span>
@@ -157,51 +214,153 @@
         </div>
         <p id="feedbackExplain" class="text-xs text-slate-200 leading-relaxed"></p>
         <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
-          つぎへ ➔
+          つぎへ進む ➔
         </button>
       </div>
+
     </div>
 
-    <!-- 3. リザルト画面 -->
+
+    <!-- ==================== 3. リザルト画面 ==================== -->
     <div id="viewResult" class="hidden space-y-4 text-center py-4">
       <div class="bg-gradient-to-b from-indigo-800 to-indigo-950 border-2 border-amber-400 rounded-3xl p-6 shadow-2xl space-y-4 glow-gold">
         <div class="text-6xl animate-bounce">🏆</div>
         <div>
           <h3 class="text-xl font-black text-amber-300">クエストクリア！</h3>
+          <p id="resultComment" class="text-xs text-indigo-200 mt-1">素晴らしい集中力です！</p>
         </div>
+
         <div class="grid grid-cols-3 gap-2 bg-indigo-950/80 p-3 rounded-2xl border border-indigo-700 text-xs">
-          <div><div class="text-indigo-400 text-[10px] font-bold">正解数</div><div id="resultScore" class="font-black text-base text-white"></div></div>
-          <div><div class="text-indigo-400 text-[10px] font-bold">獲得EXP</div><div id="resultExp" class="font-black text-base text-amber-400"></div></div>
-          <div><div class="text-indigo-400 text-[10px] font-bold">獲得ダイヤ</div><div id="resultGems" class="font-black text-base text-emerald-400"></div></div>
+          <div>
+            <div class="text-indigo-400 text-[10px] font-bold">正解数</div>
+            <div id="resultScore" class="font-black text-base text-white">5 / 5</div>
+          </div>
+          <div>
+            <div class="text-indigo-400 text-[10px] font-bold">獲得EXP</div>
+            <div id="resultExp" class="font-black text-base text-amber-400">+50</div>
+          </div>
+          <div>
+            <div class="text-indigo-400 text-[10px] font-bold">獲得ダイヤ</div>
+            <div id="resultGems" class="font-black text-base text-emerald-400">💎+5</div>
+          </div>
         </div>
-        <button onclick="showHome()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-3 rounded-xl text-sm shadow-lg active:scale-95 transition">
-          拠点にもどる 🏠
+
+        <button onclick="showHome()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-3 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
+          拠点（ホーム）にもどる 🏠
         </button>
       </div>
     </div>
+
+
+    <!-- ==================== 4. 保護者用ダッシュボード ==================== -->
+    <div id="viewParent" class="hidden space-y-4">
+      <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-4 space-y-3">
+        <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5 border-b border-indigo-800 pb-2">
+          📊 学習進捗と合格可能性メーター
+        </h3>
+        
+        <div class="grid grid-cols-2 gap-2.5 text-xs">
+          <div class="bg-indigo-950 p-3 rounded-xl border border-indigo-800">
+            <span class="text-indigo-400 text-[10px] block mb-1">総解答数 / 正解率</span>
+            <span id="statTotalAnswers" class="text-base font-black text-white">0問</span>
+            <span id="statAccuracy" class="text-xs font-bold text-emerald-400 ml-1">(0%)</span>
+          </div>
+          <div class="bg-indigo-950 p-3 rounded-xl border border-indigo-800">
+            <span class="text-indigo-400 text-[10px] block mb-1">合格予想判定</span>
+            <span id="statPassRate" class="text-xs font-black text-amber-300 block mt-1">判定中</span>
+          </div>
+        </div>
+
+        <!-- データのバックアップ・復元 -->
+        <div class="pt-2 border-t border-indigo-800 space-y-2 text-xs">
+          <span class="text-[10px] text-indigo-300 font-bold block">データ管理（バックアップ）</span>
+          <div class="flex gap-2">
+            <button onclick="exportData()" class="flex-1 bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-2.5 rounded-lg border border-indigo-600 transition text-[11px]">📤 バックアップ保存</button>
+            <label class="flex-1 bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-2.5 rounded-lg border border-indigo-600 text-center cursor-pointer transition text-[11px]">
+              📥 データ復元
+              <input type="file" id="importFileInput" onchange="importData(event)" class="hidden">
+            </label>
+          </div>
+          <button onclick="resetAllProgress()" class="w-full text-rose-400 hover:text-rose-300 text-[10px] font-bold py-1 text-center">⚠️ データを初期化する</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
+  <!-- ボトムナビゲーションバー -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
+    <div class="max-w-md mx-auto flex justify-around text-xs font-bold">
+      <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-400">
+        <span class="text-lg">🏠</span>
+        <span>クエスト</span>
+      </button>
+      <button onclick="startWeakMode()" id="navWeak" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
+        <span class="text-lg">👾</span>
+        <span>にがて帳</span>
+      </button>
+      <button onclick="showParent()" id="navParent" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
+        <span class="text-lg">📊</span>
+        <span>保護者/成績</span>
+      </button>
+    </div>
+  </nav>
+
   <script>
-    // ======= PWA Service Worker 登録 =======
+    // ==================== PWA Service Worker 登録 ====================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW登録失敗:', err));
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW登録スキップ:', err));
       });
     }
 
-    // ======= 問題データ =======
+    // ==================== 英検4級 網羅問題データベース ====================
     const QUESTION_BANK = [
+      // 単語・熟語
       { id: 'v1', type: 'vocab', q: 'listen to ~', sub: 'この熟語の意味は？', options: ['〜を見る', '〜を聞く', '〜を話す', '〜を書く'], ans: 1, explain: 'listen to ~ で「〜を聞く」という意味です。', audio: 'listen to' },
       { id: 'v2', type: 'vocab', q: 'look for ~', sub: 'この熟語の意味は？', options: ['〜をさがす', '〜の世話をする', '〜を見る', '〜に似ている'], ans: 0, explain: 'look for ~ で「〜をさがす」という意味です。', audio: 'look for' },
       { id: 'v3', type: 'vocab', q: 'library', sub: 'この単語の意味は？', options: ['図書館', '病院', '駅', '公園'], ans: 0, explain: 'library は「図書館」という意味です。', audio: 'library' },
       { id: 'v4', type: 'vocab', q: 'yesterday', sub: 'この単語の意味は？', options: ['あした', 'きのう', 'きょう', '来週'], ans: 1, explain: 'yesterday は「昨日（きのう）」という意味です。', audio: 'yesterday' },
-      { id: 'g1', type: 'grammar', q: 'I ( ) to the park yesterday.', sub: 'カッコに入る正しい言葉は？', options: ['go', 'went', 'going', 'goes'], ans: 1, explain: 'yesterday（昨日）があるので過去形の went が正解です。', audio: 'I went to the park yesterday.' },
-      { id: 'g2', type: 'grammar', q: 'A: ( ) is your birthday?\nB: It is May 5th.', sub: '誕生日をたずねる疑問詞は？', options: ['Where', 'Who', 'When', 'What'], ans: 2, explain: '日付をたずねているので When（いつ）が正解です。', audio: 'When is your birthday?' },
-      { id: 'l1', type: 'listening', q: '音声を聞いて、適切な応答を選ぼう。\n"What time do you usually get up?"', sub: '対話の返答を選んでください', options: ['At seven o\'clock.', 'By bus.', 'Yes, I do.', 'In my room.'], ans: 0, explain: 'What time（何時？）と聞かれているので「7時です」と答えます。', audio: 'What time do you usually get up?' },
-      { id: 'l2', type: 'listening', q: '音声を聞いて、適切な応答を選ぼう。\n"May I help you?"', sub: 'お店での会話に答えよう', options: ['Yes, I am.', 'No, thank you. I\'m just looking.', 'Here you are.', 'You\'re welcome.'], ans: 1, explain: '「いらっしゃいませ」に対して「見ているだけです」と答えます。', audio: 'May I help you?' }
+      { id: 'v5', type: 'vocab', q: 'excited', sub: 'この単語の意味は？', options: ['わくわくした', 'つかれた', 'ねむい', 'お腹がすいた'], ans: 0, explain: 'excited は「興奮した、わくわくした」という意味です。', audio: 'excited' },
+      { id: 'v6', type: 'vocab', q: 'arrive at ~', sub: 'この熟語の意味は？', options: ['〜を出発する', '〜に到着する', '〜を通り過ぎる', '〜にとどまる'], ans: 1, explain: 'arrive at ~ で「〜に到着する」という意味です。', audio: 'arrive at' },
+      { id: 'v7', type: 'vocab', q: 'famous', sub: 'この単語の意味は？', options: ['有名な', '危険な', '静かな', '親切な'], ans: 0, explain: 'famous は「有名な」という意味です。', audio: 'famous' },
+      { id: 'v8', type: 'vocab', q: 'take care of ~', sub: 'この熟語の意味は？', options: ['〜を連れて行く', '〜の世話をする', '〜を片付ける', '〜を始める'], ans: 1, explain: 'take care of ~ で「〜の世話をする」という意味です。', audio: 'take care of' },
+      { id: 'v9', type: 'vocab', q: 'delicious', sub: 'この単語の意味は？', options: ['おいしい', 'まずい', '高い', '甘い'], ans: 0, explain: 'delicious は「とてもおいしい」という意味です。', audio: 'delicious' },
+      { id: 'v10', type: 'vocab', q: 'enjoy ~ing', sub: 'この表現の意味は？', options: ['〜するのを楽しむ', '〜するのをやめる', '〜したい', '〜するのを忘れる'], ans: 0, explain: 'enjoy ~ing で「〜して楽しむ」という意味です。', audio: 'enjoy playing' },
+
+      // 文法・会話
+      { id: 'g1', type: 'grammar', q: 'I ( ) to the park yesterday.', sub: 'カッコに入る正しい過去形は？', options: ['go', 'went', 'going', 'goes'], ans: 1, explain: 'yesterday（昨日）があるので go の過去形 went が正解です。', audio: 'I went to the park yesterday.' },
+      { id: 'g2', type: 'grammar', q: 'A: ( ) is your birthday?\nB: It is May 5th.', sub: '誕生日（いつ）をたずねる疑問詞は？', options: ['Where', 'Who', 'When', 'What'], ans: 2, explain: '日付（いつ）を聞いているので When が正解です。', audio: 'When is your birthday?' },
+      { id: 'g3', type: 'grammar', q: 'Ken is ( ) than Tom.', sub: '2人を比べる比較級は？', options: ['tall', 'taller', 'tallest', 'more tall'], ans: 1, explain: 'than（〜より）があるので比較級の taller が正解です。', audio: 'Ken is taller than Tom.' },
+      { id: 'g4', type: 'grammar', q: 'I want ( ) a doctor in the future.', sub: '医者に「なること」を望む不定詞は？', options: ['become', 'became', 'to become', 'becoming'], ans: 2, explain: 'want to ~ で「〜したい」という表現になります。', audio: 'I want to become a doctor in the future.' },
+      { id: 'g5', type: 'grammar', q: 'You ( ) wash your hands before dinner.', sub: '〜しなければならない（助動詞）は？', options: ['must', 'may', 'can', 'shall'], ans: 0, explain: 'must は「〜しなければならない」という義務を表します。', audio: 'You must wash your hands before dinner.' },
+      { id: 'g6', type: 'grammar', q: 'We will ( ) soccer tomorrow.', sub: 'will（未来）の後の動詞の形は？', options: ['play', 'played', 'playing', 'plays'], ans: 0, explain: '助動詞 will の後は「動詞の原形」がきます。', audio: 'We will play soccer tomorrow.' },
+
+      // リスニング
+      { id: 'l1', type: 'listening', q: '音声を聞いて、適切な応答を選ぼう。\n"What time do you usually get up?"', sub: '対話の返答を選んでください', options: ['At seven o\'clock.', 'By bus.', 'Yes, I do.', 'In my room.'], ans: 0, explain: 'What time（何時？）と聞かれているので「7時です(At seven o\'clock)」と答えます。', audio: 'What time do you usually get up?' },
+      { id: 'l2', type: 'listening', q: '音声を聞いて、適切な応答を選ぼう。\n"May I help you?"', sub: 'お店での会話に答えよう', options: ['Yes, I am.', 'No, thank you. I\'m just looking.', 'Here you are.', 'You\'re welcome.'], ans: 1, explain: '「いらっしゃいませ（何かお手伝いしましょうか？）」に対して「見ているだけです」と答えます。', audio: 'May I help you?' },
+      { id: 'l3', type: 'listening', q: '音声を聞いて、場所を当てよう。\n"Where are you going this weekend?"', sub: '今週末どこに行くか答えているのは？', options: ['I will go to the zoo.', 'I played soccer.', 'It is sunny.', 'With my brother.'], ans: 0, explain: 'Where（どこに行くの？）に対して動物園に行くと答えている文が正解です。', audio: 'Where are you going this weekend?' }
     ];
 
-    // ======= BGM & SE エンジン =======
+    // ==================== 音声読み上げエンジン (Web Speech API) ====================
+    let voiceSpeed = 0.8; // ゆっくりめ
+
+    function toggleVoiceSpeed() {
+      voiceSpeed = (voiceSpeed === 0.8) ? 1.0 : 0.8;
+      document.getElementById('btnSpeedToggle').innerText = (voiceSpeed === 0.8) ? '🗣️ ゆっくり' : '🗣️ ふつう';
+      speakText(voiceSpeed === 0.8 ? 'Slow speed' : 'Normal speed');
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const uttr = new SpeechSynthesisUtterance(text);
+      uttr.lang = 'en-US';
+      uttr.rate = voiceSpeed;
+      window.speechSynthesis.speak(uttr);
+    }
+
+    // ==================== レトロゲーム風 BGM & SE エンジン (Web Audio API) ====================
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let actx = null;
     let isBgmEnabled = false;
@@ -209,12 +368,11 @@
     let currentSequence = [];
     let currentStep = 0;
     
-    // ピッチ変換
     const noteFreq = { 'G3':196, 'A3':220, 'C4':261.6, 'D4':293.7, 'E4':329.6, 'F4':349.2, 'G4':392.0, 'A4':440.0, 'B4':493.9, 'C5':523.3, 'D5':587.3, 'E5':659.3, 'G5':784.0, 'C6':1046.5 };
 
     const BGM_DATA = {
-      home: { seq: ['C4',null,'E4',null,'G4',null,'C5',null,'G4',null,'E4',null], speed: 300, type: 'triangle', vol: 0.03 },
-      battle: { seq: ['A3','A3','C4','E4','D4','D4','F4','G4'], speed: 180, type: 'square', vol: 0.02 },
+      home: { seq: ['C4',null,'E4',null,'G4',null,'C5',null,'G4',null,'E4',null], speed: 280, type: 'triangle', vol: 0.03 },
+      battle: { seq: ['A3','A3','C4','E4','D4','D4','F4','G4'], speed: 170, type: 'square', vol: 0.02 },
       result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 }
     };
 
@@ -226,10 +384,11 @@
     function toggleBGM() {
       initAudio();
       isBgmEnabled = !isBgmEnabled;
-      document.getElementById('btnBgmToggle').innerHTML = isBgmEnabled ? '🎵 ON' : '🎵 OFF';
-      document.getElementById('btnBgmToggle').className = isBgmEnabled 
-        ? "bg-amber-500 border border-amber-400 px-2.5 py-1 rounded-full text-indigo-950 font-black active:scale-95 transition"
-        : "bg-indigo-800 border border-indigo-600 px-2.5 py-1 rounded-full text-slate-300 font-bold active:scale-95 transition";
+      const btn = document.getElementById('btnBgmToggle');
+      btn.innerHTML = isBgmEnabled ? '🎵 ON' : '🎵 OFF';
+      btn.className = isBgmEnabled 
+        ? "bg-amber-500 border border-amber-400 px-2 py-1 rounded-full text-[10px] font-black text-indigo-950 transition"
+        : "bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-slate-300 transition";
       
       if(isBgmEnabled) playBGM('home');
       else stopBGM();
@@ -280,65 +439,163 @@
       if(type === 'correct') {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(523.25, now);
-        osc.frequency.setValueAtTime(783.99, now + 0.1);
-        gain.gain.setValueAtTime(0.1, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-        osc.start(now); osc.stop(now + 0.3);
+        osc.frequency.setValueAtTime(659.25, now + 0.08);
+        osc.frequency.setValueAtTime(783.99, now + 0.16);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
       } else if(type === 'wrong') {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(220, now);
         osc.frequency.setValueAtTime(196, now + 0.15);
-        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.setValueAtTime(0.12, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
         osc.start(now); osc.stop(now + 0.3);
+      } else if(type === 'levelup') {
+        osc.type = 'triangle';
+        [523, 659, 783, 1046].forEach((freq, idx) => {
+          osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+        });
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+        osc.start(now); osc.stop(now + 0.5);
       }
     }
 
-    function speakText(text) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const uttr = new SpeechSynthesisUtterance(text);
-      uttr.lang = 'en-US';
-      uttr.rate = 0.85;
-      window.speechSynthesis.speak(uttr);
+    // ==================== ユーザーデータ & 進捗管理 (LocalStorage) ====================
+    const STORAGE_KEY = 'eiken4_data_v3';
+    let userData = {
+      level: 1,
+      exp: 0,
+      gems: 0,
+      streak: 1,
+      lastLoginDate: getTodayString(),
+      weakList: [],
+      totalAnswered: 0,
+      totalCorrect: 0,
+      dailyDone: { vocab: false, grammar: false, listening: false }
+    };
+
+    const AVATARS = [
+      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+      { minLv: 5, emoji: '🐥', rank: '勇敢なトリ', name: 'バードン' },
+      { minLv: 10, emoji: '🦅', rank: '天空のタカ', name: 'スカイホーク' },
+      { minLv: 20, emoji: '🐉', rank: '伝説の英検ドラゴン', name: 'ドラゴニクス' }
+    ];
+
+    function getTodayString() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     }
 
-    // ======= ユーザーデータ管理 =======
-    let userData = { level: 1, exp: 0, gems: 0, weakList: [] };
-    const AVATARS = [{ minLv: 1, emoji: '🐣', rank: '見習い', name: 'タマゴン' }, { minLv: 5, emoji: '🐥', rank: '勇者', name: 'バードン' }];
-
     function loadData() {
-      const saved = localStorage.getItem('eiken4_data_v2');
-      if (saved) userData = { ...userData, ...JSON.parse(saved) };
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          userData = { ...userData, ...JSON.parse(saved) };
+          checkDailyStreak();
+        } catch(e) { console.error("データ読み込み失敗", e); }
+      }
       updateUiState();
     }
 
     function saveData() {
-      localStorage.setItem('eiken4_data_v2', JSON.stringify(userData));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
       updateUiState();
+    }
+
+    function checkDailyStreak() {
+      const today = getTodayString();
+      if (userData.lastLoginDate !== today) {
+        const last = new Date(userData.lastLoginDate);
+        const current = new Date(today);
+        const diffDays = Math.round((current - last) / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) {
+          userData.streak += 1;
+        } else if (diffDays > 1) {
+          userData.streak = 1;
+        }
+        userData.lastLoginDate = today;
+        userData.dailyDone = { vocab: false, grammar: false, listening: false };
+      }
+    }
+
+    function addExp(amount) {
+      userData.exp += amount;
+      let needed = userData.level * 100;
+      let leveledUp = false;
+      while (userData.exp >= needed) {
+        userData.exp -= needed;
+        userData.level += 1;
+        needed = userData.level * 100;
+        leveledUp = true;
+      }
+      if (leveledUp) {
+        playSE('levelup');
+        alert(`🎉 レベルアップ！ Lv.${userData.level} に到達しました！`);
+      }
+      saveData();
     }
 
     function updateUiState() {
       document.getElementById('headerLevel').innerText = `Lv.${userData.level}`;
       document.getElementById('levelLabel').innerText = `Lv.${userData.level}`;
+      document.getElementById('streakCount').innerText = userData.streak;
       document.getElementById('gemCount').innerText = userData.gems;
       document.getElementById('weakBadgeCount').innerText = userData.weakList.length;
 
+      // EXPバー
       const needed = userData.level * 100;
-      document.getElementById('expBar').style.width = `${Math.min(100, (userData.exp / needed) * 100)}%`;
+      const pct = Math.min(100, Math.round((userData.exp / needed) * 100));
+      document.getElementById('expBar').style.width = `${pct}%`;
       document.getElementById('expText').innerText = `${userData.exp} / ${needed}`;
 
-      const examDate = new Date(2026, 9, 4); // 2026年10月4日
-      const daysLeft = Math.max(0, Math.ceil((examDate - new Date()) / (1000 * 60 * 60 * 24)));
+      // アバター進化
+      const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+      document.getElementById('heroAvatar').innerText = currentAvatar.emoji;
+      document.getElementById('heroRank').innerText = currentAvatar.rank;
+      document.getElementById('heroName').innerText = currentAvatar.name;
+
+      // 試験までの日数
+      const examDate = new Date(2026, 9, 4); // 2026年10月4日想定
+      const today = new Date();
+      const daysLeft = Math.max(0, Math.ceil((examDate - today) / (1000 * 60 * 60 * 24)));
       document.getElementById('countdownDays').innerText = `${daysLeft} 日`;
+
+      // デイリー進捗
+      let doneCount = 0;
+      if (userData.dailyDone.vocab) doneCount++;
+      if (userData.dailyDone.grammar) doneCount++;
+      if (userData.dailyDone.listening) doneCount++;
+      document.getElementById('dailyProgressText').innerText = `${doneCount} / 3 完了`;
+
+      // 保護者ダッシュボード
+      document.getElementById('statTotalAnswers').innerText = `${userData.totalAnswered}問`;
+      const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 0;
+      document.getElementById('statAccuracy').innerText = `(${acc}%)`;
+      
+      let passRate = '判定中 (15問以上で判定)';
+      if (userData.totalAnswered >= 15) {
+        if (acc >= 75) passRate = '💮 合格圏内 (A判定)';
+        else if (acc >= 60) passRate = '✨ 合格可能 (B判定)';
+        else passRate = '🔥 基礎強化中 (C判定)';
+      }
+      document.getElementById('statPassRate').innerText = passRate;
     }
 
-    // ======= クイズロジック =======
-    let currentQueue = [], currentIndex = 0, score = 0, combo = 0;
-    const MONSTERS = ['👹', '👾', '🐲'];
+    // ==================== クイズ＆バトルエンジン ====================
+    let currentQueue = [];
+    let currentIndex = 0;
+    let currentMode = '';
+    let quizScore = 0;
+    let combo = 0;
+    let maxCombo = 0;
+
+    const MONSTERS = ['👹', '👾', '🐲', '🧟', '🎃', '🐺'];
 
     function startMode(type, count) {
       initAudio();
+      currentMode = type;
       let pool = QUESTION_BANK.filter(q => q.type === type);
       currentQueue = pool.sort(() => 0.5 - Math.random()).slice(0, count);
       startSession();
@@ -346,16 +603,26 @@
 
     function startWeakMode() {
       initAudio();
-      if(userData.weakList.length === 0) return alert('にがてリストはありません！');
+      if (userData.weakList.length === 0) {
+        alert('現在にがてリストに登録された問題はありません！');
+        return;
+      }
+      currentMode = 'weak';
       currentQueue = QUESTION_BANK.filter(q => userData.weakList.includes(q.id));
       startSession();
     }
 
     function startSession() {
-      currentIndex = 0; score = 0; combo = 0;
+      currentIndex = 0;
+      quizScore = 0;
+      combo = 0;
+      maxCombo = 0;
+      
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewParent').classList.add('hidden');
       document.getElementById('viewQuiz').classList.remove('hidden');
+
       playBGM('battle');
       renderQuestion();
     }
@@ -365,61 +632,87 @@
       document.getElementById('quizFeedback').classList.add('hidden');
       document.getElementById('quizProgress').innerText = `第 ${currentIndex + 1} / ${currentQueue.length} 問`;
       document.getElementById('comboCounter').innerText = `🔥 ${combo} 連続`;
+      
       document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
       document.getElementById('enemyHpBar').style.width = '100%';
+
       document.getElementById('quizQuestion').innerText = q.q;
       document.getElementById('quizSubText').innerText = q.sub || '';
 
+      // 自動で音声を話す
+      if (q.audio) {
+        speakText(q.audio);
+      }
+
+      // 4択ボタン生成
       const optContainer = document.getElementById('quizOptions');
       optContainer.innerHTML = '';
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "w-full bg-indigo-900/90 hover:bg-indigo-800 border-2 border-indigo-700/80 p-3.5 rounded-2xl font-bold text-left";
-        btn.innerHTML = `<strong class="text-amber-400 mr-2">${idx + 1}.</strong> ${opt}`;
+        btn.className = "w-full bg-indigo-900/90 hover:bg-indigo-800 border-2 border-indigo-700/80 hover:border-amber-400 p-3 rounded-2xl text-sm font-bold text-slate-100 text-left transition active:scale-98 flex items-center justify-between";
+        btn.innerHTML = `<span><strong class="text-amber-400 mr-2">${idx + 1}.</strong> ${opt}</span> <span class="text-xs opacity-40">⚔️</span>`;
         btn.onclick = () => handleAnswer(idx);
         optContainer.appendChild(btn);
       });
-      if(q.audio) speakText(q.audio);
     }
 
     function playCurrentAudio() {
-      if(currentQueue[currentIndex].audio) speakText(currentQueue[currentIndex].audio);
+      const q = currentQueue[currentIndex];
+      if (q && q.audio) speakText(q.audio);
     }
 
-    function handleAnswer(idx) {
+    function handleAnswer(selectedIdx) {
       const q = currentQueue[currentIndex];
-      const isCorrect = (idx === q.ans);
+      const isCorrect = (selectedIdx === q.ans);
       
-      Array.from(document.getElementById('quizOptions').children).forEach((btn, i) => {
+      userData.totalAnswered += 1;
+      const feedbackModal = document.getElementById('quizFeedback');
+      const feedbackTitle = document.getElementById('feedbackTitle');
+      const feedbackIcon = document.getElementById('feedbackIcon');
+      const feedbackExplain = document.getElementById('feedbackExplain');
+
+      Array.from(document.getElementById('quizOptions').children).forEach((btn, idx) => {
         btn.disabled = true;
-        if(i === q.ans) btn.classList.add('!bg-emerald-700');
-        if(i === idx && !isCorrect) btn.classList.add('!bg-rose-800');
+        if (idx === q.ans) btn.classList.add('!bg-emerald-700', '!border-emerald-400');
+        if (idx === selectedIdx && !isCorrect) btn.classList.add('!bg-rose-800', '!border-rose-500');
       });
 
-      if(isCorrect) {
+      if (isCorrect) {
         playSE('correct');
-        score++; combo++;
+        quizScore += 1;
+        combo += 1;
+        if (combo > maxCombo) maxCombo = combo;
+        userData.totalCorrect += 1;
         document.getElementById('enemyHpBar').style.width = '0%';
         userData.weakList = userData.weakList.filter(id => id !== q.id);
-        document.getElementById('feedbackTitle').innerText = '正解！ Great!';
-        document.getElementById('feedbackTitle').className = "text-base font-black text-emerald-400";
+
+        feedbackIcon.innerText = '⭕';
+        feedbackTitle.innerText = `正解！ Excellent! ${combo >= 2 ? `(${combo}連続正解!)` : ''}`;
+        feedbackTitle.className = "text-base font-black text-emerald-400";
       } else {
         playSE('wrong');
         combo = 0;
-        if(!userData.weakList.includes(q.id)) userData.weakList.push(q.id);
-        document.getElementById('feedbackTitle').innerText = 'おしい！ Review';
-        document.getElementById('feedbackTitle').className = "text-base font-black text-rose-400";
+        if (!userData.weakList.includes(q.id)) {
+          userData.weakList.push(q.id);
+        }
+
+        feedbackIcon.innerText = '❌';
+        feedbackTitle.innerText = 'おしい！ Review';
+        feedbackTitle.className = "text-base font-black text-rose-400";
       }
-      
-      document.getElementById('feedbackExplain').innerText = q.explain;
-      document.getElementById('quizFeedback').classList.remove('hidden');
+
+      feedbackExplain.innerText = q.explain;
+      feedbackModal.classList.remove('hidden');
       saveData();
     }
 
     function nextQuestion() {
-      currentIndex++;
-      if(currentIndex < currentQueue.length) renderQuestion();
-      else finishSession();
+      currentIndex += 1;
+      if (currentIndex < currentQueue.length) {
+        renderQuestion();
+      } else {
+        finishSession();
+      }
     }
 
     function finishSession() {
@@ -427,34 +720,92 @@
       document.getElementById('viewResult').classList.remove('hidden');
       playBGM('result');
 
-      const exp = score * 10;
-      document.getElementById('resultScore').innerText = `${score} / ${currentQueue.length}`;
-      document.getElementById('resultExp').innerText = `+${exp}`;
-      document.getElementById('resultGems').innerText = `💎+${score}`;
-      
-      userData.gems += score;
-      userData.exp += exp;
-      if(userData.exp >= userData.level * 100) {
-        userData.exp = 0;
-        userData.level++;
-      }
-      saveData();
-    }
+      const earnedExp = quizScore * 10 + (maxCombo * 5);
+      const earnedGems = Math.floor(quizScore / 2) + (maxCombo >= 3 ? 2 : 0);
 
-    function showHome() {
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewHome').classList.remove('hidden');
-      playBGM('home');
+      document.getElementById('resultScore').innerText = `${quizScore} / ${currentQueue.length}`;
+      document.getElementById('resultExp').innerText = `+${earnedExp}`;
+      document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
+
+      if (currentMode === 'vocab') userData.dailyDone.vocab = true;
+      if (currentMode === 'grammar') userData.dailyDone.grammar = true;
+      if (currentMode === 'listening') userData.dailyDone.listening = true;
+
+      userData.gems += earnedGems;
+      addExp(earnedExp);
     }
 
     function confirmExitQuiz() {
-      if(confirm('ホームにもどりますか？')) showHome();
+      if (confirm('学習をとちゅうで終了してホームにもどりますか？')) {
+        showHome();
+      }
     }
 
+    // ==================== 画面遷移 ====================
+    function showHome() {
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewParent').classList.add('hidden');
+      document.getElementById('viewHome').classList.remove('hidden');
+      playBGM('home');
+      updateNavHighlight('home');
+    }
+
+    function showParent() {
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewHome').classList.add('hidden');
+      document.getElementById('viewParent').classList.remove('hidden');
+      stopBGM();
+      updateNavHighlight('parent');
+    }
+
+    function updateNavHighlight(active) {
+      const navHome = document.getElementById('navHome');
+      const navWeak = document.getElementById('navWeak');
+      const navParent = document.getElementById('navParent');
+      
+      [navHome, navWeak, navParent].forEach(btn => btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200");
+      if (active === 'home') navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'parent') navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
+    }
+
+    // ==================== データ管理 (インポート/エクスポート) ====================
+    function exportData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `eiken4_backup_${getTodayString()}.json`);
+      dlAnchor.click();
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          userData = imported;
+          saveData();
+          alert('データの復元が完了しました！');
+        } catch(err) {
+          alert('ファイルの読み込みに失敗しました。');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetAllProgress() {
+      if (confirm('すべての学習記録、レベル、獲得ダイヤを初期化しますか？')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    // 起動
     loadData();
-    // BGM自動再生制限回避のため、初回タップ時に初期化
     document.body.addEventListener('click', initAudio, { once: true });
   </script>
 </body>
-</html>
+  </html>
