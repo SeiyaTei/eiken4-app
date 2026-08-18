@@ -384,3 +384,66 @@ const ACTUAL_PAST_EXAM_DATA = [
   { id: 'past_14', type: 'grammar', q: "He went to the library ( ) study science.", sub: "👑 【英検過去問】不定詞（目的）", options: ["to", "for", "in", "at"], ans: 0, explain: "「勉強するために」という目的を表す to + 動詞の原形です。" },
   { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
 ];
+
+// ==================== 5. 着せ替え・装備データベース (Lv.60制限追加) ====================
+const SHOP_EQUIP_DATA = [
+  { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
+  { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
+  { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 300, desc: 'HP +300 / やる気UP' },
+  { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 600, desc: 'HP +600 / 集中力UP' },
+  { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 1200, desc: 'HP +1200 / 文法の魔力' },
+  { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 2000, desc: 'HP +2000 / 精神集中' },
+  { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 3500, desc: 'HP +3500 / 知識の王者' },
+  { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
+  { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
+  { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護 (Lv.60以上)', reqLv: 60 },
+
+  { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
+  { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
+  { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
+  { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
+  { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
+  { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
+  { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
+  { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
+  { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
+  { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気 (Lv.60以上)', reqLv: 60 },
+
+  { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
+  { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
+  { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 30, desc: '速さ +30 / 高みへ飛翔' },
+  { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 55, desc: '速さ +55 / 秘めたる力' },
+  { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
+  { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
+  { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
+  { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' }
+];
+
+// ==================== 6. ボスステージ全10段階データ ====================
+const BOSS_STAGES = [
+  { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
+  { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
+  { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 7000, atk: 85, exp: 130, gems: 28, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
+  { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 12000, atk: 120, exp: 180, gems: 35, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
+  { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 18000, atk: 165, exp: 240, gems: 45, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
+  { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 26000, atk: 210, exp: 310, gems: 55, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
+  { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
+  { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
+  { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
+  { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
+];
+
+// ==================== 7. レベル10ごとの進化ツリー ====================
+const AVATARS = [
+  { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+  { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
+  { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
+  { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
+  { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
+  { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
+  { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
+  { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
+  { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
+  { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
+  { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
+];
