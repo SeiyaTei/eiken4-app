@@ -118,7 +118,7 @@
           </div>
         </div>
 
-        <!-- 10月試験までのカウントダウン -->
+        <!-- 試験までのカウントダウン -->
         <div class="mt-3 pt-2.5 border-t border-indigo-700/50 flex justify-between items-center text-xs">
           <span class="text-indigo-200">🎯 10月試験本番まで あと</span>
           <span id="countdownDays" class="font-black text-amber-300 text-sm">-- 日</span>
@@ -219,7 +219,7 @@
             <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
               ⚔️ 通常特訓サイクル（各1回 ➔ にがて討伐で復活）
             </h3>
-            <p class="text-[9.5px] text-indigo-300">3分野を1回ずつ解いて「にがて討伐」をクリアしよう！</p>
+            <p class="text-[9.5px] text-indigo-300">3分野を1回ずつクリアして「にがて討伐」を解禁しよう！</p>
           </div>
           <span id="rotationProgressBadge" class="text-[10px] bg-indigo-950 text-amber-400 font-bold px-2 py-0.5 rounded-full border border-indigo-800">0/3完了</span>
         </div>
@@ -231,7 +231,7 @@
               <div class="text-xl mb-0.5">📚</div>
               <span id="badgeRotVocab" class="text-[9px] font-bold bg-blue-950 text-blue-200 px-1.5 py-0.2 rounded border border-blue-600">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">単語・熟語 (700語)</div>
+            <div class="font-black text-xs text-white">単語・熟語</div>
             <div class="text-[9px] text-blue-200 mt-0.5">ランダム10問</div>
           </button>
 
@@ -241,7 +241,7 @@
               <div class="text-xl mb-0.5">🪄</div>
               <span id="badgeRotGrammar" class="text-[9px] font-bold bg-emerald-950 text-emerald-200 px-1.5 py-0.2 rounded border border-emerald-600">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">文法・会話 (100問)</div>
+            <div class="font-black text-xs text-white">文法・会話</div>
             <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
           </button>
 
@@ -251,7 +251,7 @@
               <div class="text-xl mb-0.5">🎧</div>
               <span id="badgeRotListening" class="text-[9px] font-bold bg-purple-950 text-purple-200 px-1.5 py-0.2 rounded border border-purple-600">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">リスニング (60問)</div>
+            <div class="font-black text-xs text-white">リスニング</div>
             <div class="text-[9px] text-purple-200 mt-0.5">対話・質問 3問</div>
           </button>
 
@@ -286,8 +286,8 @@
           <!-- 初級 -->
           <button onclick="startNormalModeWithDiff(1)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-emerald-400">🌟 初級（見習い級）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 600 / 攻撃力: 15（Lv.1〜15向け・通常撃破可能）</div>
+              <div class="font-black text-emerald-400">🌟 初級（見習い級・Lv1〜15向け）</div>
+              <div class="text-[10px] text-slate-300">敵HP: 600 / 攻撃: 15（序盤向け・通常クリア可能）</div>
             </div>
             <span class="text-xs bg-emerald-950 text-emerald-300 font-bold px-2.5 py-1 rounded-xl border border-emerald-700">出撃</span>
           </button>
@@ -295,8 +295,8 @@
           <!-- 中級 -->
           <button onclick="startNormalModeWithDiff(2)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-blue-400">🔵 中級（冒険者級）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 4,500 / 攻撃力: 60（全問クリティカルで勝利！）</div>
+              <div class="font-black text-blue-400">🔵 中級（冒険者級・Lv20〜35向け）</div>
+              <div class="text-[10px] text-slate-300">敵HP: 4,500 / 攻撃: 60（全問クリティカルで突破可能）</div>
             </div>
             <span class="text-xs bg-blue-950 text-blue-300 font-bold px-2.5 py-1 rounded-xl border border-blue-700">出撃</span>
           </button>
@@ -304,8 +304,8 @@
           <!-- 上級 -->
           <button onclick="startNormalModeWithDiff(3)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-purple-400">🟣 上級（勇者級）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 15,000 / 攻撃力: 150（上位装備＆高レベル必須）</div>
+              <div class="font-black text-purple-400">🟣 上級（勇者級・Lv40〜60向け）</div>
+              <div class="text-[10px] text-slate-300">敵HP: 15,000 / 攻撃: 150（上位装備＆高レベル必須）</div>
             </div>
             <span class="text-xs bg-purple-950 text-purple-300 font-bold px-2.5 py-1 rounded-xl border border-purple-700">出撃</span>
           </button>
@@ -313,8 +313,8 @@
           <!-- 覇級 -->
           <button onclick="startNormalModeWithDiff(4)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
             <div>
-              <div class="font-black text-amber-300">👑 覇級（英検マスター級）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 45,000 / 攻撃力: 350（エンドコンテンツ）</div>
+              <div class="font-black text-amber-300">👑 覇級（英検マスター級・Lv70〜）</div>
+              <div class="text-[10px] text-slate-300">敵HP: 45,000 / 攻撃: 350（エンドコンテンツ）</div>
             </div>
             <span class="text-xs bg-amber-950 text-amber-300 font-black px-2.5 py-1 rounded-xl border border-amber-500">出撃</span>
           </button>
@@ -459,7 +459,7 @@
       </div>
     </div>
 
-    <!-- ==================== 4. 📖 モンスター図鑑（700語コレクション） ==================== -->
+    <!-- ==================== 4. 📖 モンスター図鑑（全登録語コレクション） ==================== -->
     <div id="viewBook" class="hidden space-y-3">
       <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
         <div class="flex justify-between items-center">
@@ -942,7 +942,7 @@
       { id: 'past_9', type: 'grammar', q: "You ( ) finish your homework before watching TV.", sub: "👑 【英検過去問】助動詞", options: ["must", "may", "could", "shall"], ans: 0, explain: "「〜しなければならない」という義務を表す must です。" },
       { id: 'past_10', type: 'grammar', q: "A: Whose camera is this?\nB: It is ( ).", sub: "👑 【英検過去問】代名詞", options: ["mine", "my", "me", "I"], ans: 0, explain: "「私のもの」を表す所有代名詞 mine です。" },
       { id: 'past_11', type: 'listening', q: "音声を聞いて、質問に答えよう。", sub: "👑 【英検過去問】リスニング", options: ["She can’t find the report.", "She forgot to call Max.", "The report is too long.", "Her desk is broken."], ans: 0, explain: "【解説】女性はレポートが見つからない(can't find the report)と困っています。", dialogue: [{ speaker: 'female', text: "Did you finish your report, Max?" }, { speaker: 'male', text: "Yes. I put it on your desk." }, { speaker: 'female', text: "Really? I can’t find it." }, { speaker: 'narrator', text: "Question. What is the woman’s problem?" }], audio_complete: "What is the woman’s problem? She can’t find the report." },
-      { id: 'past_12', type: 'listening', q: "音声を聞いて、質問に答えよう。", sub: "👑 【英検過去問】リスニング", options: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."], ans: 1, exp: "【解説】ケンのお母さんが病気でした。", dialogue: [{ speaker: 'female', text: "How was your weekend, Ken?" }, { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." }, { speaker: 'narrator', text: "Question. Who was sick?" }], audio_complete: "Who was sick? Ken’s mother." },
+      { id: 'past_12', type: 'listening', q: "音声を聞いて、質問に答えよう。", sub: "👑 【英検過去問】リスニング", options: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."], ans: 1, explain: "【解説】ケンのお母さんが病気でした。", dialogue: [{ speaker: 'female', text: "How was your weekend, Ken?" }, { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." }, { speaker: 'narrator', text: "Question. Who was sick?" }], audio_complete: "Who was sick? Ken’s mother." },
       { id: 'past_13', type: 'grammar', q: "My father gave ( ) a nice bicycle.", sub: "👑 【英検過去問】第4文型", options: ["me", "I", "my", "mine"], ans: 0, explain: "give + 人 + もの の形なので目的格 me が入ります。" },
       { id: 'past_14', type: 'grammar', q: "He went to the library ( ) study science.", sub: "👑 【英検過去問】不定詞（目的）", options: ["to", "for", "in", "at"], ans: 0, explain: "「勉強するために」という目的を表す to + 動詞の原形です。" },
       { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
@@ -951,15 +951,15 @@
     // ==================== 🐲 ボスステージ全10段階データ ====================
     const BOSS_STAGES = [
       { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
-      { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3000, atk: 45, exp: 80, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
-      { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 5500, atk: 70, exp: 100, gems: 25, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
-      { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 9000, atk: 100, exp: 130, gems: 30, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
-      { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 14000, atk: 140, exp: 170, gems: 38, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
-      { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 20000, atk: 180, exp: 220, gems: 46, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
-      { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 28000, atk: 230, exp: 280, gems: 55, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
-      { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 38000, atk: 290, exp: 350, gems: 65, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
-      { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 50000, atk: 360, exp: 450, gems: 80, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
-      { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 68000, atk: 450, exp: 600, gems: 100, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
+      { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
+      { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 7000, atk: 85, exp: 130, gems: 28, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
+      { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 12000, atk: 120, exp: 180, gems: 35, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
+      { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 18000, atk: 165, exp: 240, gems: 45, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
+      { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 26000, atk: 210, exp: 310, gems: 55, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
+      { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
+      { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
+      { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
+      { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
     ];
 
     // ==================== レベル10ごとの進化ツリー (Lv.1〜Lv.100) ====================
@@ -1213,16 +1213,16 @@
       { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
       { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護' },
 
-      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 15, desc: '攻撃 +15 / マークシート用' },
-      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 35, desc: '攻撃 +35 / 小さな魔法' },
-      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 80, desc: '攻撃 +80 / 正解を射抜く' },
-      { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 150, desc: '攻撃 +150 / 難問を断ち切る' },
-      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 260, desc: '攻撃 +260 / 英語のリズム' },
-      { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 400, desc: '攻撃 +400 / 圧倒的粉砕' },
-      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 650, desc: '攻撃 +650 / 深い知識' },
-      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 950, desc: '攻撃 +950 / 光の剣' },
-      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1500, desc: '攻撃 +1500 / 絶対合格の聖剣' },
-      { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2200, desc: '攻撃 +2200 / ボス討伐の覇気' },
+      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
+      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
+      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
+      { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
+      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
+      { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
+      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
+      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
+      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
+      { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気' },
 
       { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
       { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
@@ -1235,18 +1235,18 @@
     ];
 
     // ==================== ユーザーデータ管理 ====================
-    const STORAGE_KEY = 'eiken4_data_v27';
+    const STORAGE_KEY = 'eiken4_data_v28';
     let userData = {
       level: 1,
       exp: 0,
       gems: 10,
       streak: 1,
       lastLoginDate: getTodayString(),
-      weakList: [], // 間違えた問題のID一覧
+      weakList: [], // 間違えた問題ID
       vocabBook: [],
       bossUnlockedLevel: 1,
       bossClearedLevels: [],
-      questRotation: { vocab: false, grammar: false, listening: false }, // 通常クエスト各1回制
+      questRotation: { vocab: false, grammar: false, listening: false }, // 通常特訓各1回制
       dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
       inventory: { hint: 1, potion: 0 },
       equipped: { hat: '', weapon: '', aura: '' },
@@ -1261,7 +1261,7 @@
     let isFeverMode = false;
     let currentBossStage = BOSS_STAGES[0];
     let selectedNormalType = 'vocab';
-    let normalQuestDifficultyMultiplier = 1.0;
+    let selectedNormalDiffLevel = 1;
 
     function getTodayString() {
       const d = new Date();
@@ -1305,7 +1305,7 @@
       try {
         let saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) {
-          const oldKeys = ['eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data_v23', 'eiken4_data_v22', 'eiken4_data_v21', 'eiken4_data_v20', 'eiken4_data_v19', 'eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
+          const oldKeys = ['eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data_v23', 'eiken4_data_v22', 'eiken4_data_v21', 'eiken4_data_v20', 'eiken4_data_v19', 'eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
           for (const key of oldKeys) {
             const old = localStorage.getItem(key);
             if (old) {
@@ -1361,10 +1361,10 @@
       }
     }
 
-    // ステータス計算：レベル基礎値＋装備品のみ（毎問加算は完全撤廃）
+    // ステータス計算：レベル基礎値＋装備品のみ（毎問の加算・クリア加算は完全撤廃）
     function calculatePlayerStats() {
-      const baseAtk = 15 + (userData.level * 5);
-      const baseHp = 100 + (userData.level * 20);
+      const baseAtk = 25 + (userData.level * 6);
+      const baseHp = 120 + (userData.level * 15);
       const baseSpd = 5 + Math.floor(userData.level * 0.8);
 
       const eqHat = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
@@ -1506,7 +1506,7 @@
       if (userData.questRotation.listening) rotCount++;
       setText('rotationProgressBadge', `${rotCount}/3完了`);
 
-      const updateRotBtn = (btnId, badgeId, isDone, doneText) => {
+      const updateRotBtn = (btnId, badgeId, isDone) => {
         const btn = document.getElementById(btnId);
         const badge = document.getElementById(badgeId);
         if (!btn || !badge) return;
@@ -1600,17 +1600,13 @@
       isBossMode = false;
       isDailyCurrentSession = false;
       isFeverMode = false;
-
-      if (diffLevel === 1) normalQuestDifficultyMultiplier = 1.0;
-      if (diffLevel === 2) normalQuestDifficultyMultiplier = 1.5;
-      if (diffLevel === 3) normalQuestDifficultyMultiplier = 2.2;
-      if (diffLevel === 4) normalQuestDifficultyMultiplier = 3.5;
+      selectedNormalDiffLevel = diffLevel;
 
       const count = (selectedNormalType === 'vocab') ? 10 : (selectedNormalType === 'grammar' ? 5 : 3);
       startSessionInternal(selectedNormalType, count);
     }
 
-    // ==================== 👾 にがて討伐バトル（サイクル解除用） ====================
+    // ==================== 👾 にがて討伐バトル（サイクル解放用） ====================
     function startWeakBattle() {
       initAudio();
       stopBattleTimers();
@@ -1628,9 +1624,7 @@
       isDailyCurrentSession = false;
       isFeverMode = false;
       currentMode = 'weakBattle';
-      normalQuestDifficultyMultiplier = 1.2;
 
-      // 苦手リストから、またはランダムで5問抽出
       currentQueue = [];
       if (userData.weakList.length > 0) {
         const selectedIds = shuffleArray(userData.weakList).slice(0, 5);
@@ -1645,11 +1639,27 @@
           } else if (id.startsWith('l_')) {
             const idx = parseInt(id.replace('l_', ''));
             if (RAW_LISTENING_DATA[idx]) currentQueue.push(generateListeningQuiz(RAW_LISTENING_DATA[idx], idx));
+          } else if (id.startsWith('past_')) {
+            const found = ACTUAL_PAST_EXAM_DATA.find(x => x.id === id);
+            if (found) {
+              const correctOption = found.options[found.ans];
+              const shuffledOptions = shuffleArray(found.options);
+              currentQueue.push({
+                id: found.id,
+                type: found.type,
+                q: found.q,
+                sub: found.sub,
+                options: shuffledOptions,
+                ans: shuffledOptions.indexOf(correctOption),
+                explain: found.explain,
+                dialogue: found.dialogue || null,
+                audio_complete: found.audio_complete || null
+              });
+            }
           }
         });
       }
       
-      // 不足分は過去問・文法から補充
       while (currentQueue.length < 5) {
         const randG = Math.floor(Math.random() * RAW_GRAMMAR_DATA.length);
         currentQueue.push(generateGrammarQuiz(RAW_GRAMMAR_DATA[randG], randG));
@@ -1857,7 +1867,7 @@
       renderWeakBookList();
     }
 
-    // ==================== 📖 700語モンスター図鑑 ====================
+    // ==================== 📖 モンスター図鑑（登録分母取得修正版） ====================
     function showBook() {
       stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
@@ -1880,10 +1890,13 @@
       container.innerHTML = '';
 
       const query = (document.getElementById('bookSearchInput')?.value || '').toLowerCase().trim();
-      const totalVocabCount = RAW_VOCAB_DATA.length; // 700
+      // 正確な登録総数をマスターデータから取得
+      const totalVocabCount = RAW_VOCAB_DATA.length;
       const collectedCount = userData.vocabBook.length;
-      document.getElementById('bookProgressText').innerText = `${collectedCount} / ${totalVocabCount} 語 (${Math.round((collectedCount / totalVocabCount) * 100)}%)`;
-      document.getElementById('bookProgressBar').style.width = `${(collectedCount / totalVocabCount) * 100}%`;
+      const pct = totalVocabCount > 0 ? Math.round((collectedCount / totalVocabCount) * 100) : 0;
+
+      document.getElementById('bookProgressText').innerText = `${collectedCount} / ${totalVocabCount} 語 (${pct}%)`;
+      document.getElementById('bookProgressBar').style.width = `${pct}%`;
 
       const filtered = RAW_VOCAB_DATA.filter(item => {
         if (!query) return true;
@@ -2018,7 +2031,6 @@
       isBossMode = false;
       isDailyCurrentSession = true;
       isFeverMode = false;
-      normalQuestDifficultyMultiplier = 1.0;
       startSessionInternal(type, count);
     }
 
@@ -2057,10 +2069,10 @@
         enemyCurHp = currentBossStage.hp;
         enemyAtk = currentBossStage.atk;
       } else if (isDailyCurrentSession) {
-        // 📜 デイリークエストの固定敵HP
-        if (currentMode === 'vocab') { enemyMaxHp = 600; enemyAtk = 20; }
-        else if (currentMode === 'grammar') { enemyMaxHp = 400; enemyAtk = 25; }
-        else if (currentMode === 'listening') { enemyMaxHp = 400; enemyAtk = 25; }
+        // 📜 デイリークエストの敵HP
+        if (currentMode === 'vocab') { enemyMaxHp = 600; enemyAtk = 18; }
+        else if (currentMode === 'grammar') { enemyMaxHp = 400; enemyAtk = 22; }
+        else if (currentMode === 'listening') { enemyMaxHp = 350; enemyAtk = 22; }
         else { enemyMaxHp = 500; enemyAtk = 20; }
         enemyCurHp = enemyMaxHp;
       } else if (currentMode === 'weakBattle') {
@@ -2069,21 +2081,21 @@
         enemyCurHp = 800;
         enemyAtk = 25;
       } else {
-        // ⚔️ 通常クエストの固定難易度HP（プレイヤーの攻撃力に依存しない絶対値！）
-        if (normalQuestDifficultyMultiplier <= 1.0) {
-          // 初級: 普通に撃破可能
+        // ⚔️ 通常クエストの難易度別設計（絶対値）
+        if (selectedNormalDiffLevel === 1) {
+          // 初級: Lv1〜15向け（通常クリア可能）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
           enemyAtk = 15;
-        } else if (normalQuestDifficultyMultiplier <= 1.8) {
-          // 中級: 全問クリティカル正解で撃破可能
+        } else if (selectedNormalDiffLevel === 2) {
+          // 中級: Lv20〜35向け（全問クリティカルで突破可能）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 4500 : ((selectedNormalType === 'grammar') ? 2300 : 1400);
           enemyAtk = 60;
-        } else if (normalQuestDifficultyMultiplier <= 2.6) {
-          // 上級: Lv.12では絶対に倒せない
+        } else if (selectedNormalDiffLevel === 3) {
+          // 上級: Lv40〜60向け（攻略不可設計）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 15000 : ((selectedNormalType === 'grammar') ? 8000 : 5000);
           enemyAtk = 150;
         } else {
-          // 覇級: エンドコンテンツ
+          // 覇級: Lv70〜向け（即全滅レベル）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 45000 : ((selectedNormalType === 'grammar') ? 24000 : 15000);
           enemyAtk = 350;
         }
@@ -2248,6 +2260,32 @@
       setTimeout(() => el.remove(), 800);
     }
 
+    function use5050Hint() {
+      if (isAnswered) return;
+      if (userData.inventory.hint <= 0) {
+        alert('ヒントの書がありません！ショップで購入できます。');
+        return;
+      }
+      userData.inventory.hint--;
+      updateUiState();
+      
+      const q = currentQueue[currentIndex];
+      const buttons = Array.from(document.getElementById('quizOptions').children);
+      const wrongIndices = [];
+      buttons.forEach((btn, idx) => {
+        if (idx !== q.ans && !btn.disabled) {
+          wrongIndices.push(idx);
+        }
+      });
+
+      const toDisable = shuffleArray(wrongIndices).slice(0, 2);
+      toDisable.forEach(idx => {
+        buttons[idx].disabled = true;
+        buttons[idx].classList.add('opacity-30');
+      });
+      playSE('chest');
+    }
+
     function handleAnswer(selectedIdx) {
       if (isAnswered) return;
       isAnswered = true;
@@ -2326,7 +2364,7 @@
         updateBattleHpUi();
         showDamagePopup(`⚠️ 反撃被弾! -${enemyDmg} HP`, false, false);
 
-        // 間違えた問題を自動で「にがて帳」に追加
+        // 間違えた問題を自動で「にがて帳」データベースへ蓄積
         if (!userData.weakList.includes(q.id)) {
           userData.weakList.push(q.id);
         }
@@ -2370,7 +2408,7 @@
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-rose-700 text-white px-3 py-1 rounded-full inline-block mb-1';
         document.getElementById('resultEmoji').innerText = '🪦';
         document.getElementById('resultTitle').innerText = '力尽きてしまった！';
-        document.getElementById('resultComment').innerText = '敵の攻撃に耐えきれなかった。HPや防御を強化してリベンジしよう！';
+        document.getElementById('resultComment').innerText = '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
 
         earnedExp = Math.max(5, Math.round(quizScore * 2));
         earnedGems = 1;
@@ -2459,9 +2497,10 @@
           userData.questRotation[selectedNormalType] = true;
         }
 
+        const diffMulti = [1.0, 1.5, 2.3, 3.8][selectedNormalDiffLevel - 1] || 1.0;
         const baseExp = (quizScore * 8 + (maxCombo * 2));
-        earnedExp = Math.round(baseExp * normalQuestDifficultyMultiplier);
-        earnedGems = Math.max(1, Math.round((quizScore / 2) * (normalQuestDifficultyMultiplier * 0.8)));
+        earnedExp = Math.round(baseExp * diffMulti);
+        earnedGems = Math.max(1, Math.round((quizScore / 2) * (diffMulti * 0.8)));
       }
 
       const totalDone = Math.max(1, answeredQuestionsCount);
@@ -2477,6 +2516,139 @@
       if (confirm('学習をとちゅうで終了してホームにもどりますか？')) {
         stopBattleTimers();
         showHome();
+      }
+    }
+
+    // ==================== ショップ & ガチャ & 装備 ====================
+    function switchEquipTab(tab) {
+      currentShopTab = tab;
+      const tHat = document.getElementById('tabEquipHat');
+      const tWp = document.getElementById('tabEquipWeapon');
+      const tAu = document.getElementById('tabEquipAura');
+      [tHat, tWp, tAu].forEach(el => {
+        if (el) el.className = "flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition";
+      });
+      if (tab === 'hat' && tHat) tHat.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+      if (tab === 'weapon' && tWp) tWp.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+      if (tab === 'aura' && tAu) tAu.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+      renderShopEquips();
+    }
+
+    function renderShopEquips() {
+      const container = document.getElementById('equipShopList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const items = SHOP_EQUIP_DATA.filter(e => e.type === currentShopTab);
+      items.forEach(eq => {
+        const isUnlocked = userData.unlockedEquips.includes(eq.id);
+        const isEquipped = (userData.equipped[eq.type] === eq.id);
+
+        const card = document.createElement('div');
+        card.className = `p-2.5 rounded-2xl border flex flex-col justify-between ${
+          isEquipped ? 'bg-indigo-800 border-amber-400 shadow-md' : 'bg-indigo-950/80 border-indigo-800'
+        }`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[9px] font-bold text-indigo-300">${eq.rank}</span>
+              <span class="text-xl">${eq.icon}</span>
+            </div>
+            <div class="font-black text-xs text-white truncate">${eq.name}</div>
+            <div class="text-[9.5px] text-amber-300 mt-0.5 leading-tight">${eq.desc}</div>
+          </div>
+          <div class="mt-2.5 pt-1.5 border-t border-indigo-800/80 flex justify-between items-center">
+            ${isEquipped ? `
+              <button onclick="unequipItem('${eq.type}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-1 rounded-lg text-[10px] transition">
+                はずす
+              </button>
+            ` : (isUnlocked ? `
+              <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black py-1 rounded-lg text-[10px] transition active:scale-95">
+                そうび
+              </button>
+            ` : (eq.price > 9000 ? `
+              <span class="w-full text-center text-[9px] text-rose-300 font-bold bg-rose-950/80 border border-rose-800/60 py-1 rounded-lg">
+                ボス限定
+              </span>
+            ` : `
+              <button onclick="buyEquip('${eq.id}', ${eq.price})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1 rounded-lg text-[10px] flex items-center justify-center gap-1 transition active:scale-95">
+                <span>💎 ${eq.price}</span> <span>購入</span>
+              </button>
+            `))}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function equipItem(id, type) {
+      userData.equipped[type] = id;
+      playSE('levelup');
+      saveData();
+    }
+
+    function unequipItem(type) {
+      userData.equipped[type] = '';
+      playSE('wrong');
+      saveData();
+    }
+
+    function buyEquip(id, price) {
+      if (userData.gems < price) {
+        alert('ダイヤが足りません！クエストをクリアしてダイヤを集めよう！');
+        return;
+      }
+      userData.gems -= price;
+      userData.unlockedEquips.push(id);
+      playSE('chest');
+      saveData();
+    }
+
+    function buyItem(type, price) {
+      if (userData.gems < price) {
+        alert('ダイヤが足りません！');
+        return;
+      }
+      userData.gems -= price;
+      if (type === 'hint') userData.inventory.hint += 1;
+      if (type === 'potion') userData.inventory.potion += 1;
+      playSE('chest');
+      saveData();
+    }
+
+    function playGacha() {
+      if (userData.gems < 20) {
+        alert('ダイヤが足りません！(💎 20個必要)');
+        return;
+      }
+      userData.gems -= 20;
+      playSE('gacha');
+
+      const rand = Math.random();
+      if (rand < 0.45) {
+        // EXP当たり
+        const expWon = 150 + Math.floor(Math.random() * 200);
+        alert(`🎰 ガチャ結果！\n✨ 経験値 +${expWon} EXP を獲得！`);
+        addExp(expWon);
+      } else if (rand < 0.75) {
+        // アイテム当たり
+        userData.inventory.hint += 2;
+        alert('🎰 ガチャ結果！\n💡 ヒントの書 × 2個 を獲得！');
+        saveData();
+      } else {
+        // レア装備未所持の中から抽選
+        const lockedEquips = SHOP_EQUIP_DATA.filter(e => !userData.unlockedEquips.includes(e.id) && e.price <= 9000);
+        if (lockedEquips.length > 0) {
+          const won = lockedEquips[Math.floor(Math.random() * lockedEquips.length)];
+          userData.unlockedEquips.push(won.id);
+          alert(`🎰 超大当たり！！\n👑 装備【${won.name}】(${won.desc}) を手に入れた！`);
+          saveData();
+        } else {
+          userData.inventory.potion += 2;
+          alert('🎰 ガチャ結果！\n🧪 EXPの秘薬 × 2個 を獲得！');
+          saveData();
+        }
       }
     }
 
