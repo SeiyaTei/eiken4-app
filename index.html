@@ -247,7 +247,6 @@
 
     </div>
 
-
     <!-- ==================== ⚔️ 通常クエスト難易度選択モーダル ==================== -->
     <div id="modalNormalSelect" class="hidden fixed inset-0 bg-indigo-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
       <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-600 rounded-3xl p-4 w-full max-w-md flex flex-col shadow-2xl space-y-3">
@@ -262,7 +261,6 @@
         </div>
 
         <div class="space-y-2 text-xs" id="normalDifficultyList">
-          <!-- 初級 (HP 120 / 攻 10) -->
           <button onclick="startNormalModeWithDiff(1)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-emerald-400">🌟 初級（見習い級）</div>
@@ -271,7 +269,6 @@
             <span class="text-xs bg-emerald-950 text-emerald-300 font-bold px-2.5 py-1 rounded-xl border border-emerald-700">選択</span>
           </button>
 
-          <!-- 中級 (HP 300 / 攻 18) -->
           <button onclick="startNormalModeWithDiff(2)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-blue-400">🔵 中級（冒険者級）</div>
@@ -280,7 +277,6 @@
             <span class="text-xs bg-blue-950 text-blue-300 font-bold px-2.5 py-1 rounded-xl border border-blue-700">選択</span>
           </button>
 
-          <!-- 上級 (HP 800 / 攻 28) -->
           <button onclick="startNormalModeWithDiff(3)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-purple-400">🟣 上級（勇者級）</div>
@@ -289,7 +285,6 @@
             <span class="text-xs bg-purple-950 text-purple-300 font-bold px-2.5 py-1 rounded-xl border border-purple-700">選択</span>
           </button>
 
-          <!-- 覇級 (HP 2000 / 攻 40) -->
           <button onclick="startNormalModeWithDiff(4)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
             <div>
               <div class="font-black text-amber-300">👑 覇級（英検マスター級）</div>
@@ -300,7 +295,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- ==================== 👑 ボスレベル選択モーダル ==================== -->
     <div id="modalBossSelect" class="hidden fixed inset-0 bg-indigo-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -318,7 +312,6 @@
         <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="bossStageList"></div>
       </div>
     </div>
-
 
     <!-- ==================== 2. クイズ・バトル画面 ==================== -->
     <div id="viewQuiz" class="hidden space-y-3">
@@ -342,7 +335,6 @@
 
       <!-- バトルステータス対戦カード（味方HP vs 敵HP） -->
       <div class="grid grid-cols-2 gap-2 bg-indigo-950/90 p-2.5 rounded-2xl border border-indigo-800 text-xs">
-        <!-- 味方 -->
         <div class="space-y-1">
           <div class="flex justify-between items-center font-black">
             <span id="battleHeroName" class="text-amber-300 text-[11px] truncate">タマゴン</span>
@@ -352,7 +344,6 @@
             <div id="battleHeroHpBar" class="bg-emerald-500 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
-        <!-- 敵 -->
         <div class="space-y-1">
           <div class="flex justify-between items-center font-black">
             <span id="battleEnemyName" class="text-rose-400 text-[11px] truncate">モンスター</span>
@@ -370,14 +361,12 @@
 
         <div class="flex flex-col items-center justify-center mb-2">
           <div id="enemyAvatar" class="text-5xl mb-1 animate-bounce-slow">👹</div>
-          <!-- 3秒即答タイマーゲージ -->
           <div class="w-44 bg-indigo-950 rounded-full h-1.5 border border-indigo-800 mt-1 overflow-hidden">
             <div id="timerGauge" class="bg-amber-400 h-full w-full transition-all linear"></div>
           </div>
           <span id="timerText" class="text-[9px] text-amber-300 font-bold mt-0.5">🎧 音声を再生中...</span>
         </div>
 
-        <!-- 音声再生ボタン -->
         <div class="flex justify-center mb-2" id="audioBtnContainer">
           <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1 px-3.5 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
             🔊 もう一度きく
@@ -407,7 +396,6 @@
 
     </div>
 
-
     <!-- ==================== 3. リザルト画面 ==================== -->
     <div id="viewResult" class="hidden space-y-4 text-center py-4">
       <div class="bg-gradient-to-b from-indigo-800 to-indigo-950 border-2 border-amber-400 rounded-3xl p-6 shadow-2xl space-y-4 glow-gold" id="resultCardBox">
@@ -418,7 +406,6 @@
           <p id="resultComment" class="text-xs text-indigo-200 mt-1">素晴らしい集中力です！</p>
         </div>
 
-        <!-- レアドロップ宝箱獲得エリア -->
         <div id="rareDropArea" class="hidden bg-gradient-to-r from-purple-900 to-amber-900 border-2 border-amber-400 p-3 rounded-2xl space-y-1">
           <span class="text-xl">🎁✨</span>
           <div class="font-black text-xs text-amber-300">ボスからレア宝箱がドロップ！</div>
@@ -446,7 +433,6 @@
       </div>
     </div>
 
-
     <!-- ==================== 4. 📖 モンスター図鑑（700語コレクション） ==================== -->
     <div id="viewBook" class="hidden space-y-3">
       <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
@@ -465,10 +451,8 @@
       <div class="grid grid-cols-2 gap-2 text-xs max-h-[460px] overflow-y-auto pr-1" id="vocabBookList"></div>
     </div>
 
-
     <!-- ==================== 5. 💎 ダイヤショップ＆ガチャ画面 ==================== -->
     <div id="viewShop" class="hidden space-y-4">
-      
       <div class="bg-gradient-to-br from-purple-800 via-indigo-900 to-pink-900 border-2 border-amber-400 rounded-3xl p-4 text-center shadow-xl space-y-2">
         <div class="text-3xl animate-bounce">🎰</div>
         <h3 class="font-black text-base text-amber-300">ラッキーダイヤガチャ</h3>
@@ -532,9 +516,7 @@
 
         <div class="grid grid-cols-2 gap-2 text-xs max-h-96 overflow-y-auto pr-1" id="equipShopList"></div>
       </div>
-
     </div>
-
 
     <!-- ==================== 6. 保護者用ダッシュボード ==================== -->
     <div id="viewParent" class="hidden space-y-4">
@@ -904,6 +886,25 @@
       { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.30】(⚡速UP)", opt: ["Make a song.", "Join a music school.", "Meet a singer.", "Go to a concert."], ans: 1, exp: "【英文】\nI want to be a singer in the future, so I decided to join a music school next month.\nQuestion: What will the girl do next month?\n\n【解説】音楽学校(Join a music school)です。", dialogue: [{ speaker: 'female', text: "I want to be a singer in the future, so I decided to join a music school next month." }, { speaker: 'narrator', text: "Question. What will the girl do next month?" }], aud_complete: "What will the girl do next month? Join a music school." }
     ];
 
+    // ==================== 🐲 本番過去問実戦データベース (ボスバトル用) ====================
+    const ACTUAL_PAST_EXAM_DATA = [
+      { id: 'past_1', type: 'grammar', q: "I ( ) my grandfather in Osaka last weekend.", sub: "👑 【英検過去問】短文空所補充", options: ["visit", "visited", "visiting", "visits"], ans: 1, explain: "last weekend（先週末）があるので動詞の過去形 visited が正解です。" },
+      { id: 'past_2', type: 'grammar', q: "A: What are you ( ) now, Ken?\nB: I'm cleaning my room.", sub: "👑 【英検過去問】現在進行形", options: ["do", "did", "doing", "does"], ans: 2, explain: "now があり、be動詞 are と組み合わせて現在進行形 doing になります。" },
+      { id: 'past_3', type: 'grammar', q: "It is easy for him ( ) fast.", sub: "👑 【英検過去問】不定詞構文", options: ["run", "ran", "to run", "running"], ans: 2, explain: "It is ... for 人 to + 原形（人が〜することは…だ）の構文です。" },
+      { id: 'past_4', type: 'grammar', q: "A: ( ) is that tall boy?\nB: He is my brother, Tom.", sub: "👑 【英検過去問】疑問詞", options: ["Who", "Where", "When", "Which"], ans: 0, explain: "人物について尋ねているので Who（だれ）が正解です。" },
+      { id: 'past_5', type: 'grammar', q: "Mount Fuji is ( ) than any other mountain in Japan.", sub: "👑 【英検過去問】比較級", options: ["high", "higher", "highest", "more high"], ans: 1, explain: "than があるので比較級 higher が正解です。" },
+      { id: 'past_6', type: 'grammar', q: "She stayed at home ( ) it was raining hard.", sub: "👑 【英検過去問】接続詞", options: ["because", "so", "but", "before"], ans: 0, explain: "「雨が激しく降っていたから」という理由を表す because です。" },
+      { id: 'past_7', type: 'grammar', q: "A: May I help you?\nB: ( ). I'm looking for a shirt.", sub: "👑 【英検過去問】会話表現", options: ["Yes, please", "No, thank you", "You're welcome", "Here you are"], ans: 0, explain: "店員の申し出に応じるときは Yes, please. と答えます。" },
+      { id: 'past_8', type: 'grammar', q: "My sister enjoys ( ) pictures on Sundays.", sub: "👑 【英検過去問】動名詞", options: ["paint", "painted", "painting", "to paint"], ans: 2, explain: "enjoy の目的語は動名詞（〜ing）になります。" },
+      { id: 'past_9', type: 'grammar', q: "You ( ) finish your homework before watching TV.", sub: "👑 【英検過去問】助動詞", options: ["must", "may", "could", "shall"], ans: 0, explain: "「〜しなければならない」という義務を表す must です。" },
+      { id: 'past_10', type: 'grammar', q: "A: Whose camera is this?\nB: It is ( ).", sub: "👑 【英検過去問】代名詞", options: ["mine", "my", "me", "I"], ans: 0, explain: "「私のもの」を表す所有代名詞 mine です。" },
+      { id: 'past_11', type: 'listening', q: "音声を聞いて、質問に答えよう。", sub: "👑 【英検過去問】リスニング", options: ["She can’t find the report.", "She forgot to call Max.", "The report is too long.", "Her desk is broken."], ans: 0, explain: "【解説】女性はレポートが見つからない(can't find the report)と困っています。", dialogue: [{ speaker: 'female', text: "Did you finish your report, Max?" }, { speaker: 'male', text: "Yes. I put it on your desk." }, { speaker: 'female', text: "Really? I can’t find it." }, { speaker: 'narrator', text: "Question. What is the woman’s problem?" }], audio_complete: "What is the woman’s problem? She can’t find the report." },
+      { id: 'past_12', type: 'listening', q: "音声を聞いて、質問に答えよう。", sub: "👑 【英検過去問】リスニング", options: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."], ans: 1, exp: "【解説】ケンのお母さんが病気でした。", dialogue: [{ speaker: 'female', text: "How was your weekend, Ken?" }, { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." }, { speaker: 'narrator', text: "Question. Who was sick?" }], audio_complete: "Who was sick? Ken’s mother." },
+      { id: 'past_13', type: 'grammar', q: "My father gave ( ) a nice bicycle.", sub: "👑 【英検過去問】第4文型", options: ["me", "I", "my", "mine"], ans: 0, explain: "give + 人 + もの の形なので目的格 me が入ります。" },
+      { id: 'past_14', type: 'grammar', q: "He went to the library ( ) study science.", sub: "👑 【英検過去問】不定詞（目的）", options: ["to", "for", "in", "at"], ans: 0, explain: "「勉強するために」という目的を表す to + 動詞の原形です。" },
+      { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
+    ];
+
     // ==================== 🐲 ボスステージ全10段階データ ====================
     const BOSS_STAGES = [
       { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 200, atk: 10, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
@@ -1190,7 +1191,7 @@
       { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 80, desc: '速さ +80 / 全宇宙の叡智' }
     ];
 
-    // ==================== ユーザーデータ管理 (LocalStorage & 自動マイグレーション) ====================
+    // ==================== ユーザーデータ管理 ====================
     const STORAGE_KEY = 'eiken4_data_v26';
     let userData = {
       level: 1,
@@ -1509,7 +1510,6 @@
       isDailyCurrentSession = false;
       isFeverMode = false;
 
-      // 難易度倍率設定
       if (diffLevel === 1) normalQuestDifficultyMultiplier = 1.0;
       if (diffLevel === 2) normalQuestDifficultyMultiplier = 1.5;
       if (diffLevel === 3) normalQuestDifficultyMultiplier = 2.2;
@@ -1519,7 +1519,7 @@
       startSessionInternal(selectedNormalType, count);
     }
 
-    // ==================== 👑 ボスレベル選択（ネタバレ防止シークレット仕様） ====================
+    // ==================== 👑 ボスレベル選択 ====================
     function openBossSelectModal() {
       initAudio();
       stopBattleTimers();
@@ -1738,7 +1738,7 @@
       saveData();
     }
 
-    // ==================== 📖 700語モンスター図鑑レンダリング ====================
+    // ==================== 📖 700語モンスター図鑑 ====================
     function showBook() {
       stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
@@ -1792,7 +1792,7 @@
       });
     }
 
-    // ==================== クイズ生成＆RPG戦闘セッション実行 ====================
+    // ==================== クイズ生成＆RPG戦闘セッション ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
@@ -2008,19 +2008,16 @@
       playerCurHp = pStats.hp;
 
       if (isBossMode) {
-        // 👑 ボスバトルの固定ステータス
         enemyMaxHp = currentBossStage.hp;
         enemyCurHp = currentBossStage.hp;
         enemyAtk = currentBossStage.atk;
       } else if (isDailyCurrentSession) {
-        // 📜 デイリークエストの固定敵HP
         if (currentMode === 'vocab') { enemyMaxHp = 100; enemyAtk = 12; }
         else if (currentMode === 'grammar') { enemyMaxHp = 80; enemyAtk = 15; }
         else if (currentMode === 'listening') { enemyMaxHp = 80; enemyAtk = 15; }
         else { enemyMaxHp = 100; enemyAtk = 12; }
         enemyCurHp = enemyMaxHp;
       } else {
-        // ⚔️ 通常クエストの固定難易度HP（ステータスに依存しない絶対値！）
         if (normalQuestDifficultyMultiplier <= 1.0) {
           enemyMaxHp = (selectedNormalType === 'vocab') ? 120 : ((selectedNormalType === 'grammar') ? 70 : 45);
           enemyAtk = 10;
@@ -2295,7 +2292,7 @@
       }
     }
 
-    // ==================== リザルト＆厳密な勝敗判定 ====================
+    // ==================== リザルト＆勝敗判定 ====================
     function finishSession() {
       stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
@@ -2311,7 +2308,6 @@
       const isEnemyDefeated = (enemyCurHp <= 0);
 
       if (isPlayerDead) {
-        // === 💀 力尽きて敗北 ===
         document.getElementById('resultModeBadge').innerText = '💀 クエスト失敗...';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-rose-700 text-white px-3 py-1 rounded-full inline-block mb-1';
         document.getElementById('resultEmoji').innerText = '🪦';
@@ -2321,7 +2317,6 @@
         earnedExp = Math.max(5, Math.round(quizScore * 2));
         earnedGems = 1;
       } else if (!isEnemyDefeated) {
-        // === 💨 時間切れ・敵削りきれず逃走（クエスト失敗） ===
         document.getElementById('resultModeBadge').innerText = '💨 討伐失敗 (時間切れ)';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-slate-700 text-slate-200 px-3 py-1 rounded-full inline-block mb-1';
         document.getElementById('resultEmoji').innerText = '💨';
@@ -2336,7 +2331,6 @@
           earnedGems = 1;
         }
       } else if (isBossMode && isEnemyDefeated) {
-        // === 👑 ボス戦 完全勝利 ===
         document.getElementById('resultModeBadge').innerText = `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！`;
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow';
         document.getElementById('resultEmoji').innerText = currentBossStage.icon;
@@ -2366,7 +2360,6 @@
           playSE('chest');
         }
       } else if (isDailyCurrentSession && isEnemyDefeated) {
-        // === 📜 デイリークエスト 討伐完全勝利 ===
         document.getElementById('resultEmoji').innerText = '🏆';
         document.getElementById('resultTitle').innerText = 'デイリークエスト撃破完了！';
         document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
@@ -2386,7 +2379,6 @@
           earnedGems = 25;
         }
       } else if (isEnemyDefeated) {
-        // === ⚔️ 通常特訓 討伐完全勝利 ===
         document.getElementById('resultEmoji').innerText = '🏆';
         document.getElementById('resultTitle').innerText = 'モンスター討伐完了！';
         document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
@@ -2472,7 +2464,7 @@
       if (active === 'parent' && navParent) navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
     }
 
-    // ==================== データ管理 (インポート/エクスポート) ====================
+    // ==================== データ管理 ====================
     function exportData() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
       const dlAnchor = document.createElement('a');
