@@ -111,8 +111,8 @@
 
             <!-- RPG ステータスパラメータ -->
             <div class="grid grid-cols-3 gap-1 text-[9.5px] font-black bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800 text-center">
-              <div class="text-rose-300">⚔️攻 <span id="statAtkVal">15</span></div>
-              <div class="text-emerald-300">🛡️HP <span id="statHpVal">100</span></div>
+              <div class="text-rose-300">⚔️攻 <span id="statAtkVal">31</span></div>
+              <div class="text-emerald-300">🛡️HP <span id="statHpVal">135</span></div>
               <div class="text-amber-300">⚡速 <span id="statSpdVal">5</span></div>
             </div>
           </div>
@@ -459,7 +459,7 @@
       </div>
     </div>
 
-    <!-- ==================== 4. 📖 モンスター図鑑（全登録語コレクション） ==================== -->
+    <!-- ==================== 4. 📖 モンスター図鑑（完全700語コレクション） ==================== -->
     <div id="viewBook" class="hidden space-y-3">
       <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
         <div class="flex justify-between items-center">
@@ -630,8 +630,9 @@
       });
     }
 
-    // ==================== 必須単語・重要熟語 700語 完全データベース ====================
+    // ==================== 必須単語・重要熟語 700語 完全網羅データベース ====================
     const RAW_VOCAB_DATA = [
+      // 1. 熟語・定型表現 (70語)
       ["listen to ~", "〜を聞く"], ["look for ~", "〜をさがす"], ["look at ~", "〜を見る"], ["look after ~", "〜の世話をする"],
       ["take care of ~", "〜の世話をする"], ["arrive at ~", "〜に到着する"], ["arrive in ~", "〜（大都市など）に到着する"],
       ["enjoy ~ing", "〜するのを楽しむ"], ["decide to ~", "〜しようと決める"], ["want to ~", "〜したい"], ["hope to ~", "〜することを望む"],
@@ -653,6 +654,7 @@
       ["so far", "これまでのところ"], ["some day", "いつか"], ["out of ~", "〜の外へ"], ["over there", "あそこに"],
       ["such as ~", "〜のような"], ["all the time", "いつも"], ["at that time", "その時"], ["at home", "家で"],
 
+      // 2. 場所・施設 (40語)
       ["library", "図書館"], ["museum", "博物館・美術館"], ["airport", "空港"], ["hospital", "病院"], ["stadium", "競技場・スタジアム"],
       ["factory", "工場"], ["village", "村"], ["island", "島"], ["station", "駅"], ["temple", "寺・寺院"], ["shrine", "神社"],
       ["castle", "城"], ["bridge", "橋"], ["aquarium", "水族館"], ["amusement park", "遊園地"], ["hotel", "ホテル"],
@@ -662,6 +664,7 @@
       ["bookstore", "書店・本屋"], ["palace", "宮殿"], ["tower", "塔・タワー"], ["garden", "庭・庭園"], ["zoo", "動物園"],
       ["beach", "浜辺・ビーチ"], ["cafe", "喫茶店・カフェ"], ["office", "事務所・会社"], ["kitchen", "台所・キッチン"],
 
+      // 3. 学校・教科・文房具 (35語)
       ["subject", "教科・科目"], ["science", "理科・科学"], ["math", "数学"], ["history", "歴史"], ["geography", "地理"],
       ["music", "音楽"], ["art", "美術・芸術"], ["English", "英語"], ["Japanese", "国語・日本語"], ["P.E.", "体育"],
       ["uniform", "制服"], ["calendar", "カレンダー"], ["dictionary", "辞書"], ["textbook", "教科書"], ["eraser", "消しゴム"],
@@ -670,6 +673,7 @@
       ["club", "部活動"], ["speech", "演説・スピーチ"], ["classmate", "同級生"], ["schedule", "予定・時間割"],
       ["classroom", "教室"], ["desk", "机"], ["chair", "椅子"], ["pencil", "鉛筆"], ["pen", "ペン"], ["chalk", "チョーク"],
 
+      // 4. 自然・天候・時間 (38語)
       ["weather", "天気"], ["future", "未来・将来"], ["season", "季節"], ["spring", "春"], ["summer", "夏"], ["autumn", "秋"], ["winter", "冬"],
       ["temperature", "気温・温度"], ["typhoon", "台風"], ["rainbow", "虹"], ["cloud", "雲"], ["wind", "風"], ["earth", "地球"],
       ["forest", "森"], ["river", "川"], ["lake", "湖"], ["ocean", "大洋・海"], ["mountain", "山"], ["waterfall", "滝"],
@@ -677,6 +681,7 @@
       ["sun", "太陽"], ["moon", "月"], ["star", "星"], ["sky", "空"], ["rain", "雨"], ["snow", "雪"], ["storm", "嵐"],
       ["flower", "花"], ["tree", "木"], ["leaf", "葉"], ["grass", "草"], ["ground", "地面"], ["hill", "丘"], ["stone", "石"],
 
+      // 5. 人・職業・家族 (41語)
       ["cousin", "いとこ"], ["scientist", "科学者"], ["neighbor", "隣人・近所の人"], ["passenger", "乗客"], ["pilot", "操縦士"],
       ["flight attendant", "客室乗務員"], ["nurse", "看護師"], ["dentist", "歯科医"], ["firefighter", "消防士"], ["police officer", "警察官"],
       ["lawyer", "弁護士"], ["actor", "俳優"], ["actress", "女優"], ["musician", "音楽家"], ["artist", "芸術家・画家"],
@@ -686,6 +691,7 @@
       ["student", "生徒・学生"], ["singer", "歌手"], ["writer", "作家"], ["cook", "料理人・コック"], ["driver", "運転手"],
       ["parent", "親"], ["father", "父"], ["mother", "母"], ["brother", "兄・弟"], ["sister", "姉・妹"], ["uncle", "叔父・伯父"], ["aunt", "叔母・伯母"],
 
+      // 6. 身の回り・名詞 (35語)
       ["hobby", "趣味"], ["passport", "パスポート"], ["vegetable", "野菜"], ["instrument", "楽器・道具"], ["festival", "祭り"],
       ["invitation", "招待状"], ["tradition", "伝統"], ["medicine", "薬"], ["traffic", "交通・往来"], ["accident", "事故"],
       ["advice", "助言・アドバイス"], ["chance", "機会・好機"], ["custom", "習慣・風習"], ["danger", "危険"], ["experience", "経験"],
@@ -694,6 +700,7 @@
       ["ticket", "切符・チケット"], ["present", "贈り物・プレゼント"], ["letter", "手紙・文字"], ["picture", "写真・絵"],
       ["camera", "カメラ"], ["guitar", "ギター"], ["piano", "ピアノ"], ["money", "お金"], ["dollar", "ドル"], ["price", "価格・値段"],
 
+      // 7. 基本動詞 (82語)
       ["invite", "招待する"], ["remember", "覚えている・思い出す"], ["borrow", "（無料で）借りる"], ["lend", "貸す"],
       ["receive", "受け取る"], ["prepare", "準備する"], ["introduce", "紹介する"], ["improve", "上達する・改善する"],
       ["happen", "（出来事が）起こる"], ["collect", "集める"], ["practice", "練習する"], ["protect", "保護する・守る"],
@@ -712,6 +719,7 @@
       ["bring", "持ってくる"], ["take", "連れて行く・乗る"], ["carry", "運ぶ"], ["hold", "持つ・開催する"], ["catch", "捕まえる"],
       ["eat", "食べる"], ["drink", "飲む"], ["sleep", "眠る"], ["wake", "目を覚ます"], ["stand", "立つ"], ["sit", "座る"],
 
+      // 8. 形容詞・副詞 (55語)
       ["excited", "わくわくした"], ["famous", "有名な"], ["delicious", "おいしい"], ["convenient", "便利な"], ["traditional", "伝統的な"],
       ["dangerous", "危険な"], ["popular", "人気のある"], ["comfortable", "快適な"], ["healthy", "健康的な"], ["important", "重要な"],
       ["special", "特別な"], ["necessary", "必要な"], ["polite", "礼儀正しい"], ["impolite", "無礼な"], ["careful", "注意深い"],
@@ -724,6 +732,7 @@
       ["early", "早く"], ["late", "遅く・遅れて"], ["soon", "すぐに・まもなく"], ["already", "すでに"], ["yet", "まだ・もう"],
       ["always", "いつも・常に"], ["usually", "たいてい・普段は"], ["often", "よく・しばしば"], ["sometimes", "時々"], ["never", "決して〜ない"],
 
+      // 9. 食べ物・飲み物 (35語)
       ["apple", "りんご"], ["banana", "バナナ"], ["orange", "オレンジ"], ["grape", "ぶどう"], ["peach", "桃"], ["melon", "メロン"],
       ["strawberry", "いちご"], ["carrot", "にんじん"], ["potato", "じゃがいも"], ["tomato", "トマト"], ["onion", "たまねぎ"],
       ["beef", "牛肉"], ["pork", "豚肉"], ["chicken", "鶏肉"], ["fish", "魚"], ["egg", "卵"], ["bread", "パン"], ["rice", "米・ご飯"],
@@ -731,22 +740,155 @@
       ["chocolate", "チョコレート"], ["ice cream", "アイスクリーム"], ["water", "水"], ["tea", "お茶・紅茶"], ["coffee", "コーヒー"],
       ["milk", "牛乳・ミルク"], ["juice", "ジュース"], ["butter", "バター"], ["cheese", "チーズ"], ["sugar", "砂糖"], ["salt", "塩"],
 
+      // 10. 動物・生き物 (27語)
       ["dog", "犬"], ["cat", "猫"], ["bird", "鳥"], ["rabbit", "うさぎ"], ["hamster", "ハムスター"], ["bear", "くま"], ["lion", "ライオン"],
       ["tiger", "トラ"], ["elephant", "ゾウ"], ["giraffe", "キリン"], ["monkey", "猿"], ["panda", "パンダ"], ["koala", "コアラ"],
       ["horse", "馬"], ["cow", "牛"], ["pig", "豚"], ["sheep", "羊"], ["duck", "アヒル・カモ"], ["penguin", "ペンギン"], ["whale", "クジラ"],
       ["dolphin", "イルカ"], ["shark", "サメ"], ["snake", "ヘビ"], ["frog", "カエル"], ["insect", "昆虫・虫"], ["ant", "アリ"], ["bee", "ハチ"],
 
+      // 11. 乗り物・交通 (17語)
       ["car", "車・自動車"], ["bus", "バス"], ["train", "電車・列車"], ["bicycle", "自転車"], ["bike", "自転車・バイク"], ["airplane", "飛行機"],
       ["plane", "飛行機"], ["ship", "船"], ["boat", "ボート・小舟"], ["taxi", "タクシー"], ["truck", "トラック"], ["subway", "地下鉄"],
       ["rocket", "ロケット"], ["road", "道路・道"], ["street", "通り・街路"], ["corner", "角・曲がり角"], ["map", "地図"],
 
+      // 12. 年月日・曜日・時間 (34語)
       ["January", "1月"], ["February", "2月"], ["March", "3月"], ["April", "4月"], ["May", "5月"], ["June", "6月"],
       ["July", "7月"], ["August", "8月"], ["September", "9月"], ["October", "10月"], ["November", "11月"], ["December", "12月"],
       ["Sunday", "日曜日"], ["Monday", "月曜日"], ["Tuesday", "火曜日"], ["Wednesday", "水曜日"], ["Thursday", "木曜日"], ["Friday", "金曜日"], ["Saturday", "土曜日"],
       ["morning", "朝・午前"], ["afternoon", "昼・午後"], ["evening", "夕方・晩"], ["night", "夜"], ["today", "今日"], ["tomorrow", "明日"], ["yesterday", "昨日"],
-      ["week", "週"], ["month", "月"], ["year", "年"], ["hour", "時間"], ["minute", "分"], ["second", "秒"], ["clock", "時計"], ["watch", "腕時計"]
+      ["week", "週"], ["month", "月"], ["year", "年"], ["hour", "時間"], ["minute", "分"], ["second", "秒"], ["clock", "時計"], ["watch", "腕時計"],
+
+      // 13. 身体・健康・感情 (35語)
+      ["head", "頭"], ["face", "顔"], ["eye", "目"], ["ear", "耳"], ["nose", "鼻"],
+      ["mouth", "口"], ["tooth", "歯"], ["teeth", "歯（複数）"], ["hair", "髪・毛"], ["neck", "首"],
+      ["shoulder", "肩"], ["arm", "腕"], ["hand", "手"], ["finger", "指"], ["leg", "脚"],
+      ["foot", "足"], ["feet", "足（複数）"], ["knee", "膝"], ["body", "体・身体"], ["heart", "心・心臓"],
+      ["fever", "熱・高熱"], ["headache", "頭痛"], ["stomachache", "腹痛・胃痛"], ["pain", "痛み"], ["voice", "声"],
+      ["feeling", "気持ち・感情"], ["smile", "笑顔・ほほえみ"], ["laugh", "笑う・笑い"], ["cry", "泣く・叫ぶ"], ["shout", "叫ぶ・大声を出す"],
+      ["worry", "心配する"], ["surprise", "驚かせる・驚き"], ["touch", "触る・触れる"], ["smell", "においをかぐ・におい"], ["taste", "味わう・味"],
+
+      // 14. 衣類・日用品 (30語)
+      ["clothes", "服・衣服"], ["shirt", "シャツ"], ["T-shirt", "Tシャツ"], ["sweater", "セーター"], ["jacket", "上着・ジャケット"],
+      ["coat", "コート"], ["pants", "ズボン・パンツ"], ["jeans", "ジーンズ"], ["skirt", "スカート"], ["dress", "ドレス・ワンピース"],
+      ["suit", "スーツ"], ["shoes", "靴"], ["boots", "ブーツ"], ["sneakers", "スニーカー"], ["socks", "靴下"],
+      ["hat", "帽子（つば付き）"], ["cap", "帽子（キャップ）"], ["gloves", "手袋"], ["bag", "かばん・バッグ"], ["pocket", "ポケット"],
+      ["belt", "ベルト"], ["ring", "指輪"], ["glasses", "めがね"], ["umbrella", "傘"], ["towel", "タオル"],
+      ["soap", "石鹸"], ["box", "箱"], ["bottle", "瓶・ボトル"], ["cup", "カップ・湯飲み"], ["glass", "コップ・ガラス"],
+
+      // 15. 家・部屋・家具 (30語)
+      ["house", "家・住宅"], ["home", "家庭・我が家"], ["room", "部屋"], ["door", "ドア・扉"], ["window", "窓"],
+      ["floor", "床・階"], ["wall", "壁"], ["roof", "屋根"], ["bed", "ベッド"], ["table", "テーブル・食卓"],
+      ["living room", "居間・リビング"], ["bedroom", "寝室"], ["bathroom", "浴室・トイレ"], ["dining room", "食堂・ダイニング"], ["balcony", "バルコニー・ベランダ"],
+      ["stairs", "階段"], ["gate", "門・ゲート"], ["fence", "フェンス・柵"], ["mirror", "鏡"], ["curtain", "カーテン"],
+      ["cushion", "クッション"], ["trash can", "ごみ箱"], ["shelf", "棚・本棚"], ["sofa", "ソファ"], ["refrigerator", "冷蔵庫"],
+      ["oven", "オーブン"], ["sink", "流し台・シンク"], ["key", "鍵・キー"], ["yard", "庭・中庭"], ["garage", "車庫・ガレージ"],
+
+      // 16. スポーツ・遊び・娯楽 (30語)
+      ["sports", "スポーツ"], ["game", "試合・ゲーム"], ["player", "選手・競技者"], ["team", "チーム"], ["captain", "キャプテン・主将"],
+      ["soccer", "サッカー"], ["baseball", "野球"], ["basketball", "バスケットボール"], ["tennis", "テニス"], ["volleyball", "バレーボール"],
+      ["swimming", "水泳"], ["running", "ランニング・走ること"], ["skiing", "スキー"], ["skating", "スケート"], ["fishing", "釣り"],
+      ["camping", "キャンプ"], ["hiking", "ハイキング"], ["picnic", "ピクニック"], ["party", "パーティー"], ["concert", "コンサート・演奏会"],
+      ["movie", "映画"], ["cinema", "映画館"], ["song", "歌・楽曲"], ["dance", "ダンス・踊り"], ["drama", "演劇・ドラマ"],
+      ["cartoon", "アニメ・漫画"], ["comic", "漫画・コミック本"], ["card", "カード・トランプ"], ["toy", "おもちゃ・玩具"], ["prize", "賞・賞品"],
+
+      // 17. 会話・連語表現 (35語)
+      ["excuse me", "すみません・失礼します"], ["I'm sorry", "ごめんなさい"], ["you're welcome", "どういたしまして"], ["of course", "もちろん"], ["good luck", "幸運を祈る・頑張って"],
+      ["congratulations", "おめでとう"], ["see you", "またね・さようなら"], ["take care", "気をつけて・お大事に"], ["have fun", "楽しんでね"], ["I see", "なるほど・わかりました"],
+      ["pardon me", "もう一度おっしゃってください"], ["how much", "いくら・どのくらいの量"], ["how many", "いくつ・何人の"], ["how long", "どのくらいの長さ・期間"], ["how often", "どのくらいの頻度で・何回"],
+      ["how about ~", "〜はどうですか"], ["why not", "なぜだめなのか・ぜひそうしよう"], ["all right", "了解・大丈夫"], ["no problem", "問題ない・どういたしまして"], ["not yet", "まだです"],
+      ["just a minute", "少々お待ちください"], ["hold on", "（電話を）切らずに待つ"], ["over here", "こちらへ・ここに"], ["far from ~", "〜から遠い"], ["next to ~", "〜の隣に"],
+      ["close to ~", "〜の近くに"], ["between A and B", "AとBの間に"], ["together with ~", "〜と一緒に"], ["by myself", "自分一人で・独力で"], ["in this way", "このようにして"],
+      ["first of all", "まず第一に"], ["more and more", "ますます多くの"], ["again and again", "何度も何度も"], ["little by little", "少しずつ・徐々に"], ["side by side", "並んで・肩を並べて"],
+
+      // 18. 動詞・形容詞・対義語 (31語)
+      ["hope", "希望する・望む"], ["wish", "願う・祈る"], ["show", "見せる・示す"], ["point", "指差す・点"], ["draw", "（線で）描く・引く"],
+      ["paint", "（絵の具で）描く・塗る"], ["sing", "歌う"], ["pass", "手渡す・合格する"], ["cross", "渡る・横断する"], ["follow", "従う・ついていく"],
+      ["lead", "導く・案内する"], ["guide", "案内する・ガイド"], ["drop", "落とす・落ちる"], ["bright", "明るい・輝く"], ["dark", "暗い・濃い"],
+      ["heavy", "重い"], ["light", "軽い・光"], ["soft", "柔らかい・穏やかな"], ["hard", "硬い・一生懸命な"], ["rich", "裕福な・豊かな"],
+      ["poor", "貧しい・かわいそうな"], ["strong", "強い・丈夫な"], ["weak", "弱い"], ["warm", "暖かい"], ["cool", "涼しい・かっこいい"],
+      ["dry", "乾いた・乾燥した"], ["wet", "濡れた・湿った"], ["safe", "安全な"], ["deep", "深い"], ["shallow", "浅い"], ["wild", "野生の・自然の"],
+
+      // 19. 追加重要単語 (80語)
+      ["stationery", "文房具"], ["envelope", "封筒"], ["postcard", "はがき"], ["stamp", "切手"], ["address", "住所"],
+      ["album", "写真アルバム"], ["diary", "日記"], ["pocketbook", "手帳"], ["workbook", "問題集・ワーク"], ["story", "物語・お話"],
+      ["novel", "小説"], ["newspaper", "新聞"], ["magazine", "雑誌"], ["sign", "看板・標識"], ["symbol", "記号・象徴"],
+      ["member", "一員・メンバー"], ["group", "集団・グループ"], ["crowd", "群衆・人混み"], ["couple", "一対・夫婦・カップル"], ["person", "人・人間"],
+      ["human", "人類・人間"], ["baby", "赤ちゃん"], ["child", "子ども"], ["children", "子どもたち"], ["adult", "大人・成人"],
+      ["earthquake", "地震"], ["energy", "エネルギー・活力"], ["environment", "環境"], ["nature", "自然"], ["space", "宇宙・空間"],
+      ["planet", "惑星"], ["world", "世界"], ["country", "国・田舎"], ["state", "州・国家"], ["nation", "国家・国民"],
+      ["capital", "首都・大文字"], ["city", "都市・市"], ["town", "町"], ["field", "野原・競技場"], ["space shuttle", "宇宙往還機"],
+      ["computer", "コンピュータ"], ["internet", "インターネット"], ["website", "ウェブサイト"], ["email", "電子メール"], ["smartphone", "スマートフォン"],
+      ["cell phone", "携帯電話"], ["video", "映像・動画"], ["screen", "画面・スクリーン"], ["battery", "電池・バッテリー"], ["robot", "ロボット"],
+      ["program", "計画・番組・プログラム"], ["event", "行事・出来事"], ["contest", "競技会・コンテスト"], ["meeting", "会議・集まり"], ["show", "見せ物・ショー"],
+      ["sale", "特売・販売"], ["discount", "割引"], ["cash", "現金"], ["credit card", "クレジットカード"], ["receipt", "領収書・レシート"],
+      ["size", "寸法・サイズ"], ["color", "色・色彩"], ["shape", "形・姿"], ["circle", "円・丸"], ["square", "正方形・広場"],
+      ["triangle", "三角形"], ["line", "線・列"], ["side", "側・面"], ["center", "中央・中心"], ["middle", "真ん中・中間"],
+      ["top", "頂上・上部"], ["bottom", "底・最下部"], ["corner", "隅・曲がり角"], ["front", "正面・前部"], ["back", "背中・後ろ"],
+      ["left", "左・左側"], ["right", "右・正しい"], ["north", "北"], ["south", "南"], ["east", "東"]
     ];
 
+    // ==================== 着せ替え・装備データベース ====================
+    const SHOP_EQUIP_DATA = [
+      { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
+      { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
+      { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 300, desc: 'HP +300 / やる気UP' },
+      { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 600, desc: 'HP +600 / 集中力UP' },
+      { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 1200, desc: 'HP +1200 / 文法の魔力' },
+      { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 2000, desc: 'HP +2000 / 精神集中' },
+      { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 3500, desc: 'HP +3500 / 知識の王者' },
+      { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
+      { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
+      { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護' },
+
+      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
+      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
+      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
+      { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
+      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
+      { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
+      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
+      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
+      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
+      { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気' },
+
+      { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
+      { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
+      { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 30, desc: '速さ +30 / 高みへ飛翔' },
+      { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 55, desc: '速さ +55 / 秘めたる力' },
+      { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
+      { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
+      { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
+      { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' }
+    ];
+
+    // ==================== 🐲 ボスステージ全10段階データ ====================
+    const BOSS_STAGES = [
+      { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
+      { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
+      { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 7000, atk: 85, exp: 130, gems: 28, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
+      { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 12000, atk: 120, exp: 180, gems: 35, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
+      { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 18000, atk: 165, exp: 240, gems: 45, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
+      { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 26000, atk: 210, exp: 310, gems: 55, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
+      { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
+      { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
+      { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
+      { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
+    ];
+
+    // ==================== レベル10ごとの進化ツリー (Lv.1〜Lv.100) ====================
+    const AVATARS = [
+      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+      { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
+      { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
+      { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
+      { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
+      { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
+      { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
+      { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
+      { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
+      { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
+      { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
+    ];
     // ==================== 文法・会話 100問 完全データベース ====================
     const RAW_GRAMMAR_DATA = [
       { q: "I ( ) to the park yesterday.", sub: "【訳】私は昨日、公園に行きました。", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので過去形の went を使います。" },
@@ -946,35 +1088,6 @@
       { id: 'past_13', type: 'grammar', q: "My father gave ( ) a nice bicycle.", sub: "👑 【英検過去問】第4文型", options: ["me", "I", "my", "mine"], ans: 0, explain: "give + 人 + もの の形なので目的格 me が入ります。" },
       { id: 'past_14', type: 'grammar', q: "He went to the library ( ) study science.", sub: "👑 【英検過去問】不定詞（目的）", options: ["to", "for", "in", "at"], ans: 0, explain: "「勉強するために」という目的を表す to + 動詞の原形です。" },
       { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
-    ];
-
-    // ==================== 🐲 ボスステージ全10段階データ ====================
-    const BOSS_STAGES = [
-      { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
-      { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
-      { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 7000, atk: 85, exp: 130, gems: 28, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
-      { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 12000, atk: 120, exp: 180, gems: 35, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
-      { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 18000, atk: 165, exp: 240, gems: 45, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
-      { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 26000, atk: 210, exp: 310, gems: 55, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
-      { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
-      { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
-      { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
-      { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
-    ];
-
-    // ==================== レベル10ごとの進化ツリー (Lv.1〜Lv.100) ====================
-    const AVATARS = [
-      { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
-      { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
-      { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
-      { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
-      { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
-      { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
-      { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
-      { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
-      { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
-      { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
-      { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
     ];
 
     // ==================== 音声読み上げエンジン ====================
@@ -1199,54 +1312,19 @@
         }
       } catch(e) {}
     }
-
-    // ==================== 着せ替え・装備データベース ====================
-    const SHOP_EQUIP_DATA = [
-      { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
-      { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
-      { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 300, desc: 'HP +300 / やる気UP' },
-      { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 600, desc: 'HP +600 / 集中力UP' },
-      { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 1200, desc: 'HP +1200 / 文法の魔力' },
-      { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 2000, desc: 'HP +2000 / 精神集中' },
-      { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 3500, desc: 'HP +3500 / 知識の王者' },
-      { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
-      { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
-      { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護' },
-
-      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
-      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
-      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
-      { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
-      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
-      { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
-      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
-      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
-      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
-      { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気' },
-
-      { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
-      { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
-      { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 30, desc: '速さ +30 / 高みへ飛翔' },
-      { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 55, desc: '速さ +55 / 秘めたる力' },
-      { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
-      { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
-      { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
-      { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' }
-    ];
-
     // ==================== ユーザーデータ管理 ====================
-    const STORAGE_KEY = 'eiken4_data_v28';
+    const STORAGE_KEY = 'eiken4_data_v30';
     let userData = {
       level: 1,
       exp: 0,
       gems: 10,
       streak: 1,
       lastLoginDate: getTodayString(),
-      weakList: [], // 間違えた問題ID
+      weakList: [],
       vocabBook: [],
       bossUnlockedLevel: 1,
       bossClearedLevels: [],
-      questRotation: { vocab: false, grammar: false, listening: false }, // 通常特訓各1回制
+      questRotation: { vocab: false, grammar: false, listening: false },
       dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
       inventory: { hint: 1, potion: 0 },
       equipped: { hat: '', weapon: '', aura: '' },
@@ -1305,7 +1383,7 @@
       try {
         let saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) {
-          const oldKeys = ['eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data_v23', 'eiken4_data_v22', 'eiken4_data_v21', 'eiken4_data_v20', 'eiken4_data_v19', 'eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
+          const oldKeys = ['eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data_v23', 'eiken4_data'];
           for (const key of oldKeys) {
             const old = localStorage.getItem(key);
             if (old) {
@@ -1361,7 +1439,6 @@
       }
     }
 
-    // ステータス計算：レベル基礎値＋装備品のみ（毎問の加算・クリア加算は完全撤廃）
     function calculatePlayerStats() {
       const baseAtk = 25 + (userData.level * 6);
       const baseHp = 120 + (userData.level * 15);
@@ -1456,7 +1533,6 @@
         setText('countdownDays', '49 日');
       }
 
-      // デイリー進捗
       let doneCount = 0;
       if (userData.dailyDone.vocab) doneCount++;
       if (userData.dailyDone.grammar) doneCount++;
@@ -1499,7 +1575,6 @@
         }
       }
 
-      // 通常特訓サイクルUI更新
       let rotCount = 0;
       if (userData.questRotation.vocab) rotCount++;
       if (userData.questRotation.grammar) rotCount++;
@@ -1559,18 +1634,15 @@
     function claimDailyAllBonus() {
       initAudio();
       if (userData.dailyDone.allClaimed) return;
-      
       userData.dailyDone.allClaimed = true;
       const bonusGems = 50;
       const bonusExp = 150;
       userData.gems += bonusGems;
-      
       playSE('bonus');
       alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
       addExp(bonusExp);
     }
 
-    // ==================== ⚔️ 通常クエスト難易度選択＆出撃 ====================
     function openNormalQuestSelect(type) {
       initAudio();
       stopBattleTimers();
@@ -1578,7 +1650,6 @@
         alert('この分野は現在のサイクルで既にクリア済みです！他の分野をクリアして「にがて討伐」を突破すると再挑戦できます！');
         return;
       }
-
       selectedNormalType = type;
       const modal = document.getElementById('modalNormalSelect');
       const titleEl = document.getElementById('normalSelectTitle');
@@ -1601,12 +1672,10 @@
       isDailyCurrentSession = false;
       isFeverMode = false;
       selectedNormalDiffLevel = diffLevel;
-
       const count = (selectedNormalType === 'vocab') ? 10 : (selectedNormalType === 'grammar' ? 5 : 3);
       startSessionInternal(selectedNormalType, count);
     }
 
-    // ==================== 👾 にがて討伐バトル（サイクル解放用） ====================
     function startWeakBattle() {
       initAudio();
       stopBattleTimers();
@@ -1669,7 +1738,6 @@
       startSession();
     }
 
-    // ==================== 👑 ボスレベル選択＆出撃 ====================
     function openBossSelectModal() {
       initAudio();
       stopBattleTimers();
@@ -1731,10 +1799,8 @@
             </div>
           `;
         }
-
         container.appendChild(card);
       });
-
       modal.classList.remove('hidden');
     }
 
@@ -1772,21 +1838,12 @@
           audio_complete: item.audio_complete || null
         };
       });
-
       startSession();
     }
 
-    // ==================== 👾 にがて帳（復習画面）のレンダリング ====================
     function showWeakBook() {
       stopBattleTimers();
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewShop').classList.add('hidden');
-      document.getElementById('viewParent').classList.add('hidden');
-      document.getElementById('viewBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewWeakBook').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('weak');
@@ -1798,7 +1855,6 @@
       const badge = document.getElementById('weakBookCountBadge');
       if (!container) return;
       container.innerHTML = '';
-
       if (badge) badge.innerText = `${userData.weakList.length}問`;
 
       if (userData.weakList.length === 0) {
@@ -1867,17 +1923,9 @@
       renderWeakBookList();
     }
 
-    // ==================== 📖 モンスター図鑑（登録分母取得修正版） ====================
     function showBook() {
       stopBattleTimers();
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewShop').classList.add('hidden');
-      document.getElementById('viewParent').classList.add('hidden');
-      document.getElementById('viewWeakBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewBook').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('book');
@@ -1890,8 +1938,7 @@
       container.innerHTML = '';
 
       const query = (document.getElementById('bookSearchInput')?.value || '').toLowerCase().trim();
-      // 正確な登録総数をマスターデータから取得
-      const totalVocabCount = RAW_VOCAB_DATA.length;
+      const totalVocabCount = RAW_VOCAB_DATA.length; // 700
       const collectedCount = userData.vocabBook.length;
       const pct = totalVocabCount > 0 ? Math.round((collectedCount / totalVocabCount) * 100) : 0;
 
@@ -1926,7 +1973,6 @@
       });
     }
 
-    // ==================== クイズ生成＆RPG戦闘セッション ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
@@ -2064,52 +2110,37 @@
       playerCurHp = pStats.hp;
 
       if (isBossMode) {
-        // 👑 ボスバトルの固定ステータス
         enemyMaxHp = currentBossStage.hp;
         enemyCurHp = currentBossStage.hp;
         enemyAtk = currentBossStage.atk;
       } else if (isDailyCurrentSession) {
-        // 📜 デイリークエストの敵HP
         if (currentMode === 'vocab') { enemyMaxHp = 600; enemyAtk = 18; }
         else if (currentMode === 'grammar') { enemyMaxHp = 400; enemyAtk = 22; }
         else if (currentMode === 'listening') { enemyMaxHp = 350; enemyAtk = 22; }
         else { enemyMaxHp = 500; enemyAtk = 20; }
         enemyCurHp = enemyMaxHp;
       } else if (currentMode === 'weakBattle') {
-        // 👾 にがて討伐バトルの敵HP
         enemyMaxHp = 800;
         enemyCurHp = 800;
         enemyAtk = 25;
       } else {
-        // ⚔️ 通常クエストの難易度別設計（絶対値）
         if (selectedNormalDiffLevel === 1) {
-          // 初級: Lv1〜15向け（通常クリア可能）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
           enemyAtk = 15;
         } else if (selectedNormalDiffLevel === 2) {
-          // 中級: Lv20〜35向け（全問クリティカルで突破可能）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 4500 : ((selectedNormalType === 'grammar') ? 2300 : 1400);
           enemyAtk = 60;
         } else if (selectedNormalDiffLevel === 3) {
-          // 上級: Lv40〜60向け（攻略不可設計）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 15000 : ((selectedNormalType === 'grammar') ? 8000 : 5000);
           enemyAtk = 150;
         } else {
-          // 覇級: Lv70〜向け（即全滅レベル）
           enemyMaxHp = (selectedNormalType === 'vocab') ? 45000 : ((selectedNormalType === 'grammar') ? 24000 : 15000);
           enemyAtk = 350;
         }
         enemyCurHp = enemyMaxHp;
       }
 
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewShop').classList.add('hidden');
-      document.getElementById('viewParent').classList.add('hidden');
-      document.getElementById('viewBook').classList.add('hidden');
-      document.getElementById('viewWeakBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewQuiz').classList.remove('hidden');
 
       if (isBossMode) {
@@ -2135,10 +2166,8 @@
     function updateBattleHpUi() {
       const heroPct = Math.max(0, Math.min(100, Math.round((playerCurHp / playerMaxHp) * 100)));
       const enemyPct = Math.max(0, Math.min(100, Math.round((enemyCurHp / enemyMaxHp) * 100)));
-
       document.getElementById('battleHeroHpBar').style.width = `${heroPct}%`;
       document.getElementById('battleHeroHpText').innerText = `${playerCurHp}/${playerMaxHp}`;
-
       document.getElementById('battleEnemyHpBar').style.width = `${enemyPct}%`;
       document.getElementById('battleEnemyHpText').innerText = `${enemyCurHp}/${enemyMaxHp}`;
     }
@@ -2201,11 +2230,8 @@
         if (q.type === 'listening') {
           audioBtnContainer.classList.remove('hidden');
           if (timerText) timerText.innerText = '🎧 音声を再生中...';
-          if (q.dialogue) {
-            playDialogueSpeech(q.dialogue, () => startCriticalTimer());
-          } else {
-            startCriticalTimer();
-          }
+          if (q.dialogue) playDialogueSpeech(q.dialogue, () => startCriticalTimer());
+          else startCriticalTimer();
         } else {
           audioBtnContainer.classList.add('hidden');
           startCriticalTimer();
@@ -2237,13 +2263,9 @@
     function playCurrentAudio() {
       const q = currentQueue[currentIndex];
       if (!q) return;
-      if (isAnswered && q.audio_complete) {
-        speakText(q.audio_complete);
-      } else if (q.type === 'listening' && q.dialogue) {
-        playDialogueSpeech(q.dialogue);
-      } else if (!isBossMode && q.audio_question) {
-        speakText(q.audio_question);
-      }
+      if (isAnswered && q.audio_complete) speakText(q.audio_complete);
+      else if (q.type === 'listening' && q.dialogue) playDialogueSpeech(q.dialogue);
+      else if (!isBossMode && q.audio_question) speakText(q.audio_question);
     }
 
     function showDamagePopup(text, isCritical, isEnemyDamage) {
@@ -2273,9 +2295,7 @@
       const buttons = Array.from(document.getElementById('quizOptions').children);
       const wrongIndices = [];
       buttons.forEach((btn, idx) => {
-        if (idx !== q.ans && !btn.disabled) {
-          wrongIndices.push(idx);
-        }
+        if (idx !== q.ans && !btn.disabled) wrongIndices.push(idx);
       });
 
       const toDisable = shuffleArray(wrongIndices).slice(0, 2);
@@ -2364,7 +2384,6 @@
         updateBattleHpUi();
         showDamagePopup(`⚠️ 反撃被弾! -${enemyDmg} HP`, false, false);
 
-        // 間違えた問題を自動で「にがて帳」データベースへ蓄積
         if (!userData.weakList.includes(q.id)) {
           userData.weakList.push(q.id);
         }
@@ -2388,7 +2407,6 @@
       }
     }
 
-    // ==================== リザルト＆勝敗判定 ====================
     function finishSession() {
       stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
@@ -2409,7 +2427,6 @@
         document.getElementById('resultEmoji').innerText = '🪦';
         document.getElementById('resultTitle').innerText = '力尽きてしまった！';
         document.getElementById('resultComment').innerText = '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
-
         earnedExp = Math.max(5, Math.round(quizScore * 2));
         earnedGems = 1;
       } else if (!isEnemyDefeated) {
@@ -2475,24 +2492,20 @@
           earnedGems = 25;
         }
       } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
-        // === 👾 にがて討伐バトル 勝利 ➔ 通常クエストのローテーションをリセット！ ===
         document.getElementById('resultEmoji').innerText = '🎉';
         document.getElementById('resultTitle').innerText = 'にがて討伐完了！';
         document.getElementById('resultModeBadge').innerText = '🔄 通常特訓サイクルがリセット！';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
         document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓（単語・文法・リスニング）に再び挑戦できます！';
-
         userData.questRotation = { vocab: false, grammar: false, listening: false };
         earnedExp = 100;
         earnedGems = 20;
       } else if (isEnemyDefeated) {
-        // === ⚔️ 通常特訓 討伐完全勝利 ===
         document.getElementById('resultEmoji').innerText = '🏆';
         document.getElementById('resultTitle').innerText = 'モンスター討伐完了！';
         document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
         document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full inline-block mb-1';
         
-        // サイクル達成フラグをオンに
         if (selectedNormalType) {
           userData.questRotation[selectedNormalType] = true;
         }
@@ -2627,17 +2640,14 @@
 
       const rand = Math.random();
       if (rand < 0.45) {
-        // EXP当たり
         const expWon = 150 + Math.floor(Math.random() * 200);
         alert(`🎰 ガチャ結果！\n✨ 経験値 +${expWon} EXP を獲得！`);
         addExp(expWon);
       } else if (rand < 0.75) {
-        // アイテム当たり
         userData.inventory.hint += 2;
         alert('🎰 ガチャ結果！\n💡 ヒントの書 × 2個 を獲得！');
         saveData();
       } else {
-        // レア装備未所持の中から抽選
         const lockedEquips = SHOP_EQUIP_DATA.filter(e => !userData.unlockedEquips.includes(e.id) && e.price <= 9000);
         if (lockedEquips.length > 0) {
           const won = lockedEquips[Math.floor(Math.random() * lockedEquips.length)];
@@ -2652,17 +2662,16 @@
       }
     }
 
-    // ==================== 画面遷移 ====================
+    function hideAllViews() {
+      ['viewHome', 'viewQuiz', 'viewResult', 'viewShop', 'viewParent', 'viewBook', 'viewWeakBook', 'modalBossSelect', 'modalNormalSelect'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+    }
+
     function showHome() {
       stopBattleTimers();
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewShop').classList.add('hidden');
-      document.getElementById('viewParent').classList.add('hidden');
-      document.getElementById('viewBook').classList.add('hidden');
-      document.getElementById('viewWeakBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewHome').classList.remove('hidden');
       playBGM('home');
       updateNavHighlight('home');
@@ -2670,52 +2679,31 @@
 
     function showShop() {
       stopBattleTimers();
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewParent').classList.add('hidden');
-      document.getElementById('viewBook').classList.add('hidden');
-      document.getElementById('viewWeakBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewShop').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('shop');
+      renderShopEquips();
     }
 
     function showParent() {
       stopBattleTimers();
-      document.getElementById('viewQuiz').classList.add('hidden');
-      document.getElementById('viewResult').classList.add('hidden');
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewShop').classList.add('hidden');
-      document.getElementById('viewBook').classList.add('hidden');
-      document.getElementById('viewWeakBook').classList.add('hidden');
-      document.getElementById('modalBossSelect').classList.add('hidden');
-      document.getElementById('modalNormalSelect').classList.add('hidden');
+      hideAllViews();
       document.getElementById('viewParent').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('parent');
     }
 
     function updateNavHighlight(active) {
-      const navHome = document.getElementById('navHome');
-      const navBook = document.getElementById('navBook');
-      const navWeak = document.getElementById('navWeak');
-      const navShop = document.getElementById('navShop');
-      const navParent = document.getElementById('navParent');
-      
-      [navHome, navBook, navWeak, navShop, navParent].forEach(btn => {
+      ['Home', 'Book', 'Weak', 'Shop', 'Parent'].forEach(name => {
+        const btn = document.getElementById('nav' + name);
         if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
       });
-      if (active === 'home' && navHome) navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'book' && navBook) navBook.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'weak' && navWeak) navWeak.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'shop' && navShop) navShop.className = "flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'parent' && navParent) navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      const keyMap = { home: 'navHome', book: 'navBook', weak: 'navWeak', shop: 'navShop', parent: 'navParent' };
+      const target = document.getElementById(keyMap[active]);
+      if (target) target.className = "flex flex-col items-center gap-0.5 text-amber-400";
     }
 
-    // ==================== データ管理 ====================
     function exportData() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
       const dlAnchor = document.createElement('a');
@@ -2729,13 +2717,23 @@
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
+        let imported = null;
         try {
-          const imported = JSON.parse(e.target.result);
-          userData = imported;
-          saveData();
+          imported = JSON.parse(e.target.result);
+        } catch (parseErr) {
+          alert('ファイルの読み込みに失敗しました（有効なJSONバックアップファイルではありません）。');
+          return;
+        }
+        try {
+          userData = { ...userData, ...imported };
+          sanitizeUserData();
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+          updateUiState();
           alert('データの復元が完了しました！');
-        } catch(err) {
-          alert('ファイルの読み込みに失敗しました。');
+          location.reload();
+        } catch (err) {
+          console.error(err);
+          alert('データの反映中にエラーが発生しました。');
         }
       };
       reader.readAsText(file);
