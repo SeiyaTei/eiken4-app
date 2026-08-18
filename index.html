@@ -85,7 +85,7 @@
       <!-- 相棒モンスター & レベル & ステータス -->
       <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
         <div class="flex items-center gap-4">
-          <div class="relative">
+          <div class="relative flex-shrink-0">
             <div id="heroAvatarContainer" class="w-24 h-24 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-3xl shadow-inner animate-bounce-slow relative overflow-visible">
               <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-5xl opacity-70 pointer-events-none scale-125 z-0"></span>
               <span id="equipHatIcon" class="absolute -top-3.5 z-20 text-2xl drop-shadow"></span>
@@ -110,7 +110,7 @@
             </div>
 
             <!-- RPG ステータスパラメータ -->
-            <div class="grid grid-cols-3 gap-1 text-[9.5px] font-black bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800">
+            <div class="grid grid-cols-3 gap-1 text-[9.5px] font-black bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800 text-center">
               <div class="text-rose-300">⚔️攻 <span id="statAtkVal">15</span></div>
               <div class="text-emerald-300">🛡️HP <span id="statHpVal">100</span></div>
               <div class="text-amber-300">⚡速 <span id="statSpdVal">5</span></div>
@@ -125,27 +125,27 @@
         </div>
       </div>
 
-      <!-- 👑 過去問ボスバトル巨大カード -->
+      <!-- 👑 過去問ボスバトル（Lv.1〜Lv.10 段階制）巨大カード -->
       <div class="bg-gradient-to-r from-red-900 via-purple-900 to-indigo-900 border-2 border-red-500/80 rounded-3xl p-4 shadow-2xl glow-red relative overflow-hidden">
         <div class="flex items-center justify-between">
-          <div>
-            <span class="text-[9px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">High Reward BOSS</span>
-            <h3 class="text-base font-black text-amber-300 mt-1 flex items-center gap-1.5">
-              👑 過去問ボスバトル (10問)
-            </h3>
-            <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問から10問ランダム出題！</p>
-            <div class="text-[10px] text-amber-300 font-black mt-1">
-              討伐報酬: <span class="text-emerald-400">EXP +120 / 💎 +30 / 🎁 レアドロップ</span>
+          <div class="min-w-0 flex-1 mr-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">BOSS BATTLE</span>
+              <span id="bossCurrentProgressBadge" class="text-[9px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full">Lv.1 解放中</span>
             </div>
+            <h3 class="text-base font-black text-amber-300 mt-1 flex items-center gap-1.5 truncate">
+              👑 過去問ボスバトル (全10段階)
+            </h3>
+            <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問10問で討伐！Lv.10神龍を目指せ！</p>
           </div>
-          <button onclick="startBossBattle()" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-4 py-3 rounded-2xl text-xs shadow-lg transition active:scale-95 flex flex-col items-center">
+          <button onclick="openBossSelectModal()" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-4 py-3 rounded-2xl text-xs shadow-lg transition active:scale-95 flex flex-col items-center flex-shrink-0">
             <span class="text-xl">🐲</span>
-            <span>ボス挑戦</span>
+            <span class="whitespace-nowrap">ボス選択</span>
           </button>
         </div>
       </div>
 
-      <!-- 今日の3大デイリークエスト -->
+      <!-- 今日の3大デイリークエスト（縦書き不具合完全修正版） -->
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-900 to-purple-950 border-2 border-amber-500/60 rounded-3xl p-4 shadow-xl space-y-3">
         <div class="flex justify-between items-center">
           <div>
@@ -154,49 +154,49 @@
             </h3>
             <p class="text-[9.5px] text-indigo-200">1日各1回限定！ステータス永続UP＆大量ダイヤ</p>
           </div>
-          <span id="dailyProgressText" class="text-xs bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold">0 / 3</span>
+          <span id="dailyProgressText" class="text-xs bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold whitespace-nowrap">0 / 3</span>
         </div>
 
         <div class="space-y-2 text-xs">
           <!-- デイリー単語 -->
-          <div id="questCardVocab" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">📖</span>
-              <div>
-                <div class="font-bold text-slate-200">必須単語 5問特訓 (⚔️攻撃力UP)</div>
+          <div id="questCardVocab" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-1">
+              <span class="text-xl flex-shrink-0">📖</span>
+              <div class="min-w-0">
+                <div class="font-bold text-slate-200 truncate">必須単語 5問 (⚔️攻UP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+50 EXP / 💎+15</div>
               </div>
             </div>
-            <div id="questActionVocab">
-              <button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            <div id="questActionVocab" class="flex-shrink-0">
+              <button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
 
           <!-- デイリー文法 -->
-          <div id="questCardGrammar" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">🪄</span>
-              <div>
-                <div class="font-bold text-slate-200">重要文法 3問特訓 (🛡️HP UP)</div>
+          <div id="questCardGrammar" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-1">
+              <span class="text-xl flex-shrink-0">🪄</span>
+              <div class="min-w-0">
+                <div class="font-bold text-slate-200 truncate">重要文法 3問 (🛡️HP UP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+60 EXP / 💎+20</div>
               </div>
             </div>
-            <div id="questActionGrammar">
-              <button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            <div id="questActionGrammar" class="flex-shrink-0">
+              <button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
 
-          <!-- デイリーリスニング -->
-          <div id="questCardListening" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">🎧</span>
-              <div>
-                <div class="font-bold text-slate-200">対話リスニング 3問特訓 (⚡すばやさUP)</div>
+          <!-- デイリーリスニング（修正済み） -->
+          <div id="questCardListening" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-1">
+              <span class="text-xl flex-shrink-0">🎧</span>
+              <div class="min-w-0">
+                <div class="font-bold text-slate-200 truncate">対話リスニング 3問 (⚡速UP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
               </div>
             </div>
-            <div id="questActionListening">
-              <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>
+            <div id="questActionListening" class="flex-shrink-0">
+              <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
         </div>
@@ -245,6 +245,24 @@
         </div>
       </div>
 
+    </div>
+
+
+    <!-- ==================== 👑 ボスレベル選択モーダル ==================== -->
+    <div id="modalBossSelect" class="hidden fixed inset-0 bg-indigo-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-red-500/80 rounded-3xl p-4 w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl space-y-3">
+        <div class="flex justify-between items-center border-b border-indigo-800 pb-2">
+          <div>
+            <h3 class="font-black text-base text-amber-300 flex items-center gap-1.5">
+              🐲 過去問ボスバトル選択 (全10段階)
+            </h3>
+            <p class="text-[10px] text-indigo-300">各レベルを撃破してLv.10の神龍を目指そう！</p>
+          </div>
+          <button onclick="closeBossSelectModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 bg-indigo-950 rounded-lg">✕</button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="bossStageList"></div>
+      </div>
     </div>
 
 
@@ -501,7 +519,7 @@
 
   </main>
 
-  <!-- ボトムナビゲーションバー (5分割均等レイアウト) -->
+  <!-- ボトムナビゲーションバー -->
   <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
     <div class="max-w-md mx-auto grid grid-cols-5 text-[9.5px] font-bold text-center">
       <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-400">
@@ -838,6 +856,20 @@
       }
     ];
 
+    // ==================== 🐲 ボスステージ全10段階データ ====================
+    const BOSS_STAGES = [
+      { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 200, atk: 10, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
+      { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 350, atk: 13, exp: 80, gems: 20, desc: "硬いウロコを持つ飛竜。テンポよくダメージを与えよう。" },
+      { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 550, atk: 16, exp: 100, gems: 25, desc: "炎を吐く強敵。単語力を高めて攻撃力を上げよう。" },
+      { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 800, atk: 20, exp: 130, gems: 30, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
+      { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 1100, atk: 24, exp: 170, gems: 38, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
+      { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 1500, atk: 28, exp: 220, gems: 46, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
+      { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 2000, atk: 33, exp: 280, gems: 55, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
+      { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 2600, atk: 38, exp: 350, gems: 65, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
+      { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 3300, atk: 44, exp: 450, gems: 80, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
+      { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 4200, atk: 52, exp: 600, gems: 100, desc: "【最強裏ボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" }
+    ];
+
     // ==================== レベル10ごとの進化ツリー (Lv.1〜Lv.100) ====================
     const AVATARS = [
       { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
@@ -1078,7 +1110,7 @@
     ];
 
     // ==================== ユーザーデータ管理 (LocalStorage & 自動マイグレーション) ====================
-    const STORAGE_KEY = 'eiken4_data_v19';
+    const STORAGE_KEY = 'eiken4_data_v20';
     let userData = {
       level: 1,
       exp: 0,
@@ -1087,6 +1119,8 @@
       lastLoginDate: getTodayString(),
       weakList: [],
       vocabBook: [],
+      bossUnlockedLevel: 1, // 👑 解放中のボス最大レベル (1〜10)
+      bossClearedLevels: [], // 👑 討伐完了したレベル一覧
       statsBonus: { atk: 0, hp: 0, spd: 0 },
       totalAnswered: 0,
       totalCorrect: 0,
@@ -1100,6 +1134,7 @@
     let isDailyCurrentSession = false;
     let isBossMode = false;
     let isFeverMode = false;
+    let currentBossStage = BOSS_STAGES[0]; // 現在選択中のボスデータ
 
     function getTodayString() {
       const d = new Date();
@@ -1115,6 +1150,9 @@
       if (!Array.isArray(userData.vocabBook)) userData.vocabBook = [];
       if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
       
+      if (typeof userData.bossUnlockedLevel !== 'number' || userData.bossUnlockedLevel < 1 || isNaN(userData.bossUnlockedLevel)) userData.bossUnlockedLevel = 1;
+      if (!Array.isArray(userData.bossClearedLevels)) userData.bossClearedLevels = [];
+
       if (!userData.statsBonus || typeof userData.statsBonus !== 'object') userData.statsBonus = { atk: 0, hp: 0, spd: 0 };
       userData.statsBonus.atk = Number(userData.statsBonus.atk) || 0;
       userData.statsBonus.hp = Number(userData.statsBonus.hp) || 0;
@@ -1141,7 +1179,7 @@
       try {
         let saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) {
-          const oldKeys = ['eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
+          const oldKeys = ['eiken4_data_v19', 'eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
           for (const key of oldKeys) {
             const old = localStorage.getItem(key);
             if (old) {
@@ -1254,6 +1292,7 @@
       setText('hintStockCount', userData.inventory.hint || 0);
       setText('shopHintCount', userData.inventory.hint || 0);
       setText('shopPotionCount', userData.inventory.potion || 0);
+      setText('bossCurrentProgressBadge', `Lv.${userData.bossUnlockedLevel} 解放中`);
 
       const stats = calculatePlayerStats();
       setText('statAtkVal', stats.atk);
@@ -1299,22 +1338,22 @@
       const actVocab = document.getElementById('questActionVocab');
       if (actVocab) {
         actVocab.innerHTML = userData.dailyDone.vocab
-          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
-          : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
       }
 
       const actGrammar = document.getElementById('questActionGrammar');
       if (actGrammar) {
         actGrammar.innerHTML = userData.dailyDone.grammar
-          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
-          : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
       }
 
       const actListening = document.getElementById('questActionListening');
       if (actListening) {
         actListening.innerHTML = userData.dailyDone.listening
-          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1 rounded-xl text-[10px] border border-emerald-600/50">✓ 達成済</span>`
-          : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95">挑戦</button>`;
+          ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
+          : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
       }
 
       const bonusArea = document.getElementById('dailyBonusArea');
@@ -1359,6 +1398,67 @@
       playSE('bonus');
       alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
       addExp(bonusExp);
+    }
+
+    // ==================== 👑 ボスレベル選択モーダル制御 ====================
+    function openBossSelectModal() {
+      initAudio();
+      const modal = document.getElementById('modalBossSelect');
+      const container = document.getElementById('bossStageList');
+      if (!modal || !container) return;
+      container.innerHTML = '';
+
+      BOSS_STAGES.forEach(stage => {
+        const isUnlocked = (stage.lv <= userData.bossUnlockedLevel);
+        const isCleared = userData.bossClearedLevels.includes(stage.lv);
+
+        const card = document.createElement('div');
+        card.className = `p-3 rounded-2xl border flex items-center justify-between transition ${
+          isUnlocked 
+            ? (isCleared ? 'bg-indigo-900/90 border-amber-400/80 shadow' : 'bg-gradient-to-r from-red-950 to-indigo-950 border-red-500/80 shadow-lg')
+            : 'bg-indigo-950/60 border-indigo-900 opacity-50'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
+            <span class="text-3xl flex-shrink-0">${stage.icon}</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-xs font-black text-amber-300">Lv.${stage.lv} ${stage.name}</span>
+                ${isCleared ? `<span class="text-[9px] bg-amber-500 text-indigo-950 font-black px-1.5 py-0.2 rounded">👑 討伐済</span>` : ''}
+              </div>
+              <div class="text-[9.5px] text-slate-300 mt-0.5 leading-tight">${stage.desc}</div>
+              <div class="text-[9.5px] font-bold text-rose-300 mt-0.5">
+                HP: <span class="text-white">${stage.hp}</span> / 攻: <span class="text-white">${stage.atk}</span>
+                <span class="text-emerald-400 ml-1.5">+${stage.exp}EXP / 💎+${stage.gems}</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            ${isUnlocked 
+              ? `<button onclick="startBossBattleWithStage(${stage.lv})" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">
+                  ⚔️ 出撃
+                 </button>`
+              : `<span class="text-[10px] bg-indigo-950 border border-indigo-800 text-indigo-400 font-bold px-2.5 py-1.5 rounded-xl whitespace-nowrap">🔒 Lv.${stage.lv - 1}撃破で解放</span>`
+            }
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeBossSelectModal() {
+      const modal = document.getElementById('modalBossSelect');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function startBossBattleWithStage(lv) {
+      closeBossSelectModal();
+      const stage = BOSS_STAGES.find(s => s.lv === lv) || BOSS_STAGES[0];
+      currentBossStage = stage;
+      startBossBattle();
     }
 
     function switchEquipTab(tab) {
@@ -1768,9 +1868,10 @@
       playerCurHp = pStats.hp;
 
       if (isBossMode) {
-        enemyMaxHp = Math.round(pStats.atk * 10 * 1.3);
-        enemyCurHp = enemyMaxHp;
-        enemyAtk = 25;
+        // 選択されたボスステージのステータスを適用
+        enemyMaxHp = currentBossStage.hp;
+        enemyCurHp = currentBossStage.hp;
+        enemyAtk = currentBossStage.atk;
       } else {
         enemyMaxHp = Math.round(pStats.atk * currentQueue.length * 1.05);
         enemyCurHp = enemyMaxHp;
@@ -1787,7 +1888,7 @@
       if (isBossMode) {
         playBGM('boss');
         document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
-        document.getElementById('battleEnemyName').innerText = "👑 過去問暗黒竜";
+        document.getElementById('battleEnemyName').innerText = `Lv.${currentBossStage.lv} ${currentBossStage.name}`;
       } else {
         playBGM('battle');
         document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
@@ -1828,7 +1929,7 @@
       }
       
       if (isBossMode) {
-        document.getElementById('enemyAvatar').innerText = '🐲';
+        document.getElementById('enemyAvatar').innerText = currentBossStage.icon;
       } else {
         document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
       }
@@ -2035,19 +2136,30 @@
       } else if (isBossMode) {
         // === 👑 ボス戦勝利 ===
         const isBossDefeated = (enemyCurHp <= 0 || quizScore >= 7);
-        document.getElementById('resultModeBadge').innerText = isBossDefeated ? '👑 BOSS 討伐完全勝利！' : '⚔️ BOSS 戦 奮闘終了';
+        document.getElementById('resultModeBadge').innerText = isBossDefeated ? `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！` : `⚔️ Lv.${currentBossStage.lv} BOSS 戦 奮闘終了`;
         document.getElementById('resultModeBadge').className = isBossDefeated ? 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow' : 'text-[10px] font-black bg-indigo-800 text-indigo-300 px-3 py-1 rounded-full inline-block mb-1';
-        document.getElementById('resultEmoji').innerText = isBossDefeated ? '🐲' : '🛡️';
-        document.getElementById('resultTitle').innerText = isBossDefeated ? '暗黒竜を撃破した！' : 'ボス戦クリア！';
-        document.getElementById('resultComment').innerText = isBossDefeated ? '実際の過去問を克服する圧倒的な実力です！' : 'ナイスファイト！次は完全撃破を目指そう！';
+        document.getElementById('resultEmoji').innerText = isBossDefeated ? currentBossStage.icon : '🛡️';
+        document.getElementById('resultTitle').innerText = isBossDefeated ? `【${currentBossStage.name}】を撃破！` : 'ボス戦クリア！';
+        document.getElementById('resultComment').innerText = isBossDefeated ? '見事な英語力です！次のレベルへ進もう！' : 'ナイスファイト！次は完全撃破を目指そう！';
 
-        earnedExp = isBossDefeated ? 120 + (quizScore * 5) : 50 + (quizScore * 3);
-        earnedGems = isBossDefeated ? 30 : Math.floor(quizScore / 2);
+        earnedExp = isBossDefeated ? currentBossStage.exp + (quizScore * 5) : Math.round(currentBossStage.exp * 0.4);
+        earnedGems = isBossDefeated ? currentBossStage.gems : Math.floor(quizScore / 2);
 
         if (isBossDefeated) {
+          // クリア記録と次のレベル解放
+          if (!userData.bossClearedLevels.includes(currentBossStage.lv)) {
+            userData.bossClearedLevels.push(currentBossStage.lv);
+          }
+          if (currentBossStage.lv >= userData.bossUnlockedLevel && userData.bossUnlockedLevel < 10) {
+            userData.bossUnlockedLevel = currentBossStage.lv + 1;
+            alert(`🎉 新たなボス【Lv.${userData.bossUnlockedLevel} ${BOSS_STAGES[userData.bossUnlockedLevel - 1].name}】が解放されました！`);
+          }
+
+          // レアドロップ宝箱判定 (高レベルほど確率UP、Lv.10は超高確率)
+          const dropChance = 0.3 + (currentBossStage.lv * 0.07);
           const bossDrops = ['hat_dragon_crown', 'wp_dark_blade'];
           const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
-          if (availableDrops.length > 0 && Math.random() < 0.6) {
+          if (availableDrops.length > 0 && Math.random() < dropChance) {
             const dropId = availableDrops[Math.floor(Math.random() * availableDrops.length)];
             userData.unlockedEquips.push(dropId);
             const dropEquip = SHOP_EQUIP_DATA.find(e => e.id === dropId);
@@ -2109,6 +2221,7 @@
       document.getElementById('viewShop').classList.add('hidden');
       document.getElementById('viewParent').classList.add('hidden');
       document.getElementById('viewBook').classList.add('hidden');
+      document.getElementById('modalBossSelect').classList.add('hidden');
       document.getElementById('viewHome').classList.remove('hidden');
       playBGM('home');
       updateNavHighlight('home');
@@ -2121,6 +2234,7 @@
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewParent').classList.add('hidden');
       document.getElementById('viewBook').classList.add('hidden');
+      document.getElementById('modalBossSelect').classList.add('hidden');
       document.getElementById('viewShop').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('shop');
@@ -2133,6 +2247,7 @@
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewShop').classList.add('hidden');
       document.getElementById('viewBook').classList.add('hidden');
+      document.getElementById('modalBossSelect').classList.add('hidden');
       document.getElementById('viewParent').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('parent');
