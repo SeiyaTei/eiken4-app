@@ -225,7 +225,6 @@
         </div>
 
         <div class="grid grid-cols-2 gap-2.5">
-          <!-- 単語ボタン -->
           <button id="btnRotVocab" onclick="openNormalQuestSelect('vocab')" class="bg-gradient-to-br from-blue-600/90 to-indigo-700/90 p-3 rounded-2xl border border-blue-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
             <div class="flex justify-between items-start">
               <div class="text-xl mb-0.5">📚</div>
@@ -235,7 +234,6 @@
             <div class="text-[9px] text-blue-200 mt-0.5">ランダム10問</div>
           </button>
 
-          <!-- 文法ボタン -->
           <button id="btnRotGrammar" onclick="openNormalQuestSelect('grammar')" class="bg-gradient-to-br from-emerald-600/90 to-teal-700/90 p-3 rounded-2xl border border-emerald-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
             <div class="flex justify-between items-start">
               <div class="text-xl mb-0.5">🪄</div>
@@ -245,7 +243,6 @@
             <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
           </button>
 
-          <!-- リスニングボタン -->
           <button id="btnRotListening" onclick="openNormalQuestSelect('listening')" class="bg-gradient-to-br from-purple-600/90 to-pink-700/90 p-3 rounded-2xl border border-purple-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
             <div class="flex justify-between items-start">
               <div class="text-xl mb-0.5">🎧</div>
@@ -255,7 +252,6 @@
             <div class="text-[9px] text-purple-200 mt-0.5">対話・質問 3問</div>
           </button>
 
-          <!-- にがて討伐バトル（サイクル解放用） -->
           <button id="btnRotWeakBattle" onclick="startWeakBattle()" class="bg-gradient-to-br from-rose-600/90 to-red-700/90 p-3 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
             <div class="flex justify-between items-start">
               <div class="text-xl mb-0.5">👾</div>
@@ -283,7 +279,6 @@
         </div>
 
         <div class="space-y-2 text-xs" id="normalDifficultyList">
-          <!-- 初級 -->
           <button onclick="startNormalModeWithDiff(1)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-emerald-400">🌟 初級（見習い級・Lv1〜15向け）</div>
@@ -292,7 +287,6 @@
             <span class="text-xs bg-emerald-950 text-emerald-300 font-bold px-2.5 py-1 rounded-xl border border-emerald-700">出撃</span>
           </button>
 
-          <!-- 中級 -->
           <button onclick="startNormalModeWithDiff(2)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-blue-400">🔵 中級（冒険者級・Lv20〜35向け）</div>
@@ -301,7 +295,6 @@
             <span class="text-xs bg-blue-950 text-blue-300 font-bold px-2.5 py-1 rounded-xl border border-blue-700">出撃</span>
           </button>
 
-          <!-- 上級 -->
           <button onclick="startNormalModeWithDiff(3)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-purple-400">🟣 上級（勇者級・Lv40〜60向け）</div>
@@ -310,7 +303,6 @@
             <span class="text-xs bg-purple-950 text-purple-300 font-bold px-2.5 py-1 rounded-xl border border-purple-700">出撃</span>
           </button>
 
-          <!-- 覇級 -->
           <button onclick="startNormalModeWithDiff(4)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
             <div>
               <div class="font-black text-amber-300">👑 覇級（英検マスター級・Lv70〜）</div>
@@ -342,7 +334,6 @@
     <!-- ==================== 2. クイズ・バトル画面 ==================== -->
     <div id="viewQuiz" class="hidden space-y-3">
       
-      <!-- ヘッダーバー -->
       <div class="flex items-center justify-between bg-indigo-900/70 p-2.5 rounded-2xl border border-indigo-800">
         <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2.5 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
         <div class="text-xs font-bold text-amber-400" id="quizProgress">第 1 / 5 問</div>
@@ -354,12 +345,10 @@
         </div>
       </div>
 
-      <!-- フィーバーモード表示バナー -->
       <div id="feverBanner" class="hidden bg-gradient-to-r from-red-500 via-amber-500 to-purple-600 text-indigo-950 font-black text-xs py-1.5 px-3 rounded-xl text-center shadow-lg animate-pulse">
         ⚡🔥 FEVER TIME 突入！ 獲得EXP & 報酬 2倍！！ 🔥⚡
       </div>
 
-      <!-- バトルステータス対戦カード（味方HP vs 敵HP） -->
       <div class="grid grid-cols-2 gap-2 bg-indigo-950/90 p-2.5 rounded-2xl border border-indigo-800 text-xs">
         <div class="space-y-1">
           <div class="flex justify-between items-center font-black">
@@ -381,7 +370,6 @@
         </div>
       </div>
 
-      <!-- モンスター＆出題カード -->
       <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden" id="enemyCardBox">
         <div id="damageEffectArea" class="absolute inset-0 pointer-events-none flex items-center justify-center z-30"></div>
 
@@ -405,10 +393,8 @@
         <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[16px] bg-indigo-950/60 p-1.5 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
       </div>
 
-      <!-- 4択ボタン -->
       <div id="quizOptions" class="grid grid-cols-1 gap-2"></div>
 
-      <!-- 正解・不正解の解説フィードバック -->
       <div id="quizFeedback" class="hidden bg-indigo-900 border-2 border-amber-400 p-3.5 rounded-2xl space-y-2 shadow-2xl">
         <div class="flex items-center gap-2">
           <span id="feedbackIcon" class="text-2xl">⭕</span>
@@ -494,17 +480,8 @@
       <div class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1" id="weakBookItemList"></div>
     </div>
 
-    <!-- ==================== 6. 💎 ダイヤショップ＆ガチャ画面 ==================== -->
+    <!-- ==================== 6. 💎 ダイヤショップ画面（ガチャ廃止版） ==================== -->
     <div id="viewShop" class="hidden space-y-4">
-      <div class="bg-gradient-to-br from-purple-800 via-indigo-900 to-pink-900 border-2 border-amber-400 rounded-3xl p-4 text-center shadow-xl space-y-2">
-        <div class="text-3xl animate-bounce">🎰</div>
-        <h3 class="font-black text-base text-amber-300">ラッキーダイヤガチャ</h3>
-        <p class="text-[10px] text-indigo-200">レア装備や大量EXP、アイテムが当たる！</p>
-        <button onclick="playGacha()" class="bg-gradient-to-r from-amber-400 to-yellow-300 text-indigo-950 font-black px-6 py-2.5 rounded-full text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
-          ガチャを引く (💎 20個)
-        </button>
-      </div>
-
       <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
         <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
           💡 バトル補助アイテム
@@ -673,15 +650,15 @@
       ["club", "部活動"], ["speech", "演説・スピーチ"], ["classmate", "同級生"], ["schedule", "予定・時間割"],
       ["classroom", "教室"], ["desk", "机"], ["chair", "椅子"], ["pencil", "鉛筆"], ["pen", "ペン"], ["chalk", "チョーク"],
 
-      // 4. 自然・天候・時間 (38語)
+      // 4. 自然・天候 (35語)
       ["weather", "天気"], ["future", "未来・将来"], ["season", "季節"], ["spring", "春"], ["summer", "夏"], ["autumn", "秋"], ["winter", "冬"],
       ["temperature", "気温・温度"], ["typhoon", "台風"], ["rainbow", "虹"], ["cloud", "雲"], ["wind", "風"], ["earth", "地球"],
       ["forest", "森"], ["river", "川"], ["lake", "湖"], ["ocean", "大洋・海"], ["mountain", "山"], ["waterfall", "滝"],
-      ["sunrise", "日の出"], ["sunset", "日の入り"], ["midnight", "真夜中"], ["century", "世紀（100年）"], ["decade", "10年間"],
-      ["sun", "太陽"], ["moon", "月"], ["star", "星"], ["sky", "空"], ["rain", "雨"], ["snow", "雪"], ["storm", "嵐"],
-      ["flower", "花"], ["tree", "木"], ["leaf", "葉"], ["grass", "草"], ["ground", "地面"], ["hill", "丘"], ["stone", "石"],
+      ["sunrise", "日の出"], ["sunset", "日の入り"], ["sun", "太陽"], ["moon", "月"], ["star", "星"], ["sky", "空"],
+      ["rain", "雨"], ["snow", "雪"], ["storm", "嵐"], ["flower", "花"], ["tree", "木"], ["leaf", "葉"],
+      ["grass", "草"], ["ground", "地面"], ["hill", "丘"], ["stone", "石"],
 
-      // 5. 人・職業・家族 (41語)
+      // 5. 人・職業・家族 (40語)
       ["cousin", "いとこ"], ["scientist", "科学者"], ["neighbor", "隣人・近所の人"], ["passenger", "乗客"], ["pilot", "操縦士"],
       ["flight attendant", "客室乗務員"], ["nurse", "看護師"], ["dentist", "歯科医"], ["firefighter", "消防士"], ["police officer", "警察官"],
       ["lawyer", "弁護士"], ["actor", "俳優"], ["actress", "女優"], ["musician", "音楽家"], ["artist", "芸術家・画家"],
@@ -689,7 +666,7 @@
       ["grandparent", "祖父母"], ["grandfather", "祖父"], ["grandmother", "祖母"], ["relative", "親戚"], ["twins", "双子"],
       ["president", "大統領・社長"], ["manager", "責任者・支配人"], ["doctor", "医者・医師"], ["teacher", "教師・先生"],
       ["student", "生徒・学生"], ["singer", "歌手"], ["writer", "作家"], ["cook", "料理人・コック"], ["driver", "運転手"],
-      ["parent", "親"], ["father", "父"], ["mother", "母"], ["brother", "兄・弟"], ["sister", "姉・妹"], ["uncle", "叔父・伯父"], ["aunt", "叔母・伯母"],
+      ["parent", "親"], ["father", "父"], ["mother", "母"], ["brother", "兄・弟"], ["sister", "姉・妹"], ["uncle", "叔父・伯父"],
 
       // 6. 身の回り・名詞 (35語)
       ["hobby", "趣味"], ["passport", "パスポート"], ["vegetable", "野菜"], ["instrument", "楽器・道具"], ["festival", "祭り"],
@@ -700,7 +677,7 @@
       ["ticket", "切符・チケット"], ["present", "贈り物・プレゼント"], ["letter", "手紙・文字"], ["picture", "写真・絵"],
       ["camera", "カメラ"], ["guitar", "ギター"], ["piano", "ピアノ"], ["money", "お金"], ["dollar", "ドル"], ["price", "価格・値段"],
 
-      // 7. 基本動詞 (82語)
+      // 7. 基本動詞 (80語)
       ["invite", "招待する"], ["remember", "覚えている・思い出す"], ["borrow", "（無料で）借りる"], ["lend", "貸す"],
       ["receive", "受け取る"], ["prepare", "準備する"], ["introduce", "紹介する"], ["improve", "上達する・改善する"],
       ["happen", "（出来事が）起こる"], ["collect", "集める"], ["practice", "練習する"], ["protect", "保護する・守る"],
@@ -717,10 +694,10 @@
       ["watch", "じっと見る"], ["see", "見える・会う"], ["look", "見る"], ["read", "読む"], ["write", "書く"],
       ["buy", "買う"], ["sell", "売る"], ["pay", "支払う"], ["spend", "（時間やお金を）費やす"], ["send", "送る"],
       ["bring", "持ってくる"], ["take", "連れて行く・乗る"], ["carry", "運ぶ"], ["hold", "持つ・開催する"], ["catch", "捕まえる"],
-      ["eat", "食べる"], ["drink", "飲む"], ["sleep", "眠る"], ["wake", "目を覚ます"], ["stand", "立つ"], ["sit", "座る"],
+      ["eat", "食べる"], ["drink", "飲む"], ["sleep", "眠る"], ["wake", "目を覚ます"]
 
       // 8. 形容詞・副詞 (55語)
-      ["excited", "わくわくした"], ["famous", "有名な"], ["delicious", "おいしい"], ["convenient", "便利な"], ["traditional", "伝統的な"],
+      ,["excited", "わくわくした"], ["famous", "有名な"], ["delicious", "おいしい"], ["convenient", "便利な"], ["traditional", "伝統的な"],
       ["dangerous", "危険な"], ["popular", "人気のある"], ["comfortable", "快適な"], ["healthy", "健康的な"], ["important", "重要な"],
       ["special", "特別な"], ["necessary", "必要な"], ["polite", "礼儀正しい"], ["impolite", "無礼な"], ["careful", "注意深い"],
       ["careless", "不注意な"], ["curious", "好奇心が強い"], ["nervous", "緊張した・不安な"], ["patient", "我慢強い"], ["honest", "正直な"],
@@ -740,23 +717,23 @@
       ["chocolate", "チョコレート"], ["ice cream", "アイスクリーム"], ["water", "水"], ["tea", "お茶・紅茶"], ["coffee", "コーヒー"],
       ["milk", "牛乳・ミルク"], ["juice", "ジュース"], ["butter", "バター"], ["cheese", "チーズ"], ["sugar", "砂糖"], ["salt", "塩"],
 
-      // 10. 動物・生き物 (27語)
+      // 10. 動物・生き物 (25語)
       ["dog", "犬"], ["cat", "猫"], ["bird", "鳥"], ["rabbit", "うさぎ"], ["hamster", "ハムスター"], ["bear", "くま"], ["lion", "ライオン"],
       ["tiger", "トラ"], ["elephant", "ゾウ"], ["giraffe", "キリン"], ["monkey", "猿"], ["panda", "パンダ"], ["koala", "コアラ"],
       ["horse", "馬"], ["cow", "牛"], ["pig", "豚"], ["sheep", "羊"], ["duck", "アヒル・カモ"], ["penguin", "ペンギン"], ["whale", "クジラ"],
-      ["dolphin", "イルカ"], ["shark", "サメ"], ["snake", "ヘビ"], ["frog", "カエル"], ["insect", "昆虫・虫"], ["ant", "アリ"], ["bee", "ハチ"],
+      ["dolphin", "イルカ"], ["shark", "サメ"], ["snake", "ヘビ"], ["frog", "カエル"], ["insect", "昆虫・虫"],
 
-      // 11. 乗り物・交通 (17語)
+      // 11. 乗り物・交通 (15語)
       ["car", "車・自動車"], ["bus", "バス"], ["train", "電車・列車"], ["bicycle", "自転車"], ["bike", "自転車・バイク"], ["airplane", "飛行機"],
-      ["plane", "飛行機"], ["ship", "船"], ["boat", "ボート・小舟"], ["taxi", "タクシー"], ["truck", "トラック"], ["subway", "地下鉄"],
-      ["rocket", "ロケット"], ["road", "道路・道"], ["street", "通り・街路"], ["corner", "角・曲がり角"], ["map", "地図"],
+      ["ship", "船"], ["boat", "ボート・小舟"], ["taxi", "タクシー"], ["truck", "トラック"], ["subway", "地下鉄"],
+      ["rocket", "ロケット"], ["road", "道路・道"], ["street", "通り・街路"], ["map", "地図"],
 
-      // 12. 年月日・曜日・時間 (34語)
+      // 12. 年月日・曜日・時間 (35語)
       ["January", "1月"], ["February", "2月"], ["March", "3月"], ["April", "4月"], ["May", "5月"], ["June", "6月"],
       ["July", "7月"], ["August", "8月"], ["September", "9月"], ["October", "10月"], ["November", "11月"], ["December", "12月"],
       ["Sunday", "日曜日"], ["Monday", "月曜日"], ["Tuesday", "火曜日"], ["Wednesday", "水曜日"], ["Thursday", "木曜日"], ["Friday", "金曜日"], ["Saturday", "土曜日"],
       ["morning", "朝・午前"], ["afternoon", "昼・午後"], ["evening", "夕方・晩"], ["night", "夜"], ["today", "今日"], ["tomorrow", "明日"], ["yesterday", "昨日"],
-      ["week", "週"], ["month", "月"], ["year", "年"], ["hour", "時間"], ["minute", "分"], ["second", "秒"], ["clock", "時計"], ["watch", "腕時計"],
+      ["week", "週"], ["month", "月"], ["year", "年"], ["hour", "時間"], ["minute", "分"], ["second", "秒"], ["clock", "時計"], ["watch", "腕時計"], ["midnight", "真夜中"],
 
       // 13. 身体・健康・感情 (35語)
       ["head", "頭"], ["face", "顔"], ["eye", "目"], ["ear", "耳"], ["nose", "鼻"],
@@ -783,7 +760,7 @@
       ["cushion", "クッション"], ["trash can", "ごみ箱"], ["shelf", "棚・本棚"], ["sofa", "ソファ"], ["refrigerator", "冷蔵庫"],
       ["oven", "オーブン"], ["sink", "流し台・シンク"], ["key", "鍵・キー"], ["yard", "庭・中庭"], ["garage", "車庫・ガレージ"],
 
-      // 16. スポーツ・遊び・娯楽 (30語)
+      // 16. スポーツ・娯楽 (30語)
       ["sports", "スポーツ"], ["game", "試合・ゲーム"], ["player", "選手・競技者"], ["team", "チーム"], ["captain", "キャプテン・主将"],
       ["soccer", "サッカー"], ["baseball", "野球"], ["basketball", "バスケットボール"], ["tennis", "テニス"], ["volleyball", "バレーボール"],
       ["swimming", "水泳"], ["running", "ランニング・走ること"], ["skiing", "スキー"], ["skating", "スケート"], ["fishing", "釣り"],
@@ -800,31 +777,15 @@
       ["close to ~", "〜の近くに"], ["between A and B", "AとBの間に"], ["together with ~", "〜と一緒に"], ["by myself", "自分一人で・独力で"], ["in this way", "このようにして"],
       ["first of all", "まず第一に"], ["more and more", "ますます多くの"], ["again and again", "何度も何度も"], ["little by little", "少しずつ・徐々に"], ["side by side", "並んで・肩を並べて"],
 
-      // 18. 動詞・形容詞・対義語 (31語)
+      // 18. 重要語・追加必須単語 (40語) -> 厳密に合計700語
       ["hope", "希望する・望む"], ["wish", "願う・祈る"], ["show", "見せる・示す"], ["point", "指差す・点"], ["draw", "（線で）描く・引く"],
       ["paint", "（絵の具で）描く・塗る"], ["sing", "歌う"], ["pass", "手渡す・合格する"], ["cross", "渡る・横断する"], ["follow", "従う・ついていく"],
       ["lead", "導く・案内する"], ["guide", "案内する・ガイド"], ["drop", "落とす・落ちる"], ["bright", "明るい・輝く"], ["dark", "暗い・濃い"],
       ["heavy", "重い"], ["light", "軽い・光"], ["soft", "柔らかい・穏やかな"], ["hard", "硬い・一生懸命な"], ["rich", "裕福な・豊かな"],
       ["poor", "貧しい・かわいそうな"], ["strong", "強い・丈夫な"], ["weak", "弱い"], ["warm", "暖かい"], ["cool", "涼しい・かっこいい"],
-      ["dry", "乾いた・乾燥した"], ["wet", "濡れた・湿った"], ["safe", "安全な"], ["deep", "深い"], ["shallow", "浅い"], ["wild", "野生の・自然の"],
-
-      // 19. 追加重要単語 (80語)
-      ["stationery", "文房具"], ["envelope", "封筒"], ["postcard", "はがき"], ["stamp", "切手"], ["address", "住所"],
-      ["album", "写真アルバム"], ["diary", "日記"], ["pocketbook", "手帳"], ["workbook", "問題集・ワーク"], ["story", "物語・お話"],
-      ["novel", "小説"], ["newspaper", "新聞"], ["magazine", "雑誌"], ["sign", "看板・標識"], ["symbol", "記号・象徴"],
-      ["member", "一員・メンバー"], ["group", "集団・グループ"], ["crowd", "群衆・人混み"], ["couple", "一対・夫婦・カップル"], ["person", "人・人間"],
-      ["human", "人類・人間"], ["baby", "赤ちゃん"], ["child", "子ども"], ["children", "子どもたち"], ["adult", "大人・成人"],
-      ["earthquake", "地震"], ["energy", "エネルギー・活力"], ["environment", "環境"], ["nature", "自然"], ["space", "宇宙・空間"],
-      ["planet", "惑星"], ["world", "世界"], ["country", "国・田舎"], ["state", "州・国家"], ["nation", "国家・国民"],
-      ["capital", "首都・大文字"], ["city", "都市・市"], ["town", "町"], ["field", "野原・競技場"], ["space shuttle", "宇宙往還機"],
-      ["computer", "コンピュータ"], ["internet", "インターネット"], ["website", "ウェブサイト"], ["email", "電子メール"], ["smartphone", "スマートフォン"],
-      ["cell phone", "携帯電話"], ["video", "映像・動画"], ["screen", "画面・スクリーン"], ["battery", "電池・バッテリー"], ["robot", "ロボット"],
-      ["program", "計画・番組・プログラム"], ["event", "行事・出来事"], ["contest", "競技会・コンテスト"], ["meeting", "会議・集まり"], ["show", "見せ物・ショー"],
-      ["sale", "特売・販売"], ["discount", "割引"], ["cash", "現金"], ["credit card", "クレジットカード"], ["receipt", "領収書・レシート"],
-      ["size", "寸法・サイズ"], ["color", "色・色彩"], ["shape", "形・姿"], ["circle", "円・丸"], ["square", "正方形・広場"],
-      ["triangle", "三角形"], ["line", "線・列"], ["side", "側・面"], ["center", "中央・中心"], ["middle", "真ん中・中間"],
-      ["top", "頂上・上部"], ["bottom", "底・最下部"], ["corner", "隅・曲がり角"], ["front", "正面・前部"], ["back", "背中・後ろ"],
-      ["left", "左・左側"], ["right", "右・正しい"], ["north", "北"], ["south", "南"], ["east", "東"]
+      ["dry", "乾いた・乾燥した"], ["wet", "濡れた・湿った"], ["safe", "安全な"], ["deep", "深い"], ["shallow", "浅い"],
+      ["wild", "野生の・自然の"], ["stationery", "文房具"], ["envelope", "封筒"], ["postcard", "はがき"], ["stamp", "切手"],
+      ["address", "住所"], ["diary", "日記"], ["story", "物語・お話"], ["newspaper", "新聞"], ["magazine", "雑誌"]
     ];
 
     // ==================== 着せ替え・装備データベース ====================
@@ -1301,19 +1262,11 @@
           gain.gain.setValueAtTime(0.25, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
           osc.start(now); osc.stop(now + 0.6);
-        } else if(type === 'gacha') {
-          osc.type = 'triangle';
-          [440, 554, 659, 880].forEach((freq, idx) => {
-            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-          });
-          gain.gain.setValueAtTime(0.2, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-          osc.start(now); osc.stop(now + 0.4);
         }
       } catch(e) {}
     }
     // ==================== ユーザーデータ管理 ====================
-    const STORAGE_KEY = 'eiken4_data_v30';
+    const STORAGE_KEY = 'eiken4_data_v31';
     let userData = {
       level: 1,
       exp: 0,
@@ -1383,7 +1336,7 @@
       try {
         let saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) {
-          const oldKeys = ['eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data_v23', 'eiken4_data'];
+          const oldKeys = ['eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data'];
           for (const key of oldKeys) {
             const old = localStorage.getItem(key);
             if (old) {
@@ -1938,7 +1891,7 @@
       container.innerHTML = '';
 
       const query = (document.getElementById('bookSearchInput')?.value || '').toLowerCase().trim();
-      const totalVocabCount = RAW_VOCAB_DATA.length; // 700
+      const totalVocabCount = RAW_VOCAB_DATA.length; // 厳密に700語
       const collectedCount = userData.vocabBook.length;
       const pct = totalVocabCount > 0 ? Math.round((collectedCount / totalVocabCount) * 100) : 0;
 
@@ -2532,7 +2485,7 @@
       }
     }
 
-    // ==================== ショップ & ガチャ & 装備 ====================
+    // ==================== ショップ & 装備（ガチャ廃止版） ====================
     function switchEquipTab(tab) {
       currentShopTab = tab;
       const tHat = document.getElementById('tabEquipHat');
@@ -2628,38 +2581,6 @@
       if (type === 'potion') userData.inventory.potion += 1;
       playSE('chest');
       saveData();
-    }
-
-    function playGacha() {
-      if (userData.gems < 20) {
-        alert('ダイヤが足りません！(💎 20個必要)');
-        return;
-      }
-      userData.gems -= 20;
-      playSE('gacha');
-
-      const rand = Math.random();
-      if (rand < 0.45) {
-        const expWon = 150 + Math.floor(Math.random() * 200);
-        alert(`🎰 ガチャ結果！\n✨ 経験値 +${expWon} EXP を獲得！`);
-        addExp(expWon);
-      } else if (rand < 0.75) {
-        userData.inventory.hint += 2;
-        alert('🎰 ガチャ結果！\n💡 ヒントの書 × 2個 を獲得！');
-        saveData();
-      } else {
-        const lockedEquips = SHOP_EQUIP_DATA.filter(e => !userData.unlockedEquips.includes(e.id) && e.price <= 9000);
-        if (lockedEquips.length > 0) {
-          const won = lockedEquips[Math.floor(Math.random() * lockedEquips.length)];
-          userData.unlockedEquips.push(won.id);
-          alert(`🎰 超大当たり！！\n👑 装備【${won.name}】(${won.desc}) を手に入れた！`);
-          saveData();
-        } else {
-          userData.inventory.potion += 2;
-          alert('🎰 ガチャ結果！\n🧪 EXPの秘薬 × 2個 を獲得！');
-          saveData();
-        }
-      }
     }
 
     function hideAllViews() {
