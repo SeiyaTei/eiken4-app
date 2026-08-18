@@ -27,6 +27,20 @@
       50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.9); }
     }
     .glow-red { animation: pulse-red 1.5s infinite; }
+    @keyframes fever-rainbow {
+      0% { border-color: #ef4444; box-shadow: 0 0 20px #ef4444; }
+      25% { border-color: #eab308; box-shadow: 0 0 20px #eab308; }
+      50% { border-color: #10b981; box-shadow: 0 0 20px #10b981; }
+      75% { border-color: #3b82f6; box-shadow: 0 0 20px #3b82f6; }
+      100% { border-color: #a855f7; box-shadow: 0 0 20px #a855f7; }
+    }
+    .fever-active { animation: fever-rainbow 1.5s infinite linear; }
+    @keyframes pop-damage {
+      0% { transform: scale(0.5) translateY(0); opacity: 0; }
+      50% { transform: scale(1.2) translateY(-12px); opacity: 1; }
+      100% { transform: scale(1) translateY(-25px); opacity: 0; }
+    }
+    .damage-popup { animation: pop-damage 0.8s ease-out forwards; }
   </style>
 </head>
 <body class="bg-indigo-950 text-slate-100 min-h-screen pb-24 font-sans selection:bg-amber-400 selection:text-indigo-950 select-none">
@@ -68,7 +82,7 @@
     <!-- ==================== 1. ホーム画面 ==================== -->
     <div id="viewHome" class="space-y-4">
       
-      <!-- 相棒モンスター & レベル & 装備 -->
+      <!-- 相棒モンスター & レベル & ステータス -->
       <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative">
@@ -90,9 +104,16 @@
             <div class="w-full bg-indigo-950/80 rounded-full h-3 border border-indigo-700 overflow-hidden mb-1">
               <div id="expBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
             </div>
-            <div class="flex justify-between text-[10px] text-indigo-300 font-bold">
+            <div class="flex justify-between text-[10px] text-indigo-300 font-bold mb-2">
               <span>EXP</span>
               <span id="expText">0 / 100</span>
+            </div>
+
+            <!-- RPG ステータスパラメータ -->
+            <div class="grid grid-cols-3 gap-1 text-[9.5px] font-black bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800">
+              <div class="text-rose-300">⚔️攻 <span id="statAtkVal">15</span></div>
+              <div class="text-emerald-300">🛡️HP <span id="statHpVal">100</span></div>
+              <div class="text-amber-300">⚡速 <span id="statSpdVal">5</span></div>
             </div>
           </div>
         </div>
@@ -114,7 +135,7 @@
             </h3>
             <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問から10問ランダム出題！</p>
             <div class="text-[10px] text-amber-300 font-black mt-1">
-              討伐報酬: <span class="text-emerald-400">EXP +120 / 💎 +30</span>
+              討伐報酬: <span class="text-emerald-400">EXP +120 / 💎 +30 / 🎁 レアドロップ</span>
             </div>
           </div>
           <button onclick="startBossBattle()" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-4 py-3 rounded-2xl text-xs shadow-lg transition active:scale-95 flex flex-col items-center">
@@ -131,7 +152,7 @@
             <h3 class="font-black text-sm text-amber-400 flex items-center gap-1.5">
               📜 本日の限定デイリークエスト
             </h3>
-            <p class="text-[9.5px] text-indigo-200">1日各1回限定！超大量ダイヤ＆EXPボーナス</p>
+            <p class="text-[9.5px] text-indigo-200">1日各1回限定！ステータス永続UP＆大量ダイヤ</p>
           </div>
           <span id="dailyProgressText" class="text-xs bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold">0 / 3</span>
         </div>
@@ -142,7 +163,7 @@
             <div class="flex items-center gap-2">
               <span class="text-xl">📖</span>
               <div>
-                <div class="font-bold text-slate-200">必須単語 5問特訓</div>
+                <div class="font-bold text-slate-200">必須単語 5問特訓 (⚔️攻撃力UP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+50 EXP / 💎+15</div>
               </div>
             </div>
@@ -156,7 +177,7 @@
             <div class="flex items-center gap-2">
               <span class="text-xl">🪄</span>
               <div>
-                <div class="font-bold text-slate-200">重要文法 3問特訓</div>
+                <div class="font-bold text-slate-200">重要文法 3問特訓 (🛡️HP UP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+60 EXP / 💎+20</div>
               </div>
             </div>
@@ -170,7 +191,7 @@
             <div class="flex items-center gap-2">
               <span class="text-xl">🎧</span>
               <div>
-                <div class="font-bold text-slate-200">対話リスニング 3問特訓</div>
+                <div class="font-bold text-slate-200">対話リスニング 3問特訓 (⚡すばやさUP)</div>
                 <div class="text-[10px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
               </div>
             </div>
@@ -201,19 +222,19 @@
           <button onclick="startNormalMode('vocab', 10)" class="bg-gradient-to-br from-blue-600/90 to-indigo-700/90 hover:from-blue-500 hover:to-indigo-600 p-3 rounded-2xl border border-blue-400/30 text-left shadow transition active:scale-95">
             <div class="text-xl mb-0.5">📚</div>
             <div class="font-black text-xs text-white">単語・熟語 (700語)</div>
-            <div class="text-[9px] text-blue-200 mt-0.5">でる順 ランダム10問</div>
+            <div class="text-[9px] text-blue-200 mt-0.5">図鑑集め＆攻撃力UP</div>
           </button>
 
           <button onclick="startNormalMode('grammar', 5)" class="bg-gradient-to-br from-emerald-600/90 to-teal-700/90 hover:from-emerald-500 hover:to-teal-600 p-3 rounded-2xl border border-emerald-400/30 text-left shadow transition active:scale-95">
             <div class="text-xl mb-0.5">🪄</div>
             <div class="font-black text-xs text-white">文法・会話 (100問)</div>
-            <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
+            <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策＆HP強化</div>
           </button>
 
           <button onclick="startNormalMode('listening', 5)" class="bg-gradient-to-br from-purple-600/90 to-pink-700/90 hover:from-purple-500 hover:to-pink-600 p-3 rounded-2xl border border-purple-400/30 text-left shadow transition active:scale-95">
             <div class="text-xl mb-0.5">🎧</div>
             <div class="font-black text-xs text-white">リスニング (100問)</div>
-            <div class="text-[9px] text-purple-200 mt-0.5">対話・質問 5問</div>
+            <div class="text-[9px] text-purple-200 mt-0.5">対話・質問＆素早さ強化</div>
           </button>
 
           <button onclick="startWeakMode()" class="bg-gradient-to-br from-rose-600/90 to-red-700/90 hover:from-rose-500 hover:to-red-600 p-3 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95">
@@ -228,8 +249,9 @@
 
 
     <!-- ==================== 2. クイズ・バトル画面 ==================== -->
-    <div id="viewQuiz" class="hidden space-y-4">
+    <div id="viewQuiz" class="hidden space-y-3">
       
+      <!-- ヘッダーバー：逃げる・問題番号・ヒント・コンボ -->
       <div class="flex items-center justify-between bg-indigo-900/70 p-2.5 rounded-2xl border border-indigo-800">
         <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2.5 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
         <div class="text-xs font-bold text-amber-400" id="quizProgress">第 1 / 5 問</div>
@@ -241,37 +263,71 @@
         </div>
       </div>
 
-      <!-- モンスター＆出題カード -->
-      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-5 shadow-2xl relative" id="enemyCardBox">
-        <div class="flex flex-col items-center justify-center mb-3">
-          <div id="enemyAvatar" class="text-5xl mb-1.5 animate-bounce-slow">👹</div>
-          <div id="enemyName" class="text-[10px] font-bold text-indigo-300">英語モンスター</div>
-          <div class="w-36 bg-indigo-950 rounded-full h-2.5 border border-indigo-700 mt-1 overflow-hidden">
-            <div id="enemyHpBar" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
+      <!-- フィーバーモード表示バナー -->
+      <div id="feverBanner" class="hidden bg-gradient-to-r from-red-500 via-amber-500 to-purple-600 text-indigo-950 font-black text-xs py-1.5 px-3 rounded-xl text-center shadow-lg animate-pulse">
+        ⚡🔥 FEVER TIME 突入！ 獲得EXP & 報酬 2倍！！ 🔥⚡
+      </div>
+
+      <!-- バトルステータス対戦カード（味方HP vs 敵HP） -->
+      <div class="grid grid-cols-2 gap-2 bg-indigo-950/90 p-2.5 rounded-2xl border border-indigo-800 text-xs">
+        <!-- 味方 -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center font-black">
+            <span id="battleHeroName" class="text-amber-300 text-[11px] truncate">タマゴン</span>
+            <span id="battleHeroHpText" class="text-[10px] text-emerald-400">100/100</span>
           </div>
+          <div class="w-full bg-indigo-900 rounded-full h-2 overflow-hidden border border-indigo-700">
+            <div id="battleHeroHpBar" class="bg-emerald-500 h-full w-full transition-all duration-300"></div>
+          </div>
+        </div>
+        <!-- 敵 -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center font-black">
+            <span id="battleEnemyName" class="text-rose-400 text-[11px] truncate">モンスター</span>
+            <span id="battleEnemyHpText" class="text-[10px] text-rose-300">100/100</span>
+          </div>
+          <div class="w-full bg-indigo-900 rounded-full h-2 overflow-hidden border border-indigo-700">
+            <div id="battleEnemyHpBar" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- モンスター＆出題カード -->
+      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden" id="enemyCardBox">
+        
+        <!-- ダメージエフェクト表示用コンテナ -->
+        <div id="damageEffectArea" class="absolute inset-0 pointer-events-none flex items-center justify-center z-30"></div>
+
+        <div class="flex flex-col items-center justify-center mb-2">
+          <div id="enemyAvatar" class="text-5xl mb-1 animate-bounce-slow">👹</div>
+          <!-- 3秒即答タイマーゲージ -->
+          <div class="w-44 bg-indigo-950 rounded-full h-1.5 border border-indigo-800 mt-1 overflow-hidden">
+            <div id="timerGauge" class="bg-amber-400 h-full w-full transition-all linear"></div>
+          </div>
+          <span id="timerText" class="text-[9px] text-amber-300 font-bold mt-0.5">⚡ 3秒以内即答でクリティカル！</span>
         </div>
 
         <!-- 音声再生ボタン -->
-        <div class="flex justify-center mb-3" id="audioBtnContainer">
-          <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
+        <div class="flex justify-center mb-2" id="audioBtnContainer">
+          <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1 px-3.5 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
             🔊 もう一度きく
           </button>
         </div>
 
-        <div class="text-center min-h-[60px] flex items-center justify-center px-2 mb-2">
-          <p id="quizQuestion" class="text-lg font-black text-white leading-snug whitespace-pre-line"></p>
+        <div class="text-center min-h-[50px] flex items-center justify-center px-2 mb-1.5">
+          <p id="quizQuestion" class="text-base font-black text-white leading-snug whitespace-pre-line"></p>
         </div>
-        <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[18px] bg-indigo-950/60 p-2 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
+        <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[16px] bg-indigo-950/60 p-1.5 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
       </div>
 
       <!-- 4択ボタン -->
-      <div id="quizOptions" class="grid grid-cols-1 gap-2.5"></div>
+      <div id="quizOptions" class="grid grid-cols-1 gap-2"></div>
 
       <!-- 正解・不正解の解説フィードバック -->
-      <div id="quizFeedback" class="hidden bg-indigo-900 border-2 border-amber-400 p-4 rounded-2xl space-y-2 shadow-2xl">
+      <div id="quizFeedback" class="hidden bg-indigo-900 border-2 border-amber-400 p-3.5 rounded-2xl space-y-2 shadow-2xl">
         <div class="flex items-center gap-2">
           <span id="feedbackIcon" class="text-2xl">⭕</span>
-          <h4 id="feedbackTitle" class="text-base font-black text-amber-300"></h4>
+          <h4 id="feedbackTitle" class="text-sm font-black text-amber-300"></h4>
         </div>
         <p id="feedbackExplain" class="text-xs text-slate-200 leading-relaxed whitespace-pre-line"></p>
         <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
@@ -290,6 +346,13 @@
           <span id="resultModeBadge" class="text-[10px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1">デイリークエストクリア</span>
           <h3 class="text-xl font-black text-amber-300" id="resultTitle">クエストクリア！</h3>
           <p id="resultComment" class="text-xs text-indigo-200 mt-1">素晴らしい集中力です！</p>
+        </div>
+
+        <!-- レアドロップ宝箱獲得エリア -->
+        <div id="rareDropArea" class="hidden bg-gradient-to-r from-purple-900 to-amber-900 border-2 border-amber-400 p-3 rounded-2xl space-y-1">
+          <span class="text-xl">🎁✨</span>
+          <div class="font-black text-xs text-amber-300">ボスからレア宝箱がドロップ！</div>
+          <div id="rareDropItemText" class="font-bold text-xs text-white">【竜王の覇冠】を手に入れた！</div>
         </div>
 
         <div class="grid grid-cols-3 gap-2 bg-indigo-950/80 p-3 rounded-2xl border border-indigo-700 text-xs">
@@ -314,7 +377,26 @@
     </div>
 
 
-    <!-- ==================== 4. 💎 ダイヤショップ＆ガチャ画面 ==================== -->
+    <!-- ==================== 4. 📖 モンスター図鑑（700語コレクション） ==================== -->
+    <div id="viewBook" class="hidden space-y-3">
+      <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="font-black text-xs text-amber-400 flex items-center gap-1.5">
+            📖 必須英単語 700語図鑑
+          </h3>
+          <span id="bookProgressText" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold">0 / 700 語</span>
+        </div>
+        <div class="w-full bg-indigo-950 rounded-full h-2 border border-indigo-700 overflow-hidden">
+          <div id="bookProgressBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
+        </div>
+        <input type="text" id="bookSearchInput" oninput="renderVocabBook()" placeholder="🔍 単語や日本語でけんさく..." class="w-full bg-indigo-950 border border-indigo-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-xs max-h-[460px] overflow-y-auto pr-1" id="vocabBookList"></div>
+    </div>
+
+
+    <!-- ==================== 5. 💎 ダイヤショップ＆ガチャ画面 ==================== -->
     <div id="viewShop" class="hidden space-y-4">
       
       <div class="bg-gradient-to-br from-purple-800 via-indigo-900 to-pink-900 border-2 border-amber-400 rounded-3xl p-4 text-center shadow-xl space-y-2">
@@ -362,19 +444,19 @@
       <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
-            👑 相棒の着せ替え・装備コレクション
+            👑 相棒の着せ替え・装備コレクション (ステータスUP!)
           </h3>
         </div>
 
         <div class="flex bg-indigo-950 p-1 rounded-xl border border-indigo-800 text-[11px] font-bold">
           <button id="tabEquipHat" onclick="switchEquipTab('hat')" class="flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition">
-            👑 あたま (9)
+            👑 あたま (HP)
           </button>
           <button id="tabEquipWeapon" onclick="switchEquipTab('weapon')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
-            ⚔️ ぶき (9)
+            ⚔️ ぶき (攻)
           </button>
           <button id="tabEquipAura" onclick="switchEquipTab('aura')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
-            ✨ オーラ (8)
+            ✨ オーラ (速)
           </button>
         </div>
 
@@ -384,7 +466,7 @@
     </div>
 
 
-    <!-- ==================== 5. 保護者用ダッシュボード ==================== -->
+    <!-- ==================== 6. 保護者用ダッシュボード ==================== -->
     <div id="viewParent" class="hidden space-y-4">
       <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-4 space-y-3">
         <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5 border-b border-indigo-800 pb-2">
@@ -419,23 +501,27 @@
 
   </main>
 
-  <!-- ボトムナビゲーションバー -->
+  <!-- ボトムナビゲーションバー (5分割均等レイアウト) -->
   <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
-    <div class="max-w-md mx-auto flex justify-around text-xs font-bold">
+    <div class="max-w-md mx-auto grid grid-cols-5 text-[9.5px] font-bold text-center">
       <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-400">
-        <span class="text-lg">🏠</span>
+        <span class="text-base">🏠</span>
         <span>クエスト</span>
       </button>
+      <button onclick="showBook()" id="navBook" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
+        <span class="text-base">📖</span>
+        <span>図鑑</span>
+      </button>
       <button onclick="startWeakMode()" id="navWeak" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-lg">👾</span>
+        <span class="text-base">👾</span>
         <span>にがて帳</span>
       </button>
       <button onclick="showShop()" id="navShop" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-lg">🛒</span>
+        <span class="text-base">🛒</span>
         <span>ショップ</span>
       </button>
       <button onclick="showParent()" id="navParent" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-lg">📊</span>
+        <span class="text-base">📊</span>
         <span>保護者</span>
       </button>
     </div>
@@ -752,7 +838,7 @@
       }
     ];
 
-    // ==================== レベル10ごと全11段階の進化ツリー (Lv.1〜Lv.100) ====================
+    // ==================== レベル10ごとの進化ツリー (Lv.1〜Lv.100) ====================
     const AVATARS = [
       { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
       { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
@@ -786,7 +872,7 @@
         uttr.rate = voiceSpeed;
         window.speechSynthesis.speak(uttr);
       } catch(e) {
-        console.log('Speech error', e);
+        console.error('Speech error', e);
       }
     }
 
@@ -825,7 +911,7 @@
 
         speakNextSegment();
       } catch(e) {
-        console.log('Dialogue speech error', e);
+        console.error('Dialogue speech error', e);
       }
     }
 
@@ -843,6 +929,7 @@
       home: { seq: ['C4',null,'E4',null,'G4',null,'C5',null,'G4',null,'E4',null], speed: 280, type: 'triangle', vol: 0.03 },
       battle: { seq: ['A3','A3','C4','E4','D4','D4','F4','G4'], speed: 170, type: 'square', vol: 0.02 },
       boss: { seq: ['A3','C4','D4','F4','E4','D4','C4','B3'], speed: 140, type: 'sawtooth', vol: 0.025 },
+      fever: { seq: ['C5','E5','G5','C6','E5','G5','C6','G5'], speed: 110, type: 'sawtooth', vol: 0.03 },
       result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 }
     };
 
@@ -921,6 +1008,14 @@
           gain.gain.setValueAtTime(0.15, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
           osc.start(now); osc.stop(now + 0.35);
+        } else if(type === 'critical') {
+          osc.type = 'sawtooth';
+          [523, 783, 1046, 1318, 1567].forEach((f, i) => {
+            osc.frequency.setValueAtTime(f, now + i * 0.05);
+          });
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+          osc.start(now); osc.stop(now + 0.45);
         } else if(type === 'wrong') {
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(220, now);
@@ -928,7 +1023,7 @@
           gain.gain.setValueAtTime(0.12, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
           osc.start(now); osc.stop(now + 0.3);
-        } else if(type === 'levelup' || type === 'bonus') {
+        } else if(type === 'levelup' || type === 'bonus' || type === 'chest') {
           osc.type = 'triangle';
           [523, 659, 783, 1046, 1318].forEach((freq, idx) => {
             osc.frequency.setValueAtTime(freq, now + idx * 0.09);
@@ -950,38 +1045,40 @@
 
     // ==================== 着せ替え・装備データベース ====================
     const SHOP_EQUIP_DATA = [
-      { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', desc: '英語学習の第一歩' },
-      { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', desc: '元気いっぱいな帽子' },
-      { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', desc: 'やる気が湧き上がる' },
-      { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', desc: 'リスニング力がアップ？' },
-      { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', desc: '文法の魔力が宿る' },
-      { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', desc: '集中力を研ぎ澄ます' },
-      { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', desc: '知識の王者の証' },
-      { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', desc: '未知の領域へ飛び立つ' },
-      { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', desc: '完全制覇者に捧ぐ冠' },
+      { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 20, desc: 'HP +20 / 学習の第一歩' },
+      { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 35, desc: 'HP +35 / 元気いっぱい' },
+      { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 60, desc: 'HP +60 / やる気UP' },
+      { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 100, desc: 'HP +100 / 集中力UP' },
+      { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 180, desc: 'HP +180 / 文法の魔力' },
+      { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 260, desc: 'HP +260 / 精神集中' },
+      { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 400, desc: 'HP +400 / 知識の王者' },
+      { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 600, desc: 'HP +600 / 未知の領域' },
+      { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 1000, desc: 'HP +1000 / 完全制覇' },
+      { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 1500, desc: 'HP +1500 / 竜王の加護' },
 
-      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', desc: 'マークシートの強い味方' },
-      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', desc: '小さな魔法を放つ' },
-      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', desc: '正解を射抜く' },
-      { id: 'wp_sword', name: '勇者のブロードソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', desc: 'どんな難問も断ち切る' },
-      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', desc: '英語のリズムに乗る' },
-      { id: 'wp_axe', name: '狂戦士のバトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', desc: '圧倒的な勉強量で粉砕' },
-      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', desc: '海のように深い知識' },
-      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', desc: '暗闇を照らす光の剣' },
-      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', desc: '絶対合格の伝説の聖剣' },
+      { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 5, desc: '攻撃 +5 / マークシート用' },
+      { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 10, desc: '攻撃 +10 / 小さな魔法' },
+      { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 18, desc: '攻撃 +18 / 正解を射抜く' },
+      { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 28, desc: '攻撃 +28 / 難問を断ち切る' },
+      { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 45, desc: '攻撃 +45 / 英語のリズム' },
+      { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 65, desc: '攻撃 +65 / 圧倒的粉砕' },
+      { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 95, desc: '攻撃 +95 / 深い知識' },
+      { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 140, desc: '攻撃 +140 / 光の剣' },
+      { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 220, desc: '攻撃 +220 / 絶対合格の聖剣' },
+      { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 300, desc: '攻撃 +300 / ボス討伐の覇気' },
 
-      { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', desc: '爽やかな学びの風' },
-      { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', desc: '合格への桜咲く' },
-      { id: 'aura_angel', name: '天使の純白の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', desc: '高みへと羽ばたく' },
-      { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', desc: '秘めたる力を解放' },
-      { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', desc: '電光石火の早解き' },
-      { id: 'aura_fire', name: '爆炎のドラゴンオーラ', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', desc: '燃え盛る情熱の炎' },
-      { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', desc: '満点合格の架け橋' },
-      { id: 'aura_cosmic', name: '銀河のコズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', desc: '全宇宙の叡智をまとう' }
+      { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 3, desc: '速さ +3 / 爽やかな風' },
+      { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 7, desc: '速さ +7 / 合格の桜' },
+      { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 12, desc: '速さ +12 / 高みへ飛翔' },
+      { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 18, desc: '速さ +18 / 秘めたる力' },
+      { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 25, desc: '速さ +25 / 電光石火' },
+      { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 35, desc: '速さ +35 / 燃える情熱' },
+      { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 50, desc: '速さ +50 / 満点の架け橋' },
+      { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 80, desc: '速さ +80 / 全宇宙の叡智' }
     ];
 
-    // ==================== ユーザーデータ管理 (LocalStorage) ====================
-    const STORAGE_KEY = 'eiken4_data_v17';
+    // ==================== ユーザーデータ管理 (LocalStorage & 自動マイグレーション) ====================
+    const STORAGE_KEY = 'eiken4_data_v19';
     let userData = {
       level: 1,
       exp: 0,
@@ -989,6 +1086,8 @@
       streak: 1,
       lastLoginDate: getTodayString(),
       weakList: [],
+      vocabBook: [],
+      statsBonus: { atk: 0, hp: 0, spd: 0 },
       totalAnswered: 0,
       totalCorrect: 0,
       dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
@@ -1000,6 +1099,7 @@
     let currentShopTab = 'hat';
     let isDailyCurrentSession = false;
     let isBossMode = false;
+    let isFeverMode = false;
 
     function getTodayString() {
       const d = new Date();
@@ -1007,29 +1107,60 @@
     }
 
     function sanitizeUserData() {
+      if (typeof userData.level !== 'number' || userData.level < 1 || isNaN(userData.level)) userData.level = 1;
+      if (typeof userData.exp !== 'number' || isNaN(userData.exp)) userData.exp = 0;
+      if (typeof userData.gems !== 'number' || isNaN(userData.gems)) userData.gems = 10;
+      if (typeof userData.streak !== 'number' || isNaN(userData.streak)) userData.streak = 1;
       if (!Array.isArray(userData.weakList)) userData.weakList = [];
-      if (!userData.inventory || typeof userData.inventory !== 'object') userData.inventory = { hint: 1, potion: 0 };
-      if (typeof userData.inventory.hint !== 'number') userData.inventory.hint = 1;
-      if (typeof userData.inventory.potion !== 'number') userData.inventory.potion = 0;
-      if (!userData.equipped || typeof userData.equipped !== 'object') userData.equipped = { hat: '', weapon: '', aura: '' };
-      if (!userData.equipped.aura) userData.equipped.aura = '';
+      if (!Array.isArray(userData.vocabBook)) userData.vocabBook = [];
       if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
+      
+      if (!userData.statsBonus || typeof userData.statsBonus !== 'object') userData.statsBonus = { atk: 0, hp: 0, spd: 0 };
+      userData.statsBonus.atk = Number(userData.statsBonus.atk) || 0;
+      userData.statsBonus.hp = Number(userData.statsBonus.hp) || 0;
+      userData.statsBonus.spd = Number(userData.statsBonus.spd) || 0;
+
+      if (!userData.inventory || typeof userData.inventory !== 'object') userData.inventory = { hint: 1, potion: 0 };
+      userData.inventory.hint = Number(userData.inventory.hint) || 0;
+      userData.inventory.potion = Number(userData.inventory.potion) || 0;
+
+      if (!userData.equipped || typeof userData.equipped !== 'object') userData.equipped = { hat: '', weapon: '', aura: '' };
+      if (typeof userData.equipped.hat !== 'string') userData.equipped.hat = '';
+      if (typeof userData.equipped.weapon !== 'string') userData.equipped.weapon = '';
+      if (typeof userData.equipped.aura !== 'string') userData.equipped.aura = '';
+
       if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
       if (typeof userData.dailyDone.allClaimed !== 'boolean') userData.dailyDone.allClaimed = false;
-      if (typeof userData.level !== 'number' || userData.level < 1) userData.level = 1;
-      if (typeof userData.exp !== 'number') userData.exp = 0;
-      if (typeof userData.gems !== 'number') userData.gems = 10;
-      if (typeof userData.streak !== 'number') userData.streak = 1;
+
+      if (typeof userData.totalAnswered !== 'number' || isNaN(userData.totalAnswered)) userData.totalAnswered = 0;
+      if (typeof userData.totalCorrect !== 'number' || isNaN(userData.totalCorrect)) userData.totalCorrect = 0;
       if (!userData.lastLoginDate) userData.lastLoginDate = getTodayString();
     }
 
     function loadData() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          userData = { ...userData, ...JSON.parse(saved) };
+        let saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) {
+          const oldKeys = ['eiken4_data_v18', 'eiken4_data_v17', 'eiken4_data_v16', 'eiken4_data_v15', 'eiken4_data_v14', 'eiken4_data'];
+          for (const key of oldKeys) {
+            const old = localStorage.getItem(key);
+            if (old) {
+              saved = old;
+              break;
+            }
+          }
         }
-      } catch(e) {}
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          userData = { ...userData, ...parsed };
+          if (parsed.statsBonus) userData.statsBonus = { ...userData.statsBonus, ...parsed.statsBonus };
+          if (parsed.dailyDone) userData.dailyDone = { ...userData.dailyDone, ...parsed.dailyDone };
+          if (parsed.inventory) userData.inventory = { ...userData.inventory, ...parsed.inventory };
+          if (parsed.equipped) userData.equipped = { ...userData.equipped, ...parsed.equipped };
+        }
+      } catch(e) {
+        console.error('Data load error:', e);
+      }
       sanitizeUserData();
       checkDailyStreak();
       updateUiState();
@@ -1039,7 +1170,9 @@
       sanitizeUserData();
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-      } catch(e) {}
+      } catch(e) {
+        console.error('Data save error:', e);
+      }
       updateUiState();
     }
 
@@ -1062,6 +1195,22 @@
       } catch(e) {
         userData.lastLoginDate = getTodayString();
       }
+    }
+
+    function calculatePlayerStats() {
+      const baseAtk = 15 + (userData.level * 3) + (userData.statsBonus.atk || 0);
+      const baseHp = 100 + (userData.level * 15) + (userData.statsBonus.hp || 0);
+      const baseSpd = 5 + Math.floor(userData.level * 0.8) + (userData.statsBonus.spd || 0);
+
+      const eqHat = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
+      const eqWp = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
+      const eqAura = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
+
+      const totalHp = baseHp + (eqHat ? eqHat.val : 0);
+      const totalAtk = baseAtk + (eqWp ? eqWp.val : 0);
+      const totalSpd = baseSpd + (eqAura ? eqAura.val : 0);
+
+      return { hp: totalHp, atk: totalAtk, spd: totalSpd };
     }
 
     function addExp(amount) {
@@ -1106,13 +1255,17 @@
       setText('shopHintCount', userData.inventory.hint || 0);
       setText('shopPotionCount', userData.inventory.potion || 0);
 
+      const stats = calculatePlayerStats();
+      setText('statAtkVal', stats.atk);
+      setText('statHpVal', stats.hp);
+      setText('statSpdVal', stats.spd);
+
       const needed = userData.level * 100;
       const pct = Math.min(100, Math.round((userData.exp / needed) * 100));
       const expBar = document.getElementById('expBar');
       if (expBar) expBar.style.width = `${pct}%`;
       setText('expText', `${userData.exp} / ${needed}`);
 
-      // レベルに応じたアバター・ランク・名前の自動適用
       const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
       setText('heroAvatar', currentAvatar.emoji);
       setText('heroRank', currentAvatar.rank);
@@ -1252,9 +1405,12 @@
               ? `<button onclick="toggleEquip('${eq.id}', '${eq.type}')" class="${isEquipped ? 'bg-amber-500 text-indigo-950 font-black' : 'bg-indigo-800 text-white font-bold'} w-full py-1.5 rounded-lg text-[10px] transition active:scale-95">
                   ${isEquipped ? '✓ そうび中' : 'そうびする'}
                  </button>`
-              : `<button onclick="buyEquip('${eq.id}', ${eq.price})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black w-full py-1.5 rounded-lg text-[10px] transition active:scale-95 flex items-center justify-center gap-1">
-                  <span>💎 ${eq.price}</span>
-                 </button>`
+              : (eq.price < 9000
+                ? `<button onclick="buyEquip('${eq.id}', ${eq.price})" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black w-full py-1.5 rounded-lg text-[10px] transition active:scale-95 flex items-center justify-center gap-1">
+                    <span>💎 ${eq.price}</span>
+                   </button>`
+                : `<div class="text-[9px] text-amber-400 text-center font-bold">👑 ボス討伐で入手</div>`
+              )
             }
           </div>
         `;
@@ -1265,7 +1421,7 @@
     function buyItem(itemType, cost) {
       initAudio();
       if (userData.gems < cost) {
-        alert('💎 ダイヤが足りません！デイリークエストをクリアして集めよう！');
+        alert('💎 ダイヤが足りません！クエストをクリアして集めよう！');
         return;
       }
       userData.gems -= cost;
@@ -1343,7 +1499,59 @@
       saveData();
     }
 
-    // ==================== クイズ生成＆セッション実行 ====================
+    // ==================== 📖 700語モンスター図鑑レンダリング ====================
+    function showBook() {
+      stopBattleTimers();
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewHome').classList.add('hidden');
+      document.getElementById('viewShop').classList.add('hidden');
+      document.getElementById('viewParent').classList.add('hidden');
+      document.getElementById('viewBook').classList.remove('hidden');
+      stopBGM();
+      updateNavHighlight('book');
+      renderVocabBook();
+    }
+
+    function renderVocabBook() {
+      const container = document.getElementById('vocabBookList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const query = (document.getElementById('bookSearchInput')?.value || '').toLowerCase().trim();
+      const collectedCount = userData.vocabBook.length;
+      document.getElementById('bookProgressText').innerText = `${collectedCount} / ${RAW_VOCAB_DATA.length} 語 (${Math.round((collectedCount / RAW_VOCAB_DATA.length) * 100)}%)`;
+      document.getElementById('bookProgressBar').style.width = `${(collectedCount / RAW_VOCAB_DATA.length) * 100}%`;
+
+      const filtered = RAW_VOCAB_DATA.filter(item => {
+        if (!query) return true;
+        return item[0].toLowerCase().includes(query) || item[1].includes(query);
+      });
+
+      filtered.forEach((item, idx) => {
+        const isCollected = userData.vocabBook.includes(item[0]);
+        const card = document.createElement('div');
+        card.className = `p-2.5 rounded-xl border flex flex-col justify-between ${isCollected ? 'bg-indigo-900/90 border-amber-400/60' : 'bg-indigo-950/60 border-indigo-900 opacity-60'}`;
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[9px] font-bold text-indigo-300">No.${idx + 1}</span>
+              <span>${isCollected ? '💮 討伐済' : '❓ 未発見'}</span>
+            </div>
+            <div class="font-black text-white text-xs mb-0.5">${isCollected ? item[0] : '？？？'}</div>
+            <div class="text-[10px] text-amber-300">${isCollected ? item[1] : '問題に正解して解放！'}</div>
+          </div>
+          ${isCollected ? `
+            <button onclick="speakText('${item[0]}')" class="mt-2 bg-indigo-800 hover:bg-indigo-700 py-1 rounded text-[9px] text-indigo-200 font-bold">
+              🔊 はつおん
+            </button>
+          ` : ''}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ==================== クイズ生成＆RPG戦闘セッション実行 ====================
     let currentQueue = [];
     let currentIndex = 0;
     let currentMode = '';
@@ -1351,6 +1559,14 @@
     let combo = 0;
     let maxCombo = 0;
     let isAnswered = false;
+
+    let playerMaxHp = 100;
+    let playerCurHp = 100;
+    let enemyMaxHp = 100;
+    let enemyCurHp = 100;
+    let enemyAtk = 20;
+    let questionStartTime = 0;
+    let timerGaugeInterval = null;
 
     const MONSTERS = ['👹', '👾', '🧟', '🎃', '🐺'];
 
@@ -1363,6 +1579,16 @@
       return arr;
     }
 
+    function stopBattleTimers() {
+      if (timerGaugeInterval) {
+        clearInterval(timerGaugeInterval);
+        timerGaugeInterval = null;
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
     function generateVocabQuiz(item) {
       const correctMeaning = item[1];
       const otherMeanings = RAW_VOCAB_DATA.filter(x => x[1] !== correctMeaning).map(x => x[1]);
@@ -1370,9 +1596,10 @@
       const options = shuffleArray([correctMeaning, ...wrongThree]);
       return {
         id: 'v_' + item[0],
+        rawWord: item[0],
         type: 'vocab',
         q: item[0],
-        sub: '📖 正しい日本語の意味を選ぼう',
+        sub: '📖 正しい日本語の意味を選ぼう (⚔️攻UP)',
         options: options,
         ans: options.indexOf(correctMeaning),
         explain: `「${item[0]}」は「${correctMeaning}」という意味です。`,
@@ -1385,7 +1612,6 @@
       const correctOption = item.opt[item.ans];
       const shuffledOptions = shuffleArray(item.opt);
       const newAnsIndex = shuffledOptions.indexOf(correctOption);
-      
       const questionAudioText = item.q.replace(/\([^)]*\)/g, ' , ');
       const completeSentence = item.q.replace(/\([^)]*\)/g, correctOption);
 
@@ -1393,7 +1619,7 @@
         id: 'g_' + idx,
         type: 'grammar',
         q: item.q,
-        sub: item.sub,
+        sub: item.sub || '🪄 正しい英語を選ぼう (🛡️HP UP)',
         options: shuffledOptions,
         ans: newAnsIndex,
         explain: item.exp + `\n\n【正解の英文】\n${completeSentence}`,
@@ -1410,7 +1636,7 @@
         id: 'l_' + idx,
         type: 'listening',
         q: item.q,
-        sub: item.sub,
+        sub: item.sub || '🎧 音声を聞いて答えよう (⚡速UP)',
         options: shuffledOptions,
         ans: newAnsIndex,
         explain: item.exp,
@@ -1419,15 +1645,15 @@
       };
     }
 
-    // 👑 過去問ボスバトル開始
     function startBossBattle() {
       initAudio();
+      stopBattleTimers();
       isBossMode = true;
       isDailyCurrentSession = false;
+      isFeverMode = false;
       currentMode = 'boss';
 
       const shuffledPastExams = shuffleArray(ACTUAL_PAST_EXAM_DATA).slice(0, 10);
-
       currentQueue = shuffledPastExams.map(item => {
         const correctOption = item.options[item.ans];
         const shuffledOptions = shuffleArray(item.options);
@@ -1455,23 +1681,27 @@
       }
       isBossMode = false;
       isDailyCurrentSession = true;
+      isFeverMode = false;
       startSessionInternal(type, count);
     }
 
     function startNormalMode(type, count) {
       isBossMode = false;
       isDailyCurrentSession = false;
+      isFeverMode = false;
       startSessionInternal(type, count);
     }
 
     function startWeakMode() {
       initAudio();
+      stopBattleTimers();
       if (userData.weakList.length === 0) {
         alert('現在にがてリストに登録された問題はありません！');
         return;
       }
       isBossMode = false;
       isDailyCurrentSession = false;
+      isFeverMode = false;
       currentMode = 'weak';
       currentQueue = [];
       userData.weakList.forEach(id => {
@@ -1511,6 +1741,7 @@
 
     function startSessionInternal(type, count) {
       initAudio();
+      stopBattleTimers();
       currentMode = type;
       if (type === 'vocab') {
         const selectedItems = shuffleArray(RAW_VOCAB_DATA).slice(0, count);
@@ -1530,28 +1761,54 @@
       quizScore = 0;
       combo = 0;
       maxCombo = 0;
+      isFeverMode = false;
       
+      const pStats = calculatePlayerStats();
+      playerMaxHp = pStats.hp;
+      playerCurHp = pStats.hp;
+
+      if (isBossMode) {
+        enemyMaxHp = Math.round(pStats.atk * 10 * 1.3);
+        enemyCurHp = enemyMaxHp;
+        enemyAtk = 25;
+      } else {
+        enemyMaxHp = Math.round(pStats.atk * currentQueue.length * 1.05);
+        enemyCurHp = enemyMaxHp;
+        enemyAtk = 15;
+      }
+
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewResult').classList.add('hidden');
       document.getElementById('viewShop').classList.add('hidden');
       document.getElementById('viewParent').classList.add('hidden');
+      document.getElementById('viewBook').classList.add('hidden');
       document.getElementById('viewQuiz').classList.remove('hidden');
 
       if (isBossMode) {
         playBGM('boss');
-        document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-5 shadow-2xl relative glow-red";
-        document.getElementById('enemyName').innerText = "👑 過去問暗黒竜（BOSS）";
-        document.getElementById('enemyName').className = "text-[11px] font-black text-amber-300";
-        document.getElementById('enemyHpBar').style.width = '100%';
+        document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
+        document.getElementById('battleEnemyName').innerText = "👑 過去問暗黒竜";
       } else {
         playBGM('battle');
-        document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-5 shadow-2xl relative";
-        document.getElementById('enemyName').innerText = "英語モンスター";
-        document.getElementById('enemyName').className = "text-[10px] font-bold text-indigo-300";
-        document.getElementById('enemyHpBar').style.width = '100%';
+        document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
+        document.getElementById('battleEnemyName').innerText = "英語モンスター";
       }
 
+      const avatarObj = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+      document.getElementById('battleHeroName').innerText = avatarObj.name;
+      updateBattleHpUi();
       renderQuestion();
+    }
+
+    function updateBattleHpUi() {
+      const heroPct = Math.max(0, Math.min(100, Math.round((playerCurHp / playerMaxHp) * 100)));
+      const enemyPct = Math.max(0, Math.min(100, Math.round((enemyCurHp / enemyMaxHp) * 100)));
+
+      document.getElementById('battleHeroHpBar').style.width = `${heroPct}%`;
+      document.getElementById('battleHeroHpText').innerText = `${playerCurHp}/${playerMaxHp}`;
+
+      document.getElementById('battleEnemyHpBar').style.width = `${enemyPct}%`;
+      document.getElementById('battleEnemyHpText').innerText = `${enemyCurHp}/${enemyMaxHp}`;
     }
 
     function renderQuestion() {
@@ -1560,6 +1817,15 @@
       document.getElementById('quizFeedback').classList.add('hidden');
       document.getElementById('quizProgress').innerText = `第 ${currentIndex + 1} / ${currentQueue.length} 問`;
       document.getElementById('comboCounter').innerText = `🔥 ${combo} 連続`;
+
+      const feverBanner = document.getElementById('feverBanner');
+      if (isFeverMode) {
+        feverBanner.classList.remove('hidden');
+        document.getElementById('enemyCardBox').classList.add('fever-active');
+      } else {
+        feverBanner.classList.add('hidden');
+        document.getElementById('enemyCardBox').classList.remove('fever-active');
+      }
       
       if (isBossMode) {
         document.getElementById('enemyAvatar').innerText = '🐲';
@@ -1588,11 +1854,23 @@
         }
       }
 
+      // 3秒即答タイマーゲージ初期化
+      questionStartTime = Date.now();
+      const gauge = document.getElementById('timerGauge');
+      gauge.style.width = '100%';
+      clearInterval(timerGaugeInterval);
+      timerGaugeInterval = setInterval(() => {
+        const elapsed = Date.now() - questionStartTime;
+        const remainPct = Math.max(0, 100 - (elapsed / 3000) * 100);
+        gauge.style.width = `${remainPct}%`;
+        if (remainPct <= 0) clearInterval(timerGaugeInterval);
+      }, 50);
+
       const optContainer = document.getElementById('quizOptions');
       optContainer.innerHTML = '';
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "w-full bg-indigo-900/90 hover:bg-indigo-800 border-2 border-indigo-700/80 hover:border-amber-400 p-3 rounded-2xl text-sm font-bold text-slate-100 text-left transition active:scale-98 flex items-center justify-between";
+        btn.className = "w-full bg-indigo-900/90 hover:bg-indigo-800 border-2 border-indigo-700/80 hover:border-amber-400 p-2.5 rounded-2xl text-sm font-bold text-slate-100 text-left transition active:scale-98 flex items-center justify-between";
         btn.innerHTML = `<span><strong class="text-amber-400 mr-2">${idx + 1}.</strong> ${opt}</span> <span class="text-xs opacity-40">⚔️</span>`;
         btn.onclick = () => handleAnswer(idx);
         optContainer.appendChild(btn);
@@ -1611,12 +1889,29 @@
       }
     }
 
+    function showDamagePopup(text, isCritical, isEnemyDamage) {
+      const area = document.getElementById('damageEffectArea');
+      if (!area) return;
+      const el = document.createElement('div');
+      el.className = `damage-popup text-base font-black px-3 py-1 rounded-2xl shadow-2xl ${
+        isEnemyDamage 
+          ? (isCritical ? 'bg-amber-400 text-indigo-950 border-2 border-white scale-110' : 'bg-rose-600 text-white')
+          : 'bg-red-800 text-white border border-red-500'
+      }`;
+      el.innerText = text;
+      area.appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    }
+
     function handleAnswer(selectedIdx) {
       if (isAnswered) return;
       isAnswered = true;
+      clearInterval(timerGaugeInterval);
 
       const q = currentQueue[currentIndex];
       const isCorrect = (selectedIdx === q.ans);
+      const answerDuration = Date.now() - questionStartTime;
+      const isQuickAnswer = (answerDuration <= 3000);
       
       userData.totalAnswered += 1;
       const feedbackModal = document.getElementById('quizFeedback');
@@ -1630,25 +1925,50 @@
         if (idx === selectedIdx && !isCorrect) btn.classList.add('!bg-rose-800', '!border-rose-500');
       });
 
+      const pStats = calculatePlayerStats();
+
       if (isCorrect) {
-        playSE('correct');
         quizScore += 1;
         combo += 1;
         if (combo > maxCombo) maxCombo = combo;
         userData.totalCorrect += 1;
 
-        if (isBossMode) {
-          const remainingHp = Math.max(0, 100 - (quizScore * (100 / currentQueue.length)));
-          document.getElementById('enemyHpBar').style.width = `${remainingHp}%`;
-        } else {
-          document.getElementById('enemyHpBar').style.width = '0%';
+        if (combo >= 5 && !isFeverMode) {
+          isFeverMode = true;
+          playBGM('fever');
         }
+
+        let dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
+        const isCrit = isQuickAnswer || (Math.random() < (pStats.spd / 150));
+        if (isCrit) dmg = Math.round(dmg * 2.0);
+        if (isFeverMode) dmg = Math.round(dmg * 1.5);
+
+        enemyCurHp = Math.max(0, enemyCurHp - dmg);
+        updateBattleHpUi();
+
+        if (isCrit) {
+          playSE('critical');
+          showDamagePopup(`💥 CRITICAL! -${dmg} HP`, true, true);
+        } else {
+          playSE('correct');
+          showDamagePopup(`⚔️ -${dmg} HP`, false, true);
+        }
+
+        if (q.rawWord && !userData.vocabBook.includes(q.rawWord)) {
+          userData.vocabBook.push(q.rawWord);
+        }
+
+        if (q.type === 'vocab') userData.statsBonus.atk += 1;
+        if (q.type === 'grammar') userData.statsBonus.hp += 5;
+        if (q.type === 'listening') userData.statsBonus.spd += 1;
 
         userData.weakList = userData.weakList.filter(id => id !== q.id);
 
         feedbackIcon.innerText = '⭕';
-        feedbackTitle.innerText = `正解！ Excellent! ${combo >= 2 ? `(${combo}連続正解!)` : ''}`;
-        feedbackTitle.className = "text-base font-black text-emerald-400";
+        feedbackTitle.innerText = isCrit 
+          ? `⚡ クリティカル正解！ Excellent! (${combo}連続)`
+          : `正解！ Great! (${combo}連続)`;
+        feedbackTitle.className = isCrit ? "text-sm font-black text-amber-400" : "text-sm font-black text-emerald-400";
 
         if (q.audio_complete) {
           setTimeout(() => speakText(q.audio_complete), 300);
@@ -1656,13 +1976,23 @@
       } else {
         playSE('wrong');
         combo = 0;
+        if (isFeverMode) {
+          isFeverMode = false;
+          playBGM(isBossMode ? 'boss' : 'battle');
+        }
+
+        const enemyDmg = Math.round(enemyAtk * (0.8 + Math.random() * 0.4));
+        playerCurHp = Math.max(0, playerCurHp - enemyDmg);
+        updateBattleHpUi();
+        showDamagePopup(`⚠️ 反撃被弾! -${enemyDmg} HP`, false, false);
+
         if (!userData.weakList.includes(q.id)) {
           userData.weakList.push(q.id);
         }
 
         feedbackIcon.innerText = '❌';
         feedbackTitle.innerText = 'おしい！ Review';
-        feedbackTitle.className = "text-base font-black text-rose-400";
+        feedbackTitle.className = "text-sm font-black text-rose-400";
       }
 
       feedbackExplain.innerText = q.explain;
@@ -1672,7 +2002,7 @@
 
     function nextQuestion() {
       currentIndex += 1;
-      if (currentIndex < currentQueue.length) {
+      if (currentIndex < currentQueue.length && playerCurHp > 0 && enemyCurHp > 0) {
         renderQuestion();
       } else {
         finishSession();
@@ -1680,15 +2010,31 @@
     }
 
     function finishSession() {
+      stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
       document.getElementById('viewResult').classList.remove('hidden');
       playBGM('result');
 
       let earnedExp = 0;
       let earnedGems = 0;
+      const rareDropArea = document.getElementById('rareDropArea');
+      rareDropArea.classList.add('hidden');
 
-      if (isBossMode) {
-        const isBossDefeated = (quizScore >= 7);
+      const isPlayerDead = (playerCurHp <= 0);
+
+      if (isPlayerDead) {
+        // === 💀 力尽きて敗北 ===
+        document.getElementById('resultModeBadge').innerText = '💀 クエスト失敗...';
+        document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-rose-700 text-white px-3 py-1 rounded-full inline-block mb-1';
+        document.getElementById('resultEmoji').innerText = '🪦';
+        document.getElementById('resultTitle').innerText = '力尽きてしまった！';
+        document.getElementById('resultComment').innerText = '特訓でステータスを強化して、もう一度リベンジしよう！';
+
+        earnedExp = Math.max(10, quizScore * 3);
+        earnedGems = 1;
+      } else if (isBossMode) {
+        // === 👑 ボス戦勝利 ===
+        const isBossDefeated = (enemyCurHp <= 0 || quizScore >= 7);
         document.getElementById('resultModeBadge').innerText = isBossDefeated ? '👑 BOSS 討伐完全勝利！' : '⚔️ BOSS 戦 奮闘終了';
         document.getElementById('resultModeBadge').className = isBossDefeated ? 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow' : 'text-[10px] font-black bg-indigo-800 text-indigo-300 px-3 py-1 rounded-full inline-block mb-1';
         document.getElementById('resultEmoji').innerText = isBossDefeated ? '🐲' : '🛡️';
@@ -1697,7 +2043,21 @@
 
         earnedExp = isBossDefeated ? 120 + (quizScore * 5) : 50 + (quizScore * 3);
         earnedGems = isBossDefeated ? 30 : Math.floor(quizScore / 2);
+
+        if (isBossDefeated) {
+          const bossDrops = ['hat_dragon_crown', 'wp_dark_blade'];
+          const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
+          if (availableDrops.length > 0 && Math.random() < 0.6) {
+            const dropId = availableDrops[Math.floor(Math.random() * availableDrops.length)];
+            userData.unlockedEquips.push(dropId);
+            const dropEquip = SHOP_EQUIP_DATA.find(e => e.id === dropId);
+            document.getElementById('rareDropItemText').innerText = `【${dropEquip.name}】(${dropEquip.desc}) を獲得！`;
+            rareDropArea.classList.remove('hidden');
+            playSE('chest');
+          }
+        }
       } else if (isDailyCurrentSession) {
+        // === 📜 デイリークエストクリア ===
         document.getElementById('resultEmoji').innerText = '🏆';
         document.getElementById('resultTitle').innerText = 'クエストクリア！';
         document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
@@ -1717,6 +2077,7 @@
           earnedGems = 25;
         }
       } else {
+        // === ⚔️ 通常特訓クリア ===
         document.getElementById('resultEmoji').innerText = '🏆';
         document.getElementById('resultTitle').innerText = 'クエストクリア！';
         document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
@@ -1735,36 +2096,43 @@
 
     function confirmExitQuiz() {
       if (confirm('学習をとちゅうで終了してホームにもどりますか？')) {
+        stopBattleTimers();
         showHome();
       }
     }
 
     // ==================== 画面遷移 ====================
     function showHome() {
+      stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
       document.getElementById('viewResult').classList.add('hidden');
       document.getElementById('viewShop').classList.add('hidden');
       document.getElementById('viewParent').classList.add('hidden');
+      document.getElementById('viewBook').classList.add('hidden');
       document.getElementById('viewHome').classList.remove('hidden');
       playBGM('home');
       updateNavHighlight('home');
     }
 
     function showShop() {
+      stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
       document.getElementById('viewResult').classList.add('hidden');
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewParent').classList.add('hidden');
+      document.getElementById('viewBook').classList.add('hidden');
       document.getElementById('viewShop').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('shop');
     }
 
     function showParent() {
+      stopBattleTimers();
       document.getElementById('viewQuiz').classList.add('hidden');
       document.getElementById('viewResult').classList.add('hidden');
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewShop').classList.add('hidden');
+      document.getElementById('viewBook').classList.add('hidden');
       document.getElementById('viewParent').classList.remove('hidden');
       stopBGM();
       updateNavHighlight('parent');
@@ -1772,19 +2140,21 @@
 
     function updateNavHighlight(active) {
       const navHome = document.getElementById('navHome');
+      const navBook = document.getElementById('navBook');
       const navWeak = document.getElementById('navWeak');
       const navShop = document.getElementById('navShop');
       const navParent = document.getElementById('navParent');
       
-      [navHome, navWeak, navShop, navParent].forEach(btn => {
-        if (btn) btn.className = "flex-1 flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
+      [navHome, navBook, navWeak, navShop, navParent].forEach(btn => {
+        if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
       });
-      if (active === 'home' && navHome) navHome.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'shop' && navShop) navShop.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
-      if (active === 'parent' && navParent) navParent.className = "flex-1 flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'home' && navHome) navHome.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'book' && navBook) navBook.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'shop' && navShop) navShop.className = "flex flex-col items-center gap-0.5 text-amber-400";
+      if (active === 'parent' && navParent) navParent.className = "flex flex-col items-center gap-0.5 text-amber-400";
     }
 
-    // ==================== データ管理 ====================
+    // ==================== データ管理 (インポート/エクスポート) ====================
     function exportData() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
       const dlAnchor = document.createElement('a');
