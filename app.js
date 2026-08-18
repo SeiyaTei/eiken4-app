@@ -219,7 +219,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v32';
+const STORAGE_KEY = 'eiken4_data_v33';
 let userData = {
   level: 1,
   exp: 0,
@@ -277,6 +277,12 @@ function sanitizeUserData() {
   if (typeof userData.equipped.weapon !== 'string') userData.equipped.weapon = '';
   if (typeof userData.equipped.aura !== 'string') userData.equipped.aura = '';
 
+  // Lv.60未満で最強装備が装備されている場合の安全解除
+  if (userData.level < 60) {
+    if (userData.equipped.hat === 'hat_dragon_crown') userData.equipped.hat = '';
+    if (userData.equipped.weapon === 'wp_dark_blade') userData.equipped.weapon = '';
+  }
+
   if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
   if (typeof userData.dailyDone.allClaimed !== 'boolean') userData.dailyDone.allClaimed = false;
 
@@ -289,7 +295,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data_v25', 'eiken4_data_v24', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -1438,7 +1444,7 @@ function confirmExitQuiz() {
   }
 }
 
-// ==================== ショップ & 装備（ガチャ完全撤廃版） ====================
+// ==================== ショップ & 装備（Lv.60制限適用） ====================
 function switchEquipTab(tab) {
   currentShopTab = tab;
   const tHat = document.getElementById('tabEquipHat');
@@ -1462,6 +1468,7 @@ function renderShopEquips() {
   items.forEach(eq => {
     const isUnlocked = userData.unlockedEquips.includes(eq.id);
     const isEquipped = (userData.equipped[eq.type] === eq.id);
+    const isLevelLocked = Boolean(eq.reqLv && userData.level < eq.reqLv);
 
     const card = document.createElement('div');
     card.className = `p-2.5 rounded-2xl border flex flex-col justify-between ${
@@ -1482,13 +1489,19 @@ function renderShopEquips() {
           <button onclick="unequipItem('${eq.type}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-1 rounded-lg text-[10px] transition">
             はずす
           </button>
-        ` : (isUnlocked ? `
-          <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black py-1 rounded-lg text-[10px] transition active:scale-95">
-            そうび
-          </button>
-        ` : (eq.price > 9000 ? `
+        ` : (isUnlocked ? (
+          isLevelLocked ? `
+            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-indigo-950 border border-rose-600/70 text-rose-300 font-bold py-1 rounded-lg text-[9.5px] transition active:scale-95">
+              🔒 Lv.${eq.reqLv}〜装備可能
+            </button>
+          ` : `
+            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black py-1 rounded-lg text-[10px] transition active:scale-95">
+              そうび
+            </button>
+          `
+        ) : (eq.price > 9000 ? `
           <span class="w-full text-center text-[9px] text-rose-300 font-bold bg-rose-950/80 border border-rose-800/60 py-1 rounded-lg">
-            ボス限定
+            ボス限定 ${eq.reqLv ? `(Lv.${eq.reqLv}〜)` : ''}
           </span>
         ` : `
           <button onclick="buyEquip('${eq.id}', ${eq.price})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1 rounded-lg text-[10px] flex items-center justify-center gap-1 transition active:scale-95">
@@ -1502,6 +1515,11 @@ function renderShopEquips() {
 }
 
 function equipItem(id, type) {
+  const eq = SHOP_EQUIP_DATA.find(e => e.id === id);
+  if (eq && eq.reqLv && userData.level < eq.reqLv) {
+    alert(`⚠️ この装備は【Lv.${eq.reqLv}】以上で装備可能です！（現在のLv: ${userData.level}）\nレベルを上げて解放しよう！`);
+    return;
+  }
   userData.equipped[type] = id;
   playSE('levelup');
   saveData();
