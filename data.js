@@ -299,72 +299,549 @@ const RAW_GRAMMAR_DATA = [
 
 // ==================== 3. リスニング 60問 データベース ====================
 const RAW_LISTENING_DATA = [
-  // 2026-1 (20問)
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.11】(⚡速UP)", opt: ["She can’t find the report.", "She forgot to call Max.", "The report is too long.", "Her desk is broken."], ans: 0, exp: "【対話】\nGirl: Did you finish your report, Max?\nBoy: Yes. I put it on your desk.\nGirl: Really? I can’t find it.\nQuestion: What is the woman’s problem?\n\n【解説】女性は「レポートが見つからない(can't find the report)」と困っています。", dialogue: [{ speaker: 'female', text: "Did you finish your report, Max?" }, { speaker: 'male', text: "Yes. I put it on your desk." }, { speaker: 'female', text: "Really? I can’t find it." }, { speaker: 'male', text: "Oh no." }, { speaker: 'narrator', text: "Question. What is the woman’s problem?" }], aud_complete: "What is the woman’s problem? She can’t find the report." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.12】(⚡速UP)", opt: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."], ans: 1, exp: "【対話】\nGirl: How was your weekend, Ken?\nBoy: Not so good. My mom was sick, so my dad took her to the doctor.\nQuestion: Who was sick?\n\n【解説】ケンのお母さんが病気でした。", dialogue: [{ speaker: 'female', text: "How was your weekend, Ken?" }, { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." }, { speaker: 'narrator', text: "Question. Who was sick?" }], aud_complete: "Who was sick? Ken’s mother." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.13】(⚡速UP)", opt: ["Kim’s friends.", "Kim’s father.", "His friends.", "His father."], ans: 2, exp: "【対話】\nGirl: Hi, Joe. Is that a new camera?\nBoy: Yes, Kim. My dad gave it to me. I just took some pictures of my friends.\nQuestion: Who did Joe take pictures of?\n\n【解説】ジョーは「友達の写真(His friends)」を撮りました。", dialogue: [{ speaker: 'female', text: "Hi, Joe. Is that a new camera?" }, { speaker: 'male', text: "Yes, Kim. My dad gave it to me. I just took some pictures of my friends." }, { speaker: 'narrator', text: "Question. Who did Joe take pictures of?" }], aud_complete: "Who did Joe take pictures of? His friends." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.14】(⚡速UP)", opt: ["Because he is sick.", "Because he broke his leg.", "To talk to his doctor.", "To visit his grandmother."], ans: 3, exp: "【対話】\nGirl: Where are you going?\nBoy: I’m going to the hospital. My grandmother broke her leg, so I’m going to visit her.\nQuestion: Why is the man going to the hospital?\n\n【解説】祖母のお見舞いに行くためです。", dialogue: [{ speaker: 'female', text: "Where are you going?" }, { speaker: 'male', text: "I’m going to the hospital. My grandmother broke her leg, so I’m going to visit her." }, { speaker: 'narrator', text: "Question. Why is the man going to the hospital?" }], aud_complete: "Why is the man going to the hospital? To visit his grandmother." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.15】(⚡速UP)", opt: ["Take a test.", "Talk to their history teacher.", "Clean their classroom.", "Finish their reports."], ans: 3, exp: "【対話】\nGirl: We need to finish our history reports by Friday.\nBoy: I’ll write mine before class tomorrow.\nQuestion: What do they need to do by Friday?\n\n【解説】金曜日までにレポートを終わらせる必要があります。", dialogue: [{ speaker: 'female', text: "We need to finish our history reports by Friday." }, { speaker: 'male', text: "I’ll write mine before class tomorrow." }, { speaker: 'narrator', text: "Question. What do they need to do by Friday?" }], aud_complete: "What do they need to do by Friday? Finish their reports." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.16】(⚡速UP)", opt: ["A toy dog.", "A robot.", "A toy car.", "A toy plane."], ans: 2, exp: "【対話】\nGirl: You can pick one toy from here.\nBoy: I want a toy car.\nQuestion: Which toy does the boy want?\n\n【解説】おもちゃの車(A toy car)です。", dialogue: [{ speaker: 'female', text: "You can pick one toy from here." }, { speaker: 'male', text: "I want a toy car." }, { speaker: 'narrator', text: "Question. Which toy does the boy want?" }], aud_complete: "Which toy does the boy want? A toy car." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.17】(⚡速UP)", opt: ["A tennis game.", "A soccer game.", "A basketball game.", "A baseball game."], ans: 3, exp: "【対話】\nBoy: You have a baseball game today, right?\nGirl: Yes. I also have a soccer game on Wednesday.\nQuestion: Which game does the girl have today?\n\n【解説】今日あるのは野球(A baseball game)です。", dialogue: [{ speaker: 'male', text: "You have a baseball game today, right?" }, { speaker: 'female', text: "Yes. I also have a soccer game on Wednesday." }, { speaker: 'narrator', text: "Question. Which game does the girl have today?" }], aud_complete: "Which game does the girl have today? A baseball game." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.18】(⚡速UP)", opt: ["One.", "Two.", "Three.", "Four."], ans: 2, exp: "【対話】\nBoy: What pets do you have, Mia?\nGirl: A dog, a cat, and a bird. So I have three pets.\nQuestion: How many pets does Mia have?\n\n【解説】3匹(Three)です。", dialogue: [{ speaker: 'male', text: "What pets do you have, Mia?" }, { speaker: 'female', text: "A dog, a cat, and a bird. So I have three pets." }, { speaker: 'narrator', text: "Question. How many pets does Mia have?" }], aud_complete: "How many pets does Mia have? Three." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.19】(⚡速UP)", opt: ["To a Chinese restaurant.", "To a Japanese restaurant.", "To a Spanish restaurant.", "To an Italian restaurant."], ans: 3, exp: "【対話】\nBoy: Where should we go for dinner?\nGirl: Let’s go to an Italian restaurant.\nQuestion: Where will they go for dinner?\n\n【解説】イタリア料理店(To an Italian restaurant)です。", dialogue: [{ speaker: 'male', text: "Where should we go for dinner?" }, { speaker: 'female', text: "Let’s go to an Italian restaurant." }, { speaker: 'narrator', text: "Question. Where will they go for dinner?" }], aud_complete: "Where will they go for dinner? To an Italian restaurant." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.20】(⚡速UP)", opt: ["At school.", "At the girl’s house.", "At the library.", "At the boy’s house."], ans: 0, exp: "【対話】\nGirl: How about studying tomorrow? We can meet at school.\nBoy: OK. Let’s meet at two.\nQuestion: Where will they meet tomorrow?\n\n【解説】学校(At school)です。", dialogue: [{ speaker: 'female', text: "How about studying tomorrow? We can meet at school." }, { speaker: 'male', text: "OK. Let’s meet at two." }, { speaker: 'narrator', text: "Question. Where will they meet tomorrow?" }], aud_complete: "Where will they meet tomorrow? At school." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.21】(⚡速UP)", opt: ["Visit her friend.", "Go shopping.", "Go to a party.", "Make a cake."], ans: 1, exp: "【英文】\nEmma enjoys shopping. This weekend she will go to the new shopping center with her friend.\nQuestion: What will Emma do this weekend?\n\n【解説】買い物に行く(Go shopping)です。", dialogue: [{ speaker: 'female', text: "Emma enjoys shopping. This weekend she will go to the new shopping center with her friend." }, { speaker: 'narrator', text: "Question. What will Emma do this weekend?" }], aud_complete: "What will Emma do this weekend? Go shopping." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.22】(⚡速UP)", opt: ["Her vegetable garden.", "A cooking class.", "A restaurant.", "Her new house."], ans: 2, exp: "【英文】\nMy parents and I went to my favorite curry restaurant last night. The vegetable curry is really good.\nQuestion: What is the girl talking about?\n\n【解説】レストラン(A restaurant)です。", dialogue: [{ speaker: 'female', text: "My parents and I went to my favorite curry restaurant last night. The vegetable curry is really good." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], aud_complete: "What is the girl talking about? A restaurant." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.23】(⚡速UP)", opt: ["They played tennis.", "They saw a movie.", "They went shopping.", "They went to the library."], ans: 2, exp: "【英文】\nKathy and Mary play tennis on Saturdays. Today it rained, so they went to a shopping mall.\nQuestion: What did Kathy and Mary do today?\n\n【解説】買い物に行きました(They went shopping)。", dialogue: [{ speaker: 'male', text: "Kathy and Mary play tennis on Saturdays. Today it rained, so they went to a shopping mall." }, { speaker: 'narrator', text: "Question. What did Kathy and Mary do today?" }], aud_complete: "What did Kathy and Mary do today? They went shopping." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.24】(⚡速UP)", opt: ["To the library.", "To a big game.", "To the computer club.", "To his friend’s house."], ans: 3, exp: "【英文】\nAfter school, I often go to my friend Andrew’s house, and we study together.\nQuestion: Where does the boy often go after school?\n\n【解説】友達の家(To his friend’s house)です。", dialogue: [{ speaker: 'male', text: "After school, I often go to my friend Andrew’s house, and we study together." }, { speaker: 'narrator', text: "Question. Where does the boy often go after school?" }], aud_complete: "Where does the boy often go after school? To his friend’s house." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.25】(⚡速UP)", opt: ["Wendy.", "Wendy’s husband.", "Julie.", "Julie’s husband."], ans: 1, exp: "【英文】\nWendy had a party. She made pasta, and her husband made vegetable soup.\nQuestion: Who made vegetable soup?\n\n【解説】夫(Wendy’s husband)です。", dialogue: [{ speaker: 'male', text: "Wendy had a party. She made pasta, and her husband made vegetable soup." }, { speaker: 'narrator', text: "Question. Who made vegetable soup?" }], aud_complete: "Who made vegetable soup? Wendy’s husband." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.26】(⚡速UP)", opt: ["Go to the library.", "Help her mother.", "Call her friend.", "Read a book at home."], ans: 3, exp: "【英文】\nEmi likes reading. Today, she will read a book at home after school.\nQuestion: What will Emi do today?\n\n【解説】家で読書(Read a book at home)です。", dialogue: [{ speaker: 'female', text: "Emi likes reading. Today, she will read a book at home after school." }, { speaker: 'narrator', text: "Question. What will Emi do today?" }], aud_complete: "What will Emi do today? Read a book at home." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.27】(⚡速UP)", opt: ["He read books.", "He rode his bike.", "He played soccer.", "He did his homework."], ans: 0, exp: "【英文】\nIt rained yesterday, so Jack stayed at home and read books in the afternoon.\nQuestion: What did Jack do yesterday afternoon?\n\n【解説】本を読みました(He read books)。", dialogue: [{ speaker: 'male', text: "It rained yesterday, so Jack stayed at home and read books in the afternoon." }, { speaker: 'narrator', text: "Question. What did Jack do yesterday afternoon?" }], aud_complete: "What did Jack do yesterday afternoon? He read books." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.28】(⚡速UP)", opt: ["She made lunch.", "She visited her grandmother.", "She cleaned her house.", "She met Anna’s father."], ans: 2, exp: "【英文】\nMy grandmother came to visit me, so I cleaned my house. Anna helped me.\nQuestion: What did the girl do yesterday?\n\n【解説】掃除をしました(She cleaned her house)。", dialogue: [{ speaker: 'female', text: "My grandmother came to visit me, so I cleaned my house. Anna helped me." }, { speaker: 'narrator', text: "Question. What did the girl do yesterday?" }], aud_complete: "What did the girl do yesterday? She cleaned her house." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.29】(⚡速UP)", opt: ["By bike.", "By bus.", "By train.", "By car."], ans: 0, exp: "【英文】\nJack usually rides his bike to school when the weather is nice.\nQuestion: How does Jack usually go to school?\n\n【解説】自転車で(By bike)です。", dialogue: [{ speaker: 'male', text: "Jack usually rides his bike to school when the weather is nice." }, { speaker: 'narrator', text: "Question. How does Jack usually go to school?" }], aud_complete: "How does Jack usually go to school? By bike." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2026-1 No.30】(⚡速UP)", opt: ["Three dollars.", "Five dollars.", "Eight dollars.", "Ten dollars."], ans: 3, exp: "【英文】\nWelcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults.\nQuestion: How much is the fee for adults?\n\n【解説】10ドル(Ten dollars)です。", dialogue: [{ speaker: 'female', text: "Welcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults." }, { speaker: 'narrator', text: "Question. How much is the fee for adults?" }], aud_complete: "How much is the fee for adults? Ten dollars." },
-
-  // 2025-3 (20問)
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.11】(⚡速UP)", opt: ["She went skiing.", "She met Mr. Brown.", "She stayed at home.", "She studied at school."], ans: 0, exp: "【対話】\nMan: Did you go skiing at your uncle's house, Meg?\nGirl: Yes, every day. It was fun!\nQuestion: What did Meg do on her holiday?\n\n【解説】スキーに行きました(She went skiing)。", dialogue: [{ speaker: 'male', text: "Did you go skiing at your uncle's house, Meg?" }, { speaker: 'female', text: "Yes, every day. It was fun!" }, { speaker: 'narrator', text: "Question. What did Meg do on her holiday?" }], aud_complete: "What did Meg do on her holiday? She went skiing." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.12】(⚡速UP)", opt: ["Tommy’s birthday present.", "Their homework.", "Their new friend.", "Lisa’s new bicycle."], ans: 0, exp: "【対話】\nGirl: What did you get for your birthday, Tommy?\nBoy: A new bicycle, Lisa.\nQuestion: What are they talking about?\n\n【解説】誕生日プレゼントについて話しています。", dialogue: [{ speaker: 'female', text: "What did you get for your birthday, Tommy?" }, { speaker: 'male', text: "A new bicycle, Lisa." }, { speaker: 'narrator', text: "Question. What are they talking about?" }], aud_complete: "What are they talking about? Tommy’s birthday present." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.13】(⚡速UP)", opt: ["To the movies.", "To Japan.", "To school.", "To the airport."], ans: 3, exp: "【対話】\nBoy: Will you go somewhere tomorrow?\nGirl: Yes, to the airport to meet a friend from Japan.\nQuestion: Where will the girl go tomorrow?\n\n【解説】空港(To the airport)です。", dialogue: [{ speaker: 'male', text: "Will you go somewhere tomorrow?" }, { speaker: 'female', text: "Yes, to the airport to meet a friend from Japan." }, { speaker: 'narrator', text: "Question. Where will the girl go tomorrow?" }], aud_complete: "Where will the girl go tomorrow? To the airport." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.14】(⚡速UP)", opt: ["The boy.", "The girl.", "The boy’s sister.", "The girl’s sister."], ans: 1, exp: "【対話】\nBoy: Do you want to see a movie tomorrow?\nGirl: I can’t. I’ll go fishing alone.\nQuestion: Who will go fishing tomorrow?\n\n【解説】女の子(The girl)です。", dialogue: [{ speaker: 'male', text: "Do you want to see a movie tomorrow?" }, { speaker: 'female', text: "I can’t. I’ll go fishing alone." }, { speaker: 'narrator', text: "Question. Who will go fishing tomorrow?" }], aud_complete: "Who will go fishing tomorrow? The girl." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.15】(⚡速UP)", opt: ["Go home.", "Go to school.", "Meet Mike.", "Buy a present."], ans: 0, exp: "【対話】\nGirl: Bye, Mike. I’m going home now.\nBoy: Thanks for coming to my party.\nQuestion: What is the girl going to do now?\n\n【解説】帰宅する(Go home)ところです。", dialogue: [{ speaker: 'female', text: "Bye, Mike. I’m going home now." }, { speaker: 'male', text: "Thanks for coming to my party." }, { speaker: 'narrator', text: "Question. What is the girl going to do now?" }], aud_complete: "What is the girl going to do now? Go home." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.16】(⚡速UP)", opt: ["Eating an apple.", "Buying a banana.", "Eating a banana.", "Making lunch for the girl."], ans: 0, exp: "【対話】\nGirl: What are you eating, Mark?\nBoy: An apple.\nQuestion: What is Mark doing now?\n\n【解説】リンゴを食べています(Eating an apple)。", dialogue: [{ speaker: 'female', text: "What are you eating, Mark?" }, { speaker: 'male', text: "An apple." }, { speaker: 'narrator', text: "Question. What is Mark doing now?" }], aud_complete: "What is Mark doing now? Eating an apple." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.17】(⚡速UP)", opt: ["At school.", "At home.", "In Peter’s bag.", "In Peter’s room."], ans: 1, exp: "【対話】\nBoy: Where is your eraser?\nGirl: I left it at home. Maybe on the desk in my room.\nQuestion: Where is the girl’s eraser?\n\n【解説】家(At home)です。", dialogue: [{ speaker: 'male', text: "Where is your eraser?" }, { speaker: 'female', text: "I left it at home. Maybe on the desk in my room." }, { speaker: 'narrator', text: "Question. Where is the girl’s eraser?" }], aud_complete: "Where is the girl’s eraser? At home." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.18】(⚡速UP)", opt: ["Next week.", "This week.", "This month.", "Next month."], ans: 3, exp: "【対話】\nGirl: I will go on a trip to Italy next month.\nBoy: How long will you be there?\nQuestion: When will the girl go on a trip?\n\n【解説】来月(Next month)です。", dialogue: [{ speaker: 'female', text: "I will go on a trip to Italy next month." }, { speaker: 'male', text: "How long will you be there?" }, { speaker: 'narrator', text: "Question. When will the girl go on a trip?" }], aud_complete: "When will the girl go on a trip? Next month." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.19】(⚡速UP)", opt: ["He missed a bus.", "He was busy.", "He was sick.", "He got up late."], ans: 3, exp: "【対話】\nGirl: Why is Ken late for school today?\nBoy: He got up late today.\nQuestion: Why is Ken late for school today?\n\n【解説】寝坊したため(He got up late)です。", dialogue: [{ speaker: 'female', text: "Why is Ken late for school today?" }, { speaker: 'male', text: "He got up late today." }, { speaker: 'narrator', text: "Question. Why is Ken late for school today?" }], aud_complete: "Why is Ken late for school today? He got up late." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.20】(⚡速UP)", opt: ["She lived in America.", "Her mother is from America.", "She took English lessons.", "The boy taught it to her."], ans: 0, exp: "【対話】\nBoy: Where did you learn English, Sara?\nGirl: When I was younger, I lived in America for three years.\nQuestion: How did Sara learn English?\n\n【解説】アメリカに住んでいた(She lived in America)からです。", dialogue: [{ speaker: 'male', text: "Where did you learn English, Sara?" }, { speaker: 'female', text: "When I was younger, I lived in America for three years." }, { speaker: 'narrator', text: "Question. How did Sara learn English?" }], aud_complete: "How did Sara learn English? She lived in America." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.21】(⚡速UP)", opt: ["At home.", "At a restaurant.", "At a clothes shop.", "At a bank."], ans: 1, exp: "【英文】\nWelcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad.\nQuestion: Where is the man talking?\n\n【解説】飲食店(At a restaurant)です。", dialogue: [{ speaker: 'male', text: "Welcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad." }, { speaker: 'narrator', text: "Question. Where is the man talking?" }], aud_complete: "Where is the man talking? At a restaurant." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.22】(⚡速UP)", opt: ["He made a new friend.", "He ate with his girlfriend.", "He watched TV.", "He played soccer."], ans: 1, exp: "【英文】\nLast Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer.\nQuestion: What did the man do on Saturday?\n\n【解説】彼女と食事(He ate with his girlfriend)です。", dialogue: [{ speaker: 'male', text: "Last Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer." }, { speaker: 'narrator', text: "Question. What did the man do on Saturday?" }], aud_complete: "What did the man do on Saturday? He ate with his girlfriend." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.23】(⚡速UP)", opt: ["A brush.", "Some pictures.", "Some paper.", "A bicycle."], ans: 2, exp: "【英文】\nToday, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle.\nQuestion: What will Tina buy today?\n\n【解説】紙(Some paper)です。", dialogue: [{ speaker: 'female', text: "Today, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle." }, { speaker: 'narrator', text: "Question. What will Tina buy today?" }], aud_complete: "What will Tina buy today? Some paper." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.24】(⚡速UP)", opt: ["His favorite sport.", "His family trip.", "His favorite animal.", "His new car."], ans: 1, exp: "【英文】\nMy family went on a trip to the beach last week. We went by car.\nQuestion: What is the boy talking about?\n\n【解説】家族旅行(His family trip)です。", dialogue: [{ speaker: 'male', text: "My family went on a trip to the beach last week. We went by car." }, { speaker: 'narrator', text: "Question. What is the boy talking about?" }], aud_complete: "What is the boy talking about? His family trip." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.25】(⚡速UP)", opt: ["Her favorite fruit.", "Her favorite flower.", "Her spring vacation.", "Her family’s garden."], ans: 3, exp: "【英文】\nMy family has a beautiful garden. We have many cherry trees and flowers.\nQuestion: What is the girl talking about?\n\n【解説】庭(Her family’s garden)です。", dialogue: [{ speaker: 'female', text: "My family has a beautiful garden. We have many cherry trees and flowers." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], aud_complete: "What is the girl talking about? Her family’s garden." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.26】(⚡速UP)", opt: ["Sunny.", "Cloudy.", "Windy.", "Rainy."], ans: 0, exp: "【英文】\nYesterday, it was cloudy in the morning but sunny in the afternoon.\nQuestion: How was the weather yesterday afternoon?\n\n【解説】晴れ(Sunny)でした。", dialogue: [{ speaker: 'male', text: "Yesterday, it was cloudy in the morning but sunny in the afternoon." }, { speaker: 'narrator', text: "Question. How was the weather yesterday afternoon?" }], aud_complete: "How was the weather yesterday afternoon? Sunny." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.27】(⚡速UP)", opt: ["Two.", "Three.", "Four.", "Five."], ans: 1, exp: "【英文】\nSarah bought two oranges, three pineapples, and five peaches.\nQuestion: How many pineapples did Sarah buy yesterday?\n\n【解説】3つ(Three)です。", dialogue: [{ speaker: 'male', text: "Sarah bought two oranges, three pineapples, and five peaches." }, { speaker: 'narrator', text: "Question. How many pineapples did Sarah buy yesterday?" }], aud_complete: "How many pineapples did Sarah buy yesterday? Three." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.28】(⚡速UP)", opt: ["In her bag.", "In her car.", "At work.", "At home."], ans: 2, exp: "【英文】\nI lost my keys yesterday. I found them at work.\nQuestion: Where were the woman’s keys?\n\n【解説】職場(At work)です。", dialogue: [{ speaker: 'female', text: "I lost my keys yesterday. I found them at work." }, { speaker: 'narrator', text: "Question. Where were the woman’s keys?" }], aud_complete: "Where were the woman’s keys? At work." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.29】(⚡速UP)", opt: ["His father.", "His brother.", "His mother.", "His grandmother."], ans: 2, exp: "【英文】\nDaniel lives alone. Yesterday, he called his mother many times, but she didn’t answer.\nQuestion: Who did Daniel call yesterday?\n\n【解説】母親(His mother)です。", dialogue: [{ speaker: 'male', text: "Daniel lives alone. Yesterday, he called his mother many times, but she didn’t answer." }, { speaker: 'narrator', text: "Question. Who did Daniel call yesterday?" }], aud_complete: "Who did Daniel call yesterday? His mother." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-3 No.30】(⚡速UP)", opt: ["He will join a baseball game.", "He will play with his dog.", "He will join a running event.", "He will look for quiet places."], ans: 1, exp: "【英文】\nI’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him.\nQuestion: Why will the man go to the park next Sunday?\n\n【解説】犬と遊ぶため(He will play with his dog)です。", dialogue: [{ speaker: 'male', text: "I’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him." }, { speaker: 'narrator', text: "Question. Why will the man go to the park next Sunday?" }], aud_complete: "Why will the man go to the park next Sunday? He will play with his dog." },
-
-  // 2025-2 (20問)
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.11】(⚡速UP)", opt: ["History.", "Math.", "English.", "Science."], ans: 0, exp: "【対話】\nBoy: What’s our next class, Gina?\nGirl: History.\nQuestion: Which class do they have next?\n\n【解説】歴史(History)です。", dialogue: [{ speaker: 'male', text: "What’s our next class, Gina?" }, { speaker: 'female', text: "History." }, { speaker: 'narrator', text: "Question. Which class do they have next?" }], aud_complete: "Which class do they have next? History." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.12】(⚡速UP)", opt: ["Tomorrow.", "This weekend.", "Next month.", "Next winter."], ans: 1, exp: "【対話】\nBoy: Can you ski?\nGirl: My father will teach me this weekend.\nQuestion: When will the girl learn to ski?\n\n【解説】今週末(This weekend)です。", dialogue: [{ speaker: 'male', text: "Can you ski?" }, { speaker: 'female', text: "My father will teach me this weekend." }, { speaker: 'narrator', text: "Question. When will the girl learn to ski?" }], aud_complete: "When will the girl learn to ski? This weekend." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.13】(⚡速UP)", opt: ["Their favorite movie.", "The boy’s book.", "The girl’s bedroom.", "The library."], ans: 1, exp: "【対話】\nBoy: Did you bring my book?\nGirl: Sorry. I left it in my bedroom.\nQuestion: What are they talking about?\n\n【解説】男の子の本(The boy’s book)です。", dialogue: [{ speaker: 'male', text: "Did you bring my book?" }, { speaker: 'female', text: "Sorry. I left it in my bedroom." }, { speaker: 'narrator', text: "Question. What are they talking about?" }], aud_complete: "What are they talking about? The boy’s book." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.14】(⚡速UP)", opt: ["For one day.", "For five days.", "For one week.", "For five weeks."], ans: 1, exp: "【対話】\nGirl: Ted, how long will you stay in Europe?\nBoy: I’ll stay in France for one week and Spain for five days.\nQuestion: How long will Ted stay in Spain?\n\n【解説】5日間(For five days)です。", dialogue: [{ speaker: 'female', text: "Ted, how long will you stay in Europe?" }, { speaker: 'male', text: "I’ll stay in France for one week and Spain for five days." }, { speaker: 'narrator', text: "Question. How long will Ted stay in Spain?" }], aud_complete: "How long will Ted stay in Spain? For five days." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.15】(⚡速UP)", opt: ["The cafeteria.", "The gym.", "Her teachers.", "Her friends."], ans: 0, exp: "【対話】\nBoy: What do you like the best about your new school?\nGirl: The cafeteria. It’s big.\nQuestion: What does the girl like the best about her new school?\n\n【解説】学食(The cafeteria)です。", dialogue: [{ speaker: 'male', text: "What do you like the best about your new school?" }, { speaker: 'female', text: "The cafeteria. It’s big." }, { speaker: 'narrator', text: "Question. What does the girl like the best about her new school?" }], aud_complete: "What does the girl like the best about her new school? The cafeteria." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.16】(⚡速UP)", opt: ["The science homework.", "The English homework.", "The history homework.", "The math homework."], ans: 3, exp: "【対話】\nGirl: Can you help me with the math homework?\nBoy: Sorry, I’m doing my science homework.\nQuestion: What does the girl need help with?\n\n【解説】数学の宿題(The math homework)です。", dialogue: [{ speaker: 'female', text: "Can you help me with the math homework?" }, { speaker: 'male', text: "Sorry, I’m doing my science homework." }, { speaker: 'narrator', text: "Question. What does the girl need help with?" }], aud_complete: "What does the girl need help with? The math homework." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.17】(⚡速UP)", opt: ["Sandwiches.", "Toast.", "Soup.", "Noodles."], ans: 1, exp: "【対話】\nGirl: I had toast for breakfast. I don’t want sandwiches for lunch.\nBoy: OK, we’ll have noodles.\nQuestion: What did the girl have for breakfast?\n\n【解説】トースト(Toast)です。", dialogue: [{ speaker: 'female', text: "I had toast for breakfast. I don’t want sandwiches for lunch." }, { speaker: 'male', text: "OK, we’ll have noodles." }, { speaker: 'narrator', text: "Question. What did the girl have for breakfast?" }], aud_complete: "What did the girl have for breakfast? Toast." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.18】(⚡速UP)", opt: ["Next Friday.", "Next Saturday.", "Next month.", "Next Sunday."], ans: 0, exp: "【対話】\nGirl: Is the class trip next month?\nBoy: No. It’s next Friday.\nQuestion: When is the class trip?\n\n【解説】金曜日(Next Friday)です。", dialogue: [{ speaker: 'female', text: "Is the class trip next month?" }, { speaker: 'male', text: "No. It’s next Friday." }, { speaker: 'narrator', text: "Question. When is the class trip?" }], aud_complete: "When is the class trip? Next Friday." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.19】(⚡速UP)", opt: ["Some new shoes.", "Some pants.", "Some socks.", "Some gloves."], ans: 3, exp: "【対話】\nBoy: I bought you a present. I bought black gloves for you.\nQuestion: What did Oliver buy for the woman?\n\n【解説】手袋(Some gloves)です。", dialogue: [{ speaker: 'male', text: "I bought you a present. I bought black gloves for you." }, { speaker: 'female', text: "How nice!" }, { speaker: 'narrator', text: "Question. What did Oliver buy for the woman?" }], aud_complete: "What did Oliver buy for the woman? Some gloves." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.20】(⚡速UP)", opt: ["One minute.", "Five minutes.", "Seven minutes.", "Fifteen minutes."], ans: 1, exp: "【対話】\nMan: How long does it take to walk to the nearest station?\nWoman: It takes five minutes to walk there.\nQuestion: How long does it take to walk to the station?\n\n【解説】5分(Five minutes)です。", dialogue: [{ speaker: 'male', text: "How long does it take to walk to the nearest station?" }, { speaker: 'female', text: "It takes five minutes to walk there." }, { speaker: 'narrator', text: "Question. How long does it take to walk to the station?" }], aud_complete: "How long does it take to walk to the station? Five minutes." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.21】(⚡速UP)", opt: ["They made a cake.", "They looked for a present.", "They went to a restaurant.", "They cooked some steak."], ans: 2, exp: "【英文】\nLast Saturday was my wife’s birthday, so we went to a nice restaurant.\nQuestion: What did the man and his wife do last Saturday?\n\n【解説】レストランへ行きました(They went to a restaurant)。", dialogue: [{ speaker: 'male', text: "Last Saturday was my wife’s birthday, so we went to a nice restaurant." }, { speaker: 'narrator', text: "Question. What did the man and his wife do last Saturday?" }], aud_complete: "What did the man and his wife do last Saturday? They went to a restaurant." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.22】(⚡速UP)", opt: ["One.", "Two.", "Three.", "Four."], ans: 3, exp: "【英文】\nJack gave Sally four apples. She ate one and gave the other three to her brother.\nQuestion: How many apples did Jack give to Sally?\n\n【解説】4個(Four)です。", dialogue: [{ speaker: 'female', text: "Jack gave Sally four apples. She ate one and gave the other three to her brother." }, { speaker: 'narrator', text: "Question. How many apples did Jack give to Sally?" }], aud_complete: "How many apples did Jack give to Sally? Four." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.23】(⚡速UP)", opt: ["In a coffee shop.", "In the park.", "At home.", "At the station."], ans: 0, exp: "【英文】\nOn Sunday mornings, I read the newspaper in a coffee shop near the station.\nQuestion: Where does the man read the newspaper?\n\n【解説】喫茶店(In a coffee shop)です。", dialogue: [{ speaker: 'male', text: "On Sunday mornings, I read the newspaper in a coffee shop near the station." }, { speaker: 'narrator', text: "Question. Where does the man read the newspaper?" }], aud_complete: "Where does the man read the newspaper? In a coffee shop." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.24】(⚡速UP)", opt: ["Hamsters.", "Ducks.", "Pandas.", "Rabbits."], ans: 1, exp: "【英文】\nTom is writing about ducks, and Steve is writing about hamsters.\nQuestion: Which animal is Tom writing his report about?\n\n【解説】アヒル(Ducks)です。", dialogue: [{ speaker: 'female', text: "Tom is writing about ducks, and Steve is writing about hamsters." }, { speaker: 'narrator', text: "Question. Which animal is Tom writing his report about?" }], aud_complete: "Which animal is Tom writing his report about? Ducks." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.25】(⚡速UP)", opt: ["Play baseball.", "Go to a baseball game.", "Watch a musical.", "Play the piano."], ans: 2, exp: "【英文】\nMy birthday is next week. This year, I want to watch a musical.\nQuestion: What does the boy want to do on his birthday this year?\n\n【解説】ミュージカル(Watch a musical)です。", dialogue: [{ speaker: 'male', text: "My birthday is next week. This year, I want to watch a musical." }, { speaker: 'narrator', text: "Question. What does the boy want to do on his birthday this year?" }], aud_complete: "What does the boy want to do on his birthday this year? Watch a musical." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.26】(⚡速UP)", opt: ["The girl.", "The girl’s brother.", "The girl’s sister.", "The girl’s mother."], ans: 2, exp: "【英文】\nMy sister was practicing the piano, so I asked my mother for help.\nQuestion: Who was practicing the piano?\n\n【解説】姉妹(The girl’s sister)です。", dialogue: [{ speaker: 'female', text: "My sister was practicing the piano, so I asked my mother for help." }, { speaker: 'narrator', text: "Question. Who was practicing the piano?" }], aud_complete: "Who was practicing the piano? The girl’s sister." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.27】(⚡速UP)", opt: ["One book.", "Two books.", "Three books.", "Four books."], ans: 1, exp: "【英文】\nAlice can read one book in three hours. She reads two books every week.\nQuestion: How many books does Alice read every week?\n\n【解説】2冊(Two books)です。", dialogue: [{ speaker: 'male', text: "Alice can read one book in three hours. She reads two books every week." }, { speaker: 'narrator', text: "Question. How many books does Alice read every week?" }], aud_complete: "How many books does Alice read every week? Two books." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.28】(⚡速UP)", opt: ["At 3:00.", "At 3:30.", "At 4:30.", "At 5:00."], ans: 0, exp: "【英文】\nOlivia will go to a concert at five o’clock. She will leave her house at three o’clock.\nQuestion: When will Olivia leave her house?\n\n【解説】3時(At 3:00)です。", dialogue: [{ speaker: 'female', text: "Olivia will go to a concert at five o’clock. She will leave her house at three o’clock." }, { speaker: 'narrator', text: "Question. When will Olivia leave her house?" }], aud_complete: "When will Olivia leave her house? At 3:00." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.29】(⚡速UP)", opt: ["By bike.", "By bus.", "By taxi.", "On foot."], ans: 3, exp: "【英文】\nIt snowed a lot, so I couldn’t ride my bike or take a bus. I had to walk to his house.\nQuestion: How did the boy go to his uncle’s house?\n\n【解説】徒歩(On foot)です。", dialogue: [{ speaker: 'male', text: "It snowed a lot, so I couldn’t ride my bike or take a bus. I had to walk to his house." }, { speaker: 'narrator', text: "Question. How did the boy go to his uncle’s house?" }], aud_complete: "How did the boy go to his uncle’s house? On foot." },
-  { q: "音声を聞いて、質問に答えよう。", sub: "🎧 【2025-2 No.30】(⚡速UP)", opt: ["Make a song.", "Join a music school.", "Meet a singer.", "Go to a concert."], ans: 1, exp: "【英文】\nI want to be a singer in the future, so I decided to join a music school next month.\nQuestion: What will the girl do next month?\n\n【解説】音楽学校(Join a music school)です。", dialogue: [{ speaker: 'female', text: "I want to be a singer in the future, so I decided to join a music school next month." }, { speaker: 'narrator', text: "Question. What will the girl do next month?" }], aud_complete: "What will the girl do next month? Join a music school." }
-];
+// ==================== 2026年度版 (No.11 〜 No.30 全20問) ====================
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.11】(⚡速UP)", 
+    opt: ["She can’t find the report.", "She forgot to call Max.", "The report is too long.", "Her desk is broken."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: Did you finish your report, Max?\nBoy: Yes. I put it on your desk.\nGirl: Really? I can’t find it.\n\n【会話の訳】\n女子: レポートは終わった、マックス？\n男子: うん。君の机の上に置いておいたよ。\n女子: 本当に？見当たらないんだけど。\n\n【質問】What is the woman’s problem?\n（女性の困りごとは何ですか？）\n\n【正解の訳】\n1. 彼女はレポートを見つけることができない。\n\n【解説】机の上にあるはずのレポートが見つからず困っています。", 
+    dialogue: [{ speaker: 'female', text: "Did you finish your report, Max?" }, { speaker: 'male', text: "Yes. I put it on your desk." }, { speaker: 'female', text: "Really? I can’t find it." }, { speaker: 'male', text: "Oh no." }, { speaker: 'narrator', text: "Question. What is the woman’s problem?" }], 
+    aud_complete: "What is the woman’s problem? She can’t find the report." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.12】(⚡速UP)", 
+    opt: ["Ken.", "Ken’s mother.", "Ken’s father.", "Ken’s friend."], 
+    ans: 1, 
+    explain: "【会話】\nGirl: How was your weekend, Ken?\nBoy: Not so good. My mom was sick, so my dad took her to the doctor.\n\n【会話の訳】\n女子: 週末はどうだった、ケン？\n男子: あんまり良くなかったよ。母さんが病気だったから、父さんが病院へ連れて行ったんだ。\n\n【質問】Who was sick?\n（誰が病気でしたか？）\n\n【正解の訳】\n2. ケンの母親。\n\n【解説】My mom was sick（僕の母が病気だった）と言っています。", 
+    dialogue: [{ speaker: 'female', text: "How was your weekend, Ken?" }, { speaker: 'male', text: "Not so good. My mom was sick, so my dad took her to the doctor." }, { speaker: 'narrator', text: "Question. Who was sick?" }], 
+    aud_complete: "Who was sick? Ken’s mother." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.13】(⚡速UP)", 
+    opt: ["Kim’s friends.", "Kim’s father.", "His friends.", "His father."], 
+    ans: 2, 
+    explain: "【会話】\nGirl: Hi, Joe. Is that a new camera?\nBoy: Yes, Kim. My dad gave it to me. I just took some pictures of my friends.\n\n【会話の訳】\n女子: やあ、ジョー。それ新しいカメラ？\n男子: うん、キム。父さんがくれたんだ。友達の写真を何枚か撮ったところだよ。\n\n【質問】Who did Joe take pictures of?\n（ジョーは誰の写真を撮りましたか？）\n\n【正解の訳】\n3. 彼の友達。\n\n【解説】I took some pictures of my friends（友達の写真を撮った）と答えています。", 
+    dialogue: [{ speaker: 'female', text: "Hi, Joe. Is that a new camera?" }, { speaker: 'male', text: "Yes, Kim. My dad gave it to me. I just took some pictures of my friends." }, { speaker: 'narrator', text: "Question. Who did Joe take pictures of?" }], 
+    aud_complete: "Who did Joe take pictures of? His friends." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.14】(⚡速UP)", 
+    opt: ["Because he is sick.", "Because he broke his leg.", "To talk to his doctor.", "To visit his grandmother."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: Where are you going?\nBoy: I’m going to the hospital. My grandmother broke her leg, so I’m going to visit her.\n\n【会話の訳】\n女子: どこへ行くの？\n男子: 病院へ行くところだよ。おばあちゃんが足を骨折したから、お見舞いに行くんだ。\n\n【質問】Why is the man going to the hospital?\n（男性はなぜ病院へ行くのですか？）\n\n【正解の訳】\n4. 彼の祖母をお見舞いするため。\n\n【解説】visit her（彼女をお見舞いする・訪ねる）が目的です。", 
+    dialogue: [{ speaker: 'female', text: "Where are you going?" }, { speaker: 'male', text: "I’m going to the hospital. My grandmother broke her leg, so I’m going to visit her." }, { speaker: 'narrator', text: "Question. Why is the man going to the hospital?" }], 
+    aud_complete: "Why is the man going to the hospital? To visit his grandmother." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.15】(⚡速UP)", 
+    opt: ["Take a test.", "Talk to their history teacher.", "Clean their classroom.", "Finish their reports."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: We need to finish our history reports by Friday.\nBoy: I’ll write mine before class tomorrow.\n\n【会話の訳】\n女子: 私たち、金曜日までに歴史のレポートを終わらせなきゃ。\n男子: 僕は明日の授業の前に書くよ。\n\n【質問】What do they need to do by Friday?\n（彼らは金曜日までに何をする必要がありますか？）\n\n【正解の訳】\n4. レポートを終わらせること。\n\n【解説】finish our history reports（歴史のレポートを終わらせる）必要があります。", 
+    dialogue: [{ speaker: 'female', text: "We need to finish our history reports by Friday." }, { speaker: 'male', text: "I’ll write mine before class tomorrow." }, { speaker: 'narrator', text: "Question. What do they need to do by Friday?" }], 
+    aud_complete: "What do they need to do by Friday? Finish their reports." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.16】(⚡速UP)", 
+    opt: ["A toy dog.", "A robot.", "A toy car.", "A toy plane."], 
+    ans: 2, 
+    explain: "【会話】\nGirl: You can pick one toy from here.\nBoy: I want a toy car.\n\n【会話の訳】\n女子: ここからおもちゃを1つ選んでいいよ。\n男子: おもちゃの車がいいな。\n\n【質問】Which toy does the boy want?\n（男の子はどのおもちゃを欲しがっていますか？）\n\n【正解の訳】\n3. おもちゃの車。\n\n【解説】I want a toy car と直接答えています。", 
+    dialogue: [{ speaker: 'female', text: "You can pick one toy from here." }, { speaker: 'male', text: "I want a toy car." }, { speaker: 'narrator', text: "Question. Which toy does the boy want?" }], 
+    aud_complete: "Which toy does the boy want? A toy car." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.17】(⚡速UP)", 
+    opt: ["A tennis game.", "A soccer game.", "A basketball game.", "A baseball game."], 
+    ans: 3, 
+    explain: "【会話】\nBoy: You have a baseball game today, right?\nGirl: Yes. I also have a soccer game on Wednesday.\n\n【会話の訳】\n男子: 今日は野球の試合があるんだよね？\n女子: うん。水曜日にはサッカーの試合もあるよ。\n\n【質問】Which game does the girl have today?\n（女の子は今日、何の試合がありますか？）\n\n【正解の訳】\n4. 野球の試合。\n\n【解説】today（今日）あるのは baseball game（野球の試合）です。", 
+    dialogue: [{ speaker: 'male', text: "You have a baseball game today, right?" }, { speaker: 'female', text: "Yes. I also have a soccer game on Wednesday." }, { speaker: 'narrator', text: "Question. Which game does the girl have today?" }], 
+    aud_complete: "Which game does the girl have today? A baseball game." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.18】(⚡速UP)", 
+    opt: ["One.", "Two.", "Three.", "Four."], 
+    ans: 2, 
+    explain: "【会話】\nBoy: What pets do you have, Mia?\nGirl: A dog, a cat, and a bird. So I have three pets.\n\n【会話の訳】\n男子: ミア、どんなペットを飼っているの？\n女子: 犬と猫と鳥だよ。だから3匹飼っているの。\n\n【質問】How many pets does Mia have?\n（ミアは何匹のペットを飼っていますか？）\n\n【正解の訳】\n3. 3匹。\n\n【解説】犬・猫・鳥で合計 three（3匹）です。", 
+    dialogue: [{ speaker: 'male', text: "What pets do you have, Mia?" }, { speaker: 'female', text: "A dog, a cat, and a bird. So I have three pets." }, { speaker: 'narrator', text: "Question. How many pets does Mia have?" }], 
+    aud_complete: "How many pets does Mia have? Three." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.19】(⚡速UP)", 
+    opt: ["To a Chinese restaurant.", "To a Japanese restaurant.", "To a Spanish restaurant.", "To an Italian restaurant."], 
+    ans: 3, 
+    explain: "【会話】\nBoy: Where should we go for dinner?\nGirl: Let’s go to an Italian restaurant.\n\n【会話の訳】\n男子: 夕食はどこへ行こうか？\n女子: イタリア料理のレストランに行こうよ。\n\n【質問】Where will they go for dinner?\n（彼らは夕食にどこへ行きますか？）\n\n【正解の訳】\n4. イタリア料理のレストラン。\n\n【解説】Italian restaurant（イタリア料理店）に行こうと提案しています。", 
+    dialogue: [{ speaker: 'male', text: "Where should we go for dinner?" }, { speaker: 'female', text: "Let’s go to an Italian restaurant." }, { speaker: 'narrator', text: "Question. Where will they go for dinner?" }], 
+    aud_complete: "Where will they go for dinner? To an Italian restaurant." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.20】(⚡速UP)", 
+    opt: ["At school.", "At the girl’s house.", "At the library.", "At the boy’s house."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: How about studying tomorrow? We can meet at school.\nBoy: OK. Let’s meet at two.\n\n【会話の訳】\n女子: 明日勉強するのはどう？学校で会えるよ。\n男子: いいね。2時に会おう。\n\n【質問】Where will they meet tomorrow?\n（彼らは明日どこで会いますか？）\n\n【正解の訳】\n1. 学校で。\n\n【解説】meet at school（学校で会う）と約束しています。", 
+    dialogue: [{ speaker: 'female', text: "How about studying tomorrow? We can meet at school." }, { speaker: 'male', text: "OK. Let’s meet at two." }, { speaker: 'narrator', text: "Question. Where will they meet tomorrow?" }], 
+    aud_complete: "Where will they meet tomorrow? At school." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.21】(⚡速UP)", 
+    opt: ["Visit her friend.", "Go shopping.", "Go to a party.", "Make a cake."], 
+    ans: 1, 
+    explain: "【英文】\nEmma enjoys shopping. This weekend she will go to the new shopping center with her friend.\n\n【英文の訳】\nエマは買い物が好きです。今週末、彼女は友達と新しいショッピングセンターに行く予定です。\n\n【質問】What will Emma do this weekend?\n（エマは今週末、何をしますか？）\n\n【正解の訳】\n2. 買い物に行くこと。\n\n【解説】ショッピングセンターへ買い物に行きます。", 
+    dialogue: [{ speaker: 'female', text: "Emma enjoys shopping. This weekend she will go to the new shopping center with her friend." }, { speaker: 'narrator', text: "Question. What will Emma do this weekend?" }], 
+    aud_complete: "What will Emma do this weekend? Go shopping." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.22】(⚡速UP)", 
+    opt: ["Her vegetable garden.", "A cooking class.", "A restaurant.", "Her new house."], 
+    ans: 2, 
+    explain: "【英文】\nMy parents and I went to my favorite curry restaurant last night. The vegetable curry is really good.\n\n【英文の訳】\n昨夜、両親と私はお気に入りのカレーレストランに行きました。野菜カレーが本当においしいです。\n\n【質問】What is the girl talking about?\n（女の子は何について話していますか？）\n\n【正解の訳】\n3. レストラン。\n\n【解説】お気に入りのカレー店（レストラン）について話しています。", 
+    dialogue: [{ speaker: 'female', text: "My parents and I went to my favorite curry restaurant last night. The vegetable curry is really good." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], 
+    aud_complete: "What is the girl talking about? A restaurant." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.23】(⚡速UP)", 
+    opt: ["They played tennis.", "They saw a movie.", "They went shopping.", "They went to the library."], 
+    ans: 2, 
+    explain: "【英文】\nKathy and Mary play tennis on Saturdays. Today it rained, so they went to a shopping mall.\n\n【英文の訳】\nキャシーとメアリーは土曜日にテニスをします。今日は雨が降ったので、ショッピングモールに行きました。\n\n【質問】What did Kathy and Mary do today?\n（キャシーとメアリーは今日、何をしましたか？）\n\n【正解の訳】\n3. 彼女たちは買い物に行った。\n\n【解説】雨のためテニスではなくショッピングモールへ買い物に行きました。", 
+    dialogue: [{ speaker: 'male', text: "Kathy and Mary play tennis on Saturdays. Today it rained, so they went to a shopping mall." }, { speaker: 'narrator', text: "Question. What did Kathy and Mary do today?" }], 
+    aud_complete: "What did Kathy and Mary do today? They went shopping." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.24】(⚡速UP)", 
+    opt: ["To the library.", "To a big game.", "To the computer club.", "To his friend’s house."], 
+    ans: 3, 
+    explain: "【英文】\nAfter school, I often go to my friend Andrew’s house, and we study together.\n\n【英文の訳】\n放課後、私はよく友達のアンドリューの家に行き、一緒に勉強します。\n\n【質問】Where does the boy often go after school?\n（男の子は放課後、よくどこへ行きますか？）\n\n【正解の訳】\n4. 彼の友達の家。\n\n【解説】friend Andrew's house（友達の家）へ行きます。", 
+    dialogue: [{ speaker: 'male', text: "After school, I often go to my friend Andrew’s house, and we study together." }, { speaker: 'narrator', text: "Question. Where does the boy often go after school?" }], 
+    aud_complete: "Where does the boy often go after school? To his friend’s house." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.25】(⚡速UP)", 
+    opt: ["Wendy.", "Wendy’s husband.", "Julie.", "Julie’s husband."], 
+    ans: 1, 
+    explain: "【英文】\nWendy had a party. She made pasta, and her husband made vegetable soup.\n\n【英文の訳】\nウェンディはパーティーを開きました。彼女はパスタを作り、彼女の夫は野菜スープを作りました。\n\n【質問】Who made vegetable soup?\n（誰が野菜スープを作りましたか？）\n\n【正解の訳】\n2. ウェンディの夫。\n\n【解説】her husband made vegetable soup（彼女の夫が野菜スープを作った）と述べています。", 
+    dialogue: [{ speaker: 'male', text: "Wendy had a party. She made pasta, and her husband made vegetable soup." }, { speaker: 'narrator', text: "Question. Who made vegetable soup?" }], 
+    aud_complete: "Who made vegetable soup? Wendy’s husband." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.26】(⚡速UP)", 
+    opt: ["Go to the library.", "Help her mother.", "Call her friend.", "Read a book at home."], 
+    ans: 3, 
+    explain: "【英文】\nEmi likes reading. Today, she will read a book at home after school.\n\n【英文の訳】\nエミは読書が好きです。今日、彼女は放課後、家で本を読む予定です。\n\n【質問】What will Emi do today?\n（エミは今日、何をしますか？）\n\n【正解の訳】\n4. 家で本を読むこと。\n\n【解説】read a book at home（家で本を読む）と明述されています。", 
+    dialogue: [{ speaker: 'female', text: "Emi likes reading. Today, she will read a book at home after school." }, { speaker: 'narrator', text: "Question. What will Emi do today?" }], 
+    aud_complete: "What will Emi do today? Read a book at home." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.27】(⚡速UP)", 
+    opt: ["He read books.", "He rode his bike.", "He played soccer.", "He did his homework."], 
+    ans: 0, 
+    explain: "【英文】\nIt rained yesterday, so Jack stayed at home and read books in the afternoon.\n\n【英文の訳】\n昨日は雨だったので、ジャックは午後、家にいて本を読みました。\n\n【質問】What did Jack do yesterday afternoon?\n（ジャックは昨日の午後、何をしましたか？）\n\n【正解の訳】\n1. 彼は本を読んだ。\n\n【解説】read books in the afternoon（午後に本を読んだ）が正解です。", 
+    dialogue: [{ speaker: 'male', text: "It rained yesterday, so Jack stayed at home and read books in the afternoon." }, { speaker: 'narrator', text: "Question. What did Jack do yesterday afternoon?" }], 
+    aud_complete: "What did Jack do yesterday afternoon? He read books." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.28】(⚡速UP)", 
+    opt: ["She made lunch.", "She visited her grandmother.", "She cleaned her house.", "She met Anna’s father."], 
+    ans: 2, 
+    explain: "【英文】\nMy grandmother came to visit me, so I cleaned my house. Anna helped me.\n\n【英文の訳】\n祖母が訪ねてくることになったので、私は家を掃除しました。アンナが手伝ってくれました。\n\n【質問】What did the girl do yesterday?\n（女の子は昨日、何をしましたか？）\n\n【正解の訳】\n3. 彼女は家を掃除した。\n\n【解説】cleaned my house（家を掃除した）が行動の内容です。", 
+    dialogue: [{ speaker: 'female', text: "My grandmother came to visit me, so I cleaned my house. Anna helped me." }, { speaker: 'narrator', text: "Question. What did the girl do yesterday?" }], 
+    aud_complete: "What did the girl do yesterday? She cleaned her house." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.29】(⚡速UP)", 
+    opt: ["By bike.", "By bus.", "By train.", "By car."], 
+    ans: 0, 
+    explain: "【英文】\nJack usually rides his bike to school when the weather is nice.\n\n【英文の訳】\nジャックは天気が良いとき、普段は自転車に乗って登校します。\n\n【質問】How does Jack usually go to school?\n（ジャックは普段、どうやって学校に行きますか？）\n\n【正解の訳】\n1. 自転車で。\n\n【解説】rides his bike（自転車に乗る）ので By bike です。", 
+    dialogue: [{ speaker: 'male', text: "Jack usually rides his bike to school when the weather is nice." }, { speaker: 'narrator', text: "Question. How does Jack usually go to school?" }], 
+    aud_complete: "How does Jack usually go to school? By bike." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2026-1 No.30】(⚡速UP)", 
+    opt: ["Three dollars.", "Five dollars.", "Eight dollars.", "Ten dollars."], 
+    ans: 3, 
+    explain: "【英文】\nWelcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults.\n\n【英文の訳】\n市立美術館へようこそ。入場料は子ども3ドル、大人10ドルです。\n\n【質問】How much is the fee for adults?\n（大人料金はいくらですか？）\n\n【正解の訳】\n4. 10ドル。\n\n【解説】ten dollars for adults（大人は10ドル）と案内されています。", 
+    dialogue: [{ speaker: 'female', text: "Welcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults." }, { speaker: 'narrator', text: "Question. How much is the fee for adults?" }], 
+    aud_complete: "How much is the fee for adults? Ten dollars." 
+  },
+  // ==================== 2025年第3回 (No.11 〜 No.30 全20問) ====================
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.11】(⚡速UP)", 
+    opt: ["She went skiing.", "She met Mr. Brown.", "She stayed at home.", "She studied at school."], 
+    ans: 0, 
+    explain: "【会話】\nMan: Did you go skiing at your uncle's house, Meg?\nGirl: Yes, every day. It was fun!\n\n【会話の訳】\n男性: メグ、おじさんの家でスキーに行ったかい？\n女子: はい、毎日行きました。とても楽しかったです！\n\n【質問】What did Meg do on her holiday?\n（メグは休日に何をしましたか？）\n\n【正解の訳】\n1. 彼女はスキーに行った。\n\n【解説】go skiing（スキーに行く）と答えています。", 
+    dialogue: [{ speaker: 'male', text: "Did you go skiing at your uncle's house, Meg?" }, { speaker: 'female', text: "Yes, every day. It was fun!" }, { speaker: 'narrator', text: "Question. What did Meg do on her holiday?" }], 
+    aud_complete: "What did Meg do on her holiday? She went skiing." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.12】(⚡速UP)", 
+    opt: ["Tommy’s birthday present.", "Their homework.", "Their new friend.", "Lisa’s new bicycle."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: What did you get for your birthday, Tommy?\nBoy: A new bicycle, Lisa.\n\n【会話の訳】\n女子: トミー、誕生日に何をもらったの？\n男子: 新しい自転車だよ、リサ。\n\n【質問】What are they talking about?\n（彼らは何について話していますか？）\n\n【正解の訳】\n1. トミーの誕生日プレゼント。\n\n【解説】誕生日に何をもらったか（プレゼント）について話しています。", 
+    dialogue: [{ speaker: 'female', text: "What did you get for your birthday, Tommy?" }, { speaker: 'male', text: "A new bicycle, Lisa." }, { speaker: 'narrator', text: "Question. What are they talking about?" }], 
+    aud_complete: "What are they talking about? Tommy’s birthday present." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.13】(⚡速UP)", 
+    opt: ["To the movies.", "To Japan.", "To school.", "To the airport."], 
+    ans: 3, 
+    explain: "【会話】\nBoy: Will you go somewhere tomorrow?\nGirl: Yes, to the airport to meet a friend from Japan.\n\n【会話の訳】\n男子: 明日はどこかへ行くの？\n女子: ええ、日本から来る友達を出迎えるために空港へ行くわ。\n\n【質問】Where will the girl go tomorrow?\n（女の子は明日どこへ行きますか？）\n\n【正解の訳】\n4. 空港へ。\n\n【解説】to the airport（空港へ）行くと答えています。", 
+    dialogue: [{ speaker: 'male', text: "Will you go somewhere tomorrow?" }, { speaker: 'female', text: "Yes, to the airport to meet a friend from Japan." }, { speaker: 'narrator', text: "Question. Where will the girl go tomorrow?" }], 
+    aud_complete: "Where will the girl go tomorrow? To the airport." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.14】(⚡速UP)", 
+    opt: ["The boy.", "The girl.", "The boy’s sister.", "The girl’s sister."], 
+    ans: 1, 
+    explain: "【会話】\nBoy: Do you want to see a movie tomorrow?\nGirl: I can’t. I’ll go fishing alone.\n\n【会話の訳】\n男子: 明日映画を見に行かない？\n女子: 無理なの。一人で釣りに行く予定なの。\n\n【質問】Who will go fishing tomorrow?\n（誰が明日釣りに行きますか？）\n\n【正解の訳】\n2. 女の子。\n\n【解説】女子が I’ll go fishing alone（一人で釣りに行く）と話しています。", 
+    dialogue: [{ speaker: 'male', text: "Do you want to see a movie tomorrow?" }, { speaker: 'female', text: "I can’t. I’ll go fishing alone." }, { speaker: 'narrator', text: "Question. Who will go fishing tomorrow?" }], 
+    aud_complete: "Who will go fishing tomorrow? The girl." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.15】(⚡速UP)", 
+    opt: ["Go home.", "Go to school.", "Meet Mike.", "Buy a present."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: Bye, Mike. I’m going home now.\nBoy: Thanks for coming to my party.\n\n【会話の訳】\n女子: さようなら、マイク。もう家に帰るわね。\n男子: 僕のパーティーに来てくれてありがとう。\n\n【質問】What is the girl going to do now?\n（女の子は今から何をしますか？）\n\n【正解の訳】\n1. 家に帰ること。\n\n【解説】I'm going home now（今から家に帰る）と言っています。", 
+    dialogue: [{ speaker: 'female', text: "Bye, Mike. I’m going home now." }, { speaker: 'male', text: "Thanks for coming to my party." }, { speaker: 'narrator', text: "Question. What is the girl going to do now?" }], 
+    aud_complete: "What is the girl going to do now? Go home." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.16】(⚡速UP)", 
+    opt: ["Eating an apple.", "Buying a banana.", "Eating a banana.", "Making lunch for the girl."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: What are you eating, Mark?\nBoy: An apple.\n\n【会話の訳】\n女子: 何を食べているの、マーク？\n男子: リンゴだよ。\n\n【質問】What is Mark doing now?\n（マークは今何をしていますか？）\n\n【正解の訳】\n1. リンゴを食べている。\n\n【解説】An apple（リンゴ）を食べています。", 
+    dialogue: [{ speaker: 'female', text: "What are you eating, Mark?" }, { speaker: 'male', text: "An apple." }, { speaker: 'narrator', text: "Question. What is Mark doing now?" }], 
+    aud_complete: "What is Mark doing now? Eating an apple." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.17】(⚡速UP)", 
+    opt: ["At school.", "At home.", "In Peter’s bag.", "In Peter’s room."], 
+    ans: 1, 
+    explain: "【会話】\nBoy: Where is your eraser?\nGirl: I left it at home. Maybe on the desk in my room.\n\n【会話の訳】\n男子: 君の消しゴムはどこにあるの？\n女子: 家に置いてきちゃった。たぶん私の部屋の机の上よ。\n\n【質問】Where is the girl’s eraser?\n（女の子の消しゴムはどこにありますか？）\n\n【正解の訳】\n2. 家に。\n\n【解説】left it at home（家に置いてきた）と答えています。", 
+    dialogue: [{ speaker: 'male', text: "Where is your eraser?" }, { speaker: 'female', text: "I left it at home. Maybe on the desk in my room." }, { speaker: 'narrator', text: "Question. Where is the girl’s eraser?" }], 
+    aud_complete: "Where is the girl’s eraser? At home." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.18】(⚡速UP)", 
+    opt: ["Next week.", "This week.", "This month.", "Next month."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: I will go on a trip to Italy next month.\nBoy: How long will you be there?\n\n【会話の訳】\n女子: 来月、イタリアへ旅行に行くの。\n男子: どのくらい滞在するの？\n\n【質問】When will the girl go on a trip?\n（女の子はいつ旅行に行きますか？）\n\n【正解の訳】\n4. 来月。\n\n【解説】next month（来月）旅行に行きます。", 
+    dialogue: [{ speaker: 'female', text: "I will go on a trip to Italy next month." }, { speaker: 'male', text: "How long will you be there?" }, { speaker: 'narrator', text: "Question. When will the girl go on a trip?" }], 
+    aud_complete: "When will the girl go on a trip? Next month." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.19】(⚡速UP)", 
+    opt: ["He missed a bus.", "He was busy.", "He was sick.", "He got up late."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: Why is Ken late for school today?\nBoy: He got up late today.\n\n【会話の訳】\n女子: ケンはどうして今日学校に遅刻したの？\n男子: 今日は起きるのが遅かったんだよ。\n\n【質問】Why is Ken late for school today?\n（ケンはなぜ今日学校に遅刻したのですか？）\n\n【正解の訳】\n4. 彼は起きるのが遅かったから。\n\n【解説】got up late（遅く起きた・寝坊した）ことが原因です。", 
+    dialogue: [{ speaker: 'female', text: "Why is Ken late for school today?" }, { speaker: 'male', text: "He got up late today." }, { speaker: 'narrator', text: "Question. Why is Ken late for school today?" }], 
+    aud_complete: "Why is Ken late for school today? He got up late." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.20】(⚡速UP)", 
+    opt: ["She lived in America.", "Her mother is from America.", "She took English lessons.", "The boy taught it to her."], 
+    ans: 0, 
+    explain: "【会話】\nBoy: Where did you learn English, Sara?\nGirl: When I was younger, I lived in America for three years.\n\n【会話の訳】\n男子: サラ、どこで英語を習ったの？\n女子: もっと小さい頃、アメリカに3年間住んでいたの。\n\n【質問】How did Sara learn English?\n（サラはどうやって英語を学びましたか？）\n\n【正解の訳】\n1. 彼女はアメリカに住んでいた。\n\n【解説】lived in America（アメリカに住んでいた）から身につけました。", 
+    dialogue: [{ speaker: 'male', text: "Where did you learn English, Sara?" }, { speaker: 'female', text: "When I was younger, I lived in America for three years." }, { speaker: 'narrator', text: "Question. How did Sara learn English?" }], 
+    aud_complete: "How did Sara learn English? She lived in America." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.21】(⚡速UP)", 
+    opt: ["At home.", "At a restaurant.", "At a clothes shop.", "At a bank."], 
+    ans: 1, 
+    explain: "【英文】\nWelcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad.\n\n【英文の訳】\nトニーズ・バーガーショップへようこそ。本日のスペシャルはサラダ付きチーズバーガーです。\n\n【質問】Where is the man talking?\n（男性はどこで話していますか？）\n\n【正解の訳】\n2. レストラン（飲食店）で。\n\n【解説】Burger Shop（ハンバーガー店）で話しています。", 
+    dialogue: [{ speaker: 'male', text: "Welcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad." }, { speaker: 'narrator', text: "Question. Where is the man talking?" }], 
+    aud_complete: "Where is the man talking? At a restaurant." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.22】(⚡速UP)", 
+    opt: ["He made a new friend.", "He ate with his girlfriend.", "He watched TV.", "He played soccer."], 
+    ans: 1, 
+    explain: "【英文】\nLast Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer.\n\n【英文の訳】\nこの前の土曜日、私はガールフレンドと夕食を食べました。日曜日にはサッカーをしました。\n\n【質問】What did the man do on Saturday?\n（男性は土曜日に何をしましたか？）\n\n【正解の訳】\n2. ガールフレンドと食事をした。\n\n【解説】土曜日は ate dinner with my girlfriend です。", 
+    dialogue: [{ speaker: 'male', text: "Last Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer." }, { speaker: 'narrator', text: "Question. What did the man do on Saturday?" }], 
+    aud_complete: "What did the man do on Saturday? He ate with his girlfriend." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.23】(⚡速UP)", 
+    opt: ["A brush.", "Some pictures.", "Some paper.", "A bicycle."], 
+    ans: 2, 
+    explain: "【英文】\nToday, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle.\n\n【英文の訳】\n今日、ティナは素敵な紙を買いに行きます。彼女は自分の自転車の絵を描く予定です。\n\n【質問】What will Tina buy today?\n（ティナは今日、何を買いますか？）\n\n【正解の訳】\n3. 紙。\n\n【解説】buy some nice paper（紙を買う）と述べています。", 
+    dialogue: [{ speaker: 'female', text: "Today, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle." }, { speaker: 'narrator', text: "Question. What will Tina buy today?" }], 
+    aud_complete: "What will Tina buy today? Some paper." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.24】(⚡速UP)", 
+    opt: ["His favorite sport.", "His family trip.", "His favorite animal.", "His new car."], 
+    ans: 1, 
+    explain: "【英文】\nMy family went on a trip to the beach last week. We went by car.\n\n【英文の訳】\n私の家族は先週、ビーチへ旅行に行きました。車で行きました。\n\n【質問】What is the boy talking about?\n（男の子は何について話していますか？）\n\n【正解の訳】\n2. 家族旅行。\n\n【解説】trip to the beach（ビーチへの家族旅行）について話しています。", 
+    dialogue: [{ speaker: 'male', text: "My family went on a trip to the beach last week. We went by car." }, { speaker: 'narrator', text: "Question. What is the boy talking about?" }], 
+    aud_complete: "What is the boy talking about? His family trip." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.25】(⚡速UP)", 
+    opt: ["Her favorite fruit.", "Her favorite flower.", "Her spring vacation.", "Her family’s garden."], 
+    ans: 3, 
+    explain: "【英文】\nMy family has a beautiful garden. We have many cherry trees and flowers.\n\n【英文の訳】\n私の家には美しい庭があります。たくさんの桜の木や花があります。\n\n【質問】What is the girl talking about?\n（女の子は何について話していますか？）\n\n【正解の訳】\n4. 家族の庭。\n\n【解説】beautiful garden（家の庭）について話しています。", 
+    dialogue: [{ speaker: 'female', text: "My family has a beautiful garden. We have many cherry trees and flowers." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], 
+    aud_complete: "What is the girl talking about? Her family’s garden." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.26】(⚡速UP)", 
+    opt: ["Sunny.", "Cloudy.", "Windy.", "Rainy."], 
+    ans: 0, 
+    explain: "【英文】\nYesterday, it was cloudy in the morning but sunny in the afternoon.\n\n【英文の訳】\n昨日は午前中は曇りでしたが、午後は晴れました。\n\n【質問】How was the weather yesterday afternoon?\n（昨日の午後の天気はどうでしたか？）\n\n【正解の訳】\n1. 晴れ。\n\n【解説】in the afternoon（午後）は sunny（晴れ）でした。", 
+    dialogue: [{ speaker: 'male', text: "Yesterday, it was cloudy in the morning but sunny in the afternoon." }, { speaker: 'narrator', text: "Question. How was the weather yesterday afternoon?" }], 
+    aud_complete: "How was the weather yesterday afternoon? Sunny." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.27】(⚡速UP)", 
+    opt: ["Two.", "Three.", "Four.", "Five."], 
+    ans: 1, 
+    explain: "【英文】\nSarah bought two oranges, three pineapples, and five peaches.\n\n【英文の訳】\nサラはオレンジを2個、パイナップルを3個、そして桃を5個買いました。\n\n【質問】How many pineapples did Sarah buy yesterday?\n（サラは昨日パイナップルを何個買いましたか？）\n\n【正解の訳】\n2. 3個。\n\n【解説】three pineapples（パイナップル3個）です。", 
+    dialogue: [{ speaker: 'male', text: "Sarah bought two oranges, three pineapples, and five peaches." }, { speaker: 'narrator', text: "Question. How many pineapples did Sarah buy yesterday?" }], 
+    aud_complete: "How many pineapples did Sarah buy yesterday? Three." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.28】(⚡速UP)", 
+    opt: ["In her bag.", "In her car.", "At work.", "At home."], 
+    ans: 2, 
+    explain: "【英文】\nI lost my keys yesterday. I found them at work.\n\n【英文の訳】\n私は昨日、鍵をなくしました。職場でそれを見つけました。\n\n【質問】Where were the woman’s keys?\n（女性の鍵はどこにありましたか？）\n\n【正解の訳】\n3. 職場で。\n\n【解説】found them at work（職場でそれらを見つけた）と答えています。", 
+    dialogue: [{ speaker: 'female', text: "I lost my keys yesterday. I found them at work." }, { speaker: 'narrator', text: "Question. Where were the woman’s keys?" }], 
+    aud_complete: "Where were the woman’s keys? At work." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.29】(⚡速UP)", 
+    opt: ["His father.", "His brother.", "His mother.", "His grandmother."], 
+    ans: 2, 
+    explain: "【英文】\nDaniel lives alone. Yesterday, he called his mother many times, but she didn’t answer.\n\n【英文の訳】\nダニエルは一人暮らしをしています。昨日、彼は母親に何度も電話をかけましたが、出ませんでした。\n\n【質問】Who did Daniel call yesterday?\n（ダニエルは昨日、誰に電話をかけましたか？）\n\n【正解の訳】\n3. 彼の母親。\n\n【解説】called his mother（母親に電話した）と述べています。", 
+    dialogue: [{ speaker: 'male', text: "Daniel lives alone. Yesterday, he called his mother many times, but she didn’t answer." }, { speaker: 'narrator', text: "Question. Who did Daniel call yesterday?" }], 
+    aud_complete: "Who did Daniel call yesterday? His mother." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.30】(⚡速UP)", 
+    opt: ["He will join a baseball game.", "He will play with his dog.", "He will join a running event.", "He will look for quiet places."], 
+    ans: 1, 
+    explain: "【英文】\nI’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him.\n\n【英文の訳】\n私は次の日曜日、愛犬と遊ぶために公園に行きます。犬のためにボールを持って行きます。\n\n【質問】Why will the man go to the park next Sunday?\n（男性はなぜ次の日曜日、公園に行くのですか？）\n\n【正解の訳】\n2. 彼の犬と遊ぶため。\n\n【解説】to play with my dog（犬と遊ぶため）が目的です。", 
+    dialogue: [{ speaker: 'male', text: "I’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him." }, { speaker: 'narrator', text: "Question. Why will the man go to the park next Sunday?" }], 
+    aud_complete: "Why will the man go to the park next Sunday? He will play with his dog." 
+  },
+  // ==================== 2025年第3回 (No.11 〜 No.30 全20問) ====================
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.11】(⚡速UP)", 
+    opt: ["She went skiing.", "She met Mr. Brown.", "She stayed at home.", "She studied at school."], 
+    ans: 0, 
+    explain: "【会話】\nMan: Did you go skiing at your uncle's house, Meg?\nGirl: Yes, every day. It was fun!\n\n【会話の訳】\n男性: メグ、おじさんの家でスキーに行ったかい？\n女子: はい、毎日行きました。とても楽しかったです！\n\n【質問】What did Meg do on her holiday?\n（メグは休日に何をしましたか？）\n\n【正解の訳】\n1. 彼女はスキーに行った。\n\n【解説】go skiing（スキーに行く）と答えています。", 
+    dialogue: [{ speaker: 'male', text: "Did you go skiing at your uncle's house, Meg?" }, { speaker: 'female', text: "Yes, every day. It was fun!" }, { speaker: 'narrator', text: "Question. What did Meg do on her holiday?" }], 
+    aud_complete: "What did Meg do on her holiday? She went skiing." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.12】(⚡速UP)", 
+    opt: ["Tommy’s birthday present.", "Their homework.", "Their new friend.", "Lisa’s new bicycle."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: What did you get for your birthday, Tommy?\nBoy: A new bicycle, Lisa.\n\n【会話の訳】\n女子: トミー、誕生日に何をもらったの？\n男子: 新しい自転車だよ、リサ。\n\n【質問】What are they talking about?\n（彼らは何について話していますか？）\n\n【正解の訳】\n1. トミーの誕生日プレゼント。\n\n【解説】誕生日に何をもらったか（プレゼント）について話しています。", 
+    dialogue: [{ speaker: 'female', text: "What did you get for your birthday, Tommy?" }, { speaker: 'male', text: "A new bicycle, Lisa." }, { speaker: 'narrator', text: "Question. What are they talking about?" }], 
+    aud_complete: "What are they talking about? Tommy’s birthday present." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.13】(⚡速UP)", 
+    opt: ["To the movies.", "To Japan.", "To school.", "To the airport."], 
+    ans: 3, 
+    explain: "【会話】\nBoy: Will you go somewhere tomorrow?\nGirl: Yes, to the airport to meet a friend from Japan.\n\n【会話の訳】\n男子: 明日はどこかへ行くの？\n女子: ええ、日本から来る友達を出迎えるために空港へ行くわ。\n\n【質問】Where will the girl go tomorrow?\n（女の子は明日どこへ行きますか？）\n\n【正解の訳】\n4. 空港へ。\n\n【解説】to the airport（空港へ）行くと答えています。", 
+    dialogue: [{ speaker: 'male', text: "Will you go somewhere tomorrow?" }, { speaker: 'female', text: "Yes, to the airport to meet a friend from Japan." }, { speaker: 'narrator', text: "Question. Where will the girl go tomorrow?" }], 
+    aud_complete: "Where will the girl go tomorrow? To the airport." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.14】(⚡速UP)", 
+    opt: ["The boy.", "The girl.", "The boy’s sister.", "The girl’s sister."], 
+    ans: 1, 
+    explain: "【会話】\nBoy: Do you want to see a movie tomorrow?\nGirl: I can’t. I’ll go fishing alone.\n\n【会話の訳】\n男子: 明日映画を見に行かない？\n女子: 無理なの。一人で釣りに行く予定なの。\n\n【質問】Who will go fishing tomorrow?\n（誰が明日釣りに行きますか？）\n\n【正解の訳】\n2. 女の子。\n\n【解説】女子が I’ll go fishing alone（一人で釣りに行く）と話しています。", 
+    dialogue: [{ speaker: 'male', text: "Do you want to see a movie tomorrow?" }, { speaker: 'female', text: "I can’t. I’ll go fishing alone." }, { speaker: 'narrator', text: "Question. Who will go fishing tomorrow?" }], 
+    aud_complete: "Who will go fishing tomorrow? The girl." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.15】(⚡速UP)", 
+    opt: ["Go home.", "Go to school.", "Meet Mike.", "Buy a present."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: Bye, Mike. I’m going home now.\nBoy: Thanks for coming to my party.\n\n【会話の訳】\n女子: さようなら、マイク。もう家に帰るわね。\n男子: 僕のパーティーに来てくれてありがとう。\n\n【質問】What is the girl going to do now?\n（女の子は今から何をしますか？）\n\n【正解の訳】\n1. 家に帰ること。\n\n【解説】I'm going home now（今から家に帰る）と言っています。", 
+    dialogue: [{ speaker: 'female', text: "Bye, Mike. I’m going home now." }, { speaker: 'male', text: "Thanks for coming to my party." }, { speaker: 'narrator', text: "Question. What is the girl going to do now?" }], 
+    aud_complete: "What is the girl going to do now? Go home." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.16】(⚡速UP)", 
+    opt: ["Eating an apple.", "Buying a banana.", "Eating a banana.", "Making lunch for the girl."], 
+    ans: 0, 
+    explain: "【会話】\nGirl: What are you eating, Mark?\nBoy: An apple.\n\n【会話の訳】\n女子: 何を食べているの、マーク？\n男子: リンゴだよ。\n\n【質問】What is Mark doing now?\n（マークは今何をしていますか？）\n\n【正解の訳】\n1. リンゴを食べている。\n\n【解説】An apple（リンゴ）を食べています。", 
+    dialogue: [{ speaker: 'female', text: "What are you eating, Mark?" }, { speaker: 'male', text: "An apple." }, { speaker: 'narrator', text: "Question. What is Mark doing now?" }], 
+    aud_complete: "What is Mark doing now? Eating an apple." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.17】(⚡速UP)", 
+    opt: ["At school.", "At home.", "In Peter’s bag.", "In Peter’s room."], 
+    ans: 1, 
+    explain: "【会話】\nBoy: Where is your eraser?\nGirl: I left it at home. Maybe on the desk in my room.\n\n【会話の訳】\n男子: 君の消しゴムはどこにあるの？\n女子: 家に置いてきちゃった。たぶん私の部屋の机の上よ。\n\n【質問】Where is the girl’s eraser?\n（女の子の消しゴムはどこにありますか？）\n\n【正解の訳】\n2. 家に。\n\n【解説】left it at home（家に置いてきた）と答えています。", 
+    dialogue: [{ speaker: 'male', text: "Where is your eraser?" }, { speaker: 'female', text: "I left it at home. Maybe on the desk in my room." }, { speaker: 'narrator', text: "Question. Where is the girl’s eraser?" }], 
+    aud_complete: "Where is the girl’s eraser? At home." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.18】(⚡速UP)", 
+    opt: ["Next week.", "This week.", "This month.", "Next month."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: I will go on a trip to Italy next month.\nBoy: How long will you be there?\n\n【会話の訳】\n女子: 来月、イタリアへ旅行に行くの。\n男子: どのくらい滞在するの？\n\n【質問】When will the girl go on a trip?\n（女の子はいつ旅行に行きますか？）\n\n【正解の訳】\n4. 来月。\n\n【解説】next month（来月）旅行に行きます。", 
+    dialogue: [{ speaker: 'female', text: "I will go on a trip to Italy next month." }, { speaker: 'male', text: "How long will you be there?" }, { speaker: 'narrator', text: "Question. When will the girl go on a trip?" }], 
+    aud_complete: "When will the girl go on a trip? Next month." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.19】(⚡速UP)", 
+    opt: ["He missed a bus.", "He was busy.", "He was sick.", "He got up late."], 
+    ans: 3, 
+    explain: "【会話】\nGirl: Why is Ken late for school today?\nBoy: He got up late today.\n\n【会話の訳】\n女子: ケンはどうして今日学校に遅刻したの？\n男子: 今日は起きるのが遅かったんだよ。\n\n【質問】Why is Ken late for school today?\n（ケンはなぜ今日学校に遅刻したのですか？）\n\n【正解の訳】\n4. 彼は起きるのが遅かったから。\n\n【解説】got up late（遅く起きた・寝坊した）ことが原因です。", 
+    dialogue: [{ speaker: 'female', text: "Why is Ken late for school today?" }, { speaker: 'male', text: "He got up late today." }, { speaker: 'narrator', text: "Question. Why is Ken late for school today?" }], 
+    aud_complete: "Why is Ken late for school today? He got up late." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.20】(⚡速UP)", 
+    opt: ["She lived in America.", "Her mother is from America.", "She took English lessons.", "The boy taught it to her."], 
+    ans: 0, 
+    explain: "【会話】\nBoy: Where did you learn English, Sara?\nGirl: When I was younger, I lived in America for three years.\n\n【会話の訳】\n男子: サラ、どこで英語を習ったの？\n女子: もっと小さい頃、アメリカに3年間住んでいたの。\n\n【質問】How did Sara learn English?\n（サラはどうやって英語を学びましたか？）\n\n【正解の訳】\n1. 彼女はアメリカに住んでいた。\n\n【解説】lived in America（アメリカに住んでいた）から身につけました。", 
+    dialogue: [{ speaker: 'male', text: "Where did you learn English, Sara?" }, { speaker: 'female', text: "When I was younger, I lived in America for three years." }, { speaker: 'narrator', text: "Question. How did Sara learn English?" }], 
+    aud_complete: "How did Sara learn English? She lived in America." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.21】(⚡速UP)", 
+    opt: ["At home.", "At a restaurant.", "At a clothes shop.", "At a bank."], 
+    ans: 1, 
+    explain: "【英文】\nWelcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad.\n\n【英文の訳】\nトニーズ・バーガーショップへようこそ。本日のスペシャルはサラダ付きチーズバーガーです。\n\n【質問】Where is the man talking?\n（男性はどこで話していますか？）\n\n【正解の訳】\n2. レストラン（飲食店）で。\n\n【解説】Burger Shop（ハンバーガー店）で話しています。", 
+    dialogue: [{ speaker: 'male', text: "Welcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad." }, { speaker: 'narrator', text: "Question. Where is the man talking?" }], 
+    aud_complete: "Where is the man talking? At a restaurant." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.22】(⚡速UP)", 
+    opt: ["He made a new friend.", "He ate with his girlfriend.", "He watched TV.", "He played soccer."], 
+    ans: 1, 
+    explain: "【英文】\nLast Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer.\n\n【英文の訳】\nこの前の土曜日、私はガールフレンドと夕食を食べました。日曜日にはサッカーをしました。\n\n【質問】What did the man do on Saturday?\n（男性は土曜日に何をしましたか？）\n\n【正解の訳】\n2. ガールフレンドと食事をした。\n\n【解説】土曜日は ate dinner with my girlfriend です。", 
+    dialogue: [{ speaker: 'male', text: "Last Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer." }, { speaker: 'narrator', text: "Question. What did the man do on Saturday?" }], 
+    aud_complete: "What did the man do on Saturday? He ate with his girlfriend." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.23】(⚡速UP)", 
+    opt: ["A brush.", "Some pictures.", "Some paper.", "A bicycle."], 
+    ans: 2, 
+    explain: "【英文】\nToday, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle.\n\n【英文の訳】\n今日、ティナは素敵な紙を買いに行きます。彼女は自分の自転車の絵を描く予定です。\n\n【質問】What will Tina buy today?\n（ティナは今日、何を買いますか？）\n\n【正解の訳】\n3. 紙。\n\n【解説】buy some nice paper（紙を買う）と述べています。", 
+    dialogue: [{ speaker: 'female', text: "Today, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle." }, { speaker: 'narrator', text: "Question. What will Tina buy today?" }], 
+    aud_complete: "What will Tina buy today? Some paper." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.24】(⚡速UP)", 
+    opt: ["His favorite sport.", "His family trip.", "His favorite animal.", "His new car."], 
+    ans: 1, 
+    explain: "【英文】\nMy family went on a trip to the beach last week. We went by car.\n\n【英文の訳】\n私の家族は先週、ビーチへ旅行に行きました。車で行きました。\n\n【質問】What is the boy talking about?\n（男の子は何について話していますか？）\n\n【正解の訳】\n2. 家族旅行。\n\n【解説】trip to the beach（ビーチへの家族旅行）について話しています。", 
+    dialogue: [{ speaker: 'male', text: "My family went on a trip to the beach last week. We went by car." }, { speaker: 'narrator', text: "Question. What is the boy talking about?" }], 
+    aud_complete: "What is the boy talking about? His family trip." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.25】(⚡速UP)", 
+    opt: ["Her favorite fruit.", "Her favorite flower.", "Her spring vacation.", "Her family’s garden."], 
+    ans: 3, 
+    explain: "【英文】\nMy family has a beautiful garden. We have many cherry trees and flowers.\n\n【英文の訳】\n私の家には美しい庭があります。たくさんの桜の木や花があります。\n\n【質問】What is the girl talking about?\n（女の子は何について話していますか？）\n\n【正解の訳】\n4. 家族の庭。\n\n【解説】beautiful garden（家の庭）について話しています。", 
+    dialogue: [{ speaker: 'female', text: "My family has a beautiful garden. We have many cherry trees and flowers." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], 
+    aud_complete: "What is the girl talking about? Her family’s garden." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.26】(⚡速UP)", 
+    opt: ["Sunny.", "Cloudy.", "Windy.", "Rainy."], 
+    ans: 0, 
+    explain: "【英文】\nYesterday, it was cloudy in the morning but sunny in the afternoon.\n\n【英文の訳】\n昨日は午前中は曇りでしたが、午後は晴れました。\n\n【質問】How was the weather yesterday afternoon?\n（昨日の午後の天気はどうでしたか？）\n\n【正解の訳】\n1. 晴れ。\n\n【解説】in the afternoon（午後）は sunny（晴れ）でした。", 
+    dialogue: [{ speaker: 'male', text: "Yesterday, it was cloudy in the morning but sunny in the afternoon." }, { speaker: 'narrator', text: "Question. How was the weather yesterday afternoon?" }], 
+    aud_complete: "How was the weather yesterday afternoon? Sunny." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.27】(⚡速UP)", 
+    opt: ["Two.", "Three.", "Four.", "Five."], 
+    ans: 1, 
+    explain: "【英文】\nSarah bought two oranges, three pineapples, and five peaches.\n\n【英文の訳】\nサラはオレンジを2個、パイナップルを3個、そして桃を5個買いました。\n\n【質問】How many pineapples did Sarah buy yesterday?\n（サラは昨日パイナップルを何個買いましたか？）\n\n【正解の訳】\n2. 3個。\n\n【解説】three pineapples（パイナップル3個）です。", 
+    dialogue: [{ speaker: 'male', text: "Sarah bought two oranges, three pineapples, and five peaches." }, { speaker: 'narrator', text: "Question. How many pineapples did Sarah buy yesterday?" }], 
+    aud_complete: "How many pineapples did Sarah buy yesterday? Three." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.28】(⚡速UP)", 
+    opt: ["In her bag.", "In her car.", "At work.", "At home."], 
+    ans: 2, 
+    explain: "【英文】\nI lost my keys yesterday. I found them at work.\n\n【英文の訳】\n私は昨日、鍵をなくしました。職場でそれを見つけました。\n\n【質問】Where were the woman’s keys?\n（女性の鍵はどこにありましたか？）\n\n【正解の訳】\n3. 職場で。\n\n【解説】found them at work（職場でそれらを見つけた）と答えています。", 
+    dialogue: [{ speaker: 'female', text: "I lost my keys yesterday. I found them at work." }, { speaker: 'narrator', text: "Question. Where were the woman’s keys?" }], 
+    aud_complete: "Where were the woman’s keys? At work." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.29】(⚡速UP)", 
+    opt: ["His father.", "His brother.", "His mother.", "His grandmother."], 
+    ans: 2, 
+    explain: "【英文】\nDaniel lives alone. Yesterday, he called his mother many times, but she didn’t answer.\n\n【英文の訳】\nダニエルは一人暮らしをしています。昨日、彼は母親に何度も電話をかけましたが、出ませんでした。\n\n【質問】Who did Daniel call yesterday?\n（ダニエルは昨日、誰に電話をかけましたか？）\n\n【正解の訳】\n3. 彼の母親。\n\n【解説】called his mother（母親に電話した）と述べています。", 
+    dialogue: [{ speaker: 'male', text: "Daniel lives alone. Yesterday, he called his mother many times, but she didn’t answer." }, { speaker: 'narrator', text: "Question. Who did Daniel call yesterday?" }], 
+    aud_complete: "Who did Daniel call yesterday? His mother." 
+  },
+  { 
+    q: "音声を聞いて、質問に答えよう。", 
+    sub: "🎧 【2025-3 No.30】(⚡速UP)", 
+    opt: ["He will join a baseball game.", "He will play with his dog.", "He will join a running event.", "He will look for quiet places."], 
+    ans: 1, 
+    explain: "【英文】\nI’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him.\n\n【英文の訳】\n私は次の日曜日、愛犬と遊ぶために公園に行きます。犬のためにボールを持って行きます。\n\n【質問】Why will the man go to the park next Sunday?\n（男性はなぜ次の日曜日、公園に行くのですか？）\n\n【正解の訳】\n2. 彼の犬と遊ぶため。\n\n【解説】to play with my dog（犬と遊ぶため）が目的です。", 
+    dialogue: [{ speaker: 'male', text: "I’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him." }, { speaker: 'narrator', text: "Question. Why will the man go to the park next Sunday?" }], 
+    aud_complete: "Why will the man go to the park next Sunday? He will play with his dog." 
+  },
 
 // ==================== 4. 過去問ボスバトル 15問 データベース ====================
 const ACTUAL_PAST_EXAM_DATA = [
