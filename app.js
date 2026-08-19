@@ -219,7 +219,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v35';
+const STORAGE_KEY = 'eiken4_data_v36';
 let userData = {
   level: 1,
   exp: 0,
@@ -227,6 +227,7 @@ let userData = {
   streak: 1,
   lastLoginDate: getTodayString(),
   weakList: [],
+  weakStats: {}, // { [quizId]: { cleared: number, attempts: number } }
   vocabBook: [],
   bossUnlockedLevel: 1,
   bossClearedLevels: [],
@@ -258,6 +259,7 @@ function sanitizeUserData() {
   if (typeof userData.gems !== 'number' || isNaN(userData.gems)) userData.gems = 10;
   if (typeof userData.streak !== 'number' || isNaN(userData.streak)) userData.streak = 1;
   if (!Array.isArray(userData.weakList)) userData.weakList = [];
+  if (!userData.weakStats || typeof userData.weakStats !== 'object') userData.weakStats = {};
   if (!Array.isArray(userData.vocabBook)) userData.vocabBook = [];
   if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
   
@@ -294,7 +296,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -310,6 +312,7 @@ function loadData() {
       if (parsed.dailyDone) userData.dailyDone = { ...userData.dailyDone, ...parsed.dailyDone };
       if (parsed.inventory) userData.inventory = { ...userData.inventory, ...parsed.inventory };
       if (parsed.equipped) userData.equipped = { ...userData.equipped, ...parsed.equipped };
+      if (parsed.weakStats) userData.weakStats = { ...userData.weakStats, ...parsed.weakStats };
     }
   } catch(e) {
     console.error('Data load error:', e);
@@ -807,20 +810,26 @@ function renderWeakBookList() {
   userData.weakList.forEach(id => {
     const qData = getQuizDataById(id);
     if (qData) {
+      const stats = (userData.weakStats && userData.weakStats[id]) ? userData.weakStats[id] : { cleared: 0, attempts: 0 };
       const card = document.createElement('div');
       card.className = "bg-indigo-900/80 border border-rose-500/50 p-3 rounded-2xl space-y-2 shadow";
       const correctText = qData.options[qData.ans];
       card.innerHTML = `
         <div class="flex justify-between items-start gap-2">
           <div class="min-w-0 flex-1">
-            <span class="text-[9px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
+            <div class="flex items-center gap-1.5 flex-wrap mb-1">
+              <span class="text-[9px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
+              <span class="text-[9.5px] font-bold bg-indigo-950 px-2 py-0.2 rounded-full border border-indigo-700 text-amber-300">
+                🎯 特訓成果: ${stats.cleared} / ${stats.attempts} 回クリア
+              </span>
+            </div>
             <div class="font-black text-xs text-white mt-1 leading-snug whitespace-pre-line">${qData.q}</div>
           </div>
           <div class="flex items-center gap-1.5 flex-shrink-0">
-            <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95">
+            <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95 whitespace-nowrap">
               ⚔️ 再挑戦
             </button>
-            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[10px] transition active:scale-95">
+            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[10px] transition active:scale-95 whitespace-nowrap">
               🗑️ 覚えた
             </button>
           </div>
@@ -837,6 +846,9 @@ function renderWeakBookList() {
 
 function removeWeakItem(id) {
   userData.weakList = userData.weakList.filter(item => item !== id);
+  if (userData.weakStats && userData.weakStats[id]) {
+    delete userData.weakStats[id];
+  }
   saveData();
   renderWeakBookList();
 }
@@ -1042,10 +1054,10 @@ function startSession() {
     enemyCurHp = 800;
     enemyAtk = 25;
   } else if (currentMode === 'weakRetry') {
-    // 🎯 苦手1問再挑戦用（1問正解で撃破できるHP設定）
-    enemyMaxHp = 200;
-    enemyCurHp = 200;
-    enemyAtk = 15;
+    // 🎯 苦手1問再挑戦用（一撃決着）
+    enemyMaxHp = 100;
+    enemyCurHp = 100;
+    enemyAtk = playerMaxHp; // 不正解なら一撃即死
   } else {
     if (selectedNormalDiffLevel === 1) {
       enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
@@ -1100,7 +1112,7 @@ function startCriticalTimer() {
   const gauge = document.getElementById('timerGauge');
   const timerText = document.getElementById('timerText');
   if (gauge) gauge.style.width = '100%';
-  if (timerText) timerText.innerText = '⚡ 3秒以内即答でクリティカル！';
+  if (timerText) timerText.innerText = (currentMode === 'weakRetry') ? '⚡ 正解で一撃撃破！' : '⚡ 3秒以内即答でクリティカル！';
 
   if (timerGaugeInterval) clearInterval(timerGaugeInterval);
   timerGaugeInterval = setInterval(() => {
@@ -1265,17 +1277,23 @@ function handleAnswer(selectedIdx) {
       playBGM('fever');
     }
 
-    let dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
-    const isCrit = isQuickAnswer || (Math.random() < (pStats.spd / 150));
-    if (isCrit) dmg = Math.round(dmg * 2.0);
-    if (isFeverMode) dmg = Math.round(dmg * 1.5);
-
-    enemyCurHp = Math.max(0, enemyCurHp - dmg);
+    let dmg = 0;
+    if (currentMode === 'weakRetry') {
+      // 🎯 苦手1問再挑戦：一撃必殺（敵HPを即0にする）
+      dmg = enemyCurHp;
+      enemyCurHp = 0;
+    } else {
+      dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
+      const isCrit = isQuickAnswer || (Math.random() < (pStats.spd / 150));
+      if (isCrit) dmg = Math.round(dmg * 2.0);
+      if (isFeverMode) dmg = Math.round(dmg * 1.5);
+      enemyCurHp = Math.max(0, enemyCurHp - dmg);
+    }
     updateBattleHpUi();
 
-    if (isCrit) {
+    if (currentMode === 'weakRetry' || isQuickAnswer) {
       playSE('critical');
-      showDamagePopup(`💥 CRITICAL! -${dmg} HP`, true, true);
+      showDamagePopup(`💥 一撃粉砕! -${dmg} HP`, true, true);
     } else {
       playSE('correct');
       showDamagePopup(`⚔️ -${dmg} HP`, false, true);
@@ -1286,10 +1304,10 @@ function handleAnswer(selectedIdx) {
     }
 
     feedbackIcon.innerText = '⭕';
-    feedbackTitle.innerText = isCrit 
-      ? `⚡ クリティカル正解！ Excellent! (${combo}連続)`
-      : `正解！ Great! (${combo}連続)`;
-    feedbackTitle.className = isCrit ? "text-sm font-black text-amber-400" : "text-sm font-black text-emerald-400";
+    feedbackTitle.innerText = (currentMode === 'weakRetry') 
+      ? `🎯 苦手克服撃破！ Excellent!` 
+      : (isQuickAnswer ? `⚡ クリティカル正解！ Excellent! (${combo}連続)` : `正解！ Great! (${combo}連続)`);
+    feedbackTitle.className = "text-sm font-black text-amber-400";
 
     if (q.audio_complete) {
       setTimeout(() => speakText(q.audio_complete), 300);
@@ -1302,10 +1320,17 @@ function handleAnswer(selectedIdx) {
       playBGM(isBossMode ? 'boss' : 'battle');
     }
 
-    const enemyDmg = Math.round(enemyAtk * (0.8 + Math.random() * 0.4));
-    playerCurHp = Math.max(0, playerCurHp - enemyDmg);
+    let enemyDmg = 0;
+    if (currentMode === 'weakRetry') {
+      // 🎯 苦手1問再挑戦：即死反撃（プレイヤーHPを即0にする）
+      enemyDmg = playerCurHp;
+      playerCurHp = 0;
+    } else {
+      enemyDmg = Math.round(enemyAtk * (0.8 + Math.random() * 0.4));
+      playerCurHp = Math.max(0, playerCurHp - enemyDmg);
+    }
     updateBattleHpUi();
-    showDamagePopup(`⚠️ 反撃被弾! -${enemyDmg} HP`, false, false);
+    showDamagePopup(`⚠️ 即死反撃被弾! -${enemyDmg} HP`, false, false);
 
     if (!userData.weakList.includes(q.id)) {
       userData.weakList.push(q.id);
@@ -1348,10 +1373,21 @@ function finishSession() {
     document.getElementById('resultModeBadge').innerText = '💀 クエスト失敗...';
     document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-rose-700 text-white px-3 py-1 rounded-full inline-block mb-1';
     document.getElementById('resultEmoji').innerText = '🪦';
-    document.getElementById('resultTitle').innerText = '力尽きてしまった！';
-    document.getElementById('resultComment').innerText = '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
+    document.getElementById('resultTitle').innerText = (currentMode === 'weakRetry') ? '一撃でやられてしまった！' : '力尽きてしまった！';
+    document.getElementById('resultComment').innerText = (currentMode === 'weakRetry') ? '解説をよく読んで、もう一度にがて帳から再挑戦しよう！' : '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
+    
     earnedExp = Math.max(5, Math.round(quizScore * 2));
     earnedGems = 1;
+
+    // 🎯 苦手1問再挑戦：失敗時も挑戦回数を記録
+    if (currentMode === 'weakRetry') {
+      const targetId = currentQueue[0]?.id;
+      if (targetId) {
+        if (!userData.weakStats) userData.weakStats = {};
+        if (!userData.weakStats[targetId]) userData.weakStats[targetId] = { cleared: 0, attempts: 0 };
+        userData.weakStats[targetId].attempts += 1;
+      }
+    }
   } else if (!isEnemyDefeated) {
     document.getElementById('resultModeBadge').innerText = '💨 討伐失敗 (時間切れ)';
     document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-slate-700 text-slate-200 px-3 py-1 rounded-full inline-block mb-1';
@@ -1415,13 +1451,21 @@ function finishSession() {
       earnedGems = 25;
     }
   } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
-    // 🎯 苦手1問再挑戦 正解（自動削除はせず、反復練習用に残す）
+    // 🎯 苦手1問再挑戦 撃破成功（特訓回数とクリア回数を記録）
     document.getElementById('resultEmoji').innerText = '🎯';
-    document.getElementById('resultTitle').innerText = '特訓撃破完了！';
-    document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓クリア！';
+    document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
+    document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
     document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
+    document.getElementById('resultComment').innerText = '見事に一撃で正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
     
+    const targetId = currentQueue[0]?.id;
+    if (targetId) {
+      if (!userData.weakStats) userData.weakStats = {};
+      if (!userData.weakStats[targetId]) userData.weakStats[targetId] = { cleared: 0, attempts: 0 };
+      userData.weakStats[targetId].attempts += 1;
+      userData.weakStats[targetId].cleared += 1;
+    }
+
     earnedExp = 30;
     earnedGems = 5;
   } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
