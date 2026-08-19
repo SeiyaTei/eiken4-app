@@ -2132,6 +2132,458 @@ const ACTUAL_PAST_EXAM_DATA = [
     audio_question: "See you tomorrow!",
     audio_complete: "See you!"
   }
+},
+  // ---------- リスニング第1弾 (No.101 〜 No.115) ----------
+  {
+    id: "past_101",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["At 2:30.", "At 3:00.", "At 3:30.", "At 4:00."],
+    ans: 2,
+    explain: "【会話】\nBoy: Shall we meet at three o'clock tomorrow?\nGirl: I have a piano lesson until three. How about three thirty?\nBoy: That sounds fine.\n\n【会話の訳】\n男子: 明日、3時に会おうか？\n女子: 3時までピアノのレッスンがあるの。3時半はどう？\n男子: それでいいね。\n\n【質問】What time will they meet tomorrow?\n（彼らは明日何時に会いますか？）\n\n【正解の訳】\n3. 3時30分に。\n\n【解説】女子が提案した three thirty（3時30分）で合意しています。",
+    dialogue: [
+      { speaker: 'male', text: "Shall we meet at three o'clock tomorrow?" },
+      { speaker: 'female', text: "I have a piano lesson until three. How about three thirty?" },
+      { speaker: 'male', text: "That sounds fine." },
+      { speaker: 'narrator', text: "Question. What time will they meet tomorrow?" }
+    ],
+    aud_complete: "What time will they meet tomorrow? At 3:30."
+  },
+  {
+    id: "past_102",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["A red sweater.", "A blue jacket.", "A black coat.", "A green cap."],
+    ans: 1,
+    explain: "【会話】\nWoman: May I help you?\nBoy: Yes, I'm looking for a blue jacket for my brother.\nWoman: Here are some nice ones.\n\n【会話の訳】\n店員: いらっしゃいませ。\n男子: はい、弟のために青いジャケットを探しているんです。\n店員: こちらに素敵なものがございますよ。\n\n【質問】What is the boy looking for?\n（男の子は何を探していますか？）\n\n【正解の訳】\n2. 青いジャケット。\n\n【解説】I'm looking for a blue jacket と述べています。",
+    dialogue: [
+      { speaker: 'female', text: "May I help you?" },
+      { speaker: 'male', text: "Yes, I'm looking for a blue jacket for my brother." },
+      { speaker: 'female', text: "Here are some nice ones." },
+      { speaker: 'narrator', text: "Question. What is the boy looking for?" }
+    ],
+    aud_complete: "What is the boy looking for? A blue jacket."
+  },
+  {
+    id: "past_103",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Because he lost his key.", "Because he missed the bus.", "Because he was sick.", "Because it rained heavily."],
+    ans: 1,
+    explain: "【会話】\nGirl: You're late, Dan. Did you wake up late?\nBoy: No, but I missed the eight o'clock bus, so I had to wait for the next one.\n\n【会話の訳】\n女子: 遅いよ、ダン。寝坊したの？\n男子: ううん、でも8時のバスに乗り遅れちゃって、次のを待たなきゃいけなかったんだ。\n\n【質問】Why was Dan late?\n（ダンはなぜ遅れたのですか？）\n\n【正解の訳】\n2. バスに乗り遅れたから。\n\n【解説】missed the eight o'clock bus（8時のバスに乗り遅れた）ことが原因です。",
+    dialogue: [
+      { speaker: 'female', text: "You're late, Dan. Did you wake up late?" },
+      { speaker: 'male', text: "No, but I missed the eight o'clock bus, so I had to wait for the next one." },
+      { speaker: 'narrator', text: "Question. Why was Dan late?" }
+    ],
+    aud_complete: "Why was Dan late? Because he missed the bus."
+  },
+  {
+    id: "past_104",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["To Canada.", "To Australia.", "To the United States.", "To the UK."],
+    ans: 1,
+    explain: "【会話】\nGirl: Where are you going for your summer vacation, Paul?\nBoy: I'm going to Australia to visit my uncle. He lives in Sydney.\n\n【会話の訳】\n女子: ポール、夏休みはどこへ行くの？\n男子: おじさんを訪ねてオーストラリアに行く予定だよ。シドニーに住んでいるんだ。\n\n【質問】Where is Paul going for his summer vacation?\n（ポールは夏休みにどこへ行きますか？）\n\n【正解の訳】\n2. オーストラリアへ。\n\n【解説】going to Australia と答えています。",
+    dialogue: [
+      { speaker: 'female', text: "Where are you going for your summer vacation, Paul?" },
+      { speaker: 'male', text: "I'm going to Australia to visit my uncle. He lives in Sydney." },
+      { speaker: 'narrator', text: "Question. Where is Paul going for his summer vacation?" }
+    ],
+    aud_complete: "Where is Paul going for his summer vacation? To Australia."
+  },
+  {
+    id: "past_105",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["History.", "Science.", "Math.", "Music."],
+    ans: 2,
+    explain: "【会話】\nBoy: Did you finish the math homework, Yuka?\nGirl: Not yet. Question five is very difficult for me.\nBoy: I can help you after class.\n\n【会話の訳】\n男子: ユカ、数学の宿題は終わった？\n女子: まだだよ。問5が私にはとても難しくて。\n男子: 授業のあとに教えてあげるよ。\n\n【質問】Which homework is difficult for Yuka?\n（ユカにとってどの宿題が難しいですか？）\n\n【正解の訳】\n3. 数学。\n\n【解説】math homework（数学の宿題）について話しています。",
+    dialogue: [
+      { speaker: 'male', text: "Did you finish the math homework, Yuka?" },
+      { speaker: 'female', text: "Not yet. Question five is very difficult for me." },
+      { speaker: 'male', text: "I can help you after class." },
+      { speaker: 'narrator', text: "Question. Which homework is difficult for Yuka?" }
+    ],
+    aud_complete: "Which homework is difficult for Yuka? Math."
+  },
+  {
+    id: "past_106",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Eat Chinese food.", "Cook Italian pasta.", "Go to a Japanese restaurant.", "Make sandwiches at home."],
+    ans: 0,
+    explain: "【会話】\nGirl: What do you want to eat for dinner tonight?\nBoy: How about Chinese food? A new Chinese restaurant opened near the station.\nGirl: Good idea. Let's go there.\n\n【会話の訳】\n女子: 今夜の夕食は何が食べたい？\n男子: 中華料理はどう？駅の近くに新しい中華料理店がオープンしたんだ。\n女子: いい考えね。そこへ行きましょう。\n\n【質問】What will they eat for dinner tonight?\n（彼らは今夜の夕食に何を食べますか？）\n\n【正解の訳】\n1. 中華料理を食べる。\n\n【解説】Chinese food（中華料理）を食べに行くことで一致しています。",
+    dialogue: [
+      { speaker: 'female', text: "What do you want to eat for dinner tonight?" },
+      { speaker: 'male', text: "How about Chinese food? A new Chinese restaurant opened near the station." },
+      { speaker: 'female', text: "Good idea. Let's go there." },
+      { speaker: 'narrator', text: "Question. What will they eat for dinner tonight?" }
+    ],
+    aud_complete: "What will they eat for dinner tonight? Eat Chinese food."
+  },
+  {
+    id: "past_107",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["By bike.", "By bus.", "By train.", "On foot."],
+    ans: 3,
+    explain: "【会話】\nMan: Excuse me. How long does it take to walk to the post office?\nWoman: It takes only about five minutes from here.\nMan: Thank you very much.\n\n【会話の訳】\n男性: すみません。郵便局まで歩いてどのくらいかかりますか？\n女性: ここから歩いて約5分しかかかりませんよ。\n男性: どうもありがとうございます。\n\n【質問】How will the man go to the post office?\n（男性はどうやって郵便局へ行きますか？）\n\n【正解の訳】\n4. 徒歩で。\n\n【解説】walk（歩いて行く）時間を尋ねているため On foot です。",
+    dialogue: [
+      { speaker: 'male', text: "Excuse me. How long does it take to walk to the post office?" },
+      { speaker: 'female', text: "It takes only about five minutes from here." },
+      { speaker: 'male', text: "Thank you very much." },
+      { speaker: 'narrator', text: "Question. How will the man go to the post office?" }
+    ],
+    aud_complete: "How will the man go to the post office? On foot."
+  },
+  {
+    id: "past_108",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["A soccer player.", "An English teacher.", "A doctor.", "A scientist."],
+    ans: 2,
+    explain: "【会話】\nBoy: What do you want to be in the future, Lisa?\nGirl: I want to be a doctor to help sick children.\nBoy: That's wonderful!\n\n【会話の訳】\n男子: 将来は何になりたいの、リサ？\n女子: 病気の子どもたちを助けるために医者になりたいの。\n男子: 素晴らしいね！\n\n【質問】What does Lisa want to be in the future?\n（リサは将来何になりたいですか？）\n\n【正解の訳】\n3. 医者。\n\n【解説】I want to be a doctor と答えています。",
+    dialogue: [
+      { speaker: 'male', text: "What do you want to be in the future, Lisa?" },
+      { speaker: 'female', text: "I want to be a doctor to help sick children." },
+      { speaker: 'male', text: "That's wonderful!" },
+      { speaker: 'narrator', text: "Question. What does Lisa want to be in the future?" }
+    ],
+    aud_complete: "What does Lisa want to be in the future? A doctor."
+  },
+  {
+    id: "past_109",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Cleaned his room.", "Read books in the library.", "Rode his bicycle.", "Played soccer in the park."],
+    ans: 1,
+    explain: "【英文】\nLast Saturday was rainy all day, so Kenji stayed in the city library and read three books about space.\n\n【英文の訳】\nこの前の土曜日は一日中雨だったので、ケンジは市立図書館にいて宇宙に関する本を3冊読みました。\n\n【質問】What did Kenji do last Saturday?\n（ケンジはこの前の土曜日に何をしましたか？）\n\n【正解の訳】\n2. 図書館で本を読んだ。\n\n【解説】read three books in the library が行った内容です。",
+    dialogue: [
+      { speaker: 'male', text: "Last Saturday was rainy all day, so Kenji stayed in the city library and read three books about space." },
+      { speaker: 'narrator', text: "Question. What did Kenji do last Saturday?" }
+    ],
+    aud_complete: "What did Kenji do last Saturday? Read books in the library."
+  },
+  {
+    id: "past_110",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["At 8:00.", "At 8:30.", "At 9:00.", "At 9:30."],
+    ans: 1,
+    explain: "【英文】\nEmi usually leaves her house at eight o'clock and arrives at school at eight thirty every morning.\n\n【英文の訳】\nエミは毎朝たいてい8時に家を出て、8時30分に学校に到着します。\n\n【質問】What time does Emi arrive at school?\n（エミは何時に学校に着きますか？）\n\n【正解の訳】\n2. 8時30分に。\n\n【解説】arrives at school at eight thirty（8時30分に到着する）と述べています。",
+    dialogue: [
+      { speaker: 'female', text: "Emi usually leaves her house at eight o'clock and arrives at school at eight thirty every morning." },
+      { speaker: 'narrator', text: "Question. What time does Emi arrive at school?" }
+    ],
+    aud_complete: "What time does Emi arrive at school? At 8:30."
+  },
+  {
+    id: "past_111",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["A pair of gloves.", "A watch.", "A new cap.", "A digital camera."],
+    ans: 1,
+    explain: "【英文】\nYesterday was Tom's fourteenth birthday. His grandfather gave him a nice watch.\n\n【英文の訳】\n昨日はトムの14歳の誕生日でした。祖父が素敵な腕時計を彼にプレゼントしました。\n\n【質問】What did Tom's grandfather give him?\n（トムの祖父は彼に何をあげましたか？）\n\n【正解の訳】\n2. 腕時計。\n\n【解説】gave him a nice watch（腕時計をあげた）です。",
+    dialogue: [
+      { speaker: 'male', text: "Yesterday was Tom's fourteenth birthday. His grandfather gave him a nice watch." },
+      { speaker: 'narrator', text: "Question. What did Tom's grandfather give him?" }
+    ],
+    aud_complete: "What did Tom's grandfather give him? A watch."
+  },
+  {
+    id: "past_112",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["By bus.", "By train.", "By car.", "By plane."],
+    ans: 0,
+    explain: "【英文】\nOur class went to the science museum yesterday. We took a big bus from the school gate.\n\n【英文の訳】\n私たちのクラスは昨日科学博物館に行きました。校門から大型バスに乗って行きました。\n\n【質問】How did the class go to the science museum?\n（クラスのみんなはどうやって科学博物館に行きましたか？）\n\n【正解の訳】\n1. バスで。\n\n【解説】took a big bus（バスに乗った）ので By bus です。",
+    dialogue: [
+      { speaker: 'female', text: "Our class went to the science museum yesterday. We took a big bus from the school gate." },
+      { speaker: 'narrator', text: "Question. How did the class go to the science museum?" }
+    ],
+    aud_complete: "How did the class go to the science museum? By bus."
+  },
+  {
+    id: "past_113",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Two dogs.", "Three dogs.", "A dog and a cat.", "Two cats."],
+    ans: 0,
+    explain: "【英文】\nMikako loves animals. She has two big white dogs, and she walks them every evening.\n\n【英文の訳】\nミカコは動物が大好きです。彼女は大きな白い犬を2匹飼っていて、毎晩散歩させています。\n\n【質問】What pets does Mikako have?\n（ミカコはどんなペットを飼っていますか？）\n\n【正解の訳】\n1. 2匹の犬。\n\n【解説】two big white dogs（2匹の犬）を飼っています。",
+    dialogue: [
+      { speaker: 'female', text: "Mikako loves animals. She has two big white dogs, and she walks them every evening." },
+      { speaker: 'narrator', text: "Question. What pets does Mikako have?" }
+    ],
+    aud_complete: "What pets does Mikako have? Two dogs."
+  },
+  {
+    id: "past_114",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Sunny.", "Cloudy.", "Rainy.", "Snowy."],
+    ans: 2,
+    explain: "【英文】\nIt was sunny on Friday, but it started to rain heavily on Saturday morning.\n\n【英文の訳】\n金曜日は晴れていましたが、土曜日の朝に大雨が降り始めました。\n\n【質問】How was the weather on Saturday morning?\n（土曜日の朝の天気はどうでしたか？）\n\n【正解の訳】\n3. 雨。\n\n【解説】started to rain heavily（激しく雨が降り始めた）ので Rainy です。",
+    dialogue: [
+      { speaker: 'male', text: "It was sunny on Friday, but it started to rain heavily on Saturday morning." },
+      { speaker: 'narrator', text: "Question. How was the weather on Saturday morning?" }
+    ],
+    aud_complete: "How was the weather on Saturday morning? Rainy."
+  },
+  {
+    id: "past_115",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Five dollars.", "Ten dollars.", "Twelve dollars.", "Twenty dollars."],
+    ans: 1,
+    explain: "【英文】\nWelcome to Green City Zoo. The entrance ticket is five dollars for students and ten dollars for adults.\n\n【英文の訳】\nグリーン市立動物園へようこそ。入場券は学生5ドル、大人10ドルです。\n\n【質問】How much is the ticket for adults?\n（大人の入場券はいくらですか？）\n\n【正解の訳】\n2. 10ドル。\n\n【解説】ten dollars for adults（大人は10ドル）です。",
+    dialogue: [
+      { speaker: 'female', text: "Welcome to Green City Zoo. The entrance ticket is five dollars for students and ten dollars for adults." },
+      { speaker: 'narrator', text: "Question. How much is the ticket for adults?" }
+    ],
+    aud_complete: "How much is the ticket for adults? Ten dollars."
+  },
+  // ---------- リスニング第2弾 (No.116 〜 No.130) ----------
+  {
+    id: "past_116",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["At 5:00.", "At 5:30.", "At 6:00.", "At 6:30."],
+    ans: 1,
+    explain: "【会話】\nGirl: What time does the soccer practice end today?\nBoy: It usually ends at six, but today it finishes at five thirty.\nGirl: OK, let's go home together then.\n\n【会話の訳】\n女子: 今日のサッカーの練習は何時に終わるの？\n男子: 普段は6時に終わるけど、今日は5時半に終わるよ。\n女子: わかった、じゃあ一緒に帰ろう。\n\n【質問】What time will the soccer practice finish today?\n（今日のサッカーの練習は何時に終わりますか？）\n\n【正解の訳】\n2. 5時30分に。\n\n【解説】today it finishes at five thirty（今日は5時半に終わる）と述べています。",
+    dialogue: [
+      { speaker: 'female', text: "What time does the soccer practice end today?" },
+      { speaker: 'male', text: "It usually ends at six, but today it finishes at five thirty." },
+      { speaker: 'female', text: "OK, let's go home together then." },
+      { speaker: 'narrator', text: "Question. What time will the soccer practice finish today?" }
+    ],
+    aud_complete: "What time will the soccer practice finish today? At 5:30."
+  },
+  {
+    id: "past_117",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Tennis.", "Baseball.", "Basketball.", "Soccer."],
+    ans: 2,
+    explain: "【会話】\nBoy: Which club did you join, Mayu?\nGirl: I joined the basketball club. I practice every Tuesday and Thursday.\nBoy: Good luck!\n\n【会話の訳】\n男子: マユ、どの部活に入ったの？\n女子: バスケットボール部に入ったよ。毎週火曜日と木曜日に練習しているの。\n男子: 頑張ってね！\n\n【質問】Which club did Mayu join?\n（マユはどの部活に入りましたか？）\n\n【正解の訳】\n3. バスケットボール。\n\n【解説】I joined the basketball club（バスケ部に入った）と答えています。",
+    dialogue: [
+      { speaker: 'male', text: "Which club did you join, Mayu?" },
+      { speaker: 'female', text: "I joined the basketball club. I practice every Tuesday and Thursday." },
+      { speaker: 'male', text: "Good luck!" },
+      { speaker: 'narrator', text: "Question. Which club did Mayu join?" }
+    ],
+    aud_complete: "Which club did Mayu join? Basketball."
+  },
+  {
+    id: "past_118",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Under the desk.", "On the kitchen table.", "In her school bag.", "In her bedroom."],
+    ans: 1,
+    explain: "【会話】\nGirl: Dad, I can't find my notebook. Did you see it?\nMan: Yes, you left it on the kitchen table this morning.\nGirl: Oh, thank you!\n\n【会話の訳】\n女子: お父さん、ノートが見当たらないの。見かけなかった？\n男性: ああ、今朝キッチンのテーブルの上に置いてあったよ。\n女子: あ、ありがとう！\n\n【質問】Where is the girl's notebook?\n（女の子のノートはどこにありますか？）\n\n【正解の訳】\n2. キッチンのテーブルの上。\n\n【解説】on the kitchen table（台所のテーブルの上）にあります。",
+    dialogue: [
+      { speaker: 'female', text: "Dad, I can't find my notebook. Did you see it?" },
+      { speaker: 'male', text: "Yes, you left it on the kitchen table this morning." },
+      { speaker: 'female', text: "Oh, thank you!" },
+      { speaker: 'narrator', text: "Question. Where is the girl's notebook?" }
+    ],
+    aud_complete: "Where is the girl's notebook? On the kitchen table."
+  },
+  {
+    id: "past_119",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["His brother.", "His mother.", "His teacher.", "His friend."],
+    ans: 0,
+    explain: "【会話】\nGirl: Who helped you with this computer project, Ken?\nBoy: My older brother. He knows a lot about computers.\nGirl: That's great.\n\n【会話の訳】\n女子: ケン、このコンピュータの課題は誰が手伝ってくれたの？\n男子: 僕の兄だよ。コンピュータにとても詳しいんだ。\n女子: すごいね。\n\n【質問】Who helped Ken with his project?\n（誰がケンの課題を手伝いましたか？）\n\n【正解の訳】\n1. 彼の兄（弟）。\n\n【解説】My older brother（兄）が手伝ってくれました。",
+    dialogue: [
+      { speaker: 'female', text: "Who helped you with this computer project, Ken?" },
+      { speaker: 'male', text: "My older brother. He knows a lot about computers." },
+      { speaker: 'female', text: "That's great." },
+      { speaker: 'narrator', text: "Question. Who helped Ken with his project?" }
+    ],
+    aud_complete: "Who helped Ken with his project? His brother."
+  },
+  {
+    id: "past_120",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Go to the beach.", "Study at the library.", "Watch a movie at home.", "Go to a concert."],
+    ans: 2,
+    explain: "【会話】\nBoy: It's raining outside. We can't play tennis in the park.\nGirl: Then, let's watch a movie at my house.\nBoy: Sounds good!\n\n【会話の訳】\n男子: 外は雨が降っているね。公園でテニスはできないよ。\n女子: それなら、私の家で映画を見ましょうよ。\n男子: いいね！\n\n【質問】What will they do today?\n（彼らは今日何をしますか？）\n\n【正解の訳】\n3. 家で映画を見ること。\n\n【解説】watch a movie at my house（私の家で映画を見る）ことで決まりました。",
+    dialogue: [
+      { speaker: 'male', text: "It's raining outside. We can't play tennis in the park." },
+      { speaker: 'female', text: "Then, let's watch a movie at my house." },
+      { speaker: 'male', text: "Sounds good!" },
+      { speaker: 'narrator', text: "Question. What will they do today?" }
+    ],
+    aud_complete: "What will they do today? Watch a movie at home."
+  },
+  {
+    id: "past_121",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["By bike.", "By bus.", "By train.", "By car."],
+    ans: 2,
+    explain: "【会話】\nGirl: Did you come to the stadium by bus, Shin?\nBoy: No, the bus was crowded, so I took the rapid train.\nGirl: I see.\n\n【会話の訳】\n女子: シン、スタジアムにはバスで来たの？\n男子: ううん、バスが混んでいたから、快速電車に乗ってきたんだ。\n女子: そうなんだ。\n\n【質問】How did Shin come to the stadium?\n（シンはどうやってスタジアムに来ましたか？）\n\n【正解の訳】\n3. 電車で。\n\n【解説】took the rapid train（快速電車に乗った）ので By train です。",
+    dialogue: [
+      { speaker: 'female', text: "Did you come to the stadium by bus, Shin?" },
+      { speaker: 'male', text: "No, the bus was crowded, so I took the rapid train." },
+      { speaker: 'female', text: "I see." },
+      { speaker: 'narrator', text: "Question. How did Shin come to the stadium?" }
+    ],
+    aud_complete: "How did Shin come to the stadium? By train."
+  },
+  {
+    id: "past_122",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (対話リスニング)",
+    options: ["Orange juice.", "Hot chocolate.", "Green tea.", "Apple juice."],
+    ans: 1,
+    explain: "【会話】\nWoman: What would you like to drink?\nBoy: Can I have a cup of hot chocolate, please?\nWoman: Sure. Anything else?\nBoy: No, that's all.\n\n【会話の訳】\n店員: お飲み物は何になさいますか？\n男子: 温かいココア（ホットチョコレート）を1杯いただけますか？\n店員: かしこまりました。他にご注文はございますか？\n男子: いいえ、それだけです。\n\n【質問】What did the boy order?\n（男の子は何を注文しましたか？）\n\n【正解の訳】\n2. ホットチョコレート（ココア）。\n\n【解説】hot chocolate を注文しています。",
+    dialogue: [
+      { speaker: 'female', text: "What would you like to drink?" },
+      { speaker: 'male', text: "Can I have a cup of hot chocolate, please?" },
+      { speaker: 'female', text: "Sure. Anything else?" },
+      { speaker: 'male', text: "No, that's all." },
+      { speaker: 'narrator', text: "Question. What did the boy order?" }
+    ],
+    aud_complete: "What did the boy order? Hot chocolate."
+  },
+  {
+    id: "past_123",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Baked a chocolate cake.", "Went to an Italian restaurant.", "Bought a new guitar.", "Cleaned the garden."],
+    ans: 0,
+    explain: "【英文】\nYesterday was my sister's birthday party. My mother and I baked a big chocolate cake for her.\n\n【英文の訳】\n昨日は妹（姉）の誕生日パーティーでした。母と私は彼女のために大きなチョコレートケーキを焼きました。\n\n【質問】What did the girl do for her sister?\n（女の子は妹（姉）のために何をしましたか？）\n\n【正解の訳】\n1. チョコレートケーキを焼いた。\n\n【解説】baked a big chocolate cake（ケーキを焼いた）が行動内容です。",
+    dialogue: [
+      { speaker: 'female', text: "Yesterday was my sister's birthday party. My mother and I baked a big chocolate cake for her." },
+      { speaker: 'narrator', text: "Question. What did the girl do for her sister?" }
+    ],
+    aud_complete: "What did the girl do for her sister? Baked a chocolate cake."
+  },
+  {
+    id: "past_124",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["In Hokkaido.", "In Okinawa.", "In Tokyo.", "In Kyoto."],
+    ans: 1,
+    explain: "【英文】\nDuring the spring vacation, my family visited Okinawa. We enjoyed swimming in the beautiful blue ocean.\n\n【英文の訳】\n春休みの間、私の家族は沖縄を訪れました。私たちは美しい青い海で泳ぐのを楽しみました。\n\n【質問】Where did the family go during the spring vacation?\n（その家族は春休みの間どこへ行きましたか？）\n\n【正解の訳】\n2. 沖縄へ。\n\n【解説】visited Okinawa（沖縄を訪れた）と述べています。",
+    dialogue: [
+      { speaker: 'male', text: "During the spring vacation, my family visited Okinawa. We enjoyed swimming in the beautiful blue ocean." },
+      { speaker: 'narrator', text: "Question. Where did the family go during the spring vacation?" }
+    ],
+    aud_complete: "Where did the family go during the spring vacation? In Okinawa."
+  },
+  {
+    id: "past_125",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Plays the violin.", "Practices the piano.", "Plays soccer.", "Reads English books."],
+    ans: 1,
+    explain: "【英文】\nDaiki wants to become a pianist in the future. He practices the piano for two hours every day after school.\n\n【英文の訳】\nダイキは将来ピアニストになりたいと思っています。彼は放課後、毎日2時間ピアノを練習しています。\n\n【質問】What does Daiki do every day after school?\n（ダイキは放課後、毎日何をしていますか？）\n\n【正解の訳】\n2. ピアノを練習する。\n\n【解説】practices the piano（ピアノを練習する）と述べています。",
+    dialogue: [
+      { speaker: 'female', text: "Daiki wants to become a pianist in the future. He practices the piano for two hours every day after school." },
+      { speaker: 'narrator', text: "Question. What does Daiki do every day after school?" }
+    ],
+    aud_complete: "What does Daiki do every day after school? Practices the piano."
+  },
+  {
+    id: "past_126",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["A red sweater.", "A pair of yellow boots.", "A warm winter coat.", "A blue backpack."],
+    ans: 2,
+    explain: "【英文】\nWinter is coming soon, so Julia went to the department store yesterday and bought a warm winter coat.\n\n【英文の訳】\nもうすぐ冬が来るので、ジュリアは昨日デパートへ行き、暖かい冬用コートを買いました。\n\n【質問】What did Julia buy yesterday?\n（ジュリアは昨日何を買いましたか？）\n\n【正解の訳】\n3. 暖かい冬用コート。\n\n【解説】bought a warm winter coat（冬用コートを買った）です。",
+    dialogue: [
+      { speaker: 'female', text: "Winter is coming soon, so Julia went to the department store yesterday and bought a warm winter coat." },
+      { speaker: 'narrator', text: "Question. What did Julia buy yesterday?" }
+    ],
+    aud_complete: "What did Julia buy yesterday? A warm winter coat."
+  },
+  {
+    id: "past_127",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["To an amusement park.", "To a science museum.", "To a soccer stadium.", "To a famous library."],
+    ans: 0,
+    explain: "【英文】\nNext Sunday is my little brother's birthday. My father will drive us to a big amusement park.\n\n【英文の訳】\n次の日曜日は私の弟の誕生日です。父が車で私たちを大きな遊園地へ連れて行ってくれます。\n\n【質問】Where will the family go next Sunday?\n（家族は次の日曜日、どこへ行きますか？）\n\n【正解の訳】\n1. 遊園地へ。\n\n【解説】drive us to a big amusement park（遊園地へ行く）です。",
+    dialogue: [
+      { speaker: 'male', text: "Next Sunday is my little brother's birthday. My father will drive us to a big amusement park." },
+      { speaker: 'narrator', text: "Question. Where will the family go next Sunday?" }
+    ],
+    aud_complete: "Where will the family go next Sunday? To an amusement park."
+  },
+  {
+    id: "past_128",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["An English teacher.", "A flight attendant.", "A tour guide.", "A news reporter."],
+    ans: 1,
+    explain: "【英文】\nSaki loves traveling to different countries. She is studying English hard to become a flight attendant.\n\n【英文の訳】\nサキは様々な国へ旅行することが大好きです。彼女は客室乗務員（キャビンアテンダント）になるために一生懸命英語を勉強しています。\n\n【質問】What does Saki want to be?\n（サキは何になりたいと思っていますか？）\n\n【正解の訳】\n2. 客室乗務員（フライトアテンダント）。\n\n【解説】become a flight attendant（客室乗務員になる）ことを目指しています。",
+    dialogue: [
+      { speaker: 'female', text: "Saki loves traveling to different countries. She is studying English hard to become a flight attendant." },
+      { speaker: 'narrator', text: "Question. What does Saki want to be?" }
+    ],
+    aud_complete: "What does Saki want to be? A flight attendant."
+  },
+  {
+    id: "past_129",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["Every day.", "Twice a week.", "Once a month.", "Three times a year."],
+    ans: 1,
+    explain: "【英文】\nKenta likes reading English books. He goes to the city library on Tuesdays and Fridays.\n\n【英文の訳】\nケンタは英語の本を読むことが好きです。彼は毎週火曜日と金曜日に市立図書館に行きます。\n\n【質問】How often does Kenta go to the library?\n（ケンタはどのくらいの頻度で図書館に行きますか？）\n\n【正解の訳】\n2. 週に2回。\n\n【解説】火曜日と金曜日なので Twice a week（週2回）です。",
+    dialogue: [
+      { speaker: 'male', text: "Kenta likes reading English books. He goes to the city library on Tuesdays and Fridays." },
+      { speaker: 'narrator', text: "Question. How often does Kenta go to the library?" }
+    ],
+    aud_complete: "How often does Kenta go to the library? Twice a week."
+  },
+  {
+    id: "past_130",
+    type: "listening",
+    q: "音声を聞いて、質問に答えよう。",
+    sub: "🎧 本番過去問 (短文リスニング)",
+    options: ["At 4:00 p.m.", "At 5:00 p.m.", "At 6:00 p.m.", "At 7:00 p.m."],
+    ans: 1,
+    explain: "【英文】\nAttention please, museum visitors. The museum will close at five o'clock today. Please return audio guides to the desk.\n\n【英文の訳】\n博物館へお越しの皆様にご案内申し上げます。本日の閉館時間は午後5時です。音声ガイドをカウンターまでご返却ください。\n\n【質問】What time will the museum close today?\n（博物館は本日何時に閉館しますか？）\n\n【正解の訳】\n2. 午後5時に。\n\n【解説】close at five o'clock（5時に閉館する）とアナウンスされています。",
+    dialogue: [
+      { speaker: 'female', text: "Attention please, museum visitors. The museum will close at five o'clock today. Please return audio guides to the desk." },
+      { speaker: 'narrator', text: "Question. What time will the museum close today?" }
+    ],
+    aud_complete: "What time will the museum close today? At 5:00 p.m."
+  }
 ];
 
 // ==================== 5. 着せ替え・装備データベース (隠し装備3種追加) ====================
