@@ -385,7 +385,7 @@ const ACTUAL_PAST_EXAM_DATA = [
   { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
 ];
 
-// ==================== 5. 着せ替え・装備データベース (Lv.60制限追加) ====================
+// ==================== 5. 着せ替え・装備データベース (神龍の天光を追加) ====================
 const SHOP_EQUIP_DATA = [
   { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
   { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
@@ -416,7 +416,8 @@ const SHOP_EQUIP_DATA = [
   { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
   { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
   { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
-  { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' }
+  { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' },
+  { id: 'aura_dragon_light', name: '神龍の天光', type: 'aura', icon: '🐉✨', price: 9999, rank: '🎁 ボス限定ドロップ', val: 415, desc: '速さ +415 / 神龍の加護。極限の素早さを宿す光 (Lv.60以上)', reqLv: 60 }
 ];
 
 // ==================== 6. ボスステージ全10段階データ ====================
