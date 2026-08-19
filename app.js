@@ -114,7 +114,8 @@ const BGM_DATA = {
   boss: { seq: ['A3','C4','D4','F4','E4','D4','C4','B3'], speed: 140, type: 'sawtooth', vol: 0.025 },
   fever: { seq: ['C5','E5','G5','C6','E5','G5','C6','G5'], speed: 110, type: 'sawtooth', vol: 0.03 },
   result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 },
-  ending: { seq: ['C4','E4','G4','C5','E5','G5','C6','G5','E5','C5','G4','E4'], speed: 220, type: 'sine', vol: 0.04 }
+  ending: { seq: ['C4','E4','G4','C5','E5','G5','C6','G5','E5','C5','G4','E4'], speed: 220, type: 'sine', vol: 0.04 },
+  trueEnding: { seq: ['C4','G4','C5','E5','G5','C6','E6','C6','G5','E5','G4','C4'], speed: 160, type: 'triangle', vol: 0.045 }
 };
 
 function initAudio() {
@@ -220,7 +221,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v41';
+const STORAGE_KEY = 'eiken4_data_v42';
 let userData = {
   level: 1,
   exp: 0,
@@ -233,6 +234,7 @@ let userData = {
   bossUnlockedLevel: 1,
   bossClearedLevels: [],
   hasSeenEnding: false,
+  hasSeenTrueEnding: false, // 👑 真エンディング閲覧フラグ
   questRotation: { vocab: false, grammar: false, listening: false },
   dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
   inventory: { hint: 1, potion: 0 },
@@ -268,6 +270,7 @@ function sanitizeUserData() {
   if (typeof userData.bossUnlockedLevel !== 'number' || userData.bossUnlockedLevel < 1 || isNaN(userData.bossUnlockedLevel)) userData.bossUnlockedLevel = 1;
   if (!Array.isArray(userData.bossClearedLevels)) userData.bossClearedLevels = [];
   if (typeof userData.hasSeenEnding !== 'boolean') userData.hasSeenEnding = false;
+  if (typeof userData.hasSeenTrueEnding !== 'boolean') userData.hasSeenTrueEnding = false;
 
   if (!userData.questRotation || typeof userData.questRotation !== 'object') {
     userData.questRotation = { vocab: false, grammar: false, listening: false };
@@ -304,7 +307,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v41', 'eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -433,8 +436,15 @@ function updateUiState() {
 
   const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
   setText('heroAvatar', currentAvatar.emoji);
-  setText('heroRank', currentAvatar.rank);
-  setText('heroName', currentAvatar.name);
+  
+  // 👑 真エンディング達成者用の特別称号
+  if (userData.hasSeenTrueEnding) {
+    setText('heroRank', '🌌 全次元制覇神');
+    setText('heroName', `${currentAvatar.name} (完全体)`);
+  } else {
+    setText('heroRank', currentAvatar.rank);
+    setText('heroName', currentAvatar.name);
+  }
 
   const hatEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
   setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
@@ -690,6 +700,30 @@ function openBossSelectModal() {
   const container = document.getElementById('bossStageList');
   if (!modal || !container) return;
   container.innerHTML = '';
+
+  // 🎬 エンディング回想ボタンエリア（クリア済みの場合に動的追加）
+  if (userData.hasSeenEnding || userData.hasSeenTrueEnding) {
+    const replayBox = document.createElement('div');
+    replayBox.className = "bg-gradient-to-r from-amber-950/80 via-purple-950/80 to-indigo-950/80 p-2.5 rounded-2xl border border-amber-400/60 mb-2 space-y-1.5 shadow-lg";
+    replayBox.innerHTML = `
+      <div class="text-[10px] font-black text-amber-300 flex items-center gap-1">
+        <span>🎬 メモリアル・シアター（エンディング回想）</span>
+      </div>
+      <div class="flex gap-2">
+        ${userData.hasSeenEnding ? `
+          <button onclick="showEndingModal()" class="flex-1 bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-1.5 px-2 rounded-xl text-[10.5px] shadow transition active:scale-95 whitespace-nowrap">
+            👑 表EDを観る
+          </button>
+        ` : ''}
+        ${userData.hasSeenTrueEnding ? `
+          <button onclick="showTrueEndingModal()" class="flex-1 bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 hover:brightness-110 text-white font-black py-1.5 px-2 rounded-xl text-[10.5px] shadow transition active:scale-95 whitespace-nowrap">
+            🌌 真・完結EDを観る
+          </button>
+        ` : ''}
+      </div>
+    `;
+    container.appendChild(replayBox);
+  }
 
   BOSS_STAGES.forEach(stage => {
     // 👑 隠しボス（Lv.11）はLv.10撃破前は枠すら非表示
@@ -1375,7 +1409,7 @@ function nextQuestion() {
   }
 }
 
-// ==================== リザルト ＆ 初回エンディング判定 ====================
+// ==================== リザルト ＆ エンディング分岐 ====================
 function finishSession() {
   stopBattleTimers();
   document.getElementById('viewQuiz').classList.add('hidden');
@@ -1433,7 +1467,18 @@ function finishSession() {
       userData.bossUnlockedLevel = currentBossStage.lv + 1;
     }
 
-    // 🎬 Lv.10 表ラスボス初回撃破時 ➔ 感動のエンディング演出へ分岐
+    // 🎬 Lv.11 真・裏ボス 初回撃破時 ➔ 真エンディングへ
+    if (currentBossStage.lv === 11 && !userData.hasSeenTrueEnding) {
+      userData.hasSeenTrueEnding = true;
+      earnedGems = 500;
+      earnedExp = 5000;
+      userData.gems += earnedGems;
+      addExp(earnedExp);
+      showTrueEndingModal();
+      return;
+    }
+
+    // 🎬 Lv.10 表ラスボス 初回撃破時 ➔ 表エンディングへ
     if (currentBossStage.lv === 10 && !userData.hasSeenEnding) {
       const secretDrops = ['hat_genesis_crown', 'wp_genesis_blade', 'aura_genesis_light'];
       secretDrops.forEach(id => {
@@ -1544,34 +1589,32 @@ function confirmExitQuiz() {
   }
 }
 
-// ==================== 🎬 初回限定エンディング演出 ====================
+// ==================== 🎬 表エンディング（スタッフロール：鄭 聖也（パパ）） ====================
 function showEndingModal() {
   hideAllViews();
   playBGM('ending');
 
-  let endingModal = document.getElementById('modalEndingScene');
-  if (!endingModal) {
-    endingModal = document.createElement('div');
-    endingModal.id = 'modalEndingScene';
-    endingModal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
-    document.body.appendChild(endingModal);
+  let modal = document.getElementById('modalEndingScene');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modalEndingScene';
+    modal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
+    document.body.appendChild(modal);
   }
 
-  endingModal.innerHTML = `
-    <div class="max-w-md w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400 rounded-3xl p-6 shadow-2xl text-center space-y-5 glow-gold">
-      <div class="text-6xl animate-bounce">👑✨🎉</div>
-      <h2 class="text-xl font-black text-amber-300 tracking-wider">英検4級 制覇おめでとう！！</h2>
+  modal.innerHTML = `
+    <div class="max-w-md w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400 rounded-3xl p-6 shadow-2xl text-center space-y-4 glow-gold">
+      <div class="text-5xl animate-bounce">👑✨🎉</div>
+      <h2 class="text-lg font-black text-amber-300 tracking-wider">英検4級 制覇おめでとう！！</h2>
       
-      <div class="bg-indigo-900/60 p-4 rounded-2xl border border-indigo-700 text-xs text-slate-200 leading-relaxed text-left space-y-2.5">
+      <div class="bg-indigo-900/60 p-3.5 rounded-2xl border border-indigo-700 text-xs text-slate-200 leading-relaxed text-left space-y-2">
         <p>あなたは幾多の英単語を覚え、重要文法をマスターし、リスニングを鍛え抜き、ついに伝説の神龍【オメガエデン】を打ち倒しました！</p>
         <p class="text-amber-300 font-bold">相棒：「君と一緒にここまで冒険できて本当によかった！君の英語力なら、本番の英検4級合格なんて間違いなしだね！」</p>
       </div>
 
-      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-amber-900 border-2 border-amber-400 p-3.5 rounded-2xl text-left space-y-1.5 shadow-xl">
-        <div class="text-[11px] font-black text-amber-300 flex items-center gap-1">
-          <span>🎁 神龍からの最終秘宝（創世神話級装備 3種）を獲得！</span>
-        </div>
-        <div class="text-[10px] text-white space-y-0.5 font-bold">
+      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-amber-900 border-2 border-amber-400 p-3 rounded-2xl text-left space-y-1 shadow-xl">
+        <div class="text-[11px] font-black text-amber-300">🎁 神龍からの最終秘宝（創世神話級装備 3種）獲得！</div>
+        <div class="text-[9.5px] text-white space-y-0.5 font-bold">
           <div>👑 【創世神の王冠】(HP +25,000)</div>
           <div>⚔️ 【創世神の聖剣】(攻撃 +4,000)</div>
           <div>🌌 【創世神の神光】(速さ +515 / Lv.100でクリティカル100%確定！)</div>
@@ -1579,27 +1622,103 @@ function showEndingModal() {
       </div>
 
       <!-- 隠しボスティザー予告 -->
-      <div class="bg-red-950/80 border border-red-500/80 p-3 rounded-2xl text-xs text-red-200 text-left space-y-1 animate-pulse">
-        <div class="font-black text-red-400 flex items-center gap-1">
-          <span>⚡ ……待て！ 遥か彼方から、禍々しい気配を感じる……！</span>
-        </div>
-        <div class="text-[10px] text-slate-300 leading-relaxed">
+      <div class="bg-red-950/80 border border-red-500/80 p-2.5 rounded-2xl text-xs text-red-200 text-left space-y-1 animate-pulse">
+        <div class="font-black text-red-400 text-[11px]">⚡ ……待て！ 遥か彼方から、禍々しい気配を感じる……！</div>
+        <div class="text-[9.5px] text-slate-300 leading-relaxed">
           オメガエデンをも凌駕する真の支配者【Lv.11 ゼロインフィニティ】がボス選択画面に解禁されました……！
         </div>
       </div>
 
-      <button onclick="closeEndingModal()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-3 rounded-2xl text-sm shadow-xl transition active:scale-95">
+      <!-- 👑 スタッフロール（鄭 聖也（パパ）） -->
+      <div class="bg-indigo-950/80 border border-indigo-800 p-3 rounded-2xl text-[10px] space-y-1 text-center font-bold">
+        <div class="text-amber-400 tracking-widest text-[9px] uppercase border-b border-indigo-800 pb-1">★ STAFF CREDITS ★</div>
+        <div class="text-slate-300">プロデュース：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-slate-300">企画・問題作成：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-slate-300">最大の応援サポーター：<span class="text-amber-300 font-black">鄭 聖也（パパ）</span></div>
+      </div>
+
+      <div class="text-[9px] text-indigo-300">※このエンディングはボス選択画面からいつでも見直せます</div>
+
+      <button onclick="closeEndingModal()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-xl transition active:scale-95">
         新たなる高みへ ➔ ホームへ
       </button>
     </div>
   `;
 
-  endingModal.classList.remove('hidden');
+  modal.classList.remove('hidden');
 }
 
 function closeEndingModal() {
-  const endingModal = document.getElementById('modalEndingScene');
-  if (endingModal) endingModal.classList.add('hidden');
+  const modal = document.getElementById('modalEndingScene');
+  if (modal) modal.classList.add('hidden');
+  saveData();
+  showHome();
+}
+
+// ==================== 🌌 真・完結エンディング（裏ボス撃破時） ====================
+function showTrueEndingModal() {
+  hideAllViews();
+  playBGM('trueEnding');
+
+  let modal = document.getElementById('modalTrueEndingScene');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modalTrueEndingScene';
+    modal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
+    document.body.appendChild(modal);
+  }
+
+  const stats = calculatePlayerStats();
+  const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 100;
+
+  modal.innerHTML = `
+    <div class="max-w-md w-full bg-gradient-to-b from-purple-950 via-indigo-950 to-black border-2 border-purple-400 rounded-3xl p-6 shadow-2xl text-center space-y-4 glow-gold">
+      <div class="text-6xl animate-bounce">🌌👑🏆✨</div>
+      <div>
+        <span class="text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-0.5 rounded-full uppercase tracking-widest shadow">TRUE GRAND ENDING</span>
+        <h2 class="text-xl font-black text-amber-300 mt-1 tracking-wider">全次元・完全制覇の偉業</h2>
+      </div>
+      
+      <div class="bg-indigo-950/80 p-3.5 rounded-2xl border border-purple-500/60 text-xs text-slate-200 leading-relaxed text-left space-y-2">
+        <p>虚無の支配者【ゼロインフィニティ】は消滅し、世界に永遠の光が戻りました。</p>
+        <p class="text-purple-300 font-bold">相棒：「信じられないよ……！君は全700語、全英文法、リスニングの全てを完璧に極めた、本物の【英語の神】になったんだ！！」</p>
+      </div>
+
+      <!-- 殿堂入りマスタープレート -->
+      <div class="bg-gradient-to-r from-amber-950 via-purple-950 to-indigo-950 border-2 border-amber-400 p-3 rounded-2xl text-center space-y-1.5 shadow-2xl">
+        <div class="text-[11px] font-black text-amber-300">📜 殿堂入りマスタープレート</div>
+        <div class="grid grid-cols-3 gap-1 text-[9.5px] bg-black/60 p-2 rounded-xl border border-amber-500/40 text-slate-200">
+          <div>総解答: <strong class="text-white block text-xs">${userData.totalAnswered}問</strong></div>
+          <div>正解率: <strong class="text-emerald-400 block text-xs">${acc}%</strong></div>
+          <div>討伐数: <strong class="text-amber-300 block text-xs">全11体 制覇</strong></div>
+        </div>
+        <div class="text-[10px] text-amber-300 font-black pt-0.5">
+          称号【🌌 全次元制覇神】授与！
+        </div>
+      </div>
+
+      <!-- 👑 スタッフロール（鄭 聖也（パパ）） -->
+      <div class="bg-indigo-950/90 border border-purple-500/60 p-3 rounded-2xl text-[10px] space-y-1 text-center font-bold">
+        <div class="text-amber-400 tracking-widest text-[9px] uppercase border-b border-indigo-800 pb-1">★ SPECIAL STAFF CREDITS ★</div>
+        <div class="text-slate-300">エグゼクティブ・プロデューサー：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-slate-300">ゲームデザイン・プログラム：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-slate-300">愛と情熱の応援サポーター：<span class="text-pink-400 font-black">鄭 聖也（パパ）</span></div>
+      </div>
+
+      <div class="text-[9px] text-indigo-300">※この真エンディングはボス選択画面からいつでも見直せます</div>
+
+      <button onclick="closeTrueEndingModal()" class="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 hover:brightness-110 text-white font-black py-3 rounded-xl text-sm shadow-2xl transition active:scale-95">
+        栄光を胸にホームへ 🏠
+      </button>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+}
+
+function closeTrueEndingModal() {
+  const modal = document.getElementById('modalTrueEndingScene');
+  if (modal) modal.classList.add('hidden');
   saveData();
   showHome();
 }
