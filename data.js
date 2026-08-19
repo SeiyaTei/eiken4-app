@@ -426,20 +426,141 @@ const SHOP_EQUIP_DATA = [
   { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
 ];
 
-// ==================== 6. ボスステージ (Lv.11 隠しボス追加) ====================
+// ==================== 6. ボスステージ (セリフ・伏線データ付き 全11段階) ====================
 const BOSS_STAGES = [
-  { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
-  { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
-  { lv: 3, name: "紅蓮のワイバーン", icon: "👺", hp: 7000, atk: 85, exp: 130, gems: 28, desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。" },
-  { lv: 4, name: "嵐呼ぶ魔竜", icon: "🌪️", hp: 12000, atk: 120, exp: 180, gems: 35, desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。" },
-  { lv: 5, name: "冥府の巨竜", icon: "👿", hp: 18000, atk: 165, exp: 240, gems: 45, desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！" },
-  { lv: 6, name: "深淵の影竜", icon: "🦹", hp: 26000, atk: 210, exp: 310, gems: 55, desc: "闇に潜む古代の竜。装備を整えて挑もう。" },
-  { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
-  { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
-  { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
-  { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【表ラスボス】英検4級の頂点に君臨する神龍！" },
-  // 👑 初回Lv.10撃破後にのみ解禁される真・隠し裏ボス
-  { lv: 11, name: "虚無を統べる終極神・ゼロインフィニティ", icon: "🌌👁️⚡", hp: 160000, atk: 9999, exp: 2000, gems: 300, desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問クリティカルでのみ勝てる究極の神！", isSecret: true }
+  { 
+    lv: 1, 
+    name: "邪竜の幼体", 
+    icon: "🐲", 
+    hp: 1200, 
+    atk: 25, 
+    exp: 60, 
+    gems: 15, 
+    desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！",
+    introMsg: "Gwaaah! (ボクの縄張りに何しに来た！キミの英語の力、見せてもらおう！)",
+    defeatMsg: "Kyuuu... (強いや...！だけど次はもっと硬いウロコを持つヤツがいるぞ...！)"
+  },
+  { 
+    lv: 2, 
+    name: "黒曜石の飛竜", 
+    icon: "🦖", 
+    hp: 3500, 
+    atk: 50, 
+    exp: 90, 
+    gems: 20, 
+    desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！",
+    introMsg: "You cannot pierce my black scales! (我が黒曜の鎧、貴様の英語力で貫けるかな！)",
+    defeatMsg: "My armor is broken...!? (ウロコが砕かれた...！だが紅蓮の炎に焼き尽くされるがいい...！)"
+  },
+  { 
+    lv: 3, 
+    name: "紅蓮のワイバーン", 
+    icon: "👺", 
+    hp: 7000, 
+    atk: 85, 
+    exp: 130, 
+    gems: 28, 
+    desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。",
+    introMsg: "Burn in my flame! (ここから先は灼熱の領域！貴様の覚悟を試してやろう！)",
+    defeatMsg: "My flame extinguished... (炎が消えた...！？ だが嵐を呼ぶあの竜が貴様を吹き飛ばす！)"
+  },
+  { 
+    lv: 4, 
+    name: "嵐呼ぶ魔竜", 
+    icon: "🌪️", 
+    hp: 1200, 
+    atk: 120, 
+    exp: 180, 
+    gems: 35, 
+    desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。",
+    introMsg: "Feel the wrath of the storm! (吹き荒れる嵐を前に、貴様の知識など無力だ！)",
+    defeatMsg: "Blown away... (嵐が切り裂かれた...！冥府の門が開くのを見るがいい...！)"
+  },
+  { 
+    lv: 5, 
+    name: "冥府の巨竜", 
+    icon: "👿", 
+    hp: 18000, 
+    atk: 165, 
+    exp: 240, 
+    gems: 45, 
+    desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！",
+    introMsg: "Welcome to the underworld! (ここが貴様の終着駅だ。闇の底へ沈むがいい！)",
+    defeatMsg: "Light... in the dark...? (暗闇に光が...！？ だが深淵に潜む影はお前の光すら呑み込むぞ！)"
+  },
+  { 
+    lv: 6, 
+    name: "深淵の影竜", 
+    icon: "🦹", 
+    hp: 26000, 
+    atk: 210, 
+    exp: 310, 
+    gems: 55, 
+    desc: "闇に潜む古代の竜。装備を整えて挑もう。",
+    introMsg: "Darkness will swallow you! (実体なき我が影を捉えられるか？迷宮で朽ち果てよ！)",
+    defeatMsg: "My shadow faded... (影が消える...！破滅の双頭竜が貴様を引き裂くだろう！)"
+  },
+  { 
+    lv: 7, 
+    name: "破滅の双頭竜", 
+    icon: "🐉", 
+    hp: 36000, 
+    atk: 265, 
+    exp: 400, 
+    gems: 68, 
+    desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！",
+    introMsg: "Two heads, double destruction! (我ら双頭の猛攻に耐えられるか！一瞬で消し去ってやる！)",
+    defeatMsg: "Both heads defeated...!? (二つの首が...！？ インフェルノの業火がお前を待っているぞ...！)"
+  },
+  { 
+    lv: 8, 
+    name: "インフェルノ・ドレイク", 
+    icon: "🔥", 
+    hp: 48000, 
+    atk: 330, 
+    exp: 500, 
+    gems: 80, 
+    desc: "灼熱の業火を纏う。上級装備が必須レベル！",
+    introMsg: "I will incinerate everything! (すべてを灰にする絶対の業火！貴様の知識ごと燃やし尽くす！)",
+    defeatMsg: "Such overwhelming power... (この炎を超えていくというのか...！終焉の闇が世界を包むぞ...！)"
+  },
+  { 
+    lv: 9, 
+    name: "終焉の暗黒竜", 
+    icon: "⚡🐉", 
+    hp: 62000, 
+    atk: 400, 
+    exp: 650, 
+    gems: 100, 
+    desc: "世界を闇に沈める竜。最高峰のステータスが必要！",
+    introMsg: "The end of the world begins! (世界は終わる！最後の絶望を味わうがよい！)",
+    defeatMsg: "Defeated at the end...!? (終焉が敗れるとは...！だが我が主、オメガエデン様が貴様を裁く！)"
+  },
+  { 
+    lv: 10, 
+    name: "覇天神龍・オメガエデン", 
+    icon: "👑🐉✨", 
+    hp: 80000, 
+    atk: 500, 
+    exp: 850, 
+    gems: 150, 
+    desc: "【表ラスボス】英検4級の頂点に君臨する神龍！",
+    introMsg: "I am the supreme ruler! (我が名はオメガエデン！英検の頂点、その全てを賭けて挑んでくるがよい！)",
+    defeatMsg: "Incredible... You are the true master! (見事だ...！貴様こそが真の英検マスターだ！)"
+  },
+  { 
+    lv: 11, 
+    name: "虚無を統べる終極神・ゼロインフィニティ", 
+    icon: "🌌👁️⚡", 
+    hp: 160000, 
+    atk: 9999, 
+    exp: 2000, 
+    gems: 300, 
+    desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問クリティカルでのみ勝てる究極の神！", 
+    isSecret: true,
+    introMsg: "Everything returns to nothingness... (万物は虚無へ還る...。神話の装備を纏いし者よ、存在の限界を超えてみせよ！)",
+    defeatMsg: "Light shines forever... You have conquered all dimensions! (虚無が...満たされた...。全次元の覇者よ、その栄光は永遠なり...！)"
+  }
 ];
 
 // ==================== 7. レベル10ごとの進化ツリー ====================
