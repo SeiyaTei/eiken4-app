@@ -219,7 +219,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v36';
+const STORAGE_KEY = 'eiken4_data_v38';
 let userData = {
   level: 1,
   exp: 0,
@@ -227,7 +227,7 @@ let userData = {
   streak: 1,
   lastLoginDate: getTodayString(),
   weakList: [],
-  weakStats: {}, // { [quizId]: { cleared: number, attempts: number } }
+  weakStats: {},
   vocabBook: [],
   bossUnlockedLevel: 1,
   bossClearedLevels: [],
@@ -279,9 +279,11 @@ function sanitizeUserData() {
   if (typeof userData.equipped.weapon !== 'string') userData.equipped.weapon = '';
   if (typeof userData.equipped.aura !== 'string') userData.equipped.aura = '';
 
+  // Lv.60未満で最強装備が装備されている場合の安全解除
   if (userData.level < 60) {
     if (userData.equipped.hat === 'hat_dragon_crown') userData.equipped.hat = '';
     if (userData.equipped.weapon === 'wp_dark_blade') userData.equipped.weapon = '';
+    if (userData.equipped.aura === 'aura_dragon_light') userData.equipped.aura = '';
   }
 
   if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
@@ -296,7 +298,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -590,7 +592,6 @@ function startNormalModeWithDiff(diffLevel) {
   startSessionInternal(selectedNormalType, count);
 }
 
-// ==================== 問題IDからクイズオブジェクトを生成する共通関数 ====================
 function getQuizDataById(id) {
   if (id.startsWith('v_')) {
     const word = id.replace('v_', '');
@@ -623,7 +624,6 @@ function getQuizDataById(id) {
   return null;
 }
 
-// ==================== 👾 にがて帳：個別再挑戦 ====================
 function startSingleWeakQuiz(id) {
   initAudio();
   stopBattleTimers();
@@ -1057,7 +1057,7 @@ function startSession() {
     // 🎯 苦手1問再挑戦用（一撃決着）
     enemyMaxHp = 100;
     enemyCurHp = 100;
-    enemyAtk = playerMaxHp; // 不正解なら一撃即死
+    enemyAtk = playerMaxHp;
   } else {
     if (selectedNormalDiffLevel === 1) {
       enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
@@ -1278,22 +1278,27 @@ function handleAnswer(selectedIdx) {
     }
 
     let dmg = 0;
+    let isCrit = false;
+
     if (currentMode === 'weakRetry') {
-      // 🎯 苦手1問再挑戦：一撃必殺（敵HPを即0にする）
+      // 🎯 苦手1問再挑戦：一撃必殺
       dmg = enemyCurHp;
       enemyCurHp = 0;
+      isCrit = true;
     } else {
       dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
-      const isCrit = isQuickAnswer || (Math.random() < (pStats.spd / 150));
+      // ⚡ 新クリティカル計算式：Lv.100＋神龍の天光(速500)でちょうど100%確定発動！
+      const critRate = Math.min(1.0, pStats.spd / 500);
+      isCrit = isQuickAnswer || (Math.random() < critRate);
       if (isCrit) dmg = Math.round(dmg * 2.0);
       if (isFeverMode) dmg = Math.round(dmg * 1.5);
       enemyCurHp = Math.max(0, enemyCurHp - dmg);
     }
     updateBattleHpUi();
 
-    if (currentMode === 'weakRetry' || isQuickAnswer) {
+    if (currentMode === 'weakRetry' || isCrit) {
       playSE('critical');
-      showDamagePopup(`💥 一撃粉砕! -${dmg} HP`, true, true);
+      showDamagePopup(`💥 ${currentMode === 'weakRetry' ? '一撃粉砕!' : 'CRITICAL!'} -${dmg} HP`, true, true);
     } else {
       playSE('correct');
       showDamagePopup(`⚔️ -${dmg} HP`, false, true);
@@ -1306,7 +1311,7 @@ function handleAnswer(selectedIdx) {
     feedbackIcon.innerText = '⭕';
     feedbackTitle.innerText = (currentMode === 'weakRetry') 
       ? `🎯 苦手克服撃破！ Excellent!` 
-      : (isQuickAnswer ? `⚡ クリティカル正解！ Excellent! (${combo}連続)` : `正解！ Great! (${combo}連続)`);
+      : (isCrit ? `⚡ クリティカル正解！ Excellent! (${combo}連続)` : `正解！ Great! (${combo}連続)`);
     feedbackTitle.className = "text-sm font-black text-amber-400";
 
     if (q.audio_complete) {
@@ -1322,7 +1327,7 @@ function handleAnswer(selectedIdx) {
 
     let enemyDmg = 0;
     if (currentMode === 'weakRetry') {
-      // 🎯 苦手1問再挑戦：即死反撃（プレイヤーHPを即0にする）
+      // 🎯 苦手1問再挑戦：即死反撃
       enemyDmg = playerCurHp;
       playerCurHp = 0;
     } else {
@@ -1379,7 +1384,6 @@ function finishSession() {
     earnedExp = Math.max(5, Math.round(quizScore * 2));
     earnedGems = 1;
 
-    // 🎯 苦手1問再挑戦：失敗時も挑戦回数を記録
     if (currentMode === 'weakRetry') {
       const targetId = currentQueue[0]?.id;
       if (targetId) {
@@ -1421,7 +1425,8 @@ function finishSession() {
     }
 
     const dropChance = 0.3 + (currentBossStage.lv * 0.07);
-    const bossDrops = ['hat_dragon_crown', 'wp_dark_blade'];
+    // 🎁 ボス限定ドロップ対象に神龍の天光を追加
+    const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
     const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
     if (availableDrops.length > 0 && Math.random() < dropChance) {
       const dropId = availableDrops[Math.floor(Math.random() * availableDrops.length)];
@@ -1451,7 +1456,6 @@ function finishSession() {
       earnedGems = 25;
     }
   } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
-    // 🎯 苦手1問再挑戦 撃破成功（特訓回数とクリア回数を記録）
     document.getElementById('resultEmoji').innerText = '🎯';
     document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
     document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
