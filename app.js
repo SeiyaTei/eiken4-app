@@ -221,7 +221,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v42';
+const STORAGE_KEY = 'eiken4_data_v43';
 let userData = {
   level: 1,
   exp: 0,
@@ -233,8 +233,9 @@ let userData = {
   vocabBook: [],
   bossUnlockedLevel: 1,
   bossClearedLevels: [],
+  bossSeenIntros: [], // 🎬 初回開幕セリフ閲覧記録
   hasSeenEnding: false,
-  hasSeenTrueEnding: false, // 👑 真エンディング閲覧フラグ
+  hasSeenTrueEnding: false,
   questRotation: { vocab: false, grammar: false, listening: false },
   dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
   inventory: { hint: 1, potion: 0 },
@@ -269,6 +270,7 @@ function sanitizeUserData() {
   
   if (typeof userData.bossUnlockedLevel !== 'number' || userData.bossUnlockedLevel < 1 || isNaN(userData.bossUnlockedLevel)) userData.bossUnlockedLevel = 1;
   if (!Array.isArray(userData.bossClearedLevels)) userData.bossClearedLevels = [];
+  if (!Array.isArray(userData.bossSeenIntros)) userData.bossSeenIntros = [];
   if (typeof userData.hasSeenEnding !== 'boolean') userData.hasSeenEnding = false;
   if (typeof userData.hasSeenTrueEnding !== 'boolean') userData.hasSeenTrueEnding = false;
 
@@ -307,7 +309,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v41', 'eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v42', 'eiken4_data_v41', 'eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -437,7 +439,6 @@ function updateUiState() {
   const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
   setText('heroAvatar', currentAvatar.emoji);
   
-  // 👑 真エンディング達成者用の特別称号
   if (userData.hasSeenTrueEnding) {
     setText('heroRank', '🌌 全次元制覇神');
     setText('heroName', `${currentAvatar.name} (完全体)`);
@@ -692,6 +693,36 @@ function startWeakBattle() {
   currentQueue = shuffleArray(currentQueue);
   startSession();
 }
+// ==================== ボス専用ダイアログ表示エンジン ====================
+function showBossDialogueModal(title, icon, text, onConfirm) {
+  let modal = document.getElementById('modalBossDialogue');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modalBossDialogue';
+    modal.className = "fixed inset-0 bg-black/90 z-50 p-4 flex items-center justify-center";
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="max-w-sm w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400/80 rounded-3xl p-5 shadow-2xl text-center space-y-4 glow-gold animate-scaleUp">
+      <div class="text-5xl animate-bounce">${icon}</div>
+      <div class="text-xs font-black text-amber-300 tracking-wider">${title}</div>
+      <div class="bg-indigo-950/80 p-3.5 rounded-2xl border border-indigo-700 text-xs text-slate-100 leading-relaxed text-left font-medium whitespace-pre-line">
+        ${text}
+      </div>
+      <button id="btnBossDialogueNext" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-2.5 rounded-xl text-xs shadow-xl transition active:scale-95">
+        進む ⚔️
+      </button>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+  document.getElementById('btnBossDialogueNext').onclick = () => {
+    modal.classList.add('hidden');
+    if (onConfirm) onConfirm();
+  };
+}
+
 // ==================== ボス選択 & バトル開始 ====================
 function openBossSelectModal() {
   initAudio();
@@ -701,7 +732,7 @@ function openBossSelectModal() {
   if (!modal || !container) return;
   container.innerHTML = '';
 
-  // 🎬 エンディング回想ボタンエリア（クリア済みの場合に動的追加）
+  // 🎬 エンディング回想ボタンエリア
   if (userData.hasSeenEnding || userData.hasSeenTrueEnding) {
     const replayBox = document.createElement('div');
     replayBox.className = "bg-gradient-to-r from-amber-950/80 via-purple-950/80 to-indigo-950/80 p-2.5 rounded-2xl border border-amber-400/60 mb-2 space-y-1.5 shadow-lg";
@@ -824,7 +855,17 @@ function startBossBattleWithStage(lv) {
       audio_complete: item.audio_complete || null
     };
   });
-  startSession();
+
+  // 🎬 初回エンカウント時の開幕セリフ判定
+  if (!userData.bossSeenIntros.includes(stage.lv) && stage.introMsg) {
+    userData.bossSeenIntros.push(stage.lv);
+    saveData();
+    showBossDialogueModal(`【Lv.${stage.lv} ${stage.name}】出現！`, stage.icon, stage.introMsg, () => {
+      startSession();
+    });
+  } else {
+    startSession();
+  }
 }
 
 // ==================== にがて帳 画面処理 ====================
@@ -1409,9 +1450,24 @@ function nextQuestion() {
   }
 }
 
-// ==================== リザルト ＆ エンディング分岐 ====================
+// ==================== リザルト ＆ ボス撃破セリフ・エンディング分岐 ====================
 function finishSession() {
   stopBattleTimers();
+
+  const isPlayerDead = (playerCurHp <= 0);
+  const isEnemyDefeated = (enemyCurHp <= 0);
+
+  // 🎬 ボス初回撃破時の捨て台詞判定
+  if (isBossMode && isEnemyDefeated && !userData.bossClearedLevels.includes(currentBossStage.lv) && currentBossStage.defeatMsg) {
+    showBossDialogueModal(`【Lv.${currentBossStage.lv} ${currentBossStage.name}】撃破！`, currentBossStage.icon, currentBossStage.defeatMsg, () => {
+      proceedFinishSession();
+    });
+  } else {
+    proceedFinishSession();
+  }
+}
+
+function proceedFinishSession() {
   document.getElementById('viewQuiz').classList.add('hidden');
   document.getElementById('viewResult').classList.remove('hidden');
   playBGM('result');
