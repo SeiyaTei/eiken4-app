@@ -219,7 +219,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v33';
+const STORAGE_KEY = 'eiken4_data_v35';
 let userData = {
   level: 1,
   exp: 0,
@@ -277,7 +277,6 @@ function sanitizeUserData() {
   if (typeof userData.equipped.weapon !== 'string') userData.equipped.weapon = '';
   if (typeof userData.equipped.aura !== 'string') userData.equipped.aura = '';
 
-  // Lv.60未満で最強装備が装備されている場合の安全解除
   if (userData.level < 60) {
     if (userData.equipped.hat === 'hat_dragon_crown') userData.equipped.hat = '';
     if (userData.equipped.weapon === 'wp_dark_blade') userData.equipped.weapon = '';
@@ -295,7 +294,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data_v29', 'eiken4_data_v28', 'eiken4_data_v27', 'eiken4_data_v26', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -588,6 +587,57 @@ function startNormalModeWithDiff(diffLevel) {
   startSessionInternal(selectedNormalType, count);
 }
 
+// ==================== 問題IDからクイズオブジェクトを生成する共通関数 ====================
+function getQuizDataById(id) {
+  if (id.startsWith('v_')) {
+    const word = id.replace('v_', '');
+    const found = RAW_VOCAB_DATA.find(x => x[0] === word);
+    if (found) return generateVocabQuiz(found);
+  } else if (id.startsWith('g_')) {
+    const idx = parseInt(id.replace('g_', ''));
+    if (RAW_GRAMMAR_DATA[idx]) return generateGrammarQuiz(RAW_GRAMMAR_DATA[idx], idx);
+  } else if (id.startsWith('l_')) {
+    const idx = parseInt(id.replace('l_', ''));
+    if (RAW_LISTENING_DATA[idx]) return generateListeningQuiz(RAW_LISTENING_DATA[idx], idx);
+  } else if (id.startsWith('past_')) {
+    const found = ACTUAL_PAST_EXAM_DATA.find(x => x.id === id);
+    if (found) {
+      const correctOption = found.options[found.ans];
+      const shuffledOptions = shuffleArray(found.options);
+      return {
+        id: found.id,
+        type: found.type,
+        q: found.q,
+        sub: found.sub,
+        options: shuffledOptions,
+        ans: shuffledOptions.indexOf(correctOption),
+        explain: found.explain,
+        dialogue: found.dialogue || null,
+        audio_complete: found.audio_complete || null
+      };
+    }
+  }
+  return null;
+}
+
+// ==================== 👾 にがて帳：個別再挑戦 ====================
+function startSingleWeakQuiz(id) {
+  initAudio();
+  stopBattleTimers();
+  const qData = getQuizDataById(id);
+  if (!qData) {
+    alert('問題データの読み込みに失敗しました。');
+    return;
+  }
+
+  isBossMode = false;
+  isDailyCurrentSession = false;
+  isFeverMode = false;
+  currentMode = 'weakRetry';
+  currentQueue = [qData];
+  startSession();
+}
+
 function startWeakBattle() {
   initAudio();
   stopBattleTimers();
@@ -610,34 +660,8 @@ function startWeakBattle() {
   if (userData.weakList.length > 0) {
     const selectedIds = shuffleArray(userData.weakList).slice(0, 5);
     selectedIds.forEach(id => {
-      if (id.startsWith('v_')) {
-        const word = id.replace('v_', '');
-        const found = RAW_VOCAB_DATA.find(x => x[0] === word);
-        if (found) currentQueue.push(generateVocabQuiz(found));
-      } else if (id.startsWith('g_')) {
-        const idx = parseInt(id.replace('g_', ''));
-        if (RAW_GRAMMAR_DATA[idx]) currentQueue.push(generateGrammarQuiz(RAW_GRAMMAR_DATA[idx], idx));
-      } else if (id.startsWith('l_')) {
-        const idx = parseInt(id.replace('l_', ''));
-        if (RAW_LISTENING_DATA[idx]) currentQueue.push(generateListeningQuiz(RAW_LISTENING_DATA[idx], idx));
-      } else if (id.startsWith('past_')) {
-        const found = ACTUAL_PAST_EXAM_DATA.find(x => x.id === id);
-        if (found) {
-          const correctOption = found.options[found.ans];
-          const shuffledOptions = shuffleArray(found.options);
-          currentQueue.push({
-            id: found.id,
-            type: found.type,
-            q: found.q,
-            sub: found.sub,
-            options: shuffledOptions,
-            ans: shuffledOptions.indexOf(correctOption),
-            explain: found.explain,
-            dialogue: found.dialogue || null,
-            audio_complete: found.audio_complete || null
-          });
-        }
-      }
+      const q = getQuizDataById(id);
+      if (q) currentQueue.push(q);
     });
   }
   
@@ -781,30 +805,7 @@ function renderWeakBookList() {
   }
 
   userData.weakList.forEach(id => {
-    let qData = null;
-    if (id.startsWith('v_')) {
-      const word = id.replace('v_', '');
-      const found = RAW_VOCAB_DATA.find(x => x[0] === word);
-      if (found) qData = generateVocabQuiz(found);
-    } else if (id.startsWith('g_')) {
-      const idx = parseInt(id.replace('g_', ''));
-      if (RAW_GRAMMAR_DATA[idx]) qData = generateGrammarQuiz(RAW_GRAMMAR_DATA[idx], idx);
-    } else if (id.startsWith('l_')) {
-      const idx = parseInt(id.replace('l_', ''));
-      if (RAW_LISTENING_DATA[idx]) qData = generateListeningQuiz(RAW_LISTENING_DATA[idx], idx);
-    } else if (id.startsWith('past_')) {
-      const found = ACTUAL_PAST_EXAM_DATA.find(x => x.id === id);
-      if (found) {
-        qData = {
-          q: found.q,
-          sub: found.sub,
-          options: found.options,
-          ans: found.ans,
-          explain: found.explain
-        };
-      }
-    }
-
+    const qData = getQuizDataById(id);
     if (qData) {
       const card = document.createElement('div');
       card.className = "bg-indigo-900/80 border border-rose-500/50 p-3 rounded-2xl space-y-2 shadow";
@@ -815,9 +816,14 @@ function renderWeakBookList() {
             <span class="text-[9px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
             <div class="font-black text-xs text-white mt-1 leading-snug whitespace-pre-line">${qData.q}</div>
           </div>
-          <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[10px] transition active:scale-95 flex-shrink-0">
-            🗑️ 覚えた
-          </button>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95">
+              ⚔️ 再挑戦
+            </button>
+            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[10px] transition active:scale-95">
+              🗑️ 覚えた
+            </button>
+          </div>
         </div>
         <div class="bg-indigo-950/70 p-2 rounded-xl border border-indigo-800/80 text-[11px] space-y-1">
           <div class="font-bold text-emerald-400">【正解】 ${correctText}</div>
@@ -1035,6 +1041,11 @@ function startSession() {
     enemyMaxHp = 800;
     enemyCurHp = 800;
     enemyAtk = 25;
+  } else if (currentMode === 'weakRetry') {
+    // 🎯 苦手1問再挑戦用（1問正解で撃破できるHP設定）
+    enemyMaxHp = 200;
+    enemyCurHp = 200;
+    enemyAtk = 15;
   } else {
     if (selectedNormalDiffLevel === 1) {
       enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
@@ -1059,10 +1070,10 @@ function startSession() {
     playBGM('boss');
     document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
     document.getElementById('battleEnemyName').innerText = `Lv.${currentBossStage.lv} ${currentBossStage.name}`;
-  } else if (currentMode === 'weakBattle') {
+  } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
     playBGM('battle');
     document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-rose-950 via-purple-950 to-indigo-950 border-2 border-rose-500 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
-    document.getElementById('battleEnemyName').innerText = "👾 にがてマスター";
+    document.getElementById('battleEnemyName').innerText = (currentMode === 'weakRetry') ? "👾 にがてモンスター" : "👾 にがてマスター";
   } else {
     playBGM('battle');
     document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
@@ -1124,7 +1135,7 @@ function renderQuestion() {
   
   if (isBossMode) {
     document.getElementById('enemyAvatar').innerText = currentBossStage.icon;
-  } else if (currentMode === 'weakBattle') {
+  } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
     document.getElementById('enemyAvatar').innerText = '👾';
   } else {
     document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
@@ -1403,6 +1414,16 @@ function finishSession() {
       earnedExp = 80 + (quizScore * 10);
       earnedGems = 25;
     }
+  } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
+    // 🎯 苦手1問再挑戦 正解（自動削除はせず、反復練習用に残す）
+    document.getElementById('resultEmoji').innerText = '🎯';
+    document.getElementById('resultTitle').innerText = '特訓撃破完了！';
+    document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓クリア！';
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultComment').innerText = '見事に正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
+    
+    earnedExp = 30;
+    earnedGems = 5;
   } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
     document.getElementById('resultEmoji').innerText = '🎉';
     document.getElementById('resultTitle').innerText = 'にがて討伐完了！';
