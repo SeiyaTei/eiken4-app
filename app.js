@@ -1,6 +1,6 @@
 // ==========================================
 // 英検4級 合格クエスト 〜50日間の冒険〜
-// ゲーム進行・ロジックファイル (app.js)
+// ゲーム進行・ロジックファイル (app.js) - パート1
 // ==========================================
 
 // ==================== 音声読み上げエンジン ====================
@@ -113,7 +113,8 @@ const BGM_DATA = {
   battle: { seq: ['A3','A3','C4','E4','D4','D4','F4','G4'], speed: 170, type: 'square', vol: 0.02 },
   boss: { seq: ['A3','C4','D4','F4','E4','D4','C4','B3'], speed: 140, type: 'sawtooth', vol: 0.025 },
   fever: { seq: ['C5','E5','G5','C6','E5','G5','C6','G5'], speed: 110, type: 'sawtooth', vol: 0.03 },
-  result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 }
+  result: { seq: ['C5','D5','E5','G5','C6','G5','E5','D5'], speed: 150, type: 'sine', vol: 0.04 },
+  ending: { seq: ['C4','E4','G4','C5','E5','G5','C6','G5','E5','C5','G4','E4'], speed: 220, type: 'sine', vol: 0.04 }
 };
 
 function initAudio() {
@@ -219,7 +220,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v38';
+const STORAGE_KEY = 'eiken4_data_v41';
 let userData = {
   level: 1,
   exp: 0,
@@ -231,6 +232,7 @@ let userData = {
   vocabBook: [],
   bossUnlockedLevel: 1,
   bossClearedLevels: [],
+  hasSeenEnding: false,
   questRotation: { vocab: false, grammar: false, listening: false },
   dailyDone: { vocab: false, grammar: false, listening: false, allClaimed: false },
   inventory: { hint: 1, potion: 0 },
@@ -265,6 +267,7 @@ function sanitizeUserData() {
   
   if (typeof userData.bossUnlockedLevel !== 'number' || userData.bossUnlockedLevel < 1 || isNaN(userData.bossUnlockedLevel)) userData.bossUnlockedLevel = 1;
   if (!Array.isArray(userData.bossClearedLevels)) userData.bossClearedLevels = [];
+  if (typeof userData.hasSeenEnding !== 'boolean') userData.hasSeenEnding = false;
 
   if (!userData.questRotation || typeof userData.questRotation !== 'object') {
     userData.questRotation = { vocab: false, grammar: false, listening: false };
@@ -279,11 +282,14 @@ function sanitizeUserData() {
   if (typeof userData.equipped.weapon !== 'string') userData.equipped.weapon = '';
   if (typeof userData.equipped.aura !== 'string') userData.equipped.aura = '';
 
-  // Lv.60未満で最強装備が装備されている場合の安全解除
   if (userData.level < 60) {
-    if (userData.equipped.hat === 'hat_dragon_crown') userData.equipped.hat = '';
-    if (userData.equipped.weapon === 'wp_dark_blade') userData.equipped.weapon = '';
-    if (userData.equipped.aura === 'aura_dragon_light') userData.equipped.aura = '';
+    const checkEq = (id) => {
+      const found = SHOP_EQUIP_DATA.find(e => e.id === id);
+      return found && found.reqLv && userData.level < found.reqLv;
+    };
+    if (checkEq(userData.equipped.hat)) userData.equipped.hat = '';
+    if (checkEq(userData.equipped.weapon)) userData.equipped.weapon = '';
+    if (checkEq(userData.equipped.aura)) userData.equipped.aura = '';
   }
 
   if (!userData.dailyDone || typeof userData.dailyDone !== 'object') userData.dailyDone = { vocab: false, grammar: false, listening: false, allClaimed: false };
@@ -298,7 +304,7 @@ function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      const oldKeys = ['eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data_v31', 'eiken4_data_v30', 'eiken4_data'];
+      const oldKeys = ['eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data_v34', 'eiken4_data_v33', 'eiken4_data_v32', 'eiken4_data'];
       for (const key of oldKeys) {
         const old = localStorage.getItem(key);
         if (old) {
@@ -676,7 +682,7 @@ function startWeakBattle() {
   currentQueue = shuffleArray(currentQueue);
   startSession();
 }
-
+// ==================== ボス選択 & バトル開始 ====================
 function openBossSelectModal() {
   initAudio();
   stopBattleTimers();
@@ -686,14 +692,21 @@ function openBossSelectModal() {
   container.innerHTML = '';
 
   BOSS_STAGES.forEach(stage => {
+    // 👑 隠しボス（Lv.11）はLv.10撃破前は枠すら非表示
+    if (stage.isSecret && !userData.bossClearedLevels.includes(10)) {
+      return;
+    }
+
     const isUnlocked = (stage.lv <= userData.bossUnlockedLevel);
     const isCleared = userData.bossClearedLevels.includes(stage.lv);
 
     const card = document.createElement('div');
     card.className = `p-3 rounded-2xl border flex items-center justify-between transition ${
-      isUnlocked 
-        ? (isCleared ? 'bg-indigo-900/90 border-amber-400/80 shadow' : 'bg-gradient-to-r from-red-950 to-indigo-950 border-red-500/80 shadow-lg')
-        : 'bg-indigo-950/60 border-indigo-900 opacity-60'
+      stage.isSecret 
+        ? 'bg-gradient-to-r from-purple-950 via-black to-red-950 border-purple-500 shadow-2xl glow-red'
+        : (isUnlocked 
+            ? (isCleared ? 'bg-indigo-900/90 border-amber-400/80 shadow' : 'bg-gradient-to-r from-red-950 to-indigo-950 border-red-500/80 shadow-lg')
+            : 'bg-indigo-950/60 border-indigo-900 opacity-60')
     }`;
 
     if (isUnlocked) {
@@ -702,12 +715,12 @@ function openBossSelectModal() {
           <span class="text-3xl flex-shrink-0">${stage.icon}</span>
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="text-xs font-black text-amber-300">Lv.${stage.lv} ${stage.name}</span>
+              <span class="text-xs font-black ${stage.isSecret ? 'text-purple-300' : 'text-amber-300'}">Lv.${stage.lv} ${stage.name}</span>
               ${isCleared ? `<span class="text-[9px] bg-amber-500 text-indigo-950 font-black px-1.5 py-0.2 rounded">👑 討伐済</span>` : `<span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded">🔥 TARGET</span>`}
             </div>
             <div class="text-[9.5px] text-slate-300 mt-0.5 leading-tight">${stage.desc}</div>
             <div class="text-[9.5px] font-bold text-rose-300 mt-0.5">
-              HP: <span class="text-white">${stage.hp}</span> / 攻: <span class="text-white">${stage.atk}</span>
+              HP: <span class="text-white">${stage.hp.toLocaleString()}</span> / 攻: <span class="text-white">${stage.atk}</span>
               <span class="text-emerald-400 ml-1.5">+${stage.exp}EXP / 💎+${stage.gems}</span>
             </div>
           </div>
@@ -780,6 +793,7 @@ function startBossBattleWithStage(lv) {
   startSession();
 }
 
+// ==================== にがて帳 画面処理 ====================
 function showWeakBook() {
   stopBattleTimers();
   hideAllViews();
@@ -853,6 +867,7 @@ function removeWeakItem(id) {
   renderWeakBookList();
 }
 
+// ==================== 単語図鑑 画面処理 ====================
 function showBook() {
   stopBattleTimers();
   hideAllViews();
@@ -868,7 +883,7 @@ function renderVocabBook() {
   container.innerHTML = '';
 
   const query = (document.getElementById('bookSearchInput')?.value || '').toLowerCase().trim();
-  const totalVocabCount = RAW_VOCAB_DATA.length; // 700語
+  const totalVocabCount = RAW_VOCAB_DATA.length;
   const collectedCount = userData.vocabBook.length;
   const pct = totalVocabCount > 0 ? Math.round((collectedCount / totalVocabCount) * 100) : 0;
 
@@ -903,6 +918,7 @@ function renderVocabBook() {
   });
 }
 
+// ==================== バトルセッション管理 ====================
 let currentQueue = [];
 let currentIndex = 0;
 let currentMode = '';
@@ -1054,7 +1070,6 @@ function startSession() {
     enemyCurHp = 800;
     enemyAtk = 25;
   } else if (currentMode === 'weakRetry') {
-    // 🎯 苦手1問再挑戦用（一撃決着）
     enemyMaxHp = 100;
     enemyCurHp = 100;
     enemyAtk = playerMaxHp;
@@ -1080,7 +1095,9 @@ function startSession() {
 
   if (isBossMode) {
     playBGM('boss');
-    document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
+    document.getElementById('enemyCardBox').className = currentBossStage.isSecret
+      ? "bg-gradient-to-b from-purple-950 via-black to-red-950 border-2 border-purple-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden"
+      : "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
     document.getElementById('battleEnemyName').innerText = `Lv.${currentBossStage.lv} ${currentBossStage.name}`;
   } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
     playBGM('battle');
@@ -1281,14 +1298,13 @@ function handleAnswer(selectedIdx) {
     let isCrit = false;
 
     if (currentMode === 'weakRetry') {
-      // 🎯 苦手1問再挑戦：一撃必殺
       dmg = enemyCurHp;
       enemyCurHp = 0;
       isCrit = true;
     } else {
       dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
-      // ⚡ 新クリティカル計算式：Lv.100＋神龍の天光(速500)でちょうど100%確定発動！
-      const critRate = Math.min(1.0, pStats.spd / 500);
+      // ⚡ 新クリティカル計算式：Lv.100＋創世神の神光(速600)でちょうど100%確定発動！
+      const critRate = Math.min(1.0, pStats.spd / 600);
       isCrit = isQuickAnswer || (Math.random() < critRate);
       if (isCrit) dmg = Math.round(dmg * 2.0);
       if (isFeverMode) dmg = Math.round(dmg * 1.5);
@@ -1327,7 +1343,6 @@ function handleAnswer(selectedIdx) {
 
     let enemyDmg = 0;
     if (currentMode === 'weakRetry') {
-      // 🎯 苦手1問再挑戦：即死反撃
       enemyDmg = playerCurHp;
       playerCurHp = 0;
     } else {
@@ -1360,6 +1375,7 @@ function nextQuestion() {
   }
 }
 
+// ==================== リザルト ＆ 初回エンディング判定 ====================
 function finishSession() {
   stopBattleTimers();
   document.getElementById('viewQuiz').classList.add('hidden');
@@ -1407,25 +1423,40 @@ function finishSession() {
       earnedGems = 1;
     }
   } else if (isBossMode && isEnemyDefeated) {
-    document.getElementById('resultModeBadge').innerText = `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！`;
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultEmoji').innerText = currentBossStage.icon;
-    document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
-    document.getElementById('resultComment').innerText = '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
-
     earnedExp = currentBossStage.exp + (quizScore * 5);
     earnedGems = currentBossStage.gems;
 
     if (!userData.bossClearedLevels.includes(currentBossStage.lv)) {
       userData.bossClearedLevels.push(currentBossStage.lv);
     }
-    if (currentBossStage.lv >= userData.bossUnlockedLevel && userData.bossUnlockedLevel < 10) {
+    if (currentBossStage.lv >= userData.bossUnlockedLevel && userData.bossUnlockedLevel < 11) {
       userData.bossUnlockedLevel = currentBossStage.lv + 1;
-      alert(`🎉 新たなボス【Lv.${userData.bossUnlockedLevel} ${BOSS_STAGES[userData.bossUnlockedLevel - 1].name}】が解放されました！`);
     }
 
+    // 🎬 Lv.10 表ラスボス初回撃破時 ➔ 感動のエンディング演出へ分岐
+    if (currentBossStage.lv === 10 && !userData.hasSeenEnding) {
+      const secretDrops = ['hat_genesis_crown', 'wp_genesis_blade', 'aura_genesis_light'];
+      secretDrops.forEach(id => {
+        if (!userData.unlockedEquips.includes(id)) userData.unlockedEquips.push(id);
+      });
+      userData.hasSeenEnding = true;
+      userData.bossUnlockedLevel = 11;
+      userData.gems += earnedGems;
+      addExp(earnedExp);
+      showEndingModal();
+      return;
+    }
+
+    // 通常のボス撃破リザルト
+    document.getElementById('resultModeBadge').innerText = `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！`;
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultEmoji').innerText = currentBossStage.icon;
+    document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
+    document.getElementById('resultComment').innerText = (currentBossStage.lv === 11) 
+      ? '信じられない快挙です！真・隠し裏ボスを討ち滅ぼし、全次元を制覇しました！'
+      : '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
+
     const dropChance = 0.3 + (currentBossStage.lv * 0.07);
-    // 🎁 ボス限定ドロップ対象に神龍の天光を追加
     const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
     const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
     if (availableDrops.length > 0 && Math.random() < dropChance) {
@@ -1513,7 +1544,67 @@ function confirmExitQuiz() {
   }
 }
 
-// ==================== ショップ & 装備（Lv.60制限適用） ====================
+// ==================== 🎬 初回限定エンディング演出 ====================
+function showEndingModal() {
+  hideAllViews();
+  playBGM('ending');
+
+  let endingModal = document.getElementById('modalEndingScene');
+  if (!endingModal) {
+    endingModal = document.createElement('div');
+    endingModal.id = 'modalEndingScene';
+    endingModal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
+    document.body.appendChild(endingModal);
+  }
+
+  endingModal.innerHTML = `
+    <div class="max-w-md w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400 rounded-3xl p-6 shadow-2xl text-center space-y-5 glow-gold">
+      <div class="text-6xl animate-bounce">👑✨🎉</div>
+      <h2 class="text-xl font-black text-amber-300 tracking-wider">英検4級 制覇おめでとう！！</h2>
+      
+      <div class="bg-indigo-900/60 p-4 rounded-2xl border border-indigo-700 text-xs text-slate-200 leading-relaxed text-left space-y-2.5">
+        <p>あなたは幾多の英単語を覚え、重要文法をマスターし、リスニングを鍛え抜き、ついに伝説の神龍【オメガエデン】を打ち倒しました！</p>
+        <p class="text-amber-300 font-bold">相棒：「君と一緒にここまで冒険できて本当によかった！君の英語力なら、本番の英検4級合格なんて間違いなしだね！」</p>
+      </div>
+
+      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-amber-900 border-2 border-amber-400 p-3.5 rounded-2xl text-left space-y-1.5 shadow-xl">
+        <div class="text-[11px] font-black text-amber-300 flex items-center gap-1">
+          <span>🎁 神龍からの最終秘宝（創世神話級装備 3種）を獲得！</span>
+        </div>
+        <div class="text-[10px] text-white space-y-0.5 font-bold">
+          <div>👑 【創世神の王冠】(HP +25,000)</div>
+          <div>⚔️ 【創世神の聖剣】(攻撃 +4,000)</div>
+          <div>🌌 【創世神の神光】(速さ +515 / Lv.100でクリティカル100%確定！)</div>
+        </div>
+      </div>
+
+      <!-- 隠しボスティザー予告 -->
+      <div class="bg-red-950/80 border border-red-500/80 p-3 rounded-2xl text-xs text-red-200 text-left space-y-1 animate-pulse">
+        <div class="font-black text-red-400 flex items-center gap-1">
+          <span>⚡ ……待て！ 遥か彼方から、禍々しい気配を感じる……！</span>
+        </div>
+        <div class="text-[10px] text-slate-300 leading-relaxed">
+          オメガエデンをも凌駕する真の支配者【Lv.11 ゼロインフィニティ】がボス選択画面に解禁されました……！
+        </div>
+      </div>
+
+      <button onclick="closeEndingModal()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-3 rounded-2xl text-sm shadow-xl transition active:scale-95">
+        新たなる高みへ ➔ ホームへ
+      </button>
+    </div>
+  `;
+
+  endingModal.classList.remove('hidden');
+}
+
+function closeEndingModal() {
+  const endingModal = document.getElementById('modalEndingScene');
+  if (endingModal) endingModal.classList.add('hidden');
+  saveData();
+  showHome();
+}
+
+// ==================== ショップ ＆ 装備（隠し装備フィルタリング） ====================
 function switchEquipTab(tab) {
   currentShopTab = tab;
   const tHat = document.getElementById('tabEquipHat');
@@ -1539,15 +1630,22 @@ function renderShopEquips() {
     const isEquipped = (userData.equipped[eq.type] === eq.id);
     const isLevelLocked = Boolean(eq.reqLv && userData.level < eq.reqLv);
 
+    // 👑 完全隠し最強装備は、未入手時はショップに枠すら表示しない
+    if (eq.isSecret && !isUnlocked) {
+      return;
+    }
+
     const card = document.createElement('div');
     card.className = `p-2.5 rounded-2xl border flex flex-col justify-between ${
-      isEquipped ? 'bg-indigo-800 border-amber-400 shadow-md' : 'bg-indigo-950/80 border-indigo-800'
+      eq.isSecret 
+        ? (isEquipped ? 'bg-purple-900 border-amber-400 shadow-xl glow-gold' : 'bg-gradient-to-br from-purple-950 to-indigo-950 border-purple-500')
+        : (isEquipped ? 'bg-indigo-800 border-amber-400 shadow-md' : 'bg-indigo-950/80 border-indigo-800')
     }`;
 
     card.innerHTML = `
       <div>
         <div class="flex justify-between items-center mb-1">
-          <span class="text-[9px] font-bold text-indigo-300">${eq.rank}</span>
+          <span class="text-[9px] font-bold ${eq.isSecret ? 'text-amber-300' : 'text-indigo-300'}">${eq.rank}</span>
           <span class="text-xl">${eq.icon}</span>
         </div>
         <div class="font-black text-xs text-white truncate">${eq.name}</div>
@@ -1564,7 +1662,7 @@ function renderShopEquips() {
               🔒 Lv.${eq.reqLv}〜装備可能
             </button>
           ` : `
-            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black py-1 rounded-lg text-[10px] transition active:scale-95">
+            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full ${eq.isSecret ? 'bg-gradient-to-r from-purple-500 to-amber-400 text-indigo-950 font-black' : 'bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black'} py-1 rounded-lg text-[10px] transition active:scale-95">
               そうび
             </button>
           `
@@ -1623,6 +1721,7 @@ function buyItem(type, price) {
   saveData();
 }
 
+// ==================== 画面表示切替 ＆ ナビゲーション ====================
 function hideAllViews() {
   ['viewHome', 'viewQuiz', 'viewResult', 'viewShop', 'viewParent', 'viewBook', 'viewWeakBook', 'modalBossSelect', 'modalNormalSelect'].forEach(id => {
     const el = document.getElementById(id);
@@ -1665,6 +1764,7 @@ function updateNavHighlight(active) {
   if (target) target.className = "flex flex-col items-center gap-0.5 text-amber-400";
 }
 
+// ==================== バックアップ・復元・リセット ====================
 function exportData() {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
   const dlAnchor = document.createElement('a');
@@ -1709,6 +1809,7 @@ function resetAllProgress() {
   }
 }
 
+// ==================== 初期起動リスナー ====================
 window.addEventListener('DOMContentLoaded', () => {
   loadData();
 });
