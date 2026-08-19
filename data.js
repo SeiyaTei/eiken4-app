@@ -385,7 +385,7 @@ const ACTUAL_PAST_EXAM_DATA = [
   { id: 'past_15', type: 'grammar', q: "A: How about ( ) baseball this afternoon?\nB: Sounds good!", sub: "👑 【英検過去問】提案表現", options: ["playing", "play", "played", "to play"], ans: 0, explain: "How about 〜ing? で「〜するのはどう？」という提案です。" }
 ];
 
-// ==================== 5. 着せ替え・装備データベース (隠し神器3種追加) ====================
+// ==================== 5. 着せ替え・装備データベース (隠し装備3種追加) ====================
 const SHOP_EQUIP_DATA = [
   { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
   { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
@@ -397,7 +397,8 @@ const SHOP_EQUIP_DATA = [
   { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
   { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
   { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護 (Lv.60以上)', reqLv: 60 },
-  { id: 'hat_genesis_crown', name: '創世神の聖冠', type: 'hat', icon: '🌌👑', price: 9999, rank: '👑 創世級(隠し)', val: 25000, desc: 'HP +25000 / 神話を創りし者の王冠 (Lv.60以上)', reqLv: 60, hidden: true },
+  // 👑 完全隠し最強頭装備 (未入手時はショップに表示すらされない)
+  { id: 'hat_genesis_crown', name: '創世神の王冠', type: 'hat', icon: '👑✨🌌', price: 99999, rank: '🌌 創世神話級', val: 25000, desc: 'HP +25000 / 全次元を統べる神の王冠 (Lv.60以上)', reqLv: 60, isSecret: true },
 
   { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
   { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
@@ -409,7 +410,8 @@ const SHOP_EQUIP_DATA = [
   { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
   { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
   { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気 (Lv.60以上)', reqLv: 60 },
-  { id: 'wp_genesis_blade', name: '創世神の聖剣', type: 'weapon', icon: '🌌🗡️', price: 9999, rank: '👑 創世級(隠し)', val: 4500, desc: '攻撃 +4500 / 万物を切り拓く創造の光刃 (Lv.60以上)', reqLv: 60, hidden: true },
+  // 👑 完全隠し最強武器 (未入手時はショップに表示すらされない)
+  { id: 'wp_genesis_blade', name: '創世神の聖剣', type: 'weapon', icon: '⚔️🌟🔥', price: 99999, rank: '🌌 創世神話級', val: 4000, desc: '攻撃 +4000 / 万物を創造し消滅させる究極剣 (Lv.60以上)', reqLv: 60, isSecret: true },
 
   { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
   { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
@@ -420,10 +422,11 @@ const SHOP_EQUIP_DATA = [
   { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
   { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' },
   { id: 'aura_dragon_light', name: '神龍の天光', type: 'aura', icon: '🐉✨', price: 9999, rank: '🎁 ボス限定ドロップ', val: 365, desc: '速さ +365 / 神龍の加護。極限の素早さを宿す光 (Lv.60以上)', reqLv: 60 },
-  { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨', price: 9999, rank: '👑 創世級(隠し)', val: 515, desc: '速さ +515 / 限界を超越した終極の神光 (Lv.60以上)', reqLv: 60, hidden: true }
+  // 👑 完全隠し最強オーラ (Lv.100装備ですばやさ600＝100%クリティカル到達！)
+  { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
 ];
 
-// ==================== 6. ボスステージ (Lv.11 真・隠しボス追加) ====================
+// ==================== 6. ボスステージ (Lv.11 隠しボス追加) ====================
 const BOSS_STAGES = [
   { lv: 1, name: "邪竜の幼体", icon: "🐲", hp: 1200, atk: 25, exp: 60, gems: 15, desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！" },
   { lv: 2, name: "黒曜石の飛竜", icon: "🦖", hp: 3500, atk: 50, exp: 90, gems: 20, desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！" },
@@ -434,8 +437,9 @@ const BOSS_STAGES = [
   { lv: 7, name: "破滅の双頭竜", icon: "🐉", hp: 36000, atk: 265, exp: 400, gems: 68, desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！" },
   { lv: 8, name: "インフェルノ・ドレイク", icon: "🔥", hp: 48000, atk: 330, exp: 500, gems: 80, desc: "灼熱の業火を纏う。上級装備が必須レベル！" },
   { lv: 9, name: "終焉の暗黒竜", icon: "⚡🐉", hp: 62000, atk: 400, exp: 650, gems: 100, desc: "世界を闇に沈める竜。最高峰のステータスが必要！" },
-  { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【ラストボス】最強装備と全問即答クリティカルでやっと倒せる究極の龍神！" },
-  { lv: 11, name: "虚無の創造主・クロノス", icon: "🌌👁️✨", hp: 160000, atk: 700, exp: 2000, gems: 300, desc: "【真・隠し裏ボス】全次元の支配者。最強隠し神器3種・Lv.100・全クリティカルでしか届かない究極の存在！", isSecret: true }
+  { lv: 10, name: "覇天神龍・オメガエデン", icon: "👑🐉✨", hp: 80000, atk: 500, exp: 850, gems: 150, desc: "【表ラスボス】英検4級の頂点に君臨する神龍！" },
+  // 👑 初回Lv.10撃破後にのみ解禁される真・隠し裏ボス
+  { lv: 11, name: "虚無を統べる終極神・ゼロインフィニティ", icon: "🌌👁️⚡", hp: 160000, atk: 9999, exp: 2000, gems: 300, desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問クリティカルでのみ勝てる究極の神！", isSecret: true }
 ];
 
 // ==================== 7. レベル10ごとの進化ツリー ====================
