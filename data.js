@@ -2121,7 +2121,7 @@ const ACTUAL_PAST_EXAM_DATA = [
     audio_question: "My mother told me ... watch TV before finishing my homework.",
     audio_complete: "My mother told me not to watch TV before finishing my homework."
   },
-  {
+ {
     id: "past_100",
     type: "grammar",
     q: "A: See you tomorrow!\nB: ( )!",
@@ -2131,8 +2131,7 @@ const ACTUAL_PAST_EXAM_DATA = [
     explain: "【解説】別れの挨拶「また明日ね！」に対して返す定番表現は See you!（またね！）です。\n\n【訳】A: また明日ね！\nB: またね！",
     audio_question: "See you tomorrow!",
     audio_complete: "See you!"
-  }
-},
+  },
   // ---------- リスニング第1弾 (No.101 〜 No.115) ----------
   {
     id: "past_101",
