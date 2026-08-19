@@ -41,6 +41,14 @@
       100% { transform: scale(1) translateY(-25px); opacity: 0; }
     }
     .damage-popup { animation: pop-damage 0.8s ease-out forwards; }
+    @keyframes screen-shake {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-3px, 3px); }
+      40% { transform: translate(3px, -2px); }
+      60% { transform: translate(-3px, -3px); }
+      80% { transform: translate(3px, 2px); }
+    }
+    .animate-shake { animation: screen-shake 0.4s infinite; }
   </style>
 </head>
 <body class="bg-indigo-950 text-slate-100 min-h-screen pb-24 font-sans selection:bg-amber-400 selection:text-indigo-950 select-none">
@@ -133,7 +141,7 @@
               <span id="bossCurrentProgressBadge" class="text-[9px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full">Lv.1 解放中</span>
             </div>
             <h3 class="text-base font-black text-amber-300 mt-1 flex items-center gap-1.5 truncate">
-              👑 過去問ボスバトル (全10段階)
+              👑 過去問ボスバトル
             </h3>
             <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問10問で討伐！Lv.10神龍を目指せ！</p>
           </div>
@@ -319,9 +327,9 @@
         <div class="flex justify-between items-center border-b border-indigo-800 pb-2">
           <div>
             <h3 class="font-black text-base text-amber-300 flex items-center gap-1.5">
-              🐲 過去問ボスバトル選択 (全10段階)
+              🐲 過去問ボスバトル選択
             </h3>
-            <p class="text-[10px] text-indigo-300">各レベルを撃破してLv.10の神龍を目指そう！</p>
+            <p class="text-[10px] text-indigo-300">各レベルを撃破してLv.10神龍を目指そう！</p>
           </div>
           <button onclick="closeBossSelectModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 bg-indigo-950 rounded-lg">✕</button>
         </div>
@@ -479,7 +487,7 @@
       <div class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1" id="weakBookItemList"></div>
     </div>
 
-    <!-- ==================== 6. 💎 ダイヤショップ画面（ガチャ廃止版） ==================== -->
+    <!-- ==================== 6. 💎 ダイヤショップ画面 ==================== -->
     <div id="viewShop" class="hidden space-y-4">
       <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
         <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
@@ -571,6 +579,85 @@
     </div>
 
   </main>
+
+  <!-- ==================== 🎬 初回撃破限定 フルスクリーンエンディングモーダル ==================== -->
+  <div id="modalEnding" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div id="endingContainer" class="max-w-md w-full text-center space-y-5 py-6">
+      
+      <div id="endingPhase1" class="space-y-4">
+        <div class="text-7xl animate-bounce">👑🎉✨</div>
+        <div class="inline-block bg-gradient-to-r from-amber-400 to-yellow-300 text-indigo-950 font-black text-xs px-3 py-1 rounded-full shadow-lg">
+          GAME CLEARED & 合格達成！
+        </div>
+        <h2 class="text-2xl font-black text-amber-300 tracking-wider">
+          覇天神龍 討伐完了！
+        </h2>
+        <p class="text-xs text-slate-200 leading-relaxed whitespace-pre-line px-2">
+          すべての過去問の試練を乗り越え、
+          英検4級の全知識をマスターしました！
+          
+          あなたの毎日の努力と集中力は本物です。
+          本番の英検でも、絶対に合格できます！
+        </p>
+
+        <!-- 相棒からのメッセージ -->
+        <div class="bg-indigo-900/80 border-2 border-amber-400 p-4 rounded-3xl space-y-2 text-left shadow-2xl">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl" id="endingHeroEmoji">🐣</span>
+            <div>
+              <div class="text-[10px] text-amber-400 font-bold">最高の相棒より</div>
+              <div class="text-xs font-black text-white" id="endingHeroName">タマゴン</div>
+            </div>
+          </div>
+          <p class="text-xs text-indigo-100 leading-relaxed">
+            「ここまで一緒に冒険してくれて本当にありがとう！
+            オイラたち、ついに最高の英語マスターになったよ！」
+          </p>
+        </div>
+
+        <!-- 隠し装備獲得演出 -->
+        <div class="bg-gradient-to-r from-purple-950 via-indigo-900 to-purple-950 border-2 border-purple-500 p-3.5 rounded-3xl space-y-1.5 shadow-2xl">
+          <div class="text-sm font-black text-purple-300">🎁 神龍の遺産（完全隠し装備3種 解放！）</div>
+          <div class="text-[11px] font-bold text-amber-300">
+            👑【創世神の聖冠】 / 🗡️【創世神の聖剣】 / ✨【創世神の神光】
+          </div>
+          <p class="text-[9.5px] text-slate-300">ショップの着せ替えに極限の神器が追加されました！(Lv.60〜)</p>
+        </div>
+
+        <button onclick="triggerEndingTeaser()" class="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:brightness-110 text-indigo-950 font-black py-3 rounded-2xl text-xs shadow-xl transition active:scale-95">
+          次へ進む ➔
+        </button>
+      </div>
+
+      <!-- 不気味な揺れ＆真・裏ボス ティザー演出 -->
+      <div id="endingPhase2" class="hidden space-y-5">
+        <div class="text-6xl animate-pulse">🌌👁️</div>
+        <h3 class="text-lg font-black text-purple-400 animate-pulse">
+          ……だが、何かがおかしい。
+        </h3>
+        <p class="text-xs text-rose-300 leading-relaxed whitespace-pre-line px-2 font-bold">
+          次元の裂け目から、オメガエデンをも遥かに凌駕する
+          底知れないプレッシャーが漂ってくる……！
+          
+          「フハハ……よくぞ神龍を討ち破った。
+          だが我を超えねば、真の合格とは言えん……」
+        </p>
+
+        <div class="bg-red-950/80 border-2 border-red-600 p-4 rounded-3xl space-y-1.5 shadow-2xl">
+          <div class="text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full inline-block">EMERGENCY</div>
+          <div class="text-sm font-black text-red-400">真・裏ボス【Lv.11 虚無の創造主・クロノス】解禁！</div>
+          <p class="text-[10px] text-slate-300 leading-tight">
+            ※最強隠し装備・Lv.100・全クリティカルでのみ勝機あり。
+          </p>
+        </div>
+
+        <button onclick="finishEndingSequence()" class="w-full bg-gradient-to-r from-red-600 to-purple-600 hover:brightness-110 text-white font-black py-3 rounded-2xl text-xs shadow-xl transition active:scale-95">
+          真の挑戦へ向かう ⚔️
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ボトムナビゲーションバー -->
   <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
