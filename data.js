@@ -2626,7 +2626,7 @@ const SHOP_EQUIP_DATA = [
   { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
 ];
 
-// ==================== 6. ボスステージ (セリフ・伏線データ付き 全11段階) ====================
+// ==================== 6. ボスステージ (全11段階・HP正常化版) ====================
 const BOSS_STAGES = [
   { 
     lv: 1, 
@@ -2668,7 +2668,7 @@ const BOSS_STAGES = [
     lv: 4, 
     name: "嵐呼ぶ魔竜", 
     icon: "🌪️", 
-    hp: 1200, 
+    hp: 12000, // 🛠️ 1200 ➔ 12000 に修正
     atk: 120, 
     exp: 180, 
     gems: 35, 
