@@ -1521,6 +1521,137 @@ function proceedFinishSession() {
       userData.hasSeenTrueEnding = true;
       earnedGems = 500;
       earnedExp = 5000;
+      if (userData.inventory.potion > 0) {
+        earnedExp *= 2;
+        userData.inventory.potion--;
+      }
+      userData.gems += earnedGems;
+      addExp(earnedExp);
+      showTrueEndingModal();
+      return;
+    }
+
+    // 🎬 Lv.10 表ラスボス 初回撃破時 ➔ 表エンディングへ
+    if (currentBossStage.lv === 10 && !userData.hasSeenEnding) {
+      const secretDrops = ['hat_genesis_crown', 'wp_genesis_blade', 'aura_genesis_light'];
+      secretDrops.forEach(id => {
+        if (!userData.unlockedEquips.includes(id)) userData.unlockedEquips.push(id);
+      });
+      userData.hasSeenEnding = true;
+      userData.bossUnlockedLevel = 11;
+      if (userData.inventory.potion > 0) {
+        earnedExp *= 2;
+        userData.inventory.potion--;
+      }
+      userData.gems += earnedGems;
+      addExp(earnedExp);
+      showEndingModal();
+      return;
+    }
+
+    // 通常のボス撃破リザルト
+    document.getElementById('resultModeBadge').innerText = `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！`;
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultEmoji').innerText = currentBossStage.icon;
+    document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
+    document.getElementById('resultComment').innerText = (currentBossStage.lv === 11) 
+      ? '信じられない快挙です！真・隠し裏ボスを討ち滅ぼし、全次元を制覇しました！'
+      : '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
+
+    const dropChance = 0.3 + (currentBossStage.lv * 0.07);
+    const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
+    const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
+    if (availableDrops.length > 0 && Math.random() < dropChance) {
+      const dropId = availableDrops[Math.floor(Math.random() * availableDrops.length)];
+      userData.unlockedEquips.push(dropId);
+      const dropEquip = SHOP_EQUIP_DATA.find(e => e.id === dropId);
+      document.getElementById('rareDropItemText').innerText = `【${dropEquip.name}】(${dropEquip.desc}) を獲得！`;
+      rareDropArea.classList.remove('hidden');
+      playSE('chest');
+    }
+  } else if (isDailyCurrentSession && isEnemyDefeated) {
+    document.getElementById('resultEmoji').innerText = '🏆';
+    document.getElementById('resultTitle').innerText = 'デイリークエスト撃破完了！';
+    document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-amber-400 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+
+    if (currentMode === 'vocab') {
+      userData.dailyDone.vocab = true;
+      earnedExp = 50 + (quizScore * 5);
+      earnedGems = 15;
+    } else if (currentMode === 'grammar') {
+      userData.dailyDone.grammar = true;
+      earnedExp = 60 + (quizScore * 10);
+      earnedGems = 20;
+    } else if (currentMode === 'listening') {
+      userData.dailyDone.listening = true;
+      earnedExp = 80 + (quizScore * 10);
+      earnedGems = 25;
+    }
+  } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
+    document.getElementById('resultEmoji').innerText = '🎯';
+    document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
+    document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultComment').innerText = '見事に一撃で正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
+    
+    const targetId = currentQueue[0]?.id;
+    if (targetId) {
+      if (!userData.weakStats) userData.weakStats = {};
+      if (!userData.weakStats[targetId]) userData.weakStats[targetId] = { cleared: 0, attempts: 0 };
+      userData.weakStats[targetId].attempts += 1;
+      userData.weakStats[targetId].cleared += 1;
+    }
+
+    earnedExp = 30;
+    earnedGems = 5;
+  } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
+    document.getElementById('resultEmoji').innerText = '🎉';
+    document.getElementById('resultTitle').innerText = 'にがて討伐完了！';
+    document.getElementById('resultModeBadge').innerText = '🔄 通常特訓サイクルがリセット！';
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓（単語・文法・リスニング）に再び挑戦できます！';
+    userData.questRotation = { vocab: false, grammar: false, listening: false };
+    earnedExp = 100;
+    earnedGems = 20;
+  } else if (isEnemyDefeated) {
+    document.getElementById('resultEmoji').innerText = '🏆';
+    document.getElementById('resultTitle').innerText = 'モンスター討伐完了！';
+    document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
+    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full inline-block mb-1';
+    
+    if (selectedNormalType) {
+      userData.questRotation[selectedNormalType] = true;
+    }
+
+    const diffMulti = [1.0, 1.5, 2.3, 3.8][selectedNormalDiffLevel - 1] || 1.0;
+    const baseExp = (quizScore * 8 + (maxCombo * 2));
+    earnedExp = Math.round(baseExp * diffMulti);
+    earnedGems = Math.max(1, Math.round((quizScore / 2) * (diffMulti * 0.8)));
+  }
+
+  // 🧪 EXPの秘薬（経験値2倍）判定 & 表示反映
+  let potionUsed = false;
+  if (userData.inventory.potion > 0 && earnedExp > 0) {
+    earnedExp *= 2;
+    userData.inventory.potion--;
+    potionUsed = true;
+  }
+
+  const totalDone = Math.max(1, answeredQuestionsCount);
+  document.getElementById('resultScore').innerText = `${quizScore} / ${totalDone}`;
+  document.getElementById('resultExp').innerText = potionUsed ? `+${earnedExp} (🧪2倍!)` : `+${earnedExp}`;
+  document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
+
+  userData.gems += earnedGems;
+  addExp(earnedExp);
+}
+
+    // 🎬 Lv.11 真・裏ボス 初回撃破時 ➔ 真エンディングへ
+    if (currentBossStage.lv === 11 && !userData.hasSeenTrueEnding) {
+      userData.hasSeenTrueEnding = true;
+      earnedGems = 500;
+      earnedExp = 5000;
       userData.gems += earnedGems;
       addExp(earnedExp);
       showTrueEndingModal();
