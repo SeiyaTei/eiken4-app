@@ -383,14 +383,7 @@ function calculatePlayerStats() {
 }
 
 function addExp(amount) {
-  let finalExp = amount;
-  if (userData.inventory.potion > 0) {
-    finalExp *= 2;
-    userData.inventory.potion--;
-    alert('🧪 EXPの秘薬の効果で獲得経験値が2倍になりました！');
-  }
-
-  userData.exp += finalExp;
+  userData.exp += amount;
   let needed = userData.level * 100;
   let leveledUp = false;
   while (userData.exp >= needed) {
