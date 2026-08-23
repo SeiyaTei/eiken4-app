@@ -1,17 +1,18 @@
 {
   "name": "英検4級 合格クエスト",
-  "short_name": "EIKEN 4",
+  "short_name": "4級クエスト",
   "description": "英検4級特化のゲーミフィケーション学習アプリ",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#1e1b4b",
   "theme_color": "#1e1b4b",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/5260/5260505.png",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
