@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="blueSword" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="120" fill="url(#bgGrad)"/>
+  <circle cx="256" cy="256" r="215" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="14 8" opacity="0.7"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.5"/>
+  <circle cx="256" cy="256" r="165" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.4"/>
+
+  <path d="M 256,100 Q 360,110 380,200 Q 380,330 256,420 Q 132,330 132,200 Q 152,110 256,100 Z" fill="#1e1b4b" stroke="url(#goldGrad)" stroke-width="6" opacity="0.85"/>
+
+  <g filter="url(#glow)">
+    <path d="M 256,90 L 270,300 L 256,320 L 242,300 Z" fill="url(#blueSword)"/>
+    <line x1="256" y1="90" x2="256" y2="310" stroke="#ffffff" stroke-width="3"/>
+    <path d="M 200,305 Q 256,325 312,305 L 305,325 Q 256,335 207,325 Z" fill="url(#goldGrad)"/>
+    <rect x="250" y="325" width="12" height="50" rx="3" fill="#78350f"/>
+    <circle cx="256" cy="385" r="14" fill="url(#goldGrad)"/>
+    <circle cx="256" cy="385" r="6" fill="#3b82f6"/>
+  </g>
+
+  <path d="M 256,120 L 262,140 L 282,146 L 262,152 L 256,172 L 250,152 L 230,146 L 250,140 Z" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="160" cy="180" r="8" fill="#facc15" filter="url(#glow)"/>
+  <circle cx="352" cy="180" r="8" fill="#facc15" filter="url(#glow)"/>
+</svg>
