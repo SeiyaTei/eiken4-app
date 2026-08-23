@@ -1124,15 +1124,15 @@ function startSession() {
   playerMaxHp = pStats.hp;
   playerCurHp = pStats.hp;
 
-  if (isBossMode) {
+ if (isBossMode) {
     enemyMaxHp = currentBossStage.hp;
     enemyCurHp = currentBossStage.hp;
     enemyAtk = currentBossStage.atk;
   } else if (isDailyCurrentSession) {
-    if (currentMode === 'vocab') { enemyMaxHp = 600; enemyAtk = 18; }
-    else if (currentMode === 'grammar') { enemyMaxHp = 400; enemyAtk = 22; }
-    else if (currentMode === 'listening') { enemyMaxHp = 350; enemyAtk = 22; }
-    else { enemyMaxHp = 500; enemyAtk = 20; }
+    // ⚔️ デイリーミッション動的難易度調整（問数・攻撃力・HPに応じたバランス）
+    const qCount = currentQueue.length || (currentMode === 'vocab' ? 5 : 3);
+    enemyMaxHp = Math.round(pStats.atk * qCount * 1.25);
+    enemyAtk = Math.max(15, Math.round(playerMaxHp * 0.38));
     enemyCurHp = enemyMaxHp;
   } else if (currentMode === 'weakBattle') {
     enemyMaxHp = 800;
