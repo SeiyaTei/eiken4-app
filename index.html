@@ -17,49 +17,57 @@
   <style>
     /* スライム専用スプライト（隣の映り込みを完全カット） */
     .dq-slime-box {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
+      border-radius: 10px;
     }
     .dq-slime-sprite {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       background-image: url('dq_slimes.jpg');
       background-size: 451px 299px;
       background-repeat: no-repeat;
       display: inline-block;
-      transform: scale(1.4);
+      transform: scale(1.45);
       transform-origin: center;
       image-rendering: pixelated;
     }
 
     /* モンスター＆大魔王専用スプライト */
     .dq-monster-box {
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
+      border-radius: 10px;
     }
     .dq-monster-sprite {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       background-image: url('dq_monsters.jpg');
       background-size: 395px 1024px;
       background-repeat: no-repeat;
       display: inline-block;
-      transform: scale(1.15);
+      transform: scale(1.2);
       transform-origin: center;
       image-rendering: pixelated;
     }
 
     /* HD-2Dアイテム専用スプライト */
+    .dq-item-box {
+      width: 28px;
+      height: 28px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .dq-item-sprite {
       width: 24px;
       height: 24px;
@@ -469,15 +477,18 @@
 
       <div id="quizOptions" class="grid grid-cols-1 gap-1.5"></div>
 
-      <div id="quizFeedback" class="hidden bg-[#1d1245] border-2 border-amber-400 p-3 rounded-2xl space-y-2 shadow-2xl">
-        <div class="flex items-center gap-1.5">
-          <span id="feedbackIcon" class="text-xl">🌟</span>
-          <h4 id="feedbackTitle" class="text-xs font-black text-amber-300"></h4>
+      <!-- 回答後の解説ポップアップ（画面中央モーダル） -->
+      <div id="quizFeedback" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
+        <div class="bg-[#1d1245] border-2 border-amber-400 p-4 rounded-3xl space-y-3 shadow-2xl max-w-sm w-full glow-gold">
+          <div class="flex items-center gap-2">
+            <span id="feedbackIcon" class="text-2xl">🌟</span>
+            <h4 id="feedbackTitle" class="text-sm font-black text-amber-300"></h4>
+          </div>
+          <div class="bg-[#090517] p-3 rounded-2xl border border-blue-500/30 text-[11px] text-slate-200 leading-relaxed whitespace-pre-line break-words max-h-56 overflow-y-auto" id="feedbackExplain"></div>
+          <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black py-2.5 rounded-xl text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
+            つぎへ進む ➔
+          </button>
         </div>
-        <p id="feedbackExplain" class="text-[11px] text-slate-200 leading-relaxed whitespace-pre-line break-words max-h-48 overflow-y-auto"></p>
-        <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black py-2 rounded-xl text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
-          つぎへ進む ➔
-        </button>
       </div>
     </div>
 
