@@ -2,46 +2,89 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>英検4級 合格クエスト 〜50日間の冒険〜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>英検4級 合格クエスト 〜ドラゴンクエスト編〜</title>
   
-  <!-- PWA アプリ化設定 -->
+  <!-- PWA / ホーム画面アプリ化設定 -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e1b4b">
+  <meta name="theme-color" content="#120c24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="4級クエスト">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon.svg">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes bounce-slow {
-      0%, 100% { transform: translateY(-4%); }
-      50% { transform: translateY(4%); }
+    /* ドラクエ・スライム画像スプライト (451x299) */
+    .dq-slime-sprite {
+      width: 52px;
+      height: 52px;
+      background-image: url('dq_slimes.jpg');
+      background-size: 451px 299px;
+      background-repeat: no-repeat;
+      display: inline-block;
+      image-rendering: pixelated;
+      border-radius: 12px;
     }
-    .animate-bounce-slow { animation: bounce-slow 2s infinite ease-in-out; }
+
+    /* ドラクエ・モンスター＆ボス画像スプライト (395x1024) */
+    .dq-monster-sprite {
+      width: 52px;
+      height: 52px;
+      background-image: url('dq_monsters.jpg');
+      background-size: 395px 1024px;
+      background-repeat: no-repeat;
+      display: inline-block;
+      image-rendering: pixelated;
+      border-radius: 12px;
+    }
+
+    /* ドラクエ・HD-2Dアイテム画像スプライト (612x578) */
+    .dq-item-sprite {
+      width: 24px;
+      height: 24px;
+      background-image: url('dq_items.jpg');
+      background-size: 612px 578px;
+      background-repeat: no-repeat;
+      display: inline-block;
+      image-rendering: pixelated;
+    }
+
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(-3%); }
+      50% { transform: translateY(3%); }
+    }
+    .animate-bounce-slow { animation: bounce-slow 2.2s infinite ease-in-out; }
+    
     @keyframes pulse-gold {
-      0%, 100% { box-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
-      50% { box-shadow: 0 0 25px rgba(234, 179, 8, 0.8); }
+      0%, 100% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.4), 0 0 4px rgba(245, 158, 11, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.75), 0 0 10px rgba(245, 158, 11, 0.5); }
     }
     .glow-gold { animation: pulse-gold 2s infinite; }
+    
     @keyframes pulse-red {
-      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
-      50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.9); }
+      0%, 100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(244, 63, 94, 0.85); }
     }
     .glow-red { animation: pulse-red 1.5s infinite; }
+    
     @keyframes fever-rainbow {
-      0% { border-color: #ef4444; box-shadow: 0 0 20px #ef4444; }
-      25% { border-color: #eab308; box-shadow: 0 0 20px #eab308; }
-      50% { border-color: #10b981; box-shadow: 0 0 20px #10b981; }
-      75% { border-color: #3b82f6; box-shadow: 0 0 20px #3b82f6; }
-      100% { border-color: #a855f7; box-shadow: 0 0 20px #a855f7; }
+      0% { border-color: #38bdf8; box-shadow: 0 0 15px #38bdf8; }
+      25% { border-color: #a855f7; box-shadow: 0 0 15px #a855f7; }
+      50% { border-color: #ec4899; box-shadow: 0 0 15px #ec4899; }
+      75% { border-color: #eab308; box-shadow: 0 0 15px #eab308; }
+      100% { border-color: #22c55e; box-shadow: 0 0 15px #22c55e; }
     }
     .fever-active { animation: fever-rainbow 1.5s infinite linear; }
+    
     @keyframes pop-damage {
-      0% { transform: scale(0.5) translateY(0); opacity: 0; }
-      50% { transform: scale(1.2) translateY(-12px); opacity: 1; }
-      100% { transform: scale(1) translateY(-25px); opacity: 0; }
+      0% { transform: scale(0.6) translateY(0); opacity: 0; }
+      50% { transform: scale(1.15) translateY(-10px); opacity: 1; }
+      100% { transform: scale(1) translateY(-24px); opacity: 0; }
     }
     .damage-popup { animation: pop-damage 0.8s ease-out forwards; }
+    
     @keyframes screen-shake {
       0%, 100% { transform: translate(0, 0); }
       20% { transform: translate(-3px, 3px); }
@@ -52,32 +95,33 @@
     .animate-shake { animation: screen-shake 0.4s infinite; }
   </style>
 </head>
-<body class="bg-indigo-950 text-slate-100 min-h-screen pb-24 font-sans selection:bg-amber-400 selection:text-indigo-950 select-none">
+<body class="bg-[#0c081f] text-slate-100 min-h-screen pb-20 font-sans selection:bg-amber-400 selection:text-blue-950 select-none">
 
   <!-- ヘッダー / ステータスバー -->
-  <header class="bg-indigo-900/90 backdrop-blur border-b border-indigo-700/50 sticky top-0 z-40 px-3 py-2">
-    <div class="max-w-md mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-1.5">
-        <span class="text-2xl">⚔️</span>
-        <div>
-          <h1 class="text-[9px] font-black tracking-wider text-amber-400 uppercase">Eiken Grade 4 Master</h1>
-          <div class="text-xs font-black text-white flex items-center gap-1">
-            合格クエスト <span id="headerLevel" class="text-[10px] bg-amber-500 text-indigo-950 px-1 py-0.2 rounded font-black">Lv.1</span>
+  <header class="bg-[#150e33]/95 backdrop-blur border-b border-blue-500/30 sticky top-0 z-40 px-2.5 py-1.5 shadow-md">
+    <div class="max-w-md mx-auto flex items-center justify-between gap-1">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span class="text-xl flex-shrink-0 animate-pulse">⚔️</span>
+        <div class="min-w-0">
+          <div class="text-[8px] font-black tracking-wider text-amber-300 uppercase leading-none truncate">EIKEN GRADE 4</div>
+          <div class="text-[11px] font-black text-white flex items-center gap-1 leading-tight">
+            <span class="truncate">4級クエスト</span>
+            <span id="headerLevel" class="text-[9px] bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-1.5 py-0.2 rounded-full font-black shadow flex-shrink-0">Lv.1</span>
           </div>
         </div>
       </div>
       
-      <div class="flex items-center gap-1.5 text-xs">
-        <button id="btnSpeedToggle" onclick="toggleVoiceSpeed()" class="bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-indigo-200">
+      <div class="flex items-center gap-1 text-xs flex-shrink-0">
+        <button id="btnSpeedToggle" onclick="toggleVoiceSpeed()" class="bg-[#201548] border border-blue-400/40 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-blue-200 hover:bg-[#2c1d63] transition whitespace-nowrap">
           🗣️ ゆっくり
         </button>
-        <button id="btnBgmToggle" onclick="toggleBGM()" class="bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-slate-300">
+        <button id="btnBgmToggle" onclick="toggleBGM()" class="bg-[#201548] border border-blue-400/40 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-slate-300 transition whitespace-nowrap">
           🎵 OFF
         </button>
-        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full text-[10px] font-bold text-amber-300">
+        <div class="bg-[#0d0722] border border-blue-500/40 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-amber-300 whitespace-nowrap">
           🔥 <span id="streakCount">1</span>日
         </div>
-        <div class="bg-indigo-950/80 border border-indigo-700 px-2 py-1 rounded-full text-[10px] font-bold text-emerald-400">
+        <div class="bg-[#0d0722] border border-amber-500/40 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-amber-300 whitespace-nowrap">
           💎 <span id="gemCount">0</span>
         </div>
       </div>
@@ -85,188 +129,188 @@
   </header>
 
   <!-- メイン画面コンテナ -->
-  <main class="max-w-md mx-auto p-4 space-y-4">
+  <main class="max-w-md mx-auto p-3 space-y-3.5">
 
     <!-- ==================== 1. ホーム画面 ==================== -->
-    <div id="viewHome" class="space-y-4">
+    <div id="viewHome" class="space-y-3.5">
       
-      <!-- 相棒モンスター & レベル & ステータス -->
-      <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-purple-900 border-2 border-indigo-600 rounded-3xl p-4 shadow-2xl relative overflow-hidden">
-        <div class="flex items-center gap-4">
+      <!-- 相棒スライム & レベル & ステータス -->
+      <div class="bg-gradient-to-br from-[#1e1445] via-[#140d33] to-[#0a061c] border-2 border-blue-400/50 rounded-3xl p-3.5 shadow-xl relative overflow-hidden glow-gold">
+        <div class="flex items-center gap-3">
           <div class="relative flex-shrink-0">
-            <div id="heroAvatarContainer" class="w-24 h-24 rounded-2xl bg-indigo-950/70 border-2 border-amber-400 flex items-center justify-center text-3xl shadow-inner animate-bounce-slow relative overflow-visible">
-              <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-5xl opacity-70 pointer-events-none scale-125 z-0"></span>
-              <span id="equipHatIcon" class="absolute -top-3.5 z-20 text-2xl drop-shadow"></span>
-              <span id="heroAvatar" class="z-10 text-4xl">🐣</span>
-              <span id="equipWeaponIcon" class="absolute -right-2.5 bottom-0 z-20 text-2xl drop-shadow"></span>
+            <div id="heroAvatarContainer" class="w-20 h-20 rounded-2xl bg-[#090517]/90 border-2 border-blue-400 flex items-center justify-center shadow-inner animate-bounce-slow relative overflow-visible">
+              <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-4xl opacity-75 pointer-events-none scale-125 z-0"></span>
+              <span id="equipHatIcon" class="absolute -top-3 z-20 text-xl drop-shadow"></span>
+              <div id="heroAvatar" class="z-10 flex items-center justify-center">💧</div>
+              <span id="equipWeaponIcon" class="absolute -right-2 bottom-0 z-20 text-xl drop-shadow"></span>
             </div>
-            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[9px] font-black bg-gradient-to-r from-amber-500 to-yellow-300 text-indigo-950 px-2 py-0.5 rounded-full shadow z-30 whitespace-nowrap">
-              見習いヒナ
+            <span id="heroRank" class="absolute -bottom-2 -right-1 text-[8px] font-black bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-2 py-0.5 rounded-full shadow z-30 whitespace-nowrap max-w-[100px] truncate">
+              みならいスライム
             </span>
           </div>
           <div class="flex-1 min-w-0">
-            <div class="flex justify-between items-baseline mb-1">
-              <h2 id="heroName" class="font-black text-base text-white truncate">タマゴン</h2>
-              <span id="levelLabel" class="text-xs font-black text-amber-400">Lv.1</span>
+            <div class="flex justify-between items-baseline mb-0.5">
+              <h2 id="heroName" class="font-black text-sm text-white truncate">スライム</h2>
+              <span id="levelLabel" class="text-xs font-black text-amber-300 flex-shrink-0 ml-1">Lv.1</span>
             </div>
-            <div class="w-full bg-indigo-950/80 rounded-full h-3 border border-indigo-700 overflow-hidden mb-1">
-              <div id="expBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
+            <div class="w-full bg-[#0a061a] rounded-full h-2.5 border border-blue-500/40 overflow-hidden mb-1">
+              <div id="expBar" class="bg-gradient-to-r from-blue-400 via-indigo-400 to-amber-300 h-full w-0 transition-all duration-500"></div>
             </div>
-            <div class="flex justify-between text-[10px] text-indigo-300 font-bold mb-2">
-              <span>EXP</span>
+            <div class="flex justify-between text-[9px] text-blue-200 font-bold mb-1.5">
+              <span>けいけんち (EXP)</span>
               <span id="expText">0 / 100</span>
             </div>
 
             <!-- RPG ステータスパラメータ -->
-            <div class="grid grid-cols-3 gap-1 text-[9.5px] font-black bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800 text-center">
-              <div class="text-rose-300">⚔️攻 <span id="statAtkVal">31</span></div>
-              <div class="text-emerald-300">🛡️HP <span id="statHpVal">135</span></div>
-              <div class="text-amber-300">⚡速 <span id="statSpdVal">5</span></div>
+            <div class="grid grid-cols-3 gap-1 text-[9px] font-black bg-[#090517]/90 p-1 rounded-xl border border-blue-500/30 text-center">
+              <div class="text-amber-300 truncate">⚔️攻 <span id="statAtkVal">31</span></div>
+              <div class="text-emerald-400 truncate">💖HP <span id="statHpVal">135</span></div>
+              <div class="text-sky-300 truncate">⚡速 <span id="statSpdVal">5</span></div>
             </div>
           </div>
         </div>
 
-        <!-- 試験までのカウントダウン -->
-        <div class="mt-3 pt-2.5 border-t border-indigo-700/50 flex justify-between items-center text-xs">
-          <span class="text-indigo-200">🎯 10月試験本番まで あと</span>
-          <span id="countdownDays" class="font-black text-amber-300 text-sm">-- 日</span>
+        <!-- 2026年10月4日 試験日カウントダウン -->
+        <div class="mt-2.5 pt-2 border-t border-blue-500/30 flex justify-between items-center text-[11px]">
+          <span class="text-blue-200">🎯 英検4級 本番(2026/10/4)まで</span>
+          <span id="countdownDays" class="font-black text-amber-300 text-xs">-- 日</span>
         </div>
       </div>
 
-      <!-- 👑 過去問ボスバトル巨大カード -->
-      <div class="bg-gradient-to-r from-red-900 via-purple-900 to-indigo-900 border-2 border-red-500/80 rounded-3xl p-4 shadow-2xl glow-red relative overflow-hidden">
-        <div class="flex items-center justify-between">
-          <div class="min-w-0 flex-1 mr-2">
-            <div class="flex items-center gap-1.5">
-              <span class="text-[9px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">BOSS BATTLE</span>
-              <span id="bossCurrentProgressBadge" class="text-[9px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full">Lv.1 解放中</span>
+      <!-- 👑 歴代魔王ボスバトル巨大カード -->
+      <div class="bg-gradient-to-r from-[#381128] via-[#240b1c] to-[#120610] border-2 border-rose-500/80 rounded-3xl p-3.5 shadow-xl glow-red relative overflow-hidden">
+        <div class="flex items-center justify-between gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1 flex-wrap">
+              <span class="text-[8.5px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full uppercase tracking-wider">BOSS BATTLE</span>
+              <span id="bossCurrentProgressBadge" class="text-[8.5px] font-black bg-gradient-to-r from-amber-400 to-rose-400 text-purple-950 px-1.5 py-0.2 rounded-full">Lv.1 解放中</span>
             </div>
-            <h3 class="text-base font-black text-amber-300 mt-1 flex items-center gap-1.5 truncate">
-              👑 過去問ボスバトル
+            <h3 class="text-sm font-black text-rose-300 mt-0.5 flex items-center gap-1 truncate">
+              👑 ドラクエ歴代大魔王 討伐
             </h3>
-            <p class="text-[10px] text-indigo-200 mt-0.5">本物の英検過去問10問で討伐！Lv.10神龍を目指せ！</p>
+            <p class="text-[9.5px] text-rose-200 mt-0.5 leading-tight">本番過去問10問で討伐！Lv.10ダークドレアムを目指そう！</p>
           </div>
-          <button onclick="openBossSelectModal()" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-4 py-3 rounded-2xl text-xs shadow-lg transition active:scale-95 flex flex-col items-center flex-shrink-0">
-            <span class="text-xl">🐲</span>
-            <span class="whitespace-nowrap">ボス選択</span>
+          <button onclick="openBossSelectModal()" class="bg-gradient-to-r from-rose-500 to-amber-500 hover:brightness-110 text-white font-black px-3 py-2.5 rounded-2xl text-[11px] shadow-lg transition active:scale-95 flex flex-col items-center flex-shrink-0">
+            <span class="text-lg">🏰</span>
+            <span class="whitespace-nowrap">魔王選択</span>
           </button>
         </div>
       </div>
 
       <!-- 今日の3大デイリークエスト -->
-      <div class="bg-gradient-to-br from-indigo-900 via-indigo-900 to-purple-950 border-2 border-amber-500/60 rounded-3xl p-4 shadow-xl space-y-3">
+      <div class="bg-gradient-to-br from-[#18103d] via-[#100b2b] to-[#0a061c] border border-blue-500/50 rounded-3xl p-3.5 shadow-xl space-y-2.5">
         <div class="flex justify-between items-center">
           <div>
-            <h3 class="font-black text-sm text-amber-400 flex items-center gap-1.5">
-              📜 本日の限定デイリークエスト
+            <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
+              🌟 本日の限定デイリー修練
             </h3>
-            <p class="text-[9.5px] text-indigo-200">1日各1回限定！敵を撃破して大量ボーナス獲得</p>
+            <p class="text-[9px] text-blue-200">1日各1回！撃破で大量ボーナス獲得</p>
           </div>
-          <span id="dailyProgressText" class="text-xs bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold whitespace-nowrap">0 / 3</span>
+          <span id="dailyProgressText" class="text-[10px] bg-[#090517] px-2 py-0.5 rounded-full border border-blue-500/40 text-amber-300 font-bold whitespace-nowrap">0 / 3</span>
         </div>
 
         <div class="space-y-2 text-xs">
           <!-- デイリー単語 -->
-          <div id="questCardVocab" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+          <div id="questCardVocab" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
-              <span class="text-xl flex-shrink-0">📖</span>
+              <span class="text-lg flex-shrink-0">📖</span>
               <div class="min-w-0">
-                <div class="font-bold text-slate-200 truncate">必須単語 5問特訓</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+50 EXP / 💎+15</div>
+                <div class="font-bold text-[11px] text-slate-200 truncate">4級コア単語 (5問)</div>
+                <div class="text-[9px] text-amber-300 font-semibold">+50 EXP / 💎+15</div>
               </div>
             </div>
             <div id="questActionVocab" class="flex-shrink-0">
-              <button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
+              <button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
 
           <!-- デイリー文法 -->
-          <div id="questCardGrammar" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+          <div id="questCardGrammar" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
-              <span class="text-xl flex-shrink-0">🪄</span>
+              <span class="text-lg flex-shrink-0">🪄</span>
               <div class="min-w-0">
-                <div class="font-bold text-slate-200 truncate">重要文法 3問特訓</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+60 EXP / 💎+20</div>
+                <div class="font-bold text-[11px] text-slate-200 truncate">中学文法・語法 (3問)</div>
+                <div class="text-[9px] text-amber-300 font-semibold">+60 EXP / 💎+20</div>
               </div>
             </div>
             <div id="questActionGrammar" class="flex-shrink-0">
-              <button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
+              <button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
 
           <!-- デイリーリスニング -->
-          <div id="questCardListening" class="bg-indigo-950/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between gap-2">
+          <div id="questCardListening" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
-              <span class="text-xl flex-shrink-0">🎧</span>
+              <span class="text-lg flex-shrink-0">🎧</span>
               <div class="min-w-0">
-                <div class="font-bold text-slate-200 truncate">対話リスニング 3問特訓</div>
-                <div class="text-[10px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
+                <div class="font-bold text-[11px] text-slate-200 truncate">実戦リスニング (3問)</div>
+                <div class="text-[9px] text-amber-300 font-semibold">+80 EXP / 💎+25</div>
               </div>
             </div>
             <div id="questActionListening" class="flex-shrink-0">
-              <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
+              <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
         </div>
 
         <div id="dailyBonusArea" class="hidden pt-1">
-          <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2.5 rounded-2xl text-xs shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95">
-            <span>🎁 3大デイリー全制覇ボーナス受取！</span>
-            <span class="bg-indigo-950 text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold">+150 EXP / 💎+50</span>
+          <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-black py-2 px-2 rounded-2xl text-[11px] shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95 animate-bounce">
+            <span class="truncate">🎁 3大デイリー全制覇ボーナス受取！</span>
+            <span class="bg-[#090517] text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+150EXP/💎+50</span>
           </button>
         </div>
-        <div id="dailyBonusClaimedArea" class="hidden text-center text-[10px] font-bold text-emerald-400 pt-1">
-          ✨ 本日のデイリーミッション＆全制覇ボーナス獲得済み！また明日挑戦しよう！
+        <div id="dailyBonusClaimedArea" class="hidden text-center text-[9.5px] font-bold text-amber-300 pt-1">
+          🌟 本日の全制覇ボーナス獲得済み！また明日挑戦しよう！
         </div>
       </div>
 
-      <!-- 通常特訓コース（サイクル制・ローテーション仕様） -->
-      <div class="bg-indigo-900/60 border border-indigo-700/80 rounded-3xl p-4 space-y-3">
+      <!-- 通常特訓コース（サイクル制） -->
+      <div class="bg-[#140d33]/80 border border-blue-500/40 rounded-3xl p-3.5 space-y-2.5">
         <div class="flex justify-between items-baseline px-1">
           <div>
             <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
-              ⚔️ 通常特訓サイクル（各1回 ➔ にがて討伐で復活）
+              ⚔️ 通常特訓サイクル
             </h3>
-            <p class="text-[9.5px] text-indigo-300">3分野を1回ずつクリアして「にがて討伐」を解禁しよう！</p>
+            <p class="text-[9px] text-blue-200">3分野クリアで「にがて討伐」解放！</p>
           </div>
-          <span id="rotationProgressBadge" class="text-[10px] bg-indigo-950 text-amber-400 font-bold px-2 py-0.5 rounded-full border border-indigo-800">0/3完了</span>
+          <span id="rotationProgressBadge" class="text-[9.5px] bg-[#090517] text-amber-300 font-bold px-2 py-0.5 rounded-full border border-blue-500/40 flex-shrink-0">0/3完了</span>
         </div>
 
-        <div class="grid grid-cols-2 gap-2.5">
-          <button id="btnRotVocab" onclick="openNormalQuestSelect('vocab')" class="bg-gradient-to-br from-blue-600/90 to-indigo-700/90 p-3 rounded-2xl border border-blue-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
-            <div class="flex justify-between items-start">
-              <div class="text-xl mb-0.5">📚</div>
-              <span id="badgeRotVocab" class="text-[9px] font-bold bg-blue-950 text-blue-200 px-1.5 py-0.2 rounded border border-blue-600">未挑戦</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button id="btnRotVocab" onclick="openNormalQuestSelect('vocab')" class="bg-gradient-to-br from-blue-800/90 to-indigo-900/90 p-2.5 rounded-2xl border border-blue-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-0.5">
+              <span class="text-lg">📚</span>
+              <span id="badgeRotVocab" class="text-[8px] font-bold bg-[#090517] text-amber-300 px-1.5 py-0.2 rounded border border-blue-500/40 whitespace-nowrap">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">単語・熟語</div>
-            <div class="text-[9px] text-blue-200 mt-0.5">ランダム10問</div>
+            <div class="font-black text-[11px] text-white truncate">単語・熟語</div>
+            <div class="text-[8.5px] text-blue-200">ランダム10問</div>
           </button>
 
-          <button id="btnRotGrammar" onclick="openNormalQuestSelect('grammar')" class="bg-gradient-to-br from-emerald-600/90 to-teal-700/90 p-3 rounded-2xl border border-emerald-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
-            <div class="flex justify-between items-start">
-              <div class="text-xl mb-0.5">🪄</div>
-              <span id="badgeRotGrammar" class="text-[9px] font-bold bg-emerald-950 text-emerald-200 px-1.5 py-0.2 rounded border border-emerald-600">未挑戦</span>
+          <button id="btnRotGrammar" onclick="openNormalQuestSelect('grammar')" class="bg-gradient-to-br from-indigo-800/90 to-purple-900/90 p-2.5 rounded-2xl border border-purple-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-0.5">
+              <span class="text-lg">🪄</span>
+              <span id="badgeRotGrammar" class="text-[8px] font-bold bg-[#090517] text-amber-300 px-1.5 py-0.2 rounded border border-blue-500/40 whitespace-nowrap">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">文法・会話</div>
-            <div class="text-[9px] text-emerald-200 mt-0.5">大問1&2対策 5問</div>
+            <div class="font-black text-[11px] text-white truncate">文法・語法</div>
+            <div class="text-[8.5px] text-purple-200">大問1&2対策 5問</div>
           </button>
 
-          <button id="btnRotListening" onclick="openNormalQuestSelect('listening')" class="bg-gradient-to-br from-purple-600/90 to-pink-700/90 p-3 rounded-2xl border border-purple-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
-            <div class="flex justify-between items-start">
-              <div class="text-xl mb-0.5">🎧</div>
-              <span id="badgeRotListening" class="text-[9px] font-bold bg-purple-950 text-purple-200 px-1.5 py-0.2 rounded border border-purple-600">未挑戦</span>
+          <button id="btnRotListening" onclick="openNormalQuestSelect('listening')" class="bg-gradient-to-br from-cyan-800/90 to-blue-900/90 p-2.5 rounded-2xl border border-cyan-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-0.5">
+              <span class="text-lg">🎧</span>
+              <span id="badgeRotListening" class="text-[8px] font-bold bg-[#090517] text-amber-300 px-1.5 py-0.2 rounded border border-blue-500/40 whitespace-nowrap">未挑戦</span>
             </div>
-            <div class="font-black text-xs text-white">リスニング</div>
-            <div class="text-[9px] text-purple-200 mt-0.5">対話・質問 3問</div>
+            <div class="font-black text-[11px] text-white truncate">リスニング</div>
+            <div class="text-[8.5px] text-cyan-200">対話・短文 3問</div>
           </button>
 
-          <button id="btnRotWeakBattle" onclick="startWeakBattle()" class="bg-gradient-to-br from-rose-600/90 to-red-700/90 p-3 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
-            <div class="flex justify-between items-start">
-              <div class="text-xl mb-0.5">👾</div>
-              <span id="badgeRotWeak" class="text-[9px] font-bold bg-rose-950 text-rose-200 px-1.5 py-0.2 rounded border border-rose-600">🔒 ロック中</span>
+          <button id="btnRotWeakBattle" onclick="startWeakBattle()" class="bg-gradient-to-br from-rose-800/90 to-red-900/90 p-2.5 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-0.5">
+              <span class="text-lg">🤖</span>
+              <span id="badgeRotWeak" class="text-[8px] font-bold bg-rose-950 text-rose-200 px-1.5 py-0.2 rounded border border-rose-600 whitespace-nowrap">🔒 ロック</span>
             </div>
-            <div class="font-black text-xs text-white">にがて討伐バトル</div>
-            <div class="text-[9px] text-rose-200 mt-0.5">勝つと全特訓リセット！</div>
+            <div class="font-black text-[11px] text-white truncate">にがて討伐</div>
+            <div class="text-[8.5px] text-rose-200">勝つとサイクル復活</div>
           </button>
         </div>
       </div>
@@ -274,142 +318,156 @@
     </div>
 
     <!-- ==================== ⚔️ 通常クエスト難易度選択モーダル ==================== -->
-    <div id="modalNormalSelect" class="hidden fixed inset-0 bg-indigo-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-600 rounded-3xl p-4 w-full max-w-md flex flex-col shadow-2xl space-y-3">
-        <div class="flex justify-between items-center border-b border-indigo-800 pb-2">
+    <div id="modalNormalSelect" class="hidden fixed inset-0 bg-[#060312]/90 backdrop-blur-md z-50 flex items-center justify-center p-3">
+      <div class="bg-gradient-to-b from-[#1b1242] to-[#0c0721] border-2 border-blue-400/80 rounded-3xl p-4 w-full max-w-sm flex flex-col shadow-2xl space-y-3">
+        <div class="flex justify-between items-center border-b border-blue-500/30 pb-2">
           <div>
-            <h3 id="normalSelectTitle" class="font-black text-sm text-amber-300">
+            <h3 id="normalSelectTitle" class="font-black text-xs text-amber-300">
               ⚔️ 特訓難易度の選択
             </h3>
-            <p class="text-[10px] text-indigo-300">相棒の強さに合わせて難易度を選ぼう！</p>
+            <p class="text-[9px] text-blue-200">相棒スライムの強さに合わせて選ぼう！</p>
           </div>
-          <button onclick="closeNormalQuestSelect()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 bg-indigo-950 rounded-lg">✕</button>
+          <button onclick="closeNormalQuestSelect()" class="text-slate-400 hover:text-white text-base font-bold px-2 py-0.5 bg-[#090517] rounded-lg">✕</button>
         </div>
 
         <div class="space-y-2 text-xs" id="normalDifficultyList">
-          <button onclick="startNormalModeWithDiff(1)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
+          <button onclick="startNormalModeWithDiff(1)" class="w-full bg-[#090517]/80 hover:bg-[#150e33] border border-blue-500/40 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-emerald-400">🌟 初級（見習い級・Lv1〜15向け）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 600 / 攻撃: 15（序盤向け・通常クリア可能）</div>
+              <div class="font-black text-[11px] text-emerald-400">🌟 初級 (見習い・Lv1〜15)</div>
+              <div class="text-[9px] text-slate-300">敵HP: 600 / 攻撃: 15 (通常クリア)</div>
             </div>
-            <span class="text-xs bg-emerald-950 text-emerald-300 font-bold px-2.5 py-1 rounded-xl border border-emerald-700">出撃</span>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 font-bold px-2 py-1 rounded-xl border border-emerald-700">出撃</span>
           </button>
 
-          <button onclick="startNormalModeWithDiff(2)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
+          <button onclick="startNormalModeWithDiff(2)" class="w-full bg-[#090517]/80 hover:bg-[#150e33] border border-blue-500/40 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-blue-400">🔵 中級（冒険者級・Lv20〜35向け）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 4,500 / 攻撃: 60（全問クリティカルで突破可能）</div>
+              <div class="font-black text-[11px] text-blue-400">🔵 中級 (騎士・Lv20〜35)</div>
+              <div class="text-[9px] text-slate-300">敵HP: 4,500 / 攻撃: 60 (会心撃破)</div>
             </div>
-            <span class="text-xs bg-blue-950 text-blue-300 font-bold px-2.5 py-1 rounded-xl border border-blue-700">出撃</span>
+            <span class="text-[10px] bg-blue-950 text-blue-300 font-bold px-2 py-1 rounded-xl border border-blue-700">出撃</span>
           </button>
 
-          <button onclick="startNormalModeWithDiff(3)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
+          <button onclick="startNormalModeWithDiff(3)" class="w-full bg-[#090517]/80 hover:bg-[#150e33] border border-blue-500/40 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
-              <div class="font-black text-purple-400">🟣 上級（勇者級・Lv40〜60向け）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 15,000 / 攻撃: 150（上位装備＆高レベル必須）</div>
+              <div class="font-black text-[11px] text-purple-400">🟣 上級 (王者・Lv40〜60)</div>
+              <div class="text-[9px] text-slate-300">敵HP: 15,000 / 攻撃: 150 (上位装備)</div>
             </div>
-            <span class="text-xs bg-purple-950 text-purple-300 font-bold px-2.5 py-1 rounded-xl border border-purple-700">出撃</span>
+            <span class="text-[10px] bg-purple-950 text-purple-300 font-bold px-2 py-1 rounded-xl border border-purple-700">出撃</span>
           </button>
 
-          <button onclick="startNormalModeWithDiff(4)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
+          <button onclick="startNormalModeWithDiff(4)" class="w-full bg-[#090517]/80 hover:bg-[#150e33] border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
             <div>
-              <div class="font-black text-amber-300">👑 覇級（英検マスター級・Lv70〜）</div>
-              <div class="text-[10px] text-slate-300">敵HP: 45,000 / 攻撃: 350（エンドコンテンツ）</div>
+              <div class="font-black text-[11px] text-amber-300">👑 覇者級 (光神・Lv70〜)</div>
+              <div class="text-[9px] text-slate-300">敵HP: 45,000 / 攻撃: 350 (超高難度)</div>
             </div>
-            <span class="text-xs bg-amber-950 text-amber-300 font-black px-2.5 py-1 rounded-xl border border-amber-500">出撃</span>
+            <span class="text-[10px] bg-amber-950 text-amber-300 font-black px-2 py-1 rounded-xl border border-amber-500">出撃</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== 👑 ボスレベル選択モーダル ==================== -->
-    <div id="modalBossSelect" class="hidden fixed inset-0 bg-indigo-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-red-500/80 rounded-3xl p-4 w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl space-y-3">
-        <div class="flex justify-between items-center border-b border-indigo-800 pb-2">
+    <!-- ==================== 👑 魔王レベル選択モーダル ==================== -->
+    <div id="modalBossSelect" class="hidden fixed inset-0 bg-[#060312]/90 backdrop-blur-md z-50 flex items-center justify-center p-3">
+      <div class="bg-gradient-to-b from-[#1f103d] to-[#0d0721] border-2 border-rose-500/80 rounded-3xl p-3.5 w-full max-w-sm max-h-[85vh] flex flex-col shadow-2xl space-y-2.5">
+        <div class="flex justify-between items-center border-b border-blue-500/30 pb-2">
           <div>
-            <h3 class="font-black text-base text-amber-300 flex items-center gap-1.5">
-              🐲 過去問ボスバトル選択
+            <h3 class="font-black text-sm text-amber-300 flex items-center gap-1">
+              🏰 歴代大魔王 討伐選択
             </h3>
-            <p class="text-[10px] text-indigo-300">各レベルを撃破してLv.10神龍を目指そう！</p>
+            <p class="text-[9px] text-blue-200">各魔王を撃破してLv.10ダークドレアムを目指そう！</p>
           </div>
-          <button onclick="closeBossSelectModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 bg-indigo-950 rounded-lg">✕</button>
+          <button onclick="closeBossSelectModal()" class="text-slate-400 hover:text-white text-base font-bold px-2 py-0.5 bg-[#090517] rounded-lg">✕</button>
         </div>
 
         <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="bossStageList"></div>
       </div>
     </div>
 
+    <!-- ==================== 💬 ボス会話モーダル ==================== -->
+    <div id="modalBossDialogue" class="hidden fixed inset-0 bg-black/90 z-50 p-3 flex items-center justify-center">
+      <div class="max-w-sm w-full bg-gradient-to-b from-[#1f103d] via-[#150a2b] to-[#0c061a] border-2 border-amber-400/80 rounded-3xl p-4 shadow-2xl text-center space-y-3 glow-gold">
+        <div class="flex justify-center" id="bossDialogueIcon">🐲</div>
+        <div class="text-xs font-black text-amber-300 tracking-wider truncate" id="bossDialogueTitle">大魔王出現！</div>
+        <div class="bg-[#090517]/90 p-3 rounded-2xl border border-blue-500/30 text-[11px] text-blue-100 leading-relaxed text-left font-medium whitespace-pre-line break-words max-h-48 overflow-y-auto" id="bossDialogueText">
+          会話内容
+        </div>
+        <button id="btnBossDialogueNext" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black py-2 rounded-xl text-xs shadow-xl transition active:scale-95">
+          進む ⚔️
+        </button>
+      </div>
+    </div>
+
     <!-- ==================== 2. クイズ・バトル画面 ==================== -->
-    <div id="viewQuiz" class="hidden space-y-3">
+    <div id="viewQuiz" class="hidden space-y-2.5">
       
-      <div class="flex items-center justify-between bg-indigo-900/70 p-2.5 rounded-2xl border border-indigo-800">
-        <button onclick="confirmExitQuiz()" class="text-xs font-bold text-indigo-300 hover:text-white px-2.5 py-1 bg-indigo-950 rounded-lg">✕ にげる</button>
-        <div class="text-xs font-bold text-amber-400" id="quizProgress">第 1 / 5 問</div>
-        <div class="flex items-center gap-2">
-          <button id="btnUseHint" onclick="use5050Hint()" class="bg-indigo-800 hover:bg-indigo-700 border border-amber-400 text-amber-300 text-[10px] font-black px-2.5 py-1 rounded-full shadow transition active:scale-95">
-            💡 ヒント (<span id="hintStockCount">0</span>)
+      <div class="flex items-center justify-between bg-[#150e33]/90 p-2 rounded-2xl border border-blue-500/30">
+        <button onclick="confirmExitQuiz()" class="text-[11px] font-bold text-blue-200 hover:text-white px-2 py-1 bg-[#090517] rounded-lg">✕ にげる</button>
+        <div class="text-[11px] font-bold text-amber-300" id="quizProgress">第 1 / 5 問</div>
+        <div class="flex items-center gap-1.5">
+          <button id="btnUseHint" onclick="use5050Hint()" class="bg-[#22154d] hover:bg-[#311f6e] border border-amber-400 text-amber-200 text-[9.5px] font-black px-2 py-0.5 rounded-full shadow transition active:scale-95">
+            🪞 鏡 (<span id="hintStockCount">0</span>)
           </button>
-          <div class="text-xs font-black text-yellow-300 bg-amber-500/20 border border-amber-500/40 px-2.5 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
+          <div class="text-[10px] font-black text-amber-300 bg-amber-500/20 border border-amber-500/40 px-2 py-0.5 rounded-full" id="comboCounter">🔥 0 連続</div>
         </div>
       </div>
 
-      <div id="feverBanner" class="hidden bg-gradient-to-r from-red-500 via-amber-500 to-purple-600 text-indigo-950 font-black text-xs py-1.5 px-3 rounded-xl text-center shadow-lg animate-pulse">
-        ⚡🔥 FEVER TIME 突入！ 獲得EXP & 報酬 2倍！！ 🔥⚡
+      <div id="feverBanner" class="hidden bg-gradient-to-r from-blue-500 via-indigo-500 to-amber-500 text-white font-black text-[11px] py-1 px-2 rounded-xl text-center shadow animate-pulse">
+        ✨⚔️ 会心の一撃 FEVER TIME 突入！ EXP & 報酬 2倍！！ ⚔️✨
       </div>
 
-      <div class="grid grid-cols-2 gap-2 bg-indigo-950/90 p-2.5 rounded-2xl border border-indigo-800 text-xs">
-        <div class="space-y-1">
-          <div class="flex justify-between items-center font-black">
-            <span id="battleHeroName" class="text-amber-300 text-[11px] truncate">タマゴン</span>
-            <span id="battleHeroHpText" class="text-[10px] text-emerald-400">100/100</span>
+      <div class="grid grid-cols-2 gap-2 bg-[#090517]/90 p-2 rounded-2xl border border-blue-500/30 text-xs">
+        <div class="space-y-0.5">
+          <div class="flex justify-between items-center font-black text-[10px]">
+            <span id="battleHeroName" class="text-blue-300 truncate max-w-[80px]">スライム</span>
+            <span id="battleHeroHpText" class="text-blue-300 text-[9.5px]">100/100</span>
           </div>
-          <div class="w-full bg-indigo-900 rounded-full h-2 overflow-hidden border border-indigo-700">
-            <div id="battleHeroHpBar" class="bg-emerald-500 h-full w-full transition-all duration-300"></div>
+          <div class="w-full bg-[#170e38] rounded-full h-2 overflow-hidden border border-blue-500/40">
+            <div id="battleHeroHpBar" class="bg-gradient-to-r from-blue-400 to-emerald-400 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
-        <div class="space-y-1">
-          <div class="flex justify-between items-center font-black">
-            <span id="battleEnemyName" class="text-rose-400 text-[11px] truncate">モンスター</span>
-            <span id="battleEnemyHpText" class="text-[10px] text-rose-300">100/100</span>
+        <div class="space-y-0.5">
+          <div class="flex justify-between items-center font-black text-[10px]">
+            <span id="battleEnemyName" class="text-rose-400 truncate max-w-[80px]">ドラキー</span>
+            <span id="battleEnemyHpText" class="text-rose-300 text-[9.5px]">100/100</span>
           </div>
-          <div class="w-full bg-indigo-900 rounded-full h-2 overflow-hidden border border-indigo-700">
+          <div class="w-full bg-[#170e38] rounded-full h-2 overflow-hidden border border-blue-500/40">
             <div id="battleEnemyHpBar" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
       </div>
 
-      <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden" id="enemyCardBox">
+      <div class="bg-gradient-to-b from-[#1a103d] to-[#0c0721] border border-blue-500/50 rounded-3xl p-3 shadow-xl relative overflow-hidden" id="enemyCardBox">
         <div id="damageEffectArea" class="absolute inset-0 pointer-events-none flex items-center justify-center z-30"></div>
 
-        <div class="flex flex-col items-center justify-center mb-2">
-          <div id="enemyAvatar" class="text-5xl mb-1 animate-bounce-slow">👹</div>
-          <div class="w-44 bg-indigo-950 rounded-full h-1.5 border border-indigo-800 mt-1 overflow-hidden">
-            <div id="timerGauge" class="bg-amber-400 h-full w-full transition-all linear"></div>
+        <div class="flex flex-col items-center justify-center mb-1.5">
+          <div id="enemyAvatar" class="w-14 h-14 flex items-center justify-center mb-0.5 animate-bounce-slow"></div>
+          <div class="w-36 bg-[#090517] rounded-full h-1.5 border border-blue-500/40 overflow-hidden">
+            <div id="timerGauge" class="bg-gradient-to-r from-blue-400 to-amber-300 h-full w-full transition-all linear"></div>
           </div>
-          <span id="timerText" class="text-[9px] text-amber-300 font-bold mt-0.5">🎧 音声を再生中...</span>
+          <span id="timerText" class="text-[8.5px] text-amber-300 font-bold mt-0.5">🎧 音声を再生中...</span>
         </div>
 
-        <div class="flex justify-center mb-2" id="audioBtnContainer">
-          <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-indigo-800 hover:bg-indigo-700 border border-indigo-500 text-amber-300 text-xs font-bold py-1 px-3.5 rounded-full flex items-center gap-1.5 shadow transition active:scale-95">
+        <div class="flex justify-center mb-1.5" id="audioBtnContainer">
+          <button id="btnPlayAudio" onclick="playCurrentAudio()" class="bg-[#201548] hover:bg-[#2e1d68] border border-amber-400/50 text-amber-200 text-[10px] font-bold py-0.5 px-3 rounded-full flex items-center gap-1 shadow transition active:scale-95">
             🔊 もう一度きく
           </button>
         </div>
 
-        <div class="text-center min-h-[50px] flex items-center justify-center px-2 mb-1.5">
-          <p id="quizQuestion" class="text-base font-black text-white leading-snug whitespace-pre-line"></p>
+        <div class="text-center min-h-[44px] flex items-center justify-center px-1 mb-1">
+          <p id="quizQuestion" class="text-sm font-black text-white leading-snug whitespace-pre-line break-words"></p>
         </div>
-        <p id="quizSubText" class="text-center text-xs text-amber-300 font-bold min-h-[16px] bg-indigo-950/60 p-1.5 rounded-xl border border-indigo-800/80 whitespace-pre-line"></p>
+        <p id="quizSubText" class="text-center text-[10.5px] text-amber-300 font-bold min-h-[14px] bg-[#090517]/80 p-1 rounded-xl border border-blue-500/30 whitespace-pre-line break-words"></p>
       </div>
 
-      <div id="quizOptions" class="grid grid-cols-1 gap-2"></div>
+      <div id="quizOptions" class="grid grid-cols-1 gap-1.5"></div>
 
-      <div id="quizFeedback" class="hidden bg-indigo-900 border-2 border-amber-400 p-3.5 rounded-2xl space-y-2 shadow-2xl">
-        <div class="flex items-center gap-2">
-          <span id="feedbackIcon" class="text-2xl">⭕</span>
-          <h4 id="feedbackTitle" class="text-sm font-black text-amber-300"></h4>
+      <div id="quizFeedback" class="hidden bg-[#1d1245] border-2 border-amber-400 p-3 rounded-2xl space-y-2 shadow-2xl">
+        <div class="flex items-center gap-1.5">
+          <span id="feedbackIcon" class="text-xl">🌟</span>
+          <h4 id="feedbackTitle" class="text-xs font-black text-amber-300"></h4>
         </div>
-        <p id="feedbackExplain" class="text-xs text-slate-200 leading-relaxed whitespace-pre-line"></p>
-        <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
+        <p id="feedbackExplain" class="text-[11px] text-slate-200 leading-relaxed whitespace-pre-line break-words max-h-48 overflow-y-auto"></p>
+        <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black py-2 rounded-xl text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
           つぎへ進む ➔
         </button>
       </div>
@@ -417,242 +475,243 @@
     </div>
 
     <!-- ==================== 3. リザルト画面 ==================== -->
-    <div id="viewResult" class="hidden space-y-4 text-center py-4">
-      <div class="bg-gradient-to-b from-indigo-800 to-indigo-950 border-2 border-amber-400 rounded-3xl p-6 shadow-2xl space-y-4 glow-gold" id="resultCardBox">
-        <div class="text-6xl animate-bounce" id="resultEmoji">🏆</div>
+    <div id="viewResult" class="hidden space-y-3.5 text-center py-2">
+      <div class="bg-gradient-to-b from-[#1b103d] to-[#0c0721] border-2 border-amber-400 rounded-3xl p-5 shadow-2xl space-y-3 glow-gold" id="resultCardBox">
+        <div class="text-5xl animate-bounce" id="resultEmoji">🏆✨</div>
         <div>
-          <span id="resultModeBadge" class="text-[10px] font-black bg-amber-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1">デイリークエストクリア</span>
-          <h3 class="text-xl font-black text-amber-300" id="resultTitle">クエストクリア！</h3>
-          <p id="resultComment" class="text-xs text-indigo-200 mt-1">素晴らしい集中力です！</p>
+          <span id="resultModeBadge" class="text-[9px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full inline-block mb-1 shadow">修練達成</span>
+          <h3 class="text-lg font-black text-amber-300" id="resultTitle">クエストクリア！</h3>
+          <p id="resultComment" class="text-[11px] text-blue-200 mt-0.5">素晴らしい集中力です！</p>
         </div>
 
-        <div id="rareDropArea" class="hidden bg-gradient-to-r from-purple-900 to-amber-900 border-2 border-amber-400 p-3 rounded-2xl space-y-1">
-          <span class="text-xl">🎁✨</span>
-          <div class="font-black text-xs text-amber-300">ボスからレア宝箱がドロップ！</div>
-          <div id="rareDropItemText" class="font-bold text-xs text-white">【竜王の覇冠】を手に入れた！</div>
+        <div id="rareDropArea" class="hidden bg-gradient-to-r from-amber-950 via-purple-950 to-indigo-950 border-2 border-amber-400 p-2.5 rounded-2xl space-y-0.5">
+          <span class="text-lg">🎁✨</span>
+          <div class="font-black text-[10px] text-amber-300">大魔王から伝説の宝箱がドロップ！</div>
+          <div id="rareDropItemText" class="font-bold text-[11px] text-white truncate">【ロトのかぶと】を手に入れた！</div>
         </div>
 
-        <div class="grid grid-cols-3 gap-2 bg-indigo-950/80 p-3 rounded-2xl border border-indigo-700 text-xs">
+        <div class="grid grid-cols-3 gap-1.5 bg-[#090517]/80 p-2.5 rounded-2xl border border-blue-500/30 text-xs">
           <div>
-            <div class="text-indigo-400 text-[10px] font-bold">正解数</div>
-            <div id="resultScore" class="font-black text-base text-white">0 / 0</div>
+            <div class="text-blue-300 text-[9px] font-bold">正解数</div>
+            <div id="resultScore" class="font-black text-sm text-white">0 / 0</div>
           </div>
           <div>
-            <div class="text-indigo-400 text-[10px] font-bold">獲得EXP</div>
-            <div id="resultExp" class="font-black text-base text-amber-400">+50</div>
+            <div class="text-blue-300 text-[9px] font-bold">獲得EXP</div>
+            <div id="resultExp" class="font-black text-sm text-amber-300">+50</div>
           </div>
           <div>
-            <div class="text-indigo-400 text-[10px] font-bold">獲得ダイヤ</div>
-            <div id="resultGems" class="font-black text-base text-emerald-400">💎+15</div>
+            <div class="text-blue-300 text-[9px] font-bold">獲得ダイヤ</div>
+            <div id="resultGems" class="font-black text-sm text-amber-300">💎+15</div>
           </div>
         </div>
 
-        <button onclick="showHome()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-3 rounded-xl text-sm shadow-lg hover:brightness-110 active:scale-95 transition">
+        <button onclick="showHome()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black py-2.5 rounded-xl text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
           拠点（ホーム）にもどる 🏠
         </button>
       </div>
     </div>
 
-    <!-- ==================== 4. 📖 モンスター図鑑（完全700語コレクション） ==================== -->
-    <div id="viewBook" class="hidden space-y-3">
-      <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
+    <!-- ==================== 4. 📖 4級 魔法単語図鑑 ==================== -->
+    <div id="viewBook" class="hidden space-y-2.5">
+      <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3 space-y-1.5">
         <div class="flex justify-between items-center">
-          <h3 class="font-black text-xs text-amber-400 flex items-center gap-1.5">
-            📖 必須英単語 700語図鑑
+          <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
+            📖 4級 魔法単語図鑑
           </h3>
-          <span id="bookProgressText" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold">0 / 700 語</span>
+          <span id="bookProgressText" class="text-[9px] bg-[#090517] px-2 py-0.5 rounded-full border border-blue-500/40 text-amber-300 font-bold">0 / 700 語</span>
         </div>
-        <div class="w-full bg-indigo-950 rounded-full h-2 border border-indigo-700 overflow-hidden">
-          <div id="bookProgressBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-0 transition-all duration-500"></div>
+        <div class="w-full bg-[#090517] rounded-full h-1.5 border border-blue-500/40 overflow-hidden">
+          <div id="bookProgressBar" class="bg-gradient-to-r from-blue-400 to-amber-400 h-full w-0 transition-all duration-500"></div>
         </div>
-        <input type="text" id="bookSearchInput" oninput="renderVocabBook()" placeholder="🔍 単語や日本語でけんさく..." class="w-full bg-indigo-950 border border-indigo-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+        <input type="text" id="bookSearchInput" oninput="renderVocabBook()" placeholder="🔍 単語や日本語で検索..." class="w-full bg-[#090517] border border-blue-500/40 rounded-xl px-2.5 py-1 text-xs text-white focus:outline-none focus:border-amber-400">
       </div>
 
-      <div class="grid grid-cols-2 gap-2 text-xs max-h-[460px] overflow-y-auto pr-1" id="vocabBookList"></div>
+      <div class="grid grid-cols-2 gap-1.5 text-xs max-h-[450px] overflow-y-auto pr-1" id="vocabBookList"></div>
     </div>
 
-    <!-- ==================== 5. 👾 にがて帳（復習・弱点克服専用画面） ==================== -->
-    <div id="viewWeakBook" class="hidden space-y-3">
-      <div class="bg-gradient-to-br from-rose-900 via-indigo-950 to-indigo-900 border border-rose-500/60 rounded-2xl p-3.5 space-y-2">
+    <!-- ==================== 5. 👾 にがて帳 ==================== -->
+    <div id="viewWeakBook" class="hidden space-y-2.5">
+      <div class="bg-gradient-to-br from-rose-950 via-[#150e33] to-[#0c081f] border border-rose-500/60 rounded-2xl p-3 space-y-1">
         <div class="flex justify-between items-center">
           <div>
-            <h3 class="font-black text-xs text-rose-300 flex items-center gap-1.5">
-              👾 にがて帳（復習・弱点チェック）
+            <h3 class="font-black text-xs text-rose-300 flex items-center gap-1">
+              👾 にがて克服ノート
             </h3>
-            <p class="text-[9.5px] text-indigo-200">過去に間違えた問題一覧。覚えたら削除しよう！</p>
+            <p class="text-[9px] text-blue-200">間違えた問題一覧。覚えたら削除しよう！</p>
           </div>
-          <span id="weakBookCountBadge" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-rose-500 text-rose-300 font-bold">0問</span>
+          <span id="weakBookCountBadge" class="text-[9px] bg-[#090517] px-2 py-0.5 rounded-full border border-rose-500 text-rose-300 font-bold flex-shrink-0">0問</span>
         </div>
       </div>
 
-      <div class="space-y-2.5 max-h-[480px] overflow-y-auto pr-1" id="weakBookItemList"></div>
+      <div class="space-y-2 max-h-[460px] overflow-y-auto pr-1" id="weakBookItemList"></div>
     </div>
 
     <!-- ==================== 6. 💎 ダイヤショップ画面 ==================== -->
-    <div id="viewShop" class="hidden space-y-4">
-      <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-2">
-        <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
-          💡 バトル補助アイテム
+    <div id="viewShop" class="hidden space-y-3">
+      <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3 space-y-2">
+        <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
+          💡 ドラクエ魔法アイテム
         </h3>
-        <div class="space-y-2 text-xs">
-          <div class="bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-2xl">💡</span>
-              <div>
-                <div class="font-bold text-white">ヒントの書（50:50）</div>
-                <div class="text-[10px] text-indigo-300">バトル中に間違いを2つ消去（所持: <span id="shopHintCount">0</span>個）</div>
+        <div class="space-y-1.5 text-xs">
+          <div class="bg-[#090517] p-2 rounded-xl border border-blue-500/30 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-xl flex-shrink-0">🪞</span>
+              <div class="min-w-0">
+                <div class="font-bold text-[11px] text-white truncate">ラーのかがみ</div>
+                <div class="text-[9px] text-blue-200">2択消去 (所持: <span id="shopHintCount">0</span>個)</div>
               </div>
             </div>
-            <button onclick="buyItem('hint', 15)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
+            <button onclick="buyItem('hint', 15)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95 shadow flex-shrink-0">
               💎 15
             </button>
           </div>
 
-          <div class="bg-indigo-950 p-2.5 rounded-xl border border-indigo-800 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-2xl">🧪</span>
-              <div>
-                <div class="font-bold text-white">EXPの秘薬</div>
-                <div class="text-[10px] text-indigo-300">次のクエストで獲得EXPが2倍（所持: <span id="shopPotionCount">0</span>個）</div>
+          <div class="bg-[#090517] p-2 rounded-xl border border-blue-500/30 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-xl flex-shrink-0">💧</span>
+              <div class="min-w-0">
+                <div class="font-bold text-[11px] text-white truncate">せかいじゅのしずく</div>
+                <div class="text-[9px] text-blue-200">次回EXP 2倍 (所持: <span id="shopPotionCount">0</span>個)</div>
               </div>
             </div>
-            <button onclick="buyItem('potion', 30)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-lg text-xs transition active:scale-95">
+            <button onclick="buyItem('potion', 30)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95 shadow flex-shrink-0">
               💎 30
             </button>
           </div>
         </div>
       </div>
 
-      <div class="bg-indigo-900/70 border border-indigo-700 rounded-2xl p-3.5 space-y-3">
-        <div class="flex justify-between items-center">
-          <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
-            👑 相棒の着せ替え・装備コレクション (ステータスUP!)
-          </h3>
+      <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3 space-y-2">
+        <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
+          👑 勇者のドラクエ装備コレクション
+        </h3>
+
+        <div class="flex bg-[#090517] p-1 rounded-xl border border-blue-500/30 text-[10px] font-bold">
+          <button id="tabEquipHat" onclick="switchEquipTab('hat')" class="flex-1 py-1 rounded-lg bg-[#1f144d] text-amber-300 shadow transition">
+            👑 かぶと (HP)
+          </button>
+          <button id="tabEquipWeapon" onclick="switchEquipTab('weapon')" class="flex-1 py-1 rounded-lg text-blue-200 hover:text-white transition">
+            🗡️ つるぎ (攻)
+          </button>
+          <button id="tabEquipAura" onclick="switchEquipTab('aura')" class="flex-1 py-1 rounded-lg text-blue-200 hover:text-white transition">
+            ✨ 装飾品 (速)
+          </button>
         </div>
 
-        <div class="flex bg-indigo-950 p-1 rounded-xl border border-indigo-800 text-[11px] font-bold">
-          <button id="tabEquipHat" onclick="switchEquipTab('hat')" class="flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition">
-            👑 あたま (HP)
-          </button>
-          <button id="tabEquipWeapon" onclick="switchEquipTab('weapon')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
-            ⚔️ ぶき (攻)
-          </button>
-          <button id="tabEquipAura" onclick="switchEquipTab('aura')" class="flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition">
-            ✨ オーラ (速)
-          </button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 text-xs max-h-96 overflow-y-auto pr-1" id="equipShopList"></div>
+        <div class="grid grid-cols-2 gap-1.5 text-xs max-h-80 overflow-y-auto pr-1" id="equipShopList"></div>
       </div>
     </div>
 
     <!-- ==================== 7. 保護者用ダッシュボード ==================== -->
-    <div id="viewParent" class="hidden space-y-4">
-      <div class="bg-indigo-900/80 border border-indigo-700 rounded-2xl p-4 space-y-3">
-        <h3 class="font-bold text-sm text-amber-400 flex items-center gap-1.5 border-b border-indigo-800 pb-2">
+    <div id="viewParent" class="hidden space-y-3">
+      <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3.5 space-y-2.5">
+        <h3 class="font-bold text-xs text-amber-300 flex items-center gap-1 border-b border-blue-500/30 pb-1.5">
           📊 学習進捗と合格可能性メーター
         </h3>
         
-        <div class="grid grid-cols-2 gap-2.5 text-xs">
-          <div class="bg-indigo-950 p-3 rounded-xl border border-indigo-800">
-            <span class="text-indigo-400 text-[10px] block mb-1">総解答数 / 正解率</span>
-            <span id="statTotalAnswers" class="text-base font-black text-white">0問</span>
-            <span id="statAccuracy" class="text-xs font-bold text-emerald-400 ml-1">(0%)</span>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="bg-[#090517] p-2.5 rounded-xl border border-blue-500/30">
+            <span class="text-blue-300 text-[9px] block mb-0.5">総解答数 / 正解率</span>
+            <span id="statTotalAnswers" class="text-sm font-black text-white">0問</span>
+            <span id="statAccuracy" class="text-[10px] font-bold text-amber-300 ml-1">(0%)</span>
           </div>
-          <div class="bg-indigo-950 p-3 rounded-xl border border-indigo-800">
-            <span class="text-indigo-400 text-[10px] block mb-1">合格予想判定</span>
-            <span id="statPassRate" class="text-xs font-black text-amber-300 block mt-1">判定中</span>
+          <div class="bg-[#090517] p-2.5 rounded-xl border border-blue-500/30">
+            <span class="text-blue-300 text-[9px] block mb-0.5">合格予想判定</span>
+            <span id="statPassRate" class="text-[11px] font-black text-amber-300 block mt-0.5 truncate">判定中</span>
           </div>
         </div>
 
-        <div class="pt-2 border-t border-indigo-800 space-y-2 text-xs">
-          <span class="text-[10px] text-indigo-300 font-bold block">データ管理（バックアップ）</span>
+        <div class="pt-2 border-t border-blue-500/30 space-y-2 text-xs">
+          <span class="text-[9.5px] text-blue-200 font-bold block">データ管理（バックアップ）</span>
           <div class="flex gap-2">
-            <button onclick="exportData()" class="flex-1 bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-2.5 rounded-lg border border-indigo-600 transition text-[11px]">📤 バックアップ保存</button>
-            <label class="flex-1 bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-2.5 rounded-lg border border-indigo-600 text-center cursor-pointer transition text-[11px]">
-              📥 データ復元
+            <button onclick="exportData()" class="flex-1 bg-[#201548] hover:bg-[#2d1e63] text-white font-bold py-1.5 px-2 rounded-lg border border-blue-500/40 transition text-[10.5px]">📤 保存</button>
+            <label class="flex-1 bg-[#201548] hover:bg-[#2d1e63] text-white font-bold py-1.5 px-2 rounded-lg border border-blue-500/40 text-center cursor-pointer transition text-[10.5px]">
+              📥 復元
               <input type="file" id="importFileInput" onchange="importData(event)" class="hidden">
             </label>
           </div>
-          <button onclick="resetAllProgress()" class="w-full text-rose-400 hover:text-rose-300 text-[10px] font-bold py-1 text-center">⚠️ データを初期化する</button>
+          <button onclick="resetAllProgress()" class="w-full text-rose-400 hover:text-rose-300 text-[9.5px] font-bold py-1 text-center">⚠️ 4級データを初期化する</button>
         </div>
       </div>
     </div>
 
   </main>
 
-  <!-- ==================== 🎬 初回撃破限定 フルスクリーンエンディングモーダル ==================== -->
-  <div id="modalEnding" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div id="endingContainer" class="max-w-md w-full text-center space-y-5 py-6">
+  <!-- ==================== 🎬 フルスクリーン表エンディング ==================== -->
+  <div id="modalEnding" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-3 overflow-y-auto">
+    <div id="endingContainer" class="max-w-sm w-full text-center space-y-4 py-4">
       
-      <div id="endingPhase1" class="space-y-4">
-        <div class="text-7xl animate-bounce">👑🎉✨</div>
-        <div class="inline-block bg-gradient-to-r from-amber-400 to-yellow-300 text-indigo-950 font-black text-xs px-3 py-1 rounded-full shadow-lg">
+      <div id="endingPhase1" class="space-y-3">
+        <div class="text-6xl animate-bounce">👑⚔️🌟✨</div>
+        <div class="inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black text-[11px] px-3 py-0.5 rounded-full shadow-lg">
           GAME CLEARED & 合格達成！
         </div>
-        <h2 class="text-2xl font-black text-amber-300 tracking-wider">
-          覇天神龍 討伐完了！
+        <h2 class="text-xl font-black text-amber-300 tracking-wider">
+          魔戦神ダークドレアム 討伐完了！
         </h2>
-        <p class="text-xs text-slate-200 leading-relaxed whitespace-pre-line px-2">
-          すべての過去問の試練を乗り越え、
-          英検4級の全知識をマスターしました！
+        <p class="text-[11px] text-slate-200 leading-relaxed whitespace-pre-line px-1">
+          すべての歴代大魔王の試練を乗り越え、
+          英検4級の全重要単語・中学英文法をマスターしました！
           
-          あなたの毎日の努力と集中力は本物です。
-          本番の英検でも、絶対に合格できます！
+          あなたの努力は本物です。本番も合格間違いなし！
         </p>
 
-        <!-- 相棒からのメッセージ -->
-        <div class="bg-indigo-900/80 border-2 border-amber-400 p-4 rounded-3xl space-y-2 text-left shadow-2xl">
+        <div class="bg-[#150e33]/90 border-2 border-amber-400 p-3 rounded-2xl space-y-1.5 text-left shadow-2xl">
           <div class="flex items-center gap-2">
-            <span class="text-3xl" id="endingHeroEmoji">🐣</span>
+            <div id="endingHeroEmoji" class="w-12 h-12 flex items-center justify-center">💧</div>
             <div>
-              <div class="text-[10px] text-amber-400 font-bold">最高の相棒より</div>
-              <div class="text-xs font-black text-white" id="endingHeroName">タマゴン</div>
+              <div class="text-[9px] text-amber-300 font-bold">最高の相棒より</div>
+              <div class="text-[11px] font-black text-white" id="endingHeroName">スライム</div>
             </div>
           </div>
-          <p class="text-xs text-indigo-100 leading-relaxed">
-            「ここまで一緒に冒険してくれて本当にありがとう！
-            オイラたち、ついに最高の英語マスターになったよ！」
+          <p class="text-[10.5px] text-blue-100 leading-relaxed">
+            「ピキッ！ここまで一緒に冒険してくれて本当にありがとう！
+            キミこそが真の伝説の勇者、英検マスターだよ！」
           </p>
         </div>
 
-        <!-- 隠し装備獲得演出 -->
-        <div class="bg-gradient-to-r from-purple-950 via-indigo-900 to-purple-950 border-2 border-purple-500 p-3.5 rounded-3xl space-y-1.5 shadow-2xl">
-          <div class="text-sm font-black text-purple-300">🎁 神龍の遺産（完全隠し装備3種 解放！）</div>
-          <div class="text-[11px] font-bold text-amber-300">
-            👑【創世神の聖冠】 / 🗡️【創世神の聖剣】 / ✨【創世神の神光】
+        <div class="bg-gradient-to-r from-amber-950 via-purple-950 to-indigo-950 border-2 border-amber-500 p-3 rounded-2xl space-y-1 shadow-2xl text-left">
+          <div class="text-xs font-black text-amber-300">🎁 伝説の天空遺産（完全隠し装備3種 解放！）</div>
+          <div class="text-[10px] font-bold text-amber-300">
+            👑【天空の兜】 / 🗡️【王者の剣・真】 / ✨【ひかりのたま】
           </div>
-          <p class="text-[9.5px] text-slate-300">ショップの着せ替えに極限の神器が追加されました！(Lv.60〜)</p>
+          <p class="text-[8.5px] text-slate-300">ショップの着せ替えに極限の神器が追加されました！(Lv.60〜)</p>
         </div>
 
-        <button onclick="triggerEndingTeaser()" class="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:brightness-110 text-indigo-950 font-black py-3 rounded-2xl text-xs shadow-xl transition active:scale-95">
+        <div class="bg-[#090517]/90 border border-blue-500/40 p-2.5 rounded-2xl text-[9.5px] space-y-0.5 text-center font-bold">
+          <div class="text-amber-400 tracking-widest text-[8.5px] uppercase border-b border-blue-800 pb-0.5">★ STAFF CREDITS ★</div>
+          <div class="text-blue-200">プロデュース：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+          <div class="text-blue-200">企画・問題作成：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+          <div class="text-blue-200">世界で一番の応援サポーター：<span class="text-amber-300 font-black">鄭 聖也（パパ）</span></div>
+        </div>
+
+        <button onclick="triggerEndingTeaser()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black py-2.5 rounded-xl text-xs shadow-xl transition active:scale-95">
           次へ進む ➔
         </button>
       </div>
 
-      <!-- 不気味な揺れ＆真・裏ボス ティザー演出 -->
-      <div id="endingPhase2" class="hidden space-y-5">
-        <div class="text-6xl animate-pulse">🌌👁️</div>
-        <h3 class="text-lg font-black text-purple-400 animate-pulse">
-          ……だが、何かがおかしい。
+      <div id="endingPhase2" class="hidden space-y-4">
+        <div class="text-5xl animate-pulse">🗡️🔥⚡</div>
+        <h3 class="text-base font-black text-rose-400 animate-pulse">
+          ……だが、地の底より地鳴りが響き渡る。
         </h3>
-        <p class="text-xs text-rose-300 leading-relaxed whitespace-pre-line px-2 font-bold">
-          次元の裂け目から、オメガエデンをも遥かに凌駕する
-          底知れないプレッシャーが漂ってくる……！
+        <p class="text-[11px] text-rose-300 leading-relaxed whitespace-pre-line px-1 font-bold">
+          地下の奥深く、数万年の眠りから
+          絶対的な破壊神が目を覚まそうとしている……！
           
-          「フハハ……よくぞ神龍を討ち破った。
-          だが我を超えねば、真の合格とは言えん……」
+          「フハハ……よくぞ魔戦神を倒した。
+          だが我を超えねば、真の勇者とは言えん……」
         </p>
 
-        <div class="bg-red-950/80 border-2 border-red-600 p-4 rounded-3xl space-y-1.5 shadow-2xl">
-          <div class="text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full inline-block">EMERGENCY</div>
-          <div class="text-sm font-black text-red-400">真・裏ボス【Lv.11 虚無の創造主・クロノス】解禁！</div>
-          <p class="text-[10px] text-slate-300 leading-tight">
-            ※最強隠し装備・Lv.100・全クリティカルでのみ勝機あり。
+        <div class="bg-rose-950/80 border-2 border-rose-600 p-3 rounded-2xl space-y-1 shadow-2xl">
+          <div class="text-[9px] font-black bg-rose-600 text-white px-2 py-0.5 rounded-full inline-block">EMERGENCY</div>
+          <div class="text-xs font-black text-rose-300">真・裏ボス【Lv.11 地獄の帝王・エスターク】解禁！</div>
+          <p class="text-[9px] text-slate-300 leading-tight">
+            ※最強天空装備・Lv.100・全クリティカルでのみ勝機あり。
           </p>
         </div>
 
-        <button onclick="finishEndingSequence()" class="w-full bg-gradient-to-r from-red-600 to-purple-600 hover:brightness-110 text-white font-black py-3 rounded-2xl text-xs shadow-xl transition active:scale-95">
+        <button onclick="finishEndingSequence()" class="w-full bg-gradient-to-r from-rose-600 to-amber-600 hover:brightness-110 text-white font-black py-2.5 rounded-xl text-xs shadow-xl transition active:scale-95">
           真の挑戦へ向かう ⚔️
         </button>
       </div>
@@ -661,33 +720,42 @@
   </div>
 
   <!-- ボトムナビゲーションバー -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-indigo-900/95 backdrop-blur border-t border-indigo-800 py-2 z-40">
-    <div class="max-w-md mx-auto grid grid-cols-5 text-[9.5px] font-bold text-center">
-      <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-400">
-        <span class="text-base">🏠</span>
-        <span>クエスト</span>
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#0d0722]/98 backdrop-blur border-t border-blue-500/30 py-1.5 z-40 shadow-2xl">
+    <div class="max-w-md mx-auto grid grid-cols-5 text-[9px] font-bold text-center">
+      <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-300 font-black">
+        <span class="text-sm">🏠</span>
+        <span class="truncate">クエスト</span>
       </button>
-      <button onclick="showBook()" id="navBook" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-base">📖</span>
-        <span>図鑑</span>
+      <button onclick="showBook()" id="navBook" class="flex flex-col items-center gap-0.5 text-blue-300/70 hover:text-blue-200">
+        <span class="text-sm">📖</span>
+        <span class="truncate">図鑑</span>
       </button>
-      <button onclick="showWeakBook()" id="navWeak" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-base">👾</span>
-        <span>にがて帳</span>
+      <button onclick="showWeakBook()" id="navWeak" class="flex flex-col items-center gap-0.5 text-blue-300/70 hover:text-blue-200">
+        <span class="text-sm">👾</span>
+        <span class="truncate">にがて帳</span>
       </button>
-      <button onclick="showShop()" id="navShop" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-base">🛒</span>
-        <span>ショップ</span>
+      <button onclick="showShop()" id="navShop" class="flex flex-col items-center gap-0.5 text-blue-300/70 hover:text-blue-200">
+        <span class="text-sm">🛒</span>
+        <span class="truncate">ショップ</span>
       </button>
-      <button onclick="showParent()" id="navParent" class="flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200">
-        <span class="text-base">📊</span>
-        <span>保護者</span>
+      <button onclick="showParent()" id="navParent" class="flex flex-col items-center gap-0.5 text-blue-300/70 hover:text-blue-200">
+        <span class="text-sm">📊</span>
+        <span class="truncate">保護者</span>
       </button>
     </div>
   </nav>
 
-  <!-- 外部JavaScriptファイルの読み込み -->
+  <!-- 外部JavaScriptファイルの読み込み ＆ Service Worker 登録 -->
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+          .catch(err => console.error('PWA Service Worker failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
