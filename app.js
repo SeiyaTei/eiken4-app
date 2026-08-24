@@ -11,7 +11,7 @@ function getSpriteIconHtml(itemObj, fallbackEmoji, type) {
     } else if (type === 'monster') {
       return `<div class="dq-monster-box"><div class="dq-monster-sprite" style="background-position: ${itemObj.pos};"></div></div>`;
     } else if (type === 'item') {
-      return `<div class="dq-item-sprite" style="background-position: ${itemObj.pos};"></div>`;
+      return `<div class="dq-item-box"><div class="dq-item-sprite" style="background-position: ${itemObj.pos};"></div></div>`;
     }
   }
   return fallbackEmoji || '💧';
@@ -450,7 +450,7 @@ function updateUiState() {
     }
   }
 
-  // 装備アイコンの描画（文字ではなく画像として表示）
+  // 装備アイコンの描画（画像として表示）
   if (typeof SHOP_EQUIP_DATA !== 'undefined') {
     const setEquipIcon = (elId, equipId) => {
       const el = document.getElementById(elId);
@@ -476,7 +476,7 @@ function updateUiState() {
     const daysLeft = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
     setText('countdownDays', `${daysLeft} 日`);
   } catch(e) {
-    setText('countdownDays', '42 日');
+    setText('countdownDays', '41 日');
   }
 
   let doneCount = 0;
@@ -1063,7 +1063,7 @@ function generateListeningQuiz(item, idx) {
     sub: item.sub || '🎧 音声を聞いて答えよう',
     options: shuffledOptions,
     ans: newAnsIndex,
-    explain: item.exp,
+    explain: item.explain,
     dialogue: item.dialogue,
     audio_complete: item.aud_complete
   };
@@ -1216,12 +1216,14 @@ function renderQuestion() {
     document.getElementById('enemyCardBox').classList.remove('fever-active');
   }
   
-  // 敵の画像スプライト描画
+  // 敵モンスターの画像＆名前切り替え
   const enemyAvatarEl = document.getElementById('enemyAvatar');
   if (isBossMode && currentBossStage) {
     enemyAvatarEl.innerHTML = getSpriteIconHtml(currentBossStage, currentBossStage.icon, 'monster');
+    document.getElementById('battleEnemyName').innerText = `Lv.${currentBossStage.lv} ${currentBossStage.name}`;
   } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
-    enemyAvatarEl.innerHTML = getSpriteIconHtml({ pos: "-146px -74px" }, '🤖', 'monster');
+    enemyAvatarEl.innerHTML = getSpriteIconHtml({ pos: "-143px -68px" }, '🤖', 'monster');
+    document.getElementById('battleEnemyName').innerText = (currentMode === 'weakRetry') ? "👾 にがてモンスター" : "👾 キラーマシン";
   } else {
     const normalEnemy = NORMAL_ENEMIES[currentIndex % NORMAL_ENEMIES.length];
     enemyAvatarEl.innerHTML = getSpriteIconHtml(normalEnemy, normalEnemy.icon, 'monster');
