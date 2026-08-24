@@ -1,18 +1,32 @@
 // ==========================================
-// 英検4級 合格クエスト 〜50日間の冒険〜
-// ゲーム進行・ロジックファイル (app.js) - 完全版
+// 英検4級 合格クエスト 〜ドラゴンクエスト編〜
+// ゲーム進行・ロジックファイル (app.js)
 // ==========================================
 
+// ==================== スプライト描画ヘルパー ====================
+function getSpriteIconHtml(itemObj, fallbackEmoji, type) {
+  if (itemObj && itemObj.pos) {
+    if (type === 'slime') {
+      return `<div class="dq-slime-sprite" style="background-position: ${itemObj.pos};"></div>`;
+    } else if (type === 'monster') {
+      return `<div class="dq-monster-sprite" style="background-position: ${itemObj.pos};"></div>`;
+    } else if (type === 'item') {
+      return `<div class="dq-item-sprite" style="background-position: ${itemObj.pos};"></div>`;
+    }
+  }
+  return fallbackEmoji || '💧';
+}
+
 // ==================== 音声読み上げエンジン ====================
-let voiceSpeed = 0.8;
+let voiceSpeed = 0.85;
 let isDialogueSpeaking = false;
 let dialogueNextTimer = null;
 
 function toggleVoiceSpeed() {
-  voiceSpeed = (voiceSpeed === 0.8) ? 1.0 : 0.8;
+  voiceSpeed = (voiceSpeed === 0.85) ? 1.05 : 0.85;
   const el = document.getElementById('btnSpeedToggle');
-  if (el) el.innerText = (voiceSpeed === 0.8) ? '🗣️ ゆっくり' : '🗣️ ふつう';
-  speakText(voiceSpeed === 0.8 ? 'Slow speed' : 'Normal speed');
+  if (el) el.innerText = (voiceSpeed === 0.85) ? '🗣️ ゆっくり' : '🗣️ ふつう';
+  speakText(voiceSpeed === 0.85 ? 'Slow speed' : 'Normal speed');
 }
 
 function speakText(text, onCompleteCallback) {
@@ -71,7 +85,7 @@ function playDialogueSpeech(dialogueArray, onCompleteCallback) {
       if (segment.speaker === 'female') {
         uttr.pitch = 1.35;
       } else if (segment.speaker === 'male') {
-        uttr.pitch = 0.78;
+        uttr.pitch = 0.85;
       } else {
         uttr.pitch = 1.05;
       }
@@ -132,8 +146,8 @@ function toggleBGM() {
   if (btn) {
     btn.innerHTML = isBgmEnabled ? '🎵 ON' : '🎵 OFF';
     btn.className = isBgmEnabled 
-      ? "bg-amber-500 border border-amber-400 px-2 py-1 rounded-full text-[10px] font-black text-indigo-950 transition"
-      : "bg-indigo-800 border border-indigo-600 px-2 py-1 rounded-full text-[10px] font-bold text-slate-300 transition";
+      ? "bg-amber-500 border border-amber-400 px-1.5 py-0.5 rounded-full text-[9.5px] font-black text-purple-950 transition shadow"
+      : "bg-[#201548] border border-blue-500/40 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-slate-300 transition";
   }
   if(isBgmEnabled) playBGM(isBossMode ? 'boss' : 'home');
   else stopBGM();
@@ -198,7 +212,7 @@ function playSE(type) {
       [523, 783, 1046, 1318, 1567].forEach((f, i) => {
         osc.frequency.setValueAtTime(f, now + i * 0.05);
       });
-      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.setValueAtTime(0.28, now);
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
       osc.start(now); osc.stop(now + 0.45);
     } else if(type === 'wrong') {
@@ -221,7 +235,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v43';
+const STORAGE_KEY = 'eiken_grade4_data_v1';
 let userData = {
   level: 1,
   exp: 0,
@@ -249,7 +263,7 @@ let currentShopTab = 'hat';
 let isDailyCurrentSession = false;
 let isBossMode = false;
 let isFeverMode = false;
-let currentBossStage = BOSS_STAGES[0];
+let currentBossStage = null;
 let selectedNormalType = 'vocab';
 let selectedNormalDiffLevel = 1;
 
@@ -289,7 +303,7 @@ function sanitizeUserData() {
 
   if (userData.level < 60) {
     const checkEq = (id) => {
-      const found = SHOP_EQUIP_DATA.find(e => e.id === id);
+      const found = (typeof SHOP_EQUIP_DATA !== 'undefined') ? SHOP_EQUIP_DATA.find(e => e.id === id) : null;
       return found && found.reqLv && userData.level < found.reqLv;
     };
     if (checkEq(userData.equipped.hat)) userData.equipped.hat = '';
@@ -308,16 +322,6 @@ function sanitizeUserData() {
 function loadData() {
   try {
     let saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) {
-      const oldKeys = ['eiken4_data_v42', 'eiken4_data_v41', 'eiken4_data_v40', 'eiken4_data_v39', 'eiken4_data_v38', 'eiken4_data_v37', 'eiken4_data_v36', 'eiken4_data_v35', 'eiken4_data'];
-      for (const key of oldKeys) {
-        const old = localStorage.getItem(key);
-        if (old) {
-          saved = old;
-          break;
-        }
-      }
-    }
     if (saved) {
       const parsed = JSON.parse(saved);
       userData = { ...userData, ...parsed };
@@ -332,6 +336,9 @@ function loadData() {
   }
   sanitizeUserData();
   checkDailyStreak();
+  if (typeof BOSS_STAGES !== 'undefined') {
+    currentBossStage = BOSS_STAGES[0];
+  }
   updateUiState();
 }
 
@@ -371,9 +378,9 @@ function calculatePlayerStats() {
   const baseHp = 120 + (userData.level * 15);
   const baseSpd = 5 + Math.floor(userData.level * 0.8);
 
-  const eqHat = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
-  const eqWp = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
-  const eqAura = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
+  const eqHat = (typeof SHOP_EQUIP_DATA !== 'undefined') ? SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat) : null;
+  const eqWp = (typeof SHOP_EQUIP_DATA !== 'undefined') ? SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon) : null;
+  const eqAura = (typeof SHOP_EQUIP_DATA !== 'undefined') ? SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura) : null;
 
   const totalHp = Math.round(baseHp + (eqHat ? eqHat.val : 0));
   const totalAtk = Math.round(baseAtk + (eqWp ? eqWp.val : 0));
@@ -394,7 +401,7 @@ function addExp(amount) {
   }
   if (leveledUp) {
     playSE('levelup');
-    const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+    const currentAvatar = (typeof AVATARS !== 'undefined') ? ([...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0]) : { name: "スライム", rank: "みならいスライム" };
     alert(`🎉 レベルアップ！ Lv.${userData.level} に到達しました！\n相棒の姿：【${currentAvatar.rank}】${currentAvatar.name}`);
   }
   saveData();
@@ -429,24 +436,32 @@ function updateUiState() {
   if (expBar) expBar.style.width = `${pct}%`;
   setText('expText', `${userData.exp} / ${needed}`);
 
-  const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
-  setText('heroAvatar', currentAvatar.emoji);
-  
-  if (userData.hasSeenTrueEnding) {
-    setText('heroRank', '🌌 全次元制覇神');
-    setText('heroName', `${currentAvatar.name} (完全体)`);
-  } else {
-    setText('heroRank', currentAvatar.rank);
-    setText('heroName', currentAvatar.name);
+  if (typeof AVATARS !== 'undefined') {
+    const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+    
+    // スライム画像スプライト描画
+    const heroAvatarEl = document.getElementById('heroAvatar');
+    if (heroAvatarEl) heroAvatarEl.innerHTML = getSpriteIconHtml(currentAvatar, currentAvatar.emoji, 'slime');
+
+    if (userData.hasSeenTrueEnding) {
+      setText('heroRank', '🌌 全次元の光神');
+      setText('heroName', `${currentAvatar.name} (完全覚醒)`);
+    } else {
+      setText('heroRank', currentAvatar.rank);
+      setText('heroName', currentAvatar.name);
+    }
   }
 
-  const hatEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
-  setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
-  const weaponEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
-  setText('equipWeaponIcon', weaponEquip ? weaponEquip.icon : '');
-  const auraEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
-  setText('equipAuraIcon', auraEquip ? auraEquip.icon : '');
+  if (typeof SHOP_EQUIP_DATA !== 'undefined') {
+    const hatEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
+    setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
+    const weaponEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
+    setText('equipWeaponIcon', weaponEquip ? weaponEquip.icon : '');
+    const auraEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
+    setText('equipAuraIcon', auraEquip ? auraEquip.icon : '');
+  }
 
+  // 🎯 2026年10月4日 試験日カウントダウン
   try {
     const examDate = new Date(2026, 9, 4);
     const today = new Date();
@@ -456,34 +471,34 @@ function updateUiState() {
     const daysLeft = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
     setText('countdownDays', `${daysLeft} 日`);
   } catch(e) {
-    setText('countdownDays', '49 日');
+    setText('countdownDays', '42 日');
   }
 
   let doneCount = 0;
   if (userData.dailyDone.vocab) doneCount++;
   if (userData.dailyDone.grammar) doneCount++;
   if (userData.dailyDone.listening) doneCount++;
-  setText('dailyProgressText', `${doneCount} / 3 完了`);
+  setText('dailyProgressText', `${doneCount} / 3`);
 
   const actVocab = document.getElementById('questActionVocab');
   if (actVocab) {
     actVocab.innerHTML = userData.dailyDone.vocab
-      ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
-      : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
+      ? `<span class="bg-[#090517] text-amber-300 font-bold px-2 py-1 rounded-xl text-[10px] border border-blue-500/40 whitespace-nowrap">✓ 済</span>`
+      : `<button onclick="startDailyQuest('vocab', 5)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
   }
 
   const actGrammar = document.getElementById('questActionGrammar');
   if (actGrammar) {
     actGrammar.innerHTML = userData.dailyDone.grammar
-      ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
-      : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
+      ? `<span class="bg-[#090517] text-amber-300 font-bold px-2 py-1 rounded-xl text-[10px] border border-blue-500/40 whitespace-nowrap">✓ 済</span>`
+      : `<button onclick="startDailyQuest('grammar', 3)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
   }
 
   const actListening = document.getElementById('questActionListening');
   if (actListening) {
     actListening.innerHTML = userData.dailyDone.listening
-      ? `<span class="bg-emerald-900/80 text-emerald-300 font-bold px-3 py-1.5 rounded-xl text-[10px] border border-emerald-600/50 whitespace-nowrap">✓ 達成済</span>`
-      : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
+      ? `<span class="bg-[#090517] text-amber-300 font-bold px-2 py-1 rounded-xl text-[10px] border border-blue-500/40 whitespace-nowrap">✓ 済</span>`
+      : `<button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>`;
   }
 
   const bonusArea = document.getElementById('dailyBonusArea');
@@ -512,12 +527,12 @@ function updateUiState() {
     const badge = document.getElementById(badgeId);
     if (!btn || !badge) return;
     if (isDone) {
-      badge.innerText = "✓ 達成済";
-      badge.className = "text-[9px] font-bold bg-emerald-950 text-emerald-300 px-1.5 py-0.2 rounded border border-emerald-600";
+      badge.innerText = "✓ 済";
+      badge.className = "text-[8px] font-bold bg-[#090517] text-amber-300 px-1 py-0.2 rounded border border-blue-500";
       btn.classList.add('opacity-60');
     } else {
       badge.innerText = "未挑戦";
-      badge.className = "text-[9px] font-bold bg-indigo-950 text-amber-300 px-1.5 py-0.2 rounded border border-indigo-600";
+      badge.className = "text-[8px] font-bold bg-[#090517] text-blue-300 px-1 py-0.2 rounded border border-blue-600";
       btn.classList.remove('opacity-60');
     }
   };
@@ -532,13 +547,13 @@ function updateUiState() {
     if (rotCount === 3) {
       btnWeak.classList.remove('opacity-60');
       btnWeak.classList.add('glow-red');
-      badgeWeak.innerText = "🔥 挑戦可能！";
-      badgeWeak.className = "text-[9px] font-bold bg-rose-600 text-white px-1.5 py-0.2 rounded animate-pulse";
+      badgeWeak.innerText = "⚔️ 挑戦可能";
+      badgeWeak.className = "text-[8px] font-bold bg-rose-600 text-white px-1.5 py-0.2 rounded animate-pulse";
     } else {
       btnWeak.classList.add('opacity-60');
       btnWeak.classList.remove('glow-red');
-      badgeWeak.innerText = `🔒 あと${3 - rotCount}種クリア`;
-      badgeWeak.className = "text-[9px] font-bold bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800";
+      badgeWeak.innerText = `🔒 あと${3 - rotCount}`;
+      badgeWeak.className = "text-[8px] font-bold bg-[#090517] text-rose-300 px-1.5 py-0.2 rounded border border-blue-700";
     }
   }
 
@@ -546,11 +561,11 @@ function updateUiState() {
   const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 0;
   setText('statAccuracy', `(${acc}%)`);
   
-  let passRate = '判定中 (15問以上で判定)';
+  let passRate = '判定中';
   if (userData.totalAnswered >= 15) {
-    if (acc >= 75) passRate = '💮 合格圏内 (A判定)';
-    else if (acc >= 60) passRate = '✨ 合格可能 (B判定)';
-    else passRate = '🔥 基礎強化中 (C判定)';
+    if (acc >= 75) passRate = '💮 合格圏内 (A)';
+    else if (acc >= 60) passRate = '✨ 合格可能 (B)';
+    else passRate = '🛡️ 基礎強化中 (C)';
   }
   setText('statPassRate', passRate);
 
@@ -580,9 +595,9 @@ function openNormalQuestSelect(type) {
   const modal = document.getElementById('modalNormalSelect');
   const titleEl = document.getElementById('normalSelectTitle');
   if (titleEl) {
-    if (type === 'vocab') titleEl.innerText = "📚 単語・熟語 特訓難易度選択 (10問)";
-    if (type === 'grammar') titleEl.innerText = "🪄 文法・会話 特訓難易度選択 (5問)";
-    if (type === 'listening') titleEl.innerText = "🎧 リスニング 特訓難易度選択 (3問)";
+    if (type === 'vocab') titleEl.innerText = "📚 単語・熟語 難易度選択 (10問)";
+    if (type === 'grammar') titleEl.innerText = "🪄 文法・語法 難易度選択 (5問)";
+    if (type === 'listening') titleEl.innerText = "🎧 リスニング 難易度選択 (3問)";
   }
   if (modal) modal.classList.remove('hidden');
 }
@@ -688,33 +703,27 @@ function startWeakBattle() {
 }
 
 // ==================== ボス専用ダイアログ表示エンジン ====================
-function showBossDialogueModal(title, icon, text, onConfirm) {
-  let modal = document.getElementById('modalBossDialogue');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'modalBossDialogue';
-    modal.className = "fixed inset-0 bg-black/90 z-50 p-4 flex items-center justify-center";
-    document.body.appendChild(modal);
+function showBossDialogueModal(title, stageObj, text, onConfirm) {
+  const modal = document.getElementById('modalBossDialogue');
+  const titleEl = document.getElementById('bossDialogueTitle');
+  const iconEl = document.getElementById('bossDialogueIcon');
+  const textEl = document.getElementById('bossDialogueText');
+  const btn = document.getElementById('btnBossDialogueNext');
+
+  if (titleEl) titleEl.innerText = title;
+  if (iconEl) {
+    iconEl.innerHTML = getSpriteIconHtml(stageObj, '🐲', 'monster');
   }
+  if (textEl) textEl.innerText = text;
 
-  modal.innerHTML = `
-    <div class="max-w-sm w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400/80 rounded-3xl p-5 shadow-2xl text-center space-y-4 glow-gold animate-scaleUp">
-      <div class="text-5xl animate-bounce">${icon}</div>
-      <div class="text-xs font-black text-amber-300 tracking-wider">${title}</div>
-      <div class="bg-indigo-950/80 p-3.5 rounded-2xl border border-indigo-700 text-xs text-slate-100 leading-relaxed text-left font-medium whitespace-pre-line">
-        ${text}
-      </div>
-      <button id="btnBossDialogueNext" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-2.5 rounded-xl text-xs shadow-xl transition active:scale-95">
-        進む ⚔️
-      </button>
-    </div>
-  `;
+  if (modal) modal.classList.remove('hidden');
 
-  modal.classList.remove('hidden');
-  document.getElementById('btnBossDialogueNext').onclick = () => {
-    modal.classList.add('hidden');
-    if (onConfirm) onConfirm();
-  };
+  if (btn) {
+    btn.onclick = () => {
+      if (modal) modal.classList.add('hidden');
+      if (onConfirm) onConfirm();
+    };
+  }
 }
 
 // ==================== ボス選択 & バトル開始 ====================
@@ -726,32 +735,7 @@ function openBossSelectModal() {
   if (!modal || !container) return;
   container.innerHTML = '';
 
-  // 🎬 エンディング回想ボタンエリア
-  if (userData.hasSeenEnding || userData.hasSeenTrueEnding) {
-    const replayBox = document.createElement('div');
-    replayBox.className = "bg-gradient-to-r from-amber-950/80 via-purple-950/80 to-indigo-950/80 p-2.5 rounded-2xl border border-amber-400/60 mb-2 space-y-1.5 shadow-lg";
-    replayBox.innerHTML = `
-      <div class="text-[10px] font-black text-amber-300 flex items-center gap-1">
-        <span>🎬 メモリアル・シアター（エンディング回想）</span>
-      </div>
-      <div class="flex gap-2">
-        ${userData.hasSeenEnding ? `
-          <button onclick="showEndingModal()" class="flex-1 bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-1.5 px-2 rounded-xl text-[10.5px] shadow transition active:scale-95 whitespace-nowrap">
-            👑 表EDを観る
-          </button>
-        ` : ''}
-        ${userData.hasSeenTrueEnding ? `
-          <button onclick="showTrueEndingModal()" class="flex-1 bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 hover:brightness-110 text-white font-black py-1.5 px-2 rounded-xl text-[10.5px] shadow transition active:scale-95 whitespace-nowrap">
-            🌌 真・完結EDを観る
-          </button>
-        ` : ''}
-      </div>
-    `;
-    container.appendChild(replayBox);
-  }
-
   BOSS_STAGES.forEach(stage => {
-    // 👑 隠しボス（Lv.11）はLv.10撃破前は枠すら非表示
     if (stage.isSecret && !userData.bossClearedLevels.includes(10)) {
       return;
     }
@@ -760,53 +744,52 @@ function openBossSelectModal() {
     const isCleared = userData.bossClearedLevels.includes(stage.lv);
 
     const card = document.createElement('div');
-    card.className = `p-3 rounded-2xl border flex items-center justify-between transition ${
+    card.className = `p-2.5 rounded-2xl border flex items-center justify-between gap-2 transition ${
       stage.isSecret 
-        ? 'bg-gradient-to-r from-purple-950 via-black to-red-950 border-purple-500 shadow-2xl glow-red'
+        ? 'bg-gradient-to-r from-purple-950 via-black to-rose-950 border-rose-500 shadow-xl glow-red'
         : (isUnlocked 
-            ? (isCleared ? 'bg-indigo-900/90 border-amber-400/80 shadow' : 'bg-gradient-to-r from-red-950 to-indigo-950 border-red-500/80 shadow-lg')
-            : 'bg-indigo-950/60 border-indigo-900 opacity-60')
+            ? (isCleared ? 'bg-[#180f33] border-blue-400/80 shadow' : 'bg-gradient-to-r from-[#29133b] to-[#160a28] border-rose-500/80 shadow-md')
+            : 'bg-[#090517] border-blue-900/40 opacity-60')
     }`;
 
     if (isUnlocked) {
       card.innerHTML = `
-        <div class="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
-          <span class="text-3xl flex-shrink-0">${stage.icon}</span>
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 bg-[#090517] rounded-xl border border-blue-500/40 overflow-hidden">
+            ${getSpriteIconHtml(stage, stage.icon, 'monster')}
+          </div>
           <div class="min-w-0 flex-1">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="text-xs font-black ${stage.isSecret ? 'text-purple-300' : 'text-amber-300'}">Lv.${stage.lv} ${stage.name}</span>
-              ${isCleared ? `<span class="text-[9px] bg-amber-500 text-indigo-950 font-black px-1.5 py-0.2 rounded">👑 討伐済</span>` : `<span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded">🔥 TARGET</span>`}
+            <div class="flex items-center gap-1 flex-wrap">
+              <span class="text-[11px] font-black ${stage.isSecret ? 'text-amber-300' : 'text-blue-200'} truncate">Lv.${stage.lv} ${stage.name}</span>
+              ${isCleared ? `<span class="text-[8px] bg-blue-600 text-white font-black px-1 py-0.2 rounded flex-shrink-0">討伐済</span>` : `<span class="text-[8px] bg-rose-600 text-white font-black px-1 py-0.2 rounded flex-shrink-0">TARGET</span>`}
             </div>
-            <div class="text-[9.5px] text-slate-300 mt-0.5 leading-tight">${stage.desc}</div>
-            <div class="text-[9.5px] font-bold text-rose-300 mt-0.5">
+            <div class="text-[8.5px] text-slate-300 leading-tight truncate mt-0.5">${stage.desc}</div>
+            <div class="text-[8.5px] font-bold text-amber-300 mt-0.5 leading-none">
               HP: <span class="text-white">${stage.hp.toLocaleString()}</span> / 攻: <span class="text-white">${stage.atk}</span>
-              <span class="text-emerald-400 ml-1.5">+${stage.exp}EXP / 💎+${stage.gems}</span>
+              <span class="text-amber-300 ml-1">+${stage.exp}EXP / 💎+${stage.gems}</span>
             </div>
           </div>
         </div>
         <div class="flex-shrink-0">
-          <button onclick="startBossBattleWithStage(${stage.lv})" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow transition active:scale-95 whitespace-nowrap">
-            ⚔️ 出撃
+          <button onclick="startBossBattleWithStage(${stage.lv})" class="bg-gradient-to-r from-rose-500 to-amber-500 hover:brightness-110 text-white font-black px-2.5 py-1.5 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">
+            出撃
           </button>
         </div>
       `;
     } else {
       card.innerHTML = `
-        <div class="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
-          <span class="text-3xl flex-shrink-0 opacity-50">❓</span>
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <span class="text-2xl flex-shrink-0 opacity-50">❓</span>
           <div class="min-w-0 flex-1">
-            <div class="flex items-center gap-1.5">
-              <span class="text-xs font-black text-slate-400">Lv.${stage.lv} ？？？？？？</span>
-              <span class="text-[9px] bg-indigo-900 text-indigo-300 font-bold px-1.5 py-0.2 rounded">🔒 未到達</span>
+            <div class="flex items-center gap-1">
+              <span class="text-[11px] font-black text-slate-400 truncate">Lv.${stage.lv} ？？？？</span>
+              <span class="text-[8px] bg-[#090517] text-blue-300 font-bold px-1 py-0.2 rounded flex-shrink-0">未到達</span>
             </div>
-            <div class="text-[9.5px] text-indigo-400 mt-0.5 leading-tight">？？？（Lv.${stage.lv - 1} 撃破で正体が判明！）</div>
-            <div class="text-[9.5px] font-bold text-indigo-500 mt-0.5">
-              HP: ？？？ / 攻: ？？？
-            </div>
+            <div class="text-[8.5px] text-blue-400/80 mt-0.5 leading-tight truncate">Lv.${stage.lv - 1} 撃破で正体判明！</div>
           </div>
         </div>
         <div class="flex-shrink-0">
-          <span class="text-[9.5px] bg-indigo-950 border border-indigo-800 text-indigo-400 font-bold px-2.5 py-1.5 rounded-xl whitespace-nowrap">🔒 封印中</span>
+          <span class="text-[8.5px] bg-[#090517] border border-blue-800 text-blue-400 font-bold px-2 py-1 rounded-xl whitespace-nowrap">🔒 封印</span>
         </div>
       `;
     }
@@ -850,11 +833,10 @@ function startBossBattleWithStage(lv) {
     };
   });
 
-  // 🎬 初回エンカウント時の開幕セリフ判定
   if (!userData.bossSeenIntros.includes(stage.lv) && stage.introMsg) {
     userData.bossSeenIntros.push(stage.lv);
     saveData();
-    showBossDialogueModal(`【Lv.${stage.lv} ${stage.name}】出現！`, stage.icon, stage.introMsg, () => {
+    showBossDialogueModal(`【Lv.${stage.lv} ${stage.name}】出現！`, stage, stage.introMsg, () => {
       startSession();
     });
   } else {
@@ -881,10 +863,10 @@ function renderWeakBookList() {
 
   if (userData.weakList.length === 0) {
     container.innerHTML = `
-      <div class="bg-indigo-900/40 border border-indigo-800 p-6 rounded-2xl text-center space-y-2">
-        <span class="text-4xl">✨</span>
-        <div class="font-black text-sm text-amber-300">現在、苦手な問題はありません！</div>
-        <div class="text-xs text-indigo-300">クエストで間違えた問題がここに自動蓄積されます。</div>
+      <div class="bg-[#090517] border border-blue-500/30 p-5 rounded-2xl text-center space-y-1.5">
+        <span class="text-3xl">✨🛡️</span>
+        <div class="font-black text-xs text-amber-300">現在、苦手な問題はありません！</div>
+        <div class="text-[10px] text-blue-200">間違えた問題がここに自動蓄積されます。</div>
       </div>
     `;
     return;
@@ -895,31 +877,31 @@ function renderWeakBookList() {
     if (qData) {
       const stats = (userData.weakStats && userData.weakStats[id]) ? userData.weakStats[id] : { cleared: 0, attempts: 0 };
       const card = document.createElement('div');
-      card.className = "bg-indigo-900/80 border border-rose-500/50 p-3 rounded-2xl space-y-2 shadow";
+      card.className = "bg-[#140b2b] border border-rose-500/40 p-2.5 rounded-2xl space-y-1.5 shadow";
       const correctText = qData.options[qData.ans];
       card.innerHTML = `
-        <div class="flex justify-between items-start gap-2">
+        <div class="flex justify-between items-start gap-1.5">
           <div class="min-w-0 flex-1">
-            <div class="flex items-center gap-1.5 flex-wrap mb-1">
-              <span class="text-[9px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
-              <span class="text-[9.5px] font-bold bg-indigo-950 px-2 py-0.2 rounded-full border border-indigo-700 text-amber-300">
-                🎯 特訓成果: ${stats.cleared} / ${stats.attempts} 回クリア
+            <div class="flex items-center gap-1 flex-wrap mb-0.5">
+              <span class="text-[8.5px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
+              <span class="text-[8.5px] font-bold bg-[#090517] px-1.5 py-0.2 rounded-full border border-blue-500/30 text-amber-300">
+                🎯 ${stats.cleared} / ${stats.attempts} 回クリア
               </span>
             </div>
-            <div class="font-black text-xs text-white mt-1 leading-snug whitespace-pre-line">${qData.q}</div>
+            <div class="font-black text-[11px] text-white leading-snug whitespace-pre-line break-words">${qData.q}</div>
           </div>
-          <div class="flex items-center gap-1.5 flex-shrink-0">
-            <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95 whitespace-nowrap">
-              ⚔️ 再挑戦
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
+              再挑戦
             </button>
-            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[10px] transition active:scale-95 whitespace-nowrap">
-              🗑️ 覚えた
+            <button onclick="removeWeakItem('${id}')" class="bg-[#090517] hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
+              覚えた
             </button>
           </div>
         </div>
-        <div class="bg-indigo-950/70 p-2 rounded-xl border border-indigo-800/80 text-[11px] space-y-1">
-          <div class="font-bold text-emerald-400">【正解】 ${correctText}</div>
-          <div class="text-[10px] text-slate-300 leading-relaxed whitespace-pre-line">${qData.explain || ''}</div>
+        <div class="bg-[#090517] p-1.5 rounded-xl border border-blue-500/30 text-[10px] space-y-0.5">
+          <div class="font-bold text-amber-300 truncate">【正解】 ${correctText}</div>
+          <div class="text-[9px] text-slate-300 leading-relaxed whitespace-pre-line break-words">${qData.explain || ''}</div>
         </div>
       `;
       container.appendChild(card);
@@ -967,18 +949,18 @@ function renderVocabBook() {
   filtered.forEach((item, idx) => {
     const isCollected = userData.vocabBook.includes(item[0]);
     const card = document.createElement('div');
-    card.className = `p-2.5 rounded-xl border flex flex-col justify-between ${isCollected ? 'bg-indigo-900/90 border-amber-400/60' : 'bg-indigo-950/60 border-indigo-900 opacity-60'}`;
+    card.className = `p-2 rounded-xl border flex flex-col justify-between ${isCollected ? 'bg-[#1b123d] border-blue-400/60 shadow' : 'bg-[#090517] border-blue-900/30 opacity-60'}`;
     card.innerHTML = `
       <div>
-        <div class="flex justify-between items-center mb-1">
-          <span class="text-[9px] font-bold text-indigo-300">No.${idx + 1}</span>
-          <span>${isCollected ? '💮 討伐済' : '❓ 未発見'}</span>
+        <div class="flex justify-between items-center mb-0.5">
+          <span class="text-[8px] font-bold text-blue-300">No.${idx + 1}</span>
+          <span class="text-[8.5px]">${isCollected ? '💮 覚えた' : '❓ 未発見'}</span>
         </div>
-        <div class="font-black text-white text-xs mb-0.5">${isCollected ? item[0] : '？？？'}</div>
-        <div class="text-[10px] text-amber-300">${isCollected ? item[1] : '問題に正解して解放！'}</div>
+        <div class="font-black text-white text-[11px] mb-0.5 truncate">${isCollected ? item[0] : '？？？'}</div>
+        <div class="text-[9.5px] text-amber-300 truncate leading-tight">${isCollected ? item[1] : '問題に正解で解放'}</div>
       </div>
       ${isCollected ? `
-        <button onclick="speakText('${item[0]}')" class="mt-2 bg-indigo-800 hover:bg-indigo-700 py-1 rounded text-[9px] text-indigo-200 font-bold">
+        <button onclick="speakText('${item[0]}')" class="mt-1.5 bg-[#201548] hover:bg-[#2d1e63] py-0.5 rounded text-[8.5px] text-blue-200 font-bold">
           🔊 はつおん
         </button>
       ` : ''}
@@ -1004,8 +986,6 @@ let enemyCurHp = 100;
 let enemyAtk = 20;
 let questionStartTime = 0;
 let timerGaugeInterval = null;
-
-const MONSTERS = ['👹', '👾', '🧟', '🎃', '🐺'];
 
 function shuffleArray(array) {
   const arr = [...array];
@@ -1086,7 +1066,7 @@ function generateListeningQuiz(item, idx) {
 
 function startDailyQuest(type, count) {
   if (userData.dailyDone[type]) {
-    alert('本日のこのデイリークエストは既にクリア済みです！通常特訓コースやボスバトルに挑戦しよう！');
+    alert('本日のこのデイリー修練は既にクリア済みです！通常特訓コースや魔王バトルに挑戦しよう！');
     return;
   }
   isBossMode = false;
@@ -1124,12 +1104,11 @@ function startSession() {
   playerMaxHp = pStats.hp;
   playerCurHp = pStats.hp;
 
- if (isBossMode) {
+  if (isBossMode) {
     enemyMaxHp = currentBossStage.hp;
     enemyCurHp = currentBossStage.hp;
     enemyAtk = currentBossStage.atk;
   } else if (isDailyCurrentSession) {
-    // ⚔️ デイリーミッション動的難易度調整（問数・攻撃力・HPに応じたバランス）
     const qCount = currentQueue.length || (currentMode === 'vocab' ? 5 : 3);
     enemyMaxHp = Math.round(pStats.atk * qCount * 1.25);
     enemyAtk = Math.max(15, Math.round(playerMaxHp * 0.38));
@@ -1165,17 +1144,18 @@ function startSession() {
   if (isBossMode) {
     playBGM('boss');
     document.getElementById('enemyCardBox').className = currentBossStage.isSecret
-      ? "bg-gradient-to-b from-purple-950 via-black to-red-950 border-2 border-purple-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden"
-      : "bg-gradient-to-b from-red-950 via-purple-950 to-indigo-950 border-2 border-red-500 rounded-3xl p-4 shadow-2xl relative glow-red overflow-hidden";
+      ? "bg-gradient-to-b from-purple-950 via-black to-rose-950 border-2 border-rose-400 rounded-3xl p-3 shadow-2xl relative glow-red overflow-hidden"
+      : "bg-gradient-to-b from-[#220d33] to-[#12071f] border-2 border-rose-500 rounded-3xl p-3 shadow-2xl relative glow-red overflow-hidden";
     document.getElementById('battleEnemyName').innerText = `Lv.${currentBossStage.lv} ${currentBossStage.name}`;
   } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
     playBGM('battle');
-    document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-rose-950 via-purple-950 to-indigo-950 border-2 border-rose-500 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
-    document.getElementById('battleEnemyName').innerText = (currentMode === 'weakRetry') ? "👾 にがてモンスター" : "👾 にがてマスター";
+    document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-rose-950 via-purple-950 to-[#0d0722] border border-rose-500 rounded-3xl p-3 shadow-2xl relative overflow-hidden";
+    document.getElementById('battleEnemyName').innerText = (currentMode === 'weakRetry') ? "👾 にがてモンスター" : "👾 キラーマシン";
   } else {
     playBGM('battle');
-    document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-indigo-700 rounded-3xl p-4 shadow-2xl relative overflow-hidden";
-    document.getElementById('battleEnemyName').innerText = "英語モンスター";
+    document.getElementById('enemyCardBox').className = "bg-gradient-to-b from-[#18103b] to-[#0c0721] border border-blue-500 rounded-3xl p-3 shadow-2xl relative overflow-hidden";
+    const normalEnemy = NORMAL_ENEMIES[currentIndex % NORMAL_ENEMIES.length];
+    document.getElementById('battleEnemyName').innerText = normalEnemy.name;
   }
 
   const avatarObj = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
@@ -1198,7 +1178,7 @@ function startCriticalTimer() {
   const gauge = document.getElementById('timerGauge');
   const timerText = document.getElementById('timerText');
   if (gauge) gauge.style.width = '100%';
-  if (timerText) timerText.innerText = (currentMode === 'weakRetry') ? '⚡ 正解で一撃撃破！' : '⚡ 3秒以内即答でクリティカル！';
+  if (timerText) timerText.innerText = (currentMode === 'weakRetry') ? '⚡ 正解で一撃粉砕！' : '⚡ 3秒即答でクリティカル！';
 
   if (timerGaugeInterval) clearInterval(timerGaugeInterval);
   timerGaugeInterval = setInterval(() => {
@@ -1231,12 +1211,16 @@ function renderQuestion() {
     document.getElementById('enemyCardBox').classList.remove('fever-active');
   }
   
-  if (isBossMode) {
-    document.getElementById('enemyAvatar').innerText = currentBossStage.icon;
+  // 敵の画像スプライト描画
+  const enemyAvatarEl = document.getElementById('enemyAvatar');
+  if (isBossMode && currentBossStage) {
+    enemyAvatarEl.innerHTML = getSpriteIconHtml(currentBossStage, currentBossStage.icon, 'monster');
   } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
-    document.getElementById('enemyAvatar').innerText = '👾';
+    enemyAvatarEl.innerHTML = getSpriteIconHtml({ pos: "-137px -65px" }, '🤖', 'monster');
   } else {
-    document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
+    const normalEnemy = NORMAL_ENEMIES[currentIndex % NORMAL_ENEMIES.length];
+    enemyAvatarEl.innerHTML = getSpriteIconHtml(normalEnemy, normalEnemy.icon, 'monster');
+    document.getElementById('battleEnemyName').innerText = normalEnemy.name;
   }
 
   document.getElementById('quizQuestion').innerText = q.q;
@@ -1274,8 +1258,8 @@ function renderQuestion() {
   optContainer.innerHTML = '';
   q.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
-    btn.className = "w-full bg-indigo-900/90 hover:bg-indigo-800 border-2 border-indigo-700/80 hover:border-amber-400 p-2.5 rounded-2xl text-sm font-bold text-slate-100 text-left transition active:scale-98 flex items-center justify-between";
-    btn.innerHTML = `<span><strong class="text-amber-400 mr-2">${idx + 1}.</strong> ${opt}</span> <span class="text-xs opacity-40">⚔️</span>`;
+    btn.className = "w-full bg-[#180e38]/90 hover:bg-[#251554] border-2 border-blue-500/40 hover:border-amber-400 p-2 rounded-2xl text-xs font-bold text-slate-100 text-left transition active:scale-98 flex items-center justify-between gap-1 shadow";
+    btn.innerHTML = `<span class="flex-1 min-w-0 break-words leading-tight"><strong class="text-amber-300 mr-1.5">${idx + 1}.</strong>${opt}</span> <span class="text-[11px] opacity-40 flex-shrink-0">⚔️</span>`;
     btn.onclick = () => handleAnswer(idx);
     optContainer.appendChild(btn);
   });
@@ -1293,10 +1277,10 @@ function showDamagePopup(text, isCritical, isEnemyDamage) {
   const area = document.getElementById('damageEffectArea');
   if (!area) return;
   const el = document.createElement('div');
-  el.className = `damage-popup text-base font-black px-3 py-1 rounded-2xl shadow-2xl ${
+  el.className = `damage-popup text-sm font-black px-2.5 py-0.5 rounded-2xl shadow-xl ${
     isEnemyDamage 
-      ? (isCritical ? 'bg-amber-400 text-indigo-950 border-2 border-white scale-110' : 'bg-rose-600 text-white')
-      : 'bg-red-800 text-white border border-red-500'
+      ? (isCritical ? 'bg-gradient-to-r from-amber-400 to-rose-400 text-purple-950 border-2 border-white scale-110' : 'bg-blue-600 text-white')
+      : 'bg-rose-900 text-white border border-rose-500'
   }`;
   el.innerText = text;
   area.appendChild(el);
@@ -1306,7 +1290,7 @@ function showDamagePopup(text, isCritical, isEnemyDamage) {
 function use5050Hint() {
   if (isAnswered) return;
   if (userData.inventory.hint <= 0) {
-    alert('ヒントの書がありません！ショップで購入できます。');
+    alert('ラーのかがみがありません！ショップで購入できます。');
     return;
   }
   userData.inventory.hint--;
@@ -1346,8 +1330,8 @@ function handleAnswer(selectedIdx) {
 
   Array.from(document.getElementById('quizOptions').children).forEach((btn, idx) => {
     btn.disabled = true;
-    if (idx === q.ans) btn.classList.add('!bg-emerald-700', '!border-emerald-400');
-    if (idx === selectedIdx && !isCorrect) btn.classList.add('!bg-rose-800', '!border-rose-500');
+    if (idx === q.ans) btn.classList.add('!bg-blue-700', '!border-blue-400');
+    if (idx === selectedIdx && !isCorrect) btn.classList.add('!bg-rose-900', '!border-rose-500');
   });
 
   const pStats = calculatePlayerStats();
@@ -1382,7 +1366,7 @@ function handleAnswer(selectedIdx) {
 
     if (currentMode === 'weakRetry' || isCrit) {
       playSE('critical');
-      showDamagePopup(`💥 ${currentMode === 'weakRetry' ? '一撃粉砕!' : 'CRITICAL!'} -${dmg} HP`, true, true);
+      showDamagePopup(`💥 ${currentMode === 'weakRetry' ? '一撃粉砕!' : 'かいしんのいちげき!'} -${dmg} HP`, true, true);
     } else {
       playSE('correct');
       showDamagePopup(`⚔️ -${dmg} HP`, false, true);
@@ -1392,11 +1376,11 @@ function handleAnswer(selectedIdx) {
       userData.vocabBook.push(q.rawWord);
     }
 
-    feedbackIcon.innerText = '⭕';
+    feedbackIcon.innerText = '🌟';
     feedbackTitle.innerText = (currentMode === 'weakRetry') 
       ? `🎯 苦手克服撃破！ Excellent!` 
-      : (isCrit ? `⚡ クリティカル正解！ Excellent! (${combo}連続)` : `正解！ Great! (${combo}連続)`);
-    feedbackTitle.className = "text-sm font-black text-amber-400";
+      : (isCrit ? `⚡ かいしんのいちげき！ Excellent! (${combo}連続)` : `せいかい！ Great! (${combo}連続)`);
+    feedbackTitle.className = "text-xs font-black text-amber-300";
 
     if (q.audio_complete) {
       setTimeout(() => speakText(q.audio_complete), 300);
@@ -1418,7 +1402,7 @@ function handleAnswer(selectedIdx) {
       playerCurHp = Math.max(0, playerCurHp - enemyDmg);
     }
     updateBattleHpUi();
-    showDamagePopup(`⚠️ 即死反撃被弾! -${enemyDmg} HP`, false, false);
+    showDamagePopup(`⚠️ つうこんのいちげき! -${enemyDmg} HP`, false, false);
 
     if (!userData.weakList.includes(q.id)) {
       userData.weakList.push(q.id);
@@ -1426,7 +1410,7 @@ function handleAnswer(selectedIdx) {
 
     feedbackIcon.innerText = '❌';
     feedbackTitle.innerText = 'おしい！ Review';
-    feedbackTitle.className = "text-sm font-black text-rose-400";
+    feedbackTitle.className = "text-xs font-black text-rose-400";
   }
 
   feedbackExplain.innerText = q.explain;
@@ -1435,6 +1419,7 @@ function handleAnswer(selectedIdx) {
 }
 
 function nextQuestion() {
+  document.getElementById('quizFeedback').classList.add('hidden');
   currentIndex += 1;
   if (currentIndex < currentQueue.length && playerCurHp > 0 && enemyCurHp > 0) {
     renderQuestion();
@@ -1450,9 +1435,8 @@ function finishSession() {
   const isPlayerDead = (playerCurHp <= 0);
   const isEnemyDefeated = (enemyCurHp <= 0);
 
-  // 🎬 ボス初回撃破時の捨て台詞判定
   if (isBossMode && isEnemyDefeated && !userData.bossClearedLevels.includes(currentBossStage.lv) && currentBossStage.defeatMsg) {
-    showBossDialogueModal(`【Lv.${currentBossStage.lv} ${currentBossStage.name}】撃破！`, currentBossStage.icon, currentBossStage.defeatMsg, () => {
+    showBossDialogueModal(`【Lv.${currentBossStage.lv} ${currentBossStage.name}】撃破！`, currentBossStage, currentBossStage.defeatMsg, () => {
       proceedFinishSession();
     });
   } else {
@@ -1461,6 +1445,7 @@ function finishSession() {
 }
 
 function proceedFinishSession() {
+  document.getElementById('quizFeedback').classList.add('hidden');
   document.getElementById('viewQuiz').classList.add('hidden');
   document.getElementById('viewResult').classList.remove('hidden');
   playBGM('result');
@@ -1475,10 +1460,10 @@ function proceedFinishSession() {
 
   if (isPlayerDead) {
     document.getElementById('resultModeBadge').innerText = '💀 クエスト失敗...';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-rose-700 text-white px-3 py-1 rounded-full inline-block mb-1';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-rose-700 text-white px-2 py-0.5 rounded-full inline-block mb-1';
     document.getElementById('resultEmoji').innerText = '🪦';
     document.getElementById('resultTitle').innerText = (currentMode === 'weakRetry') ? '一撃でやられてしまった！' : '力尽きてしまった！';
-    document.getElementById('resultComment').innerText = (currentMode === 'weakRetry') ? '解説をよく読んで、もう一度にがて帳から再挑戦しよう！' : '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
+    document.getElementById('resultComment').innerText = (currentMode === 'weakRetry') ? '解説をよく読んで、もう一度にがて帳から再挑戦しよう！' : 'HPや装備を強化してリベンジしよう！';
     
     earnedExp = Math.max(5, Math.round(quizScore * 2));
     earnedGems = 1;
@@ -1493,10 +1478,10 @@ function proceedFinishSession() {
     }
   } else if (!isEnemyDefeated) {
     document.getElementById('resultModeBadge').innerText = '💨 討伐失敗 (時間切れ)';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-slate-700 text-slate-200 px-3 py-1 rounded-full inline-block mb-1';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-slate-700 text-slate-200 px-2 py-0.5 rounded-full inline-block mb-1';
     document.getElementById('resultEmoji').innerText = '💨';
     document.getElementById('resultTitle').innerText = '敵が逃げてしまった！';
-    document.getElementById('resultComment').innerText = '出題数内にHPを削りきれなかった！3秒即答クリティカルや攻撃力UPで討伐を目指そう！';
+    document.getElementById('resultComment').innerText = '出題数内にHPを削りきれなかった！3秒即答クリティカルを狙おう！';
 
     if (isBossMode) {
       earnedExp = Math.round(currentBossStage.exp * 0.25);
@@ -1516,7 +1501,6 @@ function proceedFinishSession() {
       userData.bossUnlockedLevel = currentBossStage.lv + 1;
     }
 
-    // 🎬 Lv.11 真・裏ボス 初回撃破時 ➔ 真エンディングへ
     if (currentBossStage.lv === 11 && !userData.hasSeenTrueEnding) {
       userData.hasSeenTrueEnding = true;
       earnedGems = 500;
@@ -1531,7 +1515,6 @@ function proceedFinishSession() {
       return;
     }
 
-    // 🎬 Lv.10 表ラスボス 初回撃破時 ➔ 表エンディングへ
     if (currentBossStage.lv === 10 && !userData.hasSeenEnding) {
       const secretDrops = ['hat_genesis_crown', 'wp_genesis_blade', 'aura_genesis_light'];
       secretDrops.forEach(id => {
@@ -1549,14 +1532,13 @@ function proceedFinishSession() {
       return;
     }
 
-    // 通常のボス撃破リザルト
     document.getElementById('resultModeBadge').innerText = `👑 Lv.${currentBossStage.lv} BOSS 討伐完全勝利！`;
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-red-600 text-white px-3 py-1 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultEmoji').innerText = currentBossStage.icon;
-    document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-rose-600 text-white px-2 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultEmoji').innerHTML = getSpriteIconHtml(currentBossStage, currentBossStage.icon, 'monster');
+    document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を撃破！`;
     document.getElementById('resultComment').innerText = (currentBossStage.lv === 11) 
-      ? '信じられない快挙です！真・隠し裏ボスを討ち滅ぼし、全次元を制覇しました！'
-      : '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
+      ? '信じられない快挙！真・裏ボスを討伐し全次元を制覇しました！'
+      : '見事な英語力と攻撃力です！次の魔王レベルが解放されました！';
 
     const dropChance = 0.3 + (currentBossStage.lv * 0.07);
     const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
@@ -1570,10 +1552,10 @@ function proceedFinishSession() {
       playSE('chest');
     }
   } else if (isDailyCurrentSession && isEnemyDefeated) {
-    document.getElementById('resultEmoji').innerText = '🏆';
-    document.getElementById('resultTitle').innerText = 'デイリークエスト撃破完了！';
+    document.getElementById('resultEmoji').innerText = '🏆🌟';
+    document.getElementById('resultTitle').innerText = 'デイリー修練クリア！';
     document.getElementById('resultModeBadge').innerText = '🌟 デイリー限定ボーナス獲得！';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-amber-400 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
 
     if (currentMode === 'vocab') {
       userData.dailyDone.vocab = true;
@@ -1589,11 +1571,11 @@ function proceedFinishSession() {
       earnedGems = 25;
     }
   } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
-    document.getElementById('resultEmoji').innerText = '🎯';
+    document.getElementById('resultEmoji').innerText = '🎯✨';
     document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
     document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に一撃で正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-amber-500 text-purple-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultComment').innerText = '見事に一撃で正解！完全に覚えたら「覚えた」ボタンで削除できます。';
     
     const targetId = currentQueue[0]?.id;
     if (targetId) {
@@ -1606,19 +1588,19 @@ function proceedFinishSession() {
     earnedExp = 30;
     earnedGems = 5;
   } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
-    document.getElementById('resultEmoji').innerText = '🎉';
+    document.getElementById('resultEmoji').innerText = '🎉🤖';
     document.getElementById('resultTitle').innerText = 'にがて討伐完了！';
     document.getElementById('resultModeBadge').innerText = '🔄 通常特訓サイクルがリセット！';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-emerald-500 text-indigo-950 px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓（単語・文法・リスニング）に再び挑戦できます！';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-blue-500 text-white px-2.5 py-0.5 rounded-full inline-block mb-1 shadow';
+    document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓に再び挑戦できます！';
     userData.questRotation = { vocab: false, grammar: false, listening: false };
     earnedExp = 100;
     earnedGems = 20;
   } else if (isEnemyDefeated) {
-    document.getElementById('resultEmoji').innerText = '🏆';
+    document.getElementById('resultEmoji').innerText = '🏆✨';
     document.getElementById('resultTitle').innerText = 'モンスター討伐完了！';
     document.getElementById('resultModeBadge').innerText = '⚔️ 通常特訓クリア';
-    document.getElementById('resultModeBadge').className = 'text-[10px] font-black bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full inline-block mb-1';
+    document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-indigo-700 text-blue-200 px-2 py-0.5 rounded-full inline-block mb-1';
     
     if (selectedNormalType) {
       userData.questRotation[selectedNormalType] = true;
@@ -1630,7 +1612,6 @@ function proceedFinishSession() {
     earnedGems = Math.max(1, Math.round((quizScore / 2) * (diffMulti * 0.8)));
   }
 
-  // 🧪 EXPの秘薬（経験値2倍）判定 & 表示反映
   let potionUsed = false;
   if (userData.inventory.potion > 0 && earnedExp > 0) {
     earnedExp *= 2;
@@ -1640,7 +1621,7 @@ function proceedFinishSession() {
 
   const totalDone = Math.max(1, answeredQuestionsCount);
   document.getElementById('resultScore').innerText = `${quizScore} / ${totalDone}`;
-  document.getElementById('resultExp').innerText = potionUsed ? `+${earnedExp} (🧪2倍!)` : `+${earnedExp}`;
+  document.getElementById('resultExp').innerText = potionUsed ? `+${earnedExp} (💧2倍!)` : `+${earnedExp}`;
   document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
 
   userData.gems += earnedGems;
@@ -1648,79 +1629,55 @@ function proceedFinishSession() {
 }
 
 function confirmExitQuiz() {
-  if (confirm('学習をとちゅうで終了してホームにもどりますか？')) {
+  if (confirm('修練をとちゅうで終了してホームにもどりますか？')) {
     stopBattleTimers();
     showHome();
   }
 }
 
-// ==================== 🎬 表エンディング（スタッフロール：鄭 聖也（パパ）） ====================
+// ==================== 🎬 フルスクリーン表エンディング ====================
 function showEndingModal() {
   hideAllViews();
   playBGM('ending');
 
-  let modal = document.getElementById('modalEndingScene');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'modalEndingScene';
-    modal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
-    document.body.appendChild(modal);
-  }
+  const avatarObj = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
+  const heroEmojiEl = document.getElementById('endingHeroEmoji');
+  const heroNameEl = document.getElementById('endingHeroName');
+  if (heroEmojiEl) heroEmojiEl.innerHTML = getSpriteIconHtml(avatarObj, avatarObj.emoji, 'slime');
+  if (heroNameEl) heroNameEl.innerText = avatarObj.name;
 
-  modal.innerHTML = `
-    <div class="max-w-md w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400 rounded-3xl p-6 shadow-2xl text-center space-y-4 glow-gold">
-      <div class="text-5xl animate-bounce">👑✨🎉</div>
-      <h2 class="text-lg font-black text-amber-300 tracking-wider">英検4級 制覇おめでとう！！</h2>
-      
-      <div class="bg-indigo-900/60 p-3.5 rounded-2xl border border-indigo-700 text-xs text-slate-200 leading-relaxed text-left space-y-2">
-        <p>あなたは幾多の英単語を覚え、重要文法をマスターし、リスニングを鍛え抜き、ついに伝説の神龍【オメガエデン】を打ち倒しました！</p>
-        <p class="text-amber-300 font-bold">相棒：「君と一緒にここまで冒険できて本当によかった！君の英語力なら、本番の英検4級合格なんて間違いなしだね！」</p>
-      </div>
+  const phase1 = document.getElementById('endingPhase1');
+  const phase2 = document.getElementById('endingPhase2');
+  if (phase1) phase1.classList.remove('hidden');
+  if (phase2) phase2.classList.add('hidden');
 
-      <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-amber-900 border-2 border-amber-400 p-3 rounded-2xl text-left space-y-1 shadow-xl">
-        <div class="text-[11px] font-black text-amber-300">🎁 神龍からの最終秘宝（創世神話級装備 3種）獲得！</div>
-        <div class="text-[9.5px] text-white space-y-0.5 font-bold">
-          <div>👑 【創世神の王冠】(HP +25,000)</div>
-          <div>⚔️ 【創世神の聖剣】(攻撃 +4,000)</div>
-          <div>🌌 【創世神の神光】(速さ +515 / Lv.100でクリティカル100%確定！)</div>
-        </div>
-      </div>
-
-      <!-- 隠しボスティザー予告 -->
-      <div class="bg-red-950/80 border border-red-500/80 p-2.5 rounded-2xl text-xs text-red-200 text-left space-y-1 animate-pulse">
-        <div class="font-black text-red-400 text-[11px]">⚡ ……待て！ 遥か彼方から、禍々しい気配を感じる……！</div>
-        <div class="text-[9.5px] text-slate-300 leading-relaxed">
-          オメガエデンをも凌駕する真の支配者【Lv.11 ゼロインフィニティ】がボス選択画面に解禁されました……！
-        </div>
-      </div>
-
-      <!-- 👑 スタッフロール（鄭 聖也（パパ）） -->
-      <div class="bg-indigo-950/80 border border-indigo-800 p-3 rounded-2xl text-[10px] space-y-1 text-center font-bold">
-        <div class="text-amber-400 tracking-widest text-[9px] uppercase border-b border-indigo-800 pb-1">★ STAFF CREDITS ★</div>
-        <div class="text-slate-300">プロデュース：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
-        <div class="text-slate-300">企画・問題作成：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
-        <div class="text-slate-300">最大の応援サポーター：<span class="text-amber-300 font-black">鄭 聖也（パパ）</span></div>
-      </div>
-
-      <div class="text-[9px] text-indigo-300">※このエンディングはボス選択画面からいつでも見直せます</div>
-
-      <button onclick="closeEndingModal()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:brightness-110 text-indigo-950 font-black py-2.5 rounded-xl text-sm shadow-xl transition active:scale-95">
-        新たなる高みへ ➔ ホームへ
-      </button>
-    </div>
-  `;
-
-  modal.classList.remove('hidden');
+  const modal = document.getElementById('modalEnding');
+  if (modal) modal.classList.remove('hidden');
 }
 
-function closeEndingModal() {
-  const modal = document.getElementById('modalEndingScene');
+function triggerEndingTeaser() {
+  const phase1 = document.getElementById('endingPhase1');
+  const phase2 = document.getElementById('endingPhase2');
+  const container = document.getElementById('endingContainer');
+  
+  if (container) container.classList.add('animate-shake');
+  playSE('wrong');
+  
+  setTimeout(() => {
+    if (container) container.classList.remove('animate-shake');
+    if (phase1) phase1.classList.add('hidden');
+    if (phase2) phase2.classList.remove('hidden');
+  }, 1000);
+}
+
+function finishEndingSequence() {
+  const modal = document.getElementById('modalEnding');
   if (modal) modal.classList.add('hidden');
   saveData();
   showHome();
 }
 
-// ==================== 🌌 真・完結エンディング（裏ボス撃破時） ====================
+// ==================== 🌌 真・完結エンディング ====================
 function showTrueEndingModal() {
   hideAllViews();
   playBGM('trueEnding');
@@ -1729,49 +1686,45 @@ function showTrueEndingModal() {
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'modalTrueEndingScene';
-    modal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-4 flex items-center justify-center";
+    modal.className = "fixed inset-0 bg-black/95 z-50 overflow-y-auto p-3 flex items-center justify-center";
     document.body.appendChild(modal);
   }
 
   const acc = userData.totalAnswered > 0 ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) : 100;
 
   modal.innerHTML = `
-    <div class="max-w-md w-full bg-gradient-to-b from-purple-950 via-indigo-950 to-black border-2 border-purple-400 rounded-3xl p-6 shadow-2xl text-center space-y-4 glow-gold">
-      <div class="text-6xl animate-bounce">🌌👑🏆✨</div>
+    <div class="max-w-sm w-full bg-gradient-to-b from-[#1f103d] via-[#120826] to-[#080414] border-2 border-amber-400 rounded-3xl p-5 shadow-2xl text-center space-y-3.5 glow-gold">
+      <div class="text-5xl animate-bounce">🌌👑⚔️✨</div>
       <div>
-        <span class="text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-0.5 rounded-full uppercase tracking-widest shadow">TRUE GRAND ENDING</span>
-        <h2 class="text-xl font-black text-amber-300 mt-1 tracking-wider">全次元・完全制覇の偉業</h2>
+        <span class="text-[8.5px] font-black bg-gradient-to-r from-amber-500 to-rose-500 text-white px-2.5 py-0.5 rounded-full uppercase tracking-widest shadow">TRUE GRAND ENDING</span>
+        <h2 class="text-lg font-black text-amber-300 mt-1 tracking-wider">全次元・英検4級の完全制覇</h2>
       </div>
       
-      <div class="bg-indigo-950/80 p-3.5 rounded-2xl border border-purple-500/60 text-xs text-slate-200 leading-relaxed text-left space-y-2">
-        <p>虚無の支配者【ゼロインフィニティ】は消滅し、世界に永遠の光が戻りました。</p>
-        <p class="text-purple-300 font-bold">相棒：「信じられないよ……！君は全700語、全英文法、リスニングの全てを完璧に極めた、本物の【英語の神】になったんだ！！」</p>
+      <div class="bg-[#090517]/90 p-3 rounded-2xl border border-blue-500/40 text-[10.5px] text-blue-100 leading-relaxed text-left space-y-1.5 break-words">
+        <p>地獄の帝王【エスターク】は倒れ、世界に永遠の光が灯りました。</p>
+        <p class="text-amber-300 font-bold">ゴッドスライム：「ピキキィッ……！君は全700語、中学英文法、リスニングの全てを極めた、本物の【伝説の英検ロト勇者】になったんだ！！」</p>
       </div>
 
-      <!-- 殿堂入りマスタープレート -->
-      <div class="bg-gradient-to-r from-amber-950 via-purple-950 to-indigo-950 border-2 border-amber-400 p-3 rounded-2xl text-center space-y-1.5 shadow-2xl">
-        <div class="text-[11px] font-black text-amber-300">📜 殿堂入りマスタープレート</div>
-        <div class="grid grid-cols-3 gap-1 text-[9.5px] bg-black/60 p-2 rounded-xl border border-amber-500/40 text-slate-200">
-          <div>総解答: <strong class="text-white block text-xs">${userData.totalAnswered}問</strong></div>
-          <div>正解率: <strong class="text-emerald-400 block text-xs">${acc}%</strong></div>
-          <div>討伐数: <strong class="text-amber-300 block text-xs">全11体 制覇</strong></div>
+      <div class="bg-gradient-to-r from-amber-950 via-purple-950 to-indigo-950 border-2 border-amber-400 p-2.5 rounded-2xl text-center space-y-1 shadow-2xl">
+        <div class="text-[10px] font-black text-amber-300">📜 殿堂入りマスタープレート</div>
+        <div class="grid grid-cols-3 gap-1 text-[8.5px] bg-black/60 p-1.5 rounded-xl border border-amber-500/40 text-blue-200">
+          <div>総解答: <strong class="text-white block text-[11px]">${userData.totalAnswered}問</strong></div>
+          <div>正解率: <strong class="text-amber-300 block text-[11px]">${acc}%</strong></div>
+          <div>討伐数: <strong class="text-amber-300 block text-[11px]">全11体</strong></div>
         </div>
-        <div class="text-[10px] text-amber-300 font-black pt-0.5">
-          称号【🌌 全次元制覇神】授与！
+        <div class="text-[9.5px] text-amber-300 font-black pt-0.5">
+          称号【🌌 全次元の光神・ロト勇者】授与！
         </div>
       </div>
 
-      <!-- 👑 スタッフロール（鄭 聖也（パパ）） -->
-      <div class="bg-indigo-950/90 border border-purple-500/60 p-3 rounded-2xl text-[10px] space-y-1 text-center font-bold">
-        <div class="text-amber-400 tracking-widest text-[9px] uppercase border-b border-indigo-800 pb-1">★ SPECIAL STAFF CREDITS ★</div>
-        <div class="text-slate-300">エグゼクティブ・プロデューサー：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
-        <div class="text-slate-300">ゲームデザイン・プログラム：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
-        <div class="text-slate-300">愛と情熱の応援サポーター：<span class="text-pink-400 font-black">鄭 聖也（パパ）</span></div>
+      <div class="bg-[#090517]/90 border border-blue-500/40 p-2.5 rounded-2xl text-[9px] space-y-0.5 text-center font-bold">
+        <div class="text-amber-400 tracking-widest text-[8px] uppercase border-b border-blue-800 pb-0.5">★ SPECIAL STAFF CREDITS ★</div>
+        <div class="text-blue-200">エグゼクティブ・プロデューサー：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-blue-200">ゲームデザイン・プログラム：<span class="text-white font-black">鄭 聖也（パパ）</span></div>
+        <div class="text-blue-200">愛と情熱の応援サポーター：<span class="text-amber-400 font-black">鄭 聖也（パパ）</span></div>
       </div>
 
-      <div class="text-[9px] text-indigo-300">※この真エンディングはボス選択画面からいつでも見直せます</div>
-
-      <button onclick="closeTrueEndingModal()" class="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 hover:brightness-110 text-white font-black py-3 rounded-xl text-sm shadow-2xl transition active:scale-95">
+      <button onclick="closeTrueEndingModal()" class="w-full bg-gradient-to-r from-blue-500 via-indigo-600 to-amber-400 hover:brightness-110 text-white font-black py-2.5 rounded-xl text-xs shadow-2xl transition active:scale-95">
         栄光を胸にホームへ 🏠
       </button>
     </div>
@@ -1787,18 +1740,18 @@ function closeTrueEndingModal() {
   showHome();
 }
 
-// ==================== ショップ ＆ 装備（隠し装備フィルタリング） ====================
+// ==================== ショップ ＆ 装備 ====================
 function switchEquipTab(tab) {
   currentShopTab = tab;
   const tHat = document.getElementById('tabEquipHat');
   const tWp = document.getElementById('tabEquipWeapon');
   const tAu = document.getElementById('tabEquipAura');
   [tHat, tWp, tAu].forEach(el => {
-    if (el) el.className = "flex-1 py-1.5 rounded-lg text-slate-300 hover:text-white transition";
+    if (el) el.className = "flex-1 py-1 rounded-lg text-blue-300/70 hover:text-white transition";
   });
-  if (tab === 'hat' && tHat) tHat.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
-  if (tab === 'weapon' && tWp) tWp.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
-  if (tab === 'aura' && tAu) tAu.className = "flex-1 py-1.5 rounded-lg bg-indigo-800 text-amber-300 shadow transition";
+  if (tab === 'hat' && tHat) tHat.className = "flex-1 py-1 rounded-lg bg-[#1f144d] text-amber-300 shadow transition";
+  if (tab === 'weapon' && tWp) tWp.className = "flex-1 py-1 rounded-lg bg-[#1f144d] text-amber-300 shadow transition";
+  if (tab === 'aura' && tAu) tAu.className = "flex-1 py-1 rounded-lg bg-[#1f144d] text-amber-300 shadow transition";
   renderShopEquips();
 }
 
@@ -1818,42 +1771,42 @@ function renderShopEquips() {
     }
 
     const card = document.createElement('div');
-    card.className = `p-2.5 rounded-2xl border flex flex-col justify-between ${
+    card.className = `p-2 rounded-2xl border flex flex-col justify-between ${
       eq.isSecret 
-        ? (isEquipped ? 'bg-purple-900 border-amber-400 shadow-xl glow-gold' : 'bg-gradient-to-br from-purple-950 to-indigo-950 border-purple-500')
-        : (isEquipped ? 'bg-indigo-800 border-amber-400 shadow-md' : 'bg-indigo-950/80 border-indigo-800')
+        ? (isEquipped ? 'bg-purple-900 border-amber-400 shadow-xl glow-gold' : 'bg-gradient-to-br from-purple-950 to-amber-950 border-amber-500')
+        : (isEquipped ? 'bg-[#1f144d] border-amber-400 shadow-md' : 'bg-[#090517]/90 border-blue-500/30')
     }`;
 
     card.innerHTML = `
       <div>
-        <div class="flex justify-between items-center mb-1">
-          <span class="text-[9px] font-bold ${eq.isSecret ? 'text-amber-300' : 'text-indigo-300'}">${eq.rank}</span>
-          <span class="text-xl">${eq.icon}</span>
+        <div class="flex justify-between items-center mb-0.5">
+          <span class="text-[8px] font-bold ${eq.isSecret ? 'text-amber-300' : 'text-blue-300'} truncate">${eq.rank}</span>
+          <div class="flex-shrink-0 flex items-center justify-center">${getSpriteIconHtml(eq, eq.icon, 'item')}</div>
         </div>
-        <div class="font-black text-xs text-white truncate">${eq.name}</div>
-        <div class="text-[9.5px] text-amber-300 mt-0.5 leading-tight">${eq.desc}</div>
+        <div class="font-black text-[11px] text-white truncate">${eq.name}</div>
+        <div class="text-[8.5px] text-amber-300 mt-0.5 leading-tight truncate">${eq.desc}</div>
       </div>
-      <div class="mt-2.5 pt-1.5 border-t border-indigo-800/80 flex justify-between items-center">
+      <div class="mt-2 pt-1 border-t border-blue-500/30 flex justify-between items-center">
         ${isEquipped ? `
-          <button onclick="unequipItem('${eq.type}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-1 rounded-lg text-[10px] transition">
+          <button onclick="unequipItem('${eq.type}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-1 rounded-lg text-[9.5px] transition">
             はずす
           </button>
         ` : (isUnlocked ? (
           isLevelLocked ? `
-            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-indigo-950 border border-rose-600/70 text-rose-300 font-bold py-1 rounded-lg text-[9.5px] transition active:scale-95">
-              🔒 Lv.${eq.reqLv}〜装備可能
+            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full bg-[#090517] border border-rose-600/70 text-rose-300 font-bold py-0.5 rounded-lg text-[8.5px] transition active:scale-95 leading-tight truncate">
+              🔒 Lv.${eq.reqLv}〜
             </button>
           ` : `
-            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full ${eq.isSecret ? 'bg-gradient-to-r from-purple-500 to-amber-400 text-indigo-950 font-black' : 'bg-amber-500 hover:bg-amber-400 text-indigo-950 font-black'} py-1 rounded-lg text-[10px] transition active:scale-95">
+            <button onclick="equipItem('${eq.id}', '${eq.type}')" class="w-full ${eq.isSecret ? 'bg-gradient-to-r from-amber-500 to-rose-500 text-white font-black' : 'bg-amber-500 hover:bg-amber-400 text-purple-950 font-black'} py-1 rounded-lg text-[9.5px] transition active:scale-95 shadow">
               そうび
             </button>
           `
         ) : (eq.price > 9000 ? `
-          <span class="w-full text-center text-[9px] text-rose-300 font-bold bg-rose-950/80 border border-rose-800/60 py-1 rounded-lg">
-            ボス限定 ${eq.reqLv ? `(Lv.${eq.reqLv}〜)` : ''}
+          <span class="w-full text-center text-[8.5px] text-rose-300 font-bold bg-rose-950/80 border border-rose-800/60 py-0.5 rounded-lg truncate">
+            魔王限定
           </span>
         ` : `
-          <button onclick="buyEquip('${eq.id}', ${eq.price})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1 rounded-lg text-[10px] flex items-center justify-center gap-1 transition active:scale-95">
+          <button onclick="buyEquip('${eq.id}', ${eq.price})" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black py-1 rounded-lg text-[9.5px] flex items-center justify-center gap-1 transition active:scale-95 shadow">
             <span>💎 ${eq.price}</span> <span>購入</span>
           </button>
         `))}
@@ -1905,7 +1858,7 @@ function buyItem(type, price) {
 
 // ==================== 画面表示切替 ＆ ナビゲーション ====================
 function hideAllViews() {
-  ['viewHome', 'viewQuiz', 'viewResult', 'viewShop', 'viewParent', 'viewBook', 'viewWeakBook', 'modalBossSelect', 'modalNormalSelect'].forEach(id => {
+  ['viewHome', 'viewQuiz', 'viewResult', 'viewShop', 'viewParent', 'viewBook', 'viewWeakBook', 'modalBossSelect', 'modalNormalSelect', 'modalBossDialogue', 'quizFeedback'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('hidden');
   });
@@ -1939,11 +1892,11 @@ function showParent() {
 function updateNavHighlight(active) {
   ['Home', 'Book', 'Weak', 'Shop', 'Parent'].forEach(name => {
     const btn = document.getElementById('nav' + name);
-    if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
+    if (btn) btn.className = "flex flex-col items-center gap-0.5 text-blue-300/70 hover:text-blue-200";
   });
   const keyMap = { home: 'navHome', book: 'navBook', weak: 'navWeak', shop: 'navShop', parent: 'navParent' };
   const target = document.getElementById(keyMap[active]);
-  if (target) target.className = "flex flex-col items-center gap-0.5 text-amber-400";
+  if (target) target.className = "flex flex-col items-center gap-0.5 text-amber-300 font-black";
 }
 
 // ==================== バックアップ・復元・リセット ====================
@@ -1951,7 +1904,7 @@ function exportData() {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userData));
   const dlAnchor = document.createElement('a');
   dlAnchor.setAttribute("href", dataStr);
-  dlAnchor.setAttribute("download", `eiken4_backup_${getTodayString()}.json`);
+  dlAnchor.setAttribute("download", `eiken_grade4_backup_${getTodayString()}.json`);
   dlAnchor.click();
 }
 
@@ -1972,7 +1925,7 @@ function importData(event) {
       sanitizeUserData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
       updateUiState();
-      alert('データの復元が完了しました！');
+      alert('4級データの復元が完了しました！');
       location.reload();
     } catch (err) {
       console.error(err);
@@ -1983,7 +1936,7 @@ function importData(event) {
 }
 
 function resetAllProgress() {
-  if (confirm('すべての学習記録、レベル、獲得ダイヤを初期化しますか？')) {
+  if (confirm('4級のすべての学習記録、レベル、獲得ダイヤを初期化しますか？')) {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch(e) {}
