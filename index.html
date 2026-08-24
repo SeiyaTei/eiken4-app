@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>英検4級 合格クエスト 〜ドラゴンクエスト編〜</title>
   
-  <!-- PWA / ホーム画面アプリ化設定 -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#120c24">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,31 +15,51 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* ドラクエ・スライム画像スプライト (451x299) */
+    /* スライム専用スプライト（隣の映り込みを完全カット） */
+    .dq-slime-box {
+      width: 48px;
+      height: 48px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
     .dq-slime-sprite {
-      width: 52px;
-      height: 52px;
+      width: 32px;
+      height: 32px;
       background-image: url('dq_slimes.jpg');
       background-size: 451px 299px;
       background-repeat: no-repeat;
       display: inline-block;
+      transform: scale(1.4);
+      transform-origin: center;
       image-rendering: pixelated;
-      border-radius: 12px;
     }
 
-    /* ドラクエ・モンスター＆ボス画像スプライト (395x1024) */
-    .dq-monster-sprite {
+    /* モンスター＆大魔王専用スプライト */
+    .dq-monster-box {
       width: 52px;
       height: 52px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+    .dq-monster-sprite {
+      width: 44px;
+      height: 44px;
       background-image: url('dq_monsters.jpg');
       background-size: 395px 1024px;
       background-repeat: no-repeat;
       display: inline-block;
+      transform: scale(1.15);
+      transform-origin: center;
       image-rendering: pixelated;
-      border-radius: 12px;
     }
 
-    /* ドラクエ・HD-2Dアイテム画像スプライト (612x578) */
+    /* HD-2Dアイテム専用スプライト */
     .dq-item-sprite {
       width: 24px;
       height: 24px;
@@ -58,8 +77,8 @@
     .animate-bounce-slow { animation: bounce-slow 2.2s infinite ease-in-out; }
     
     @keyframes pulse-gold {
-      0%, 100% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.4), 0 0 4px rgba(245, 158, 11, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.75), 0 0 10px rgba(245, 158, 11, 0.5); }
+      0%, 100% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.4); }
+      50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.75); }
     }
     .glow-gold { animation: pulse-gold 2s infinite; }
     
@@ -97,7 +116,7 @@
 </head>
 <body class="bg-[#0c081f] text-slate-100 min-h-screen pb-20 font-sans selection:bg-amber-400 selection:text-blue-950 select-none">
 
-  <!-- ヘッダー / ステータスバー -->
+  <!-- ヘッダー -->
   <header class="bg-[#150e33]/95 backdrop-blur border-b border-blue-500/30 sticky top-0 z-40 px-2.5 py-1.5 shadow-md">
     <div class="max-w-md mx-auto flex items-center justify-between gap-1">
       <div class="flex items-center gap-1.5 min-w-0">
@@ -128,21 +147,19 @@
     </div>
   </header>
 
-  <!-- メイン画面コンテナ -->
+  <!-- メインコンテナ -->
   <main class="max-w-md mx-auto p-3 space-y-3.5">
 
-    <!-- ==================== 1. ホーム画面 ==================== -->
+    <!-- 1. ホーム画面 -->
     <div id="viewHome" class="space-y-3.5">
-      
-      <!-- 相棒スライム & レベル & ステータス -->
       <div class="bg-gradient-to-br from-[#1e1445] via-[#140d33] to-[#0a061c] border-2 border-blue-400/50 rounded-3xl p-3.5 shadow-xl relative overflow-hidden glow-gold">
         <div class="flex items-center gap-3">
           <div class="relative flex-shrink-0">
             <div id="heroAvatarContainer" class="w-20 h-20 rounded-2xl bg-[#090517]/90 border-2 border-blue-400 flex items-center justify-center shadow-inner animate-bounce-slow relative overflow-visible">
-              <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center text-4xl opacity-75 pointer-events-none scale-125 z-0"></span>
-              <span id="equipHatIcon" class="absolute -top-3 z-20 text-xl drop-shadow"></span>
-              <div id="heroAvatar" class="z-10 flex items-center justify-center">💧</div>
-              <span id="equipWeaponIcon" class="absolute -right-2 bottom-0 z-20 text-xl drop-shadow"></span>
+              <span id="equipAuraIcon" class="absolute inset-0 flex items-center justify-center opacity-75 pointer-events-none scale-125 z-0"></span>
+              <span id="equipHatIcon" class="absolute -top-3 z-20 drop-shadow"></span>
+              <div id="heroAvatar" class="z-10 flex items-center justify-center"></div>
+              <span id="equipWeaponIcon" class="absolute -right-2 bottom-0 z-20 drop-shadow"></span>
             </div>
             <span id="heroRank" class="absolute -bottom-2 -right-1 text-[8px] font-black bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-2 py-0.5 rounded-full shadow z-30 whitespace-nowrap max-w-[100px] truncate">
               みならいスライム
@@ -161,7 +178,6 @@
               <span id="expText">0 / 100</span>
             </div>
 
-            <!-- RPG ステータスパラメータ -->
             <div class="grid grid-cols-3 gap-1 text-[9px] font-black bg-[#090517]/90 p-1 rounded-xl border border-blue-500/30 text-center">
               <div class="text-amber-300 truncate">⚔️攻 <span id="statAtkVal">31</span></div>
               <div class="text-emerald-400 truncate">💖HP <span id="statHpVal">135</span></div>
@@ -170,14 +186,13 @@
           </div>
         </div>
 
-        <!-- 2026年10月4日 試験日カウントダウン -->
         <div class="mt-2.5 pt-2 border-t border-blue-500/30 flex justify-between items-center text-[11px]">
           <span class="text-blue-200">🎯 英検4級 本番(2026/10/4)まで</span>
           <span id="countdownDays" class="font-black text-amber-300 text-xs">-- 日</span>
         </div>
       </div>
 
-      <!-- 👑 歴代魔王ボスバトル巨大カード -->
+      <!-- ボスバトル巨大カード -->
       <div class="bg-gradient-to-r from-[#381128] via-[#240b1c] to-[#120610] border-2 border-rose-500/80 rounded-3xl p-3.5 shadow-xl glow-red relative overflow-hidden">
         <div class="flex items-center justify-between gap-2">
           <div class="min-w-0 flex-1">
@@ -197,7 +212,7 @@
         </div>
       </div>
 
-      <!-- 今日の3大デイリークエスト -->
+      <!-- デイリークエスト -->
       <div class="bg-gradient-to-br from-[#18103d] via-[#100b2b] to-[#0a061c] border border-blue-500/50 rounded-3xl p-3.5 shadow-xl space-y-2.5">
         <div class="flex justify-between items-center">
           <div>
@@ -210,7 +225,6 @@
         </div>
 
         <div class="space-y-2 text-xs">
-          <!-- デイリー単語 -->
           <div id="questCardVocab" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
               <span class="text-lg flex-shrink-0">📖</span>
@@ -224,7 +238,6 @@
             </div>
           </div>
 
-          <!-- デイリー文法 -->
           <div id="questCardGrammar" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
               <span class="text-lg flex-shrink-0">🪄</span>
@@ -238,7 +251,6 @@
             </div>
           </div>
 
-          <!-- デイリーリスニング -->
           <div id="questCardListening" class="bg-[#0b061c]/90 border border-blue-500/30 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
               <span class="text-lg flex-shrink-0">🎧</span>
@@ -264,7 +276,7 @@
         </div>
       </div>
 
-      <!-- 通常特訓コース（サイクル制） -->
+      <!-- 通常特訓サイクル -->
       <div class="bg-[#140d33]/80 border border-blue-500/40 rounded-3xl p-3.5 space-y-2.5">
         <div class="flex justify-between items-baseline px-1">
           <div>
@@ -314,10 +326,9 @@
           </button>
         </div>
       </div>
-
     </div>
 
-    <!-- ==================== ⚔️ 通常クエスト難易度選択モーダル ==================== -->
+    <!-- 難易度選択モーダル -->
     <div id="modalNormalSelect" class="hidden fixed inset-0 bg-[#060312]/90 backdrop-blur-md z-50 flex items-center justify-center p-3">
       <div class="bg-gradient-to-b from-[#1b1242] to-[#0c0721] border-2 border-blue-400/80 rounded-3xl p-4 w-full max-w-sm flex flex-col shadow-2xl space-y-3">
         <div class="flex justify-between items-center border-b border-blue-500/30 pb-2">
@@ -366,7 +377,7 @@
       </div>
     </div>
 
-    <!-- ==================== 👑 魔王レベル選択モーダル ==================== -->
+    <!-- ボス選択モーダル -->
     <div id="modalBossSelect" class="hidden fixed inset-0 bg-[#060312]/90 backdrop-blur-md z-50 flex items-center justify-center p-3">
       <div class="bg-gradient-to-b from-[#1f103d] to-[#0d0721] border-2 border-rose-500/80 rounded-3xl p-3.5 w-full max-w-sm max-h-[85vh] flex flex-col shadow-2xl space-y-2.5">
         <div class="flex justify-between items-center border-b border-blue-500/30 pb-2">
@@ -383,23 +394,20 @@
       </div>
     </div>
 
-    <!-- ==================== 💬 ボス会話モーダル ==================== -->
+    <!-- ボス会話モーダル -->
     <div id="modalBossDialogue" class="hidden fixed inset-0 bg-black/90 z-50 p-3 flex items-center justify-center">
       <div class="max-w-sm w-full bg-gradient-to-b from-[#1f103d] via-[#150a2b] to-[#0c061a] border-2 border-amber-400/80 rounded-3xl p-4 shadow-2xl text-center space-y-3 glow-gold">
-        <div class="flex justify-center" id="bossDialogueIcon">🐲</div>
+        <div class="flex justify-center" id="bossDialogueIcon"></div>
         <div class="text-xs font-black text-amber-300 tracking-wider truncate" id="bossDialogueTitle">大魔王出現！</div>
-        <div class="bg-[#090517]/90 p-3 rounded-2xl border border-blue-500/30 text-[11px] text-blue-100 leading-relaxed text-left font-medium whitespace-pre-line break-words max-h-48 overflow-y-auto" id="bossDialogueText">
-          会話内容
-        </div>
+        <div class="bg-[#090517]/90 p-3 rounded-2xl border border-blue-500/30 text-[11px] text-blue-100 leading-relaxed text-left font-medium whitespace-pre-line break-words max-h-48 overflow-y-auto" id="bossDialogueText"></div>
         <button id="btnBossDialogueNext" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:brightness-110 text-white font-black py-2 rounded-xl text-xs shadow-xl transition active:scale-95">
           進む ⚔️
         </button>
       </div>
     </div>
 
-    <!-- ==================== 2. クイズ・バトル画面 ==================== -->
+    <!-- 2. クイズ・バトル画面 -->
     <div id="viewQuiz" class="hidden space-y-2.5">
-      
       <div class="flex items-center justify-between bg-[#150e33]/90 p-2 rounded-2xl border border-blue-500/30">
         <button onclick="confirmExitQuiz()" class="text-[11px] font-bold text-blue-200 hover:text-white px-2 py-1 bg-[#090517] rounded-lg">✕ にげる</button>
         <div class="text-[11px] font-bold text-amber-300" id="quizProgress">第 1 / 5 問</div>
@@ -471,10 +479,9 @@
           つぎへ進む ➔
         </button>
       </div>
-
     </div>
 
-    <!-- ==================== 3. リザルト画面 ==================== -->
+    <!-- 3. リザルト画面 -->
     <div id="viewResult" class="hidden space-y-3.5 text-center py-2">
       <div class="bg-gradient-to-b from-[#1b103d] to-[#0c0721] border-2 border-amber-400 rounded-3xl p-5 shadow-2xl space-y-3 glow-gold" id="resultCardBox">
         <div class="text-5xl animate-bounce" id="resultEmoji">🏆✨</div>
@@ -511,7 +518,7 @@
       </div>
     </div>
 
-    <!-- ==================== 4. 📖 4級 魔法単語図鑑 ==================== -->
+    <!-- 4. 単語図鑑 -->
     <div id="viewBook" class="hidden space-y-2.5">
       <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3 space-y-1.5">
         <div class="flex justify-between items-center">
@@ -529,7 +536,7 @@
       <div class="grid grid-cols-2 gap-1.5 text-xs max-h-[450px] overflow-y-auto pr-1" id="vocabBookList"></div>
     </div>
 
-    <!-- ==================== 5. 👾 にがて帳 ==================== -->
+    <!-- 5. にがて帳 -->
     <div id="viewWeakBook" class="hidden space-y-2.5">
       <div class="bg-gradient-to-br from-rose-950 via-[#150e33] to-[#0c081f] border border-rose-500/60 rounded-2xl p-3 space-y-1">
         <div class="flex justify-between items-center">
@@ -546,7 +553,7 @@
       <div class="space-y-2 max-h-[460px] overflow-y-auto pr-1" id="weakBookItemList"></div>
     </div>
 
-    <!-- ==================== 6. 💎 ダイヤショップ画面 ==================== -->
+    <!-- 6. ショップ画面 -->
     <div id="viewShop" class="hidden space-y-3">
       <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3 space-y-2">
         <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
@@ -602,7 +609,7 @@
       </div>
     </div>
 
-    <!-- ==================== 7. 保護者用ダッシュボード ==================== -->
+    <!-- 7. 保護者ダッシュボード -->
     <div id="viewParent" class="hidden space-y-3">
       <div class="bg-[#150e33]/90 border border-blue-500/40 rounded-2xl p-3.5 space-y-2.5">
         <h3 class="font-bold text-xs text-amber-300 flex items-center gap-1 border-b border-blue-500/30 pb-1.5">
@@ -637,10 +644,9 @@
 
   </main>
 
-  <!-- ==================== 🎬 フルスクリーン表エンディング ==================== -->
+  <!-- エンディング -->
   <div id="modalEnding" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-3 overflow-y-auto">
     <div id="endingContainer" class="max-w-sm w-full text-center space-y-4 py-4">
-      
       <div id="endingPhase1" class="space-y-3">
         <div class="text-6xl animate-bounce">👑⚔️🌟✨</div>
         <div class="inline-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black text-[11px] px-3 py-0.5 rounded-full shadow-lg">
@@ -715,11 +721,10 @@
           真の挑戦へ向かう ⚔️
         </button>
       </div>
-
     </div>
   </div>
 
-  <!-- ボトムナビゲーションバー -->
+  <!-- ナビゲーションバー -->
   <nav class="fixed bottom-0 left-0 right-0 bg-[#0d0722]/98 backdrop-blur border-t border-blue-500/30 py-1.5 z-40 shadow-2xl">
     <div class="max-w-md mx-auto grid grid-cols-5 text-[9px] font-bold text-center">
       <button onclick="showHome()" id="navHome" class="flex flex-col items-center gap-0.5 text-amber-300 font-black">
@@ -745,7 +750,6 @@
     </div>
   </nav>
 
-  <!-- 外部JavaScriptファイルの読み込み ＆ Service Worker 登録 -->
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
