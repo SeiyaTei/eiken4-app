@@ -3,6 +3,198 @@
 // マスターデータ定義ファイル (data.js)
 // ==========================================
 
+// ==================== 5. 着せ替え・装備データベース (全33種) ====================
+const SHOP_EQUIP_DATA = [
+  // --- 👑 あたま (HP) ---
+  { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
+  { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
+  { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 300, desc: 'HP +300 / やる気UP' },
+  { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 600, desc: 'HP +600 / 集中力UP' },
+  { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 1200, desc: 'HP +1200 / 文法の魔力' },
+  { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 2000, desc: 'HP +2000 / 精神集中' },
+  { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 3500, desc: 'HP +3500 / 知識の王者' },
+  { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
+  { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
+  { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護 (Lv.60以上)', reqLv: 60 },
+  { id: 'hat_genesis_crown', name: '創世神の王冠', type: 'hat', icon: '👑✨🌌', price: 99999, rank: '🌌 創世神話級', val: 25000, desc: 'HP +25000 / 全次元を統べる神の王冠 (Lv.60以上)', reqLv: 60, isSecret: true },
+
+  // --- ⚔️ ぶき (攻撃力) ---
+  { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
+  { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
+  { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
+  { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
+  { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
+  { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
+  { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
+  { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
+  { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
+  { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気 (Lv.60以上)', reqLv: 60 },
+  { id: 'wp_genesis_blade', name: '創世神の聖剣', type: 'weapon', icon: '⚔️🌟🔥', price: 99999, rank: '🌌 創世神話級', val: 4000, desc: '攻撃 +4000 / 万物を創造し消滅させる究極剣 (Lv.60以上)', reqLv: 60, isSecret: true },
+
+  // --- ✨ オーラ (速さ / 会心率) ---
+  { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
+  { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
+  { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 30, desc: '速さ +30 / 高みへ飛翔' },
+  { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 55, desc: '速さ +55 / 秘めたる力' },
+  { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
+  { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
+  { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
+  { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' },
+  { id: 'aura_dragon_light', name: '神龍の天光', type: 'aura', icon: '🐉✨', price: 9999, rank: '🎁 ボス限定ドロップ', val: 365, desc: '速さ +365 / 神龍の加護。極限の素早さを宿す光 (Lv.60以上)', reqLv: 60 },
+  { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
+];
+
+// ==================== 6. ボスステージ (全11段階) ====================
+const BOSS_STAGES = [
+  { 
+    lv: 1, 
+    name: "邪竜の幼体", 
+    icon: "🐲", 
+    hp: 1200, 
+    atk: 25, 
+    exp: 60, 
+    gems: 15, 
+    desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！",
+    introMsg: "Gwaaah! (ボクの縄張りに何しに来た！キミの英語の力、見せてもらおう！)",
+    defeatMsg: "Kyuuu... (強いや...！だけど次はもっと硬いウロコを持つヤツがいるぞ...！)"
+  },
+  { 
+    lv: 2, 
+    name: "黒曜石の飛竜", 
+    icon: "🦖", 
+    hp: 3500, 
+    atk: 50, 
+    exp: 90, 
+    gems: 20, 
+    desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！",
+    introMsg: "You cannot pierce my black scales! (我が黒曜の鎧、貴様の英語力で貫けるかな！)",
+    defeatMsg: "My armor is broken...!? (ウロコが砕かれた...！だが紅蓮の炎に焼き尽くされるがいい...！)"
+  },
+  { 
+    lv: 3, 
+    name: "紅蓮のワイバーン", 
+    icon: "👺", 
+    hp: 7000, 
+    atk: 85, 
+    exp: 130, 
+    gems: 28, 
+    desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。",
+    introMsg: "Burn in my flame! (ここから先は灼熱の領域！貴様の覚悟を試してやろう！)",
+    defeatMsg: "My flame extinguished... (炎が消えた...！？ だが嵐を呼ぶあの竜が貴様を吹き飛ばす！)"
+  },
+  { 
+    lv: 4, 
+    name: "嵐呼ぶ魔竜", 
+    icon: "🌪️", 
+    hp: 12000, 
+    atk: 120, 
+    exp: 180, 
+    gems: 35, 
+    desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。",
+    introMsg: "Feel the wrath of the storm! (吹き荒れる嵐を前に、貴様の知識など無力だ！)",
+    defeatMsg: "Blown away... (嵐が切り裂かれた...！冥府の門が開くのを見るがいい...！)"
+  },
+  { 
+    lv: 5, 
+    name: "冥府の巨竜", 
+    icon: "👿", 
+    hp: 18000, 
+    atk: 165, 
+    exp: 240, 
+    gems: 45, 
+    desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！",
+    introMsg: "Welcome to the underworld! (ここが貴様の終着駅だ。闇の底へ沈むがいい！)",
+    defeatMsg: "Light... in the dark...? (暗闇に光が...！？ だが深淵に潜む影はお前の光すら呑み込むぞ！)"
+  },
+  { 
+    lv: 6, 
+    name: "深淵の影竜", 
+    icon: "🦹", 
+    hp: 26000, 
+    atk: 210, 
+    exp: 310, 
+    gems: 55, 
+    desc: "闇に潜む古代の竜。装備を整えて挑もう。",
+    introMsg: "Darkness will swallow you! (実体なき我が影を捉えられるか？迷宮で朽ち果てよ！)",
+    defeatMsg: "My shadow faded... (影が消える...！破滅の双頭竜が貴様を引き裂くだろう！)"
+  },
+  { 
+    lv: 7, 
+    name: "破滅の双頭竜", 
+    icon: "🐉", 
+    hp: 36000, 
+    atk: 265, 
+    exp: 400, 
+    gems: 68, 
+    desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！",
+    introMsg: "Two heads, double destruction! (我ら双頭の猛攻に耐えられるか！一瞬で消し去ってやる！)",
+    defeatMsg: "Both heads defeated...!? (二つの首が...！？ インフェルノの業火がお前を待っているぞ...！)"
+  },
+  { 
+    lv: 8, 
+    name: "インフェルノ・ドレイク", 
+    icon: "🔥", 
+    hp: 48000, 
+    atk: 330, 
+    exp: 500, 
+    gems: 80, 
+    desc: "灼熱の業火を纏う。上級装備が必須レベル！",
+    introMsg: "I will incinerate everything! (すべてを灰にする絶対の業火！貴様の知識ごと燃やし尽くす！)",
+    defeatMsg: "Such overwhelming power... (この炎を超えていくというのか...！終焉の闇が世界を包むぞ...！)"
+  },
+  { 
+    lv: 9, 
+    name: "終焉の暗黒竜", 
+    icon: "⚡🐉", 
+    hp: 62000, 
+    atk: 400, 
+    exp: 650, 
+    gems: 100, 
+    desc: "世界を闇に沈める竜。最高峰のステータスが必要！",
+    introMsg: "The end of the world begins! (世界は終わる！最後の絶望を味わうがよい！)",
+    defeatMsg: "Defeated at the end...!? (終焉が敗れるとは...！だが我が主、オメガエデン様が貴様を裁く！)"
+  },
+  { 
+    lv: 10, 
+    name: "覇天神龍・オメガエデン", 
+    icon: "👑🐉✨", 
+    hp: 80000, 
+    atk: 500, 
+    exp: 850, 
+    gems: 150, 
+    desc: "【表ラスボス】英検4級の頂点に君臨する神龍！",
+    introMsg: "I am the supreme ruler! (我が名はオメガエデン！英検の頂点、その全てを賭けて挑んでくるがよい！)",
+    defeatMsg: "Incredible... You are the true master! (見事だ...！貴様こそが真の英検マスターだ！)"
+  },
+  { 
+    lv: 11, 
+    name: "虚無を統べる終極神・ゼロインフィニティ", 
+    icon: "🌌👁️⚡", 
+    hp: 160000, 
+    atk: 9999, 
+    exp: 2000, 
+    gems: 300, 
+    desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問クリティカルでのみ勝てる究極の神！", 
+    isSecret: true,
+    introMsg: "Everything returns to nothingness... (万物は虚無へ還る...。神話の装備を纏いし者よ、存在の限界を超えてみせよ！)",
+    defeatMsg: "Light shines forever... You have conquered all dimensions! (虚無が...満たされた...。全次元の覇者よ、その栄光は永遠なり...！)"
+  }
+];
+
+// ==================== 7. レベル10ごとの進化ツリー ====================
+const AVATARS = [
+  { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
+  { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
+  { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
+  { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
+  { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
+  { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
+  { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
+  { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
+  { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
+  { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
+  { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
+];
 // ==================== 1. 必須単語・重要熟語 (厳密に全700語) ====================
 const RAW_VOCAB_DATA = [
   // --- 熟語・連語・定型表現 (70語) ---
@@ -183,7 +375,6 @@ const RAW_VOCAB_DATA = [
   ["wild", "野生の・自然の"], ["stationery", "文房具"], ["envelope", "封筒"], ["postcard", "はがき"], ["stamp", "切手"],
   ["address", "住所"], ["diary", "日記"], ["story", "物語・お話"], ["newspaper", "新聞"], ["magazine", "雑誌"]
 ];
-
 // ==================== 2. 文法・会話 100問 完全データベース ====================
 const RAW_GRAMMAR_DATA = [
   { q: "I ( ) to the park yesterday.", sub: "【訳】私は昨日、公園に行きました。", opt: ["go", "went", "going", "goes"], ans: 1, exp: "yesterday（昨日）があるので過去形の went を使います。" },
@@ -299,7 +490,7 @@ const RAW_GRAMMAR_DATA = [
 
 // ==================== 3. リスニング 60問 データベース ====================
 const RAW_LISTENING_DATA = [
-// ==================== 2026年度版 (No.11 〜 No.30 全20問) ====================
+  // ==================== 2026年度版 (No.11 〜 No.30 全20問) ====================
   { 
     q: "音声を聞いて、質問に答えよう。", 
     sub: "🎧 【2026-1 No.11】(⚡速UP)", 
@@ -479,187 +670,6 @@ const RAW_LISTENING_DATA = [
     explain: "【英文】\nWelcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults.\n\n【英文の訳】\n市立美術館へようこそ。入場料は子ども3ドル、大人10ドルです。\n\n【質問】How much is the fee for adults?\n（大人料金はいくらですか？）\n\n【正解の訳】\n4. 10ドル。\n\n【解説】ten dollars for adults（大人は10ドル）と案内されています。", 
     dialogue: [{ speaker: 'female', text: "Welcome to the city art museum. The fees are three dollars for kids, and ten dollars for adults." }, { speaker: 'narrator', text: "Question. How much is the fee for adults?" }], 
     aud_complete: "How much is the fee for adults? Ten dollars." 
-  },
-  // ==================== 2025年第3回 (No.11 〜 No.30 全20問) ====================
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.11】(⚡速UP)", 
-    opt: ["She went skiing.", "She met Mr. Brown.", "She stayed at home.", "She studied at school."], 
-    ans: 0, 
-    explain: "【会話】\nMan: Did you go skiing at your uncle's house, Meg?\nGirl: Yes, every day. It was fun!\n\n【会話の訳】\n男性: メグ、おじさんの家でスキーに行ったかい？\n女子: はい、毎日行きました。とても楽しかったです！\n\n【質問】What did Meg do on her holiday?\n（メグは休日に何をしましたか？）\n\n【正解の訳】\n1. 彼女はスキーに行った。\n\n【解説】go skiing（スキーに行く）と答えています。", 
-    dialogue: [{ speaker: 'male', text: "Did you go skiing at your uncle's house, Meg?" }, { speaker: 'female', text: "Yes, every day. It was fun!" }, { speaker: 'narrator', text: "Question. What did Meg do on her holiday?" }], 
-    aud_complete: "What did Meg do on her holiday? She went skiing." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.12】(⚡速UP)", 
-    opt: ["Tommy’s birthday present.", "Their homework.", "Their new friend.", "Lisa’s new bicycle."], 
-    ans: 0, 
-    explain: "【会話】\nGirl: What did you get for your birthday, Tommy?\nBoy: A new bicycle, Lisa.\n\n【会話の訳】\n女子: トミー、誕生日に何をもらったの？\n男子: 新しい自転車だよ、リサ。\n\n【質問】What are they talking about?\n（彼らは何について話していますか？）\n\n【正解の訳】\n1. トミーの誕生日プレゼント。\n\n【解説】誕生日に何をもらったか（プレゼント）について話しています。", 
-    dialogue: [{ speaker: 'female', text: "What did you get for your birthday, Tommy?" }, { speaker: 'male', text: "A new bicycle, Lisa." }, { speaker: 'narrator', text: "Question. What are they talking about?" }], 
-    aud_complete: "What are they talking about? Tommy’s birthday present." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.13】(⚡速UP)", 
-    opt: ["To the movies.", "To Japan.", "To school.", "To the airport."], 
-    ans: 3, 
-    explain: "【会話】\nBoy: Will you go somewhere tomorrow?\nGirl: Yes, to the airport to meet a friend from Japan.\n\n【会話の訳】\n男子: 明日はどこかへ行くの？\n女子: ええ、日本から来る友達を出迎えるために空港へ行くわ。\n\n【質問】Where will the girl go tomorrow?\n（女の子は明日どこへ行きますか？）\n\n【正解の訳】\n4. 空港へ。\n\n【解説】to the airport（空港へ）行くと答えています。", 
-    dialogue: [{ speaker: 'male', text: "Will you go somewhere tomorrow?" }, { speaker: 'female', text: "Yes, to the airport to meet a friend from Japan." }, { speaker: 'narrator', text: "Question. Where will the girl go tomorrow?" }], 
-    aud_complete: "Where will the girl go tomorrow? To the airport." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.14】(⚡速UP)", 
-    opt: ["The boy.", "The girl.", "The boy’s sister.", "The girl’s sister."], 
-    ans: 1, 
-    explain: "【会話】\nBoy: Do you want to see a movie tomorrow?\nGirl: I can’t. I’ll go fishing alone.\n\n【会話の訳】\n男子: 明日映画を見に行かない？\n女子: 無理なの。一人で釣りに行く予定なの。\n\n【質問】Who will go fishing tomorrow?\n（誰が明日釣りに行きますか？）\n\n【正解の訳】\n2. 女の子。\n\n【解説】女子が I’ll go fishing alone（一人で釣りに行く）と話しています。", 
-    dialogue: [{ speaker: 'male', text: "Do you want to see a movie tomorrow?" }, { speaker: 'female', text: "I can’t. I’ll go fishing alone." }, { speaker: 'narrator', text: "Question. Who will go fishing tomorrow?" }], 
-    aud_complete: "Who will go fishing tomorrow? The girl." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.15】(⚡速UP)", 
-    opt: ["Go home.", "Go to school.", "Meet Mike.", "Buy a present."], 
-    ans: 0, 
-    explain: "【会話】\nGirl: Bye, Mike. I’m going home now.\nBoy: Thanks for coming to my party.\n\n【会話の訳】\n女子: さようなら、マイク。もう家に帰るわね。\n男子: 僕のパーティーに来てくれてありがとう。\n\n【質問】What is the girl going to do now?\n（女の子は今から何をしますか？）\n\n【正解の訳】\n1. 家に帰ること。\n\n【解説】I'm going home now（今から家に帰る）と言っています。", 
-    dialogue: [{ speaker: 'female', text: "Bye, Mike. I’m going home now." }, { speaker: 'male', text: "Thanks for coming to my party." }, { speaker: 'narrator', text: "Question. What is the girl going to do now?" }], 
-    aud_complete: "What is the girl going to do now? Go home." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.16】(⚡速UP)", 
-    opt: ["Eating an apple.", "Buying a banana.", "Eating a banana.", "Making lunch for the girl."], 
-    ans: 0, 
-    explain: "【会話】\nGirl: What are you eating, Mark?\nBoy: An apple.\n\n【会話の訳】\n女子: 何を食べているの、マーク？\n男子: リンゴだよ。\n\n【質問】What is Mark doing now?\n（マークは今何をしていますか？）\n\n【正解の訳】\n1. リンゴを食べている。\n\n【解説】An apple（リンゴ）を食べています。", 
-    dialogue: [{ speaker: 'female', text: "What are you eating, Mark?" }, { speaker: 'male', text: "An apple." }, { speaker: 'narrator', text: "Question. What is Mark doing now?" }], 
-    aud_complete: "What is Mark doing now? Eating an apple." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.17】(⚡速UP)", 
-    opt: ["At school.", "At home.", "In Peter’s bag.", "In Peter’s room."], 
-    ans: 1, 
-    explain: "【会話】\nBoy: Where is your eraser?\nGirl: I left it at home. Maybe on the desk in my room.\n\n【会話の訳】\n男子: 君の消しゴムはどこにあるの？\n女子: 家に置いてきちゃった。たぶん私の部屋の机の上よ。\n\n【質問】Where is the girl’s eraser?\n（女の子の消しゴムはどこにありますか？）\n\n【正解の訳】\n2. 家に。\n\n【解説】left it at home（家に置いてきた）と答えています。", 
-    dialogue: [{ speaker: 'male', text: "Where is your eraser?" }, { speaker: 'female', text: "I left it at home. Maybe on the desk in my room." }, { speaker: 'narrator', text: "Question. Where is the girl’s eraser?" }], 
-    aud_complete: "Where is the girl’s eraser? At home." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.18】(⚡速UP)", 
-    opt: ["Next week.", "This week.", "This month.", "Next month."], 
-    ans: 3, 
-    explain: "【会話】\nGirl: I will go on a trip to Italy next month.\nBoy: How long will you be there?\n\n【会話の訳】\n女子: 来月、イタリアへ旅行に行くの。\n男子: どのくらい滞在するの？\n\n【質問】When will the girl go on a trip?\n（女の子はいつ旅行に行きますか？）\n\n【正解の訳】\n4. 来月。\n\n【解説】next month（来月）旅行に行きます。", 
-    dialogue: [{ speaker: 'female', text: "I will go on a trip to Italy next month." }, { speaker: 'male', text: "How long will you be there?" }, { speaker: 'narrator', text: "Question. When will the girl go on a trip?" }], 
-    aud_complete: "When will the girl go on a trip? Next month." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.19】(⚡速UP)", 
-    opt: ["He missed a bus.", "He was busy.", "He was sick.", "He got up late."], 
-    ans: 3, 
-    explain: "【会話】\nGirl: Why is Ken late for school today?\nBoy: He got up late today.\n\n【会話の訳】\n女子: ケンはどうして今日学校に遅刻したの？\n男子: 今日は起きるのが遅かったんだよ。\n\n【質問】Why is Ken late for school today?\n（ケンはなぜ今日学校に遅刻したのですか？）\n\n【正解の訳】\n4. 彼は起きるのが遅かったから。\n\n【解説】got up late（遅く起きた・寝坊した）ことが原因です。", 
-    dialogue: [{ speaker: 'female', text: "Why is Ken late for school today?" }, { speaker: 'male', text: "He got up late today." }, { speaker: 'narrator', text: "Question. Why is Ken late for school today?" }], 
-    aud_complete: "Why is Ken late for school today? He got up late." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.20】(⚡速UP)", 
-    opt: ["She lived in America.", "Her mother is from America.", "She took English lessons.", "The boy taught it to her."], 
-    ans: 0, 
-    explain: "【会話】\nBoy: Where did you learn English, Sara?\nGirl: When I was younger, I lived in America for three years.\n\n【会話の訳】\n男子: サラ、どこで英語を習ったの？\n女子: もっと小さい頃、アメリカに3年間住んでいたの。\n\n【質問】How did Sara learn English?\n（サラはどうやって英語を学びましたか？）\n\n【正解の訳】\n1. 彼女はアメリカに住んでいた。\n\n【解説】lived in America（アメリカに住んでいた）から身につけました。", 
-    dialogue: [{ speaker: 'male', text: "Where did you learn English, Sara?" }, { speaker: 'female', text: "When I was younger, I lived in America for three years." }, { speaker: 'narrator', text: "Question. How did Sara learn English?" }], 
-    aud_complete: "How did Sara learn English? She lived in America." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.21】(⚡速UP)", 
-    opt: ["At home.", "At a restaurant.", "At a clothes shop.", "At a bank."], 
-    ans: 1, 
-    explain: "【英文】\nWelcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad.\n\n【英文の訳】\nトニーズ・バーガーショップへようこそ。本日のスペシャルはサラダ付きチーズバーガーです。\n\n【質問】Where is the man talking?\n（男性はどこで話していますか？）\n\n【正解の訳】\n2. レストラン（飲食店）で。\n\n【解説】Burger Shop（ハンバーガー店）で話しています。", 
-    dialogue: [{ speaker: 'male', text: "Welcome to Tony’s Burger Shop. Today’s special is a cheeseburger with a salad." }, { speaker: 'narrator', text: "Question. Where is the man talking?" }], 
-    aud_complete: "Where is the man talking? At a restaurant." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.22】(⚡速UP)", 
-    opt: ["He made a new friend.", "He ate with his girlfriend.", "He watched TV.", "He played soccer."], 
-    ans: 1, 
-    explain: "【英文】\nLast Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer.\n\n【英文の訳】\nこの前の土曜日、私はガールフレンドと夕食を食べました。日曜日にはサッカーをしました。\n\n【質問】What did the man do on Saturday?\n（男性は土曜日に何をしましたか？）\n\n【正解の訳】\n2. ガールフレンドと食事をした。\n\n【解説】土曜日は ate dinner with my girlfriend です。", 
-    dialogue: [{ speaker: 'male', text: "Last Saturday, I ate dinner with my girlfriend. On Sunday, I played soccer." }, { speaker: 'narrator', text: "Question. What did the man do on Saturday?" }], 
-    aud_complete: "What did the man do on Saturday? He ate with his girlfriend." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.23】(⚡速UP)", 
-    opt: ["A brush.", "Some pictures.", "Some paper.", "A bicycle."], 
-    ans: 2, 
-    explain: "【英文】\nToday, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle.\n\n【英文の訳】\n今日、ティナは素敵な紙を買いに行きます。彼女は自分の自転車の絵を描く予定です。\n\n【質問】What will Tina buy today?\n（ティナは今日、何を買いますか？）\n\n【正解の訳】\n3. 紙。\n\n【解説】buy some nice paper（紙を買う）と述べています。", 
-    dialogue: [{ speaker: 'female', text: "Today, Tina will go and buy some nice paper. She’s going to paint a picture of her bicycle." }, { speaker: 'narrator', text: "Question. What will Tina buy today?" }], 
-    aud_complete: "What will Tina buy today? Some paper." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.24】(⚡速UP)", 
-    opt: ["His favorite sport.", "His family trip.", "His favorite animal.", "His new car."], 
-    ans: 1, 
-    explain: "【英文】\nMy family went on a trip to the beach last week. We went by car.\n\n【英文の訳】\n私の家族は先週、ビーチへ旅行に行きました。車で行きました。\n\n【質問】What is the boy talking about?\n（男の子は何について話していますか？）\n\n【正解の訳】\n2. 家族旅行。\n\n【解説】trip to the beach（ビーチへの家族旅行）について話しています。", 
-    dialogue: [{ speaker: 'male', text: "My family went on a trip to the beach last week. We went by car." }, { speaker: 'narrator', text: "Question. What is the boy talking about?" }], 
-    aud_complete: "What is the boy talking about? His family trip." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.25】(⚡速UP)", 
-    opt: ["Her favorite fruit.", "Her favorite flower.", "Her spring vacation.", "Her family’s garden."], 
-    ans: 3, 
-    explain: "【英文】\nMy family has a beautiful garden. We have many cherry trees and flowers.\n\n【英文の訳】\n私の家には美しい庭があります。たくさんの桜の木や花があります。\n\n【質問】What is the girl talking about?\n（女の子は何について話していますか？）\n\n【正解の訳】\n4. 家族の庭。\n\n【解説】beautiful garden（家の庭）について話しています。", 
-    dialogue: [{ speaker: 'female', text: "My family has a beautiful garden. We have many cherry trees and flowers." }, { speaker: 'narrator', text: "Question. What is the girl talking about?" }], 
-    aud_complete: "What is the girl talking about? Her family’s garden." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.26】(⚡速UP)", 
-    opt: ["Sunny.", "Cloudy.", "Windy.", "Rainy."], 
-    ans: 0, 
-    explain: "【英文】\nYesterday, it was cloudy in the morning but sunny in the afternoon.\n\n【英文の訳】\n昨日は午前中は曇りでしたが、午後は晴れました。\n\n【質問】How was the weather yesterday afternoon?\n（昨日の午後の天気はどうでしたか？）\n\n【正解の訳】\n1. 晴れ。\n\n【解説】in the afternoon（午後）は sunny（晴れ）でした。", 
-    dialogue: [{ speaker: 'male', text: "Yesterday, it was cloudy in the morning but sunny in the afternoon." }, { speaker: 'narrator', text: "Question. How was the weather yesterday afternoon?" }], 
-    aud_complete: "How was the weather yesterday afternoon? Sunny." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.27】(⚡速UP)", 
-    opt: ["Two.", "Three.", "Four.", "Five."], 
-    ans: 1, 
-    explain: "【英文】\nSarah bought two oranges, three pineapples, and five peaches.\n\n【英文の訳】\nサラはオレンジを2個、パイナップルを3個、そして桃を5個買いました。\n\n【質問】How many pineapples did Sarah buy yesterday?\n（サラは昨日パイナップルを何個買いましたか？）\n\n【正解の訳】\n2. 3個。\n\n【解説】three pineapples（パイナップル3個）です。", 
-    dialogue: [{ speaker: 'male', text: "Sarah bought two oranges, three pineapples, and five peaches." }, { speaker: 'narrator', text: "Question. How many pineapples did Sarah buy yesterday?" }], 
-    aud_complete: "How many pineapples did Sarah buy yesterday? Three." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.28】(⚡速UP)", 
-    opt: ["In her bag.", "In her car.", "At work.", "At home."], 
-    ans: 2, 
-    explain: "【英文】\nI lost my keys yesterday. I found them at work.\n\n【英文の訳】\n私は昨日、鍵をなくしました。職場でそれを見つけました。\n\n【質問】Where were the woman’s keys?\n（女性の鍵はどこにありましたか？）\n\n【正解の訳】\n3. 職場で。\n\n【解説】found them at work（職場でそれらを見つけた）と答えています。", 
-    dialogue: [{ speaker: 'female', text: "I lost my keys yesterday. I found them at work." }, { speaker: 'narrator', text: "Question. Where were the woman’s keys?" }], 
-    aud_complete: "Where were the woman’s keys? At work." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.29】(⚡速UP)", 
-    opt: ["His father.", "His brother.", "His mother.", "His grandmother."], 
-    ans: 2, 
-    explain: "【英文】\nDaniel lives alone. Yesterday, he called his mother many times, but she didn’t answer.\n\n【英文の訳】\nダニエルは一人暮らしをしています。昨日、彼は母親に何度も電話をかけましたが、出ませんでした。\n\n【質問】Who did Daniel call yesterday?\n（ダニエルは昨日、誰に電話をかけましたか？）\n\n【正解の訳】\n3. 彼の母親。\n\n【解説】called his mother（母親に電話した）と述べています。", 
-    dialogue: [{ speaker: 'male', text: "Daniel lives alone. Yesterday, he called his mother many times, but she didn’t answer." }, { speaker: 'narrator', text: "Question. Who did Daniel call yesterday?" }], 
-    aud_complete: "Who did Daniel call yesterday? His mother." 
-  },
-  { 
-    q: "音声を聞いて、質問に答えよう。", 
-    sub: "🎧 【2025-3 No.30】(⚡速UP)", 
-    opt: ["He will join a baseball game.", "He will play with his dog.", "He will join a running event.", "He will look for quiet places."], 
-    ans: 1, 
-    explain: "【英文】\nI’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him.\n\n【英文の訳】\n私は次の日曜日、愛犬と遊ぶために公園に行きます。犬のためにボールを持って行きます。\n\n【質問】Why will the man go to the park next Sunday?\n（男性はなぜ次の日曜日、公園に行くのですか？）\n\n【正解の訳】\n2. 彼の犬と遊ぶため。\n\n【解説】to play with my dog（犬と遊ぶため）が目的です。", 
-    dialogue: [{ speaker: 'male', text: "I’ll go to the park next Sunday to play with my dog. I’ll bring a ball for him." }, { speaker: 'narrator', text: "Question. Why will the man go to the park next Sunday?" }], 
-    aud_complete: "Why will the man go to the park next Sunday? He will play with his dog." 
   },
   // ==================== 2025年第3回 (No.11 〜 No.30 全20問) ====================
   { 
@@ -1024,9 +1034,7 @@ const RAW_LISTENING_DATA = [
     aud_complete: "What will the girl do next month? Join a music school." 
   }
 ];
-
-// ==================== 4. 過去問ボスバトル 15問 データベース ====================
-// ==================== 4. 本番過去問模試 データベース (全100問) ====================
+// ==================== 4. 本番過去問模試 データベース (全130問) ====================
 const ACTUAL_PAST_EXAM_DATA = [
   // ---------- 第1弾 (No.1 〜 No.25) ----------
   {
@@ -2121,7 +2129,7 @@ const ACTUAL_PAST_EXAM_DATA = [
     audio_question: "My mother told me ... watch TV before finishing my homework.",
     audio_complete: "My mother told me not to watch TV before finishing my homework."
   },
- {
+  {
     id: "past_100",
     type: "grammar",
     q: "A: See you tomorrow!\nB: ( )!",
@@ -2583,222 +2591,4 @@ const ACTUAL_PAST_EXAM_DATA = [
     ],
     aud_complete: "What time will the museum close today? At 5:00 p.m."
   }
-];
-
-// ==================== 5. ドラクエ装備コレクション (全33種・HD-2D精密切抜) ====================
-const SHOP_EQUIP_DATA = [
-  // --- 👑 あたま / かぶと (HP) ---
-  { id: 'hat_grad', type: 'hat', name: 'かわのぼうし', rank: '★1 初級', pos: '-204px -226px', icon: '🧢', val: 50, price: 25, desc: 'HP +50 / 旅立ちの皮帽子' },
-  { id: 'hat_cap', type: 'hat', name: 'きのぼうし', rank: '★1 初級', pos: '-178px -226px', icon: '🪖', val: 120, price: 45, desc: 'HP +120 / 木を削り出した帽子' },
-  { id: 'hat_ribbon', type: 'hat', name: 'ぎんのサークレット', rank: '★2 中級', pos: '-204px -3px', icon: '👑', val: 300, price: 80, desc: 'HP +300 / 知性を高める銀の輪' },
-  { id: 'hat_cat', type: 'hat', name: 'まほうのターバン', rank: '★2 中級', pos: '-54px -151px', icon: '👳', val: 600, price: 130, desc: 'HP +600 / 魔力を宿す布' },
-  { id: 'hat_wizard', type: 'hat', name: 'てつかぶと', rank: '★3 上級', pos: '-28px -226px', icon: '⛑️', val: 1200, price: 220, desc: 'HP +1200 / 頑丈な鉄の兜' },
-  { id: 'hat_fox', type: 'hat', name: 'ふしぎなぼうし', rank: '★3 上級', pos: '-28px -251px', icon: '🧙‍♂️', val: 2000, price: 320, desc: 'HP +2000 / MP消費を抑える帽子' },
-  { id: 'hat_crown', type: 'hat', name: 'しあわせのぼうし', rank: '★4 熟練', pos: '-79px -201px', icon: '🎩', val: 3500, price: 550, desc: 'HP +3500 / 歩くたびに回復' },
-  { id: 'hat_space', type: 'hat', name: 'オルテガのかぶと', rank: '★4 熟練', pos: '-28px -201px', icon: '👑', val: 5000, price: 800, desc: 'HP +5000 / 伝説の勇者の遺品' },
-  { id: 'hat_tiara', type: 'hat', name: 'メタスラの兜', rank: '★5 覇者', pos: '-561px -201px', icon: '💎👑', val: 8000, price: 1200, desc: 'HP +8000 / メタル鉱石の堅甲' },
-  { id: 'hat_dragon_crown', type: 'hat', name: 'ロトのかぶと', rank: '★4 BOSS', pos: '-54px -201px', icon: '🐲👑', val: 12000, price: 9999, isSecret: true, desc: 'HP +12000 / 太陽の紋章宿る真の兜 (Lv.60以上)', reqLv: 60 },
-  { id: 'hat_genesis_crown', type: 'hat', name: '天空の兜', rank: '★5 神話', pos: '-54px -226px', icon: '🌌👑', val: 25000, price: 99999, reqLv: 60, isSecret: true, desc: 'HP +25000 / 天空城の主の神冠 (Lv.60以上)' },
-
-  // --- 🗡️ ぶき / つるぎ (攻撃力) ---
-  { id: 'wp_pencil', type: 'weapon', name: 'ひのきのぼう', rank: '★1 初級', pos: '-484px -100px', icon: '🪵', val: 20, price: 20, desc: '攻撃 +20 / 削り出した木の棒' },
-  { id: 'wp_wand', type: 'weapon', name: 'どうのつるぎ', rank: '★1 初級', pos: '-3px -26px', icon: '🗡️', val: 45, price: 50, desc: '攻撃 +45 / 銅で作られた剣' },
-  { id: 'wp_bow', type: 'weapon', name: 'はがねのつるぎ', rank: '★2 中級', pos: '-3px -51px', icon: '⚔️', val: 100, price: 90, desc: '攻撃 +100 / 鋭い鋼鉄の刃' },
-  { id: 'wp_sword', type: 'weapon', name: 'はじゃのつるぎ', rank: '★2 中級', pos: '-3px -76px', icon: '🗡️✨', val: 180, price: 150, desc: '攻撃 +180 / 邪悪を祓う聖なる剣' },
-  { id: 'wp_guitar', type: 'weapon', name: 'まどろみのけん', rank: '★3 上級', pos: '-561px -51px', icon: '💤🗡️', val: 300, price: 240, desc: '攻撃 +300 / 敵を眠りに誘う刃' },
-  { id: 'wp_axe', type: 'weapon', name: 'ドラゴンキラー', rank: '★3 上級', pos: '-28px -51px', icon: '🐉🗡️', val: 480, price: 350, desc: '攻撃 +480 / 竜のウロコを貫く巨剣' },
-  { id: 'wp_trident', type: 'weapon', name: 'らいめいのけん', rank: '★4 熟練', pos: '-28px -26px', icon: '⚡🗡️', val: 750, price: 600, desc: '攻撃 +750 / 稲妻を呼ぶ神剣' },
-  { id: 'wp_saber', type: 'weapon', name: 'はかいのつるぎ', rank: '★4 熟練', pos: '-357px -26px', icon: '💀🗡️', val: 1100, price: 850, desc: '攻撃 +1100 / 圧倒的な破壊の一撃' },
-  { id: 'wp_excalibur', type: 'weapon', name: 'はぐれメタルの剣', rank: '★5 覇者', pos: '-178px -51px', icon: '💨🗡️', val: 1700, price: 1500, desc: '攻撃 +1700 / メタルを切り裂く名剣' },
-  { id: 'wp_dark_blade', type: 'weapon', name: 'ロトのつるぎ', rank: '★4 BOSS', pos: '-54px -26px', icon: '⚜️🗡️', val: 2400, price: 9999, isSecret: true, desc: '攻撃 +2400 / 伝説の勇者が遺した聖剣 (Lv.60以上)', reqLv: 60 },
-  { id: 'wp_genesis_blade', type: 'weapon', name: '王者の剣・真', rank: '★5 神話', pos: '-79px -26px', icon: '⚔️🌟🔥', val: 4000, price: 99999, reqLv: 60, isSecret: true, desc: '攻撃 +4000 / オリハルコンの究極聖剣 (Lv.60以上)' },
-
-  // --- ✨ オーラ / 装飾品 (素早さ / クリティカル率) ---
-  { id: 'aura_wind', type: 'aura', name: 'りゅうのうろこ', rank: '★1 初級', pos: '-229px -3px', icon: '🐉', val: 5, price: 30, desc: '速さ +5 / 身を守る竜のウロコ' },
-  { id: 'aura_sakura', type: 'aura', name: 'うさぎのしっぽ', rank: '★2 中級', pos: '-127px -51px', icon: '🐇', val: 15, price: 80, desc: '速さ +15 / 幸運を呼ぶしっぽ' },
-  { id: 'aura_angel', type: 'aura', name: 'スライムピアス', rank: '★2 中級', pos: '-586px -100px', icon: '💧', val: 30, price: 180, desc: '速さ +30 / スライムの愛らしい飾り' },
-  { id: 'aura_devil', type: 'aura', name: 'いのりのゆびわ', rank: '★3 上級', pos: '-178px -3px', icon: '💍', val: 55, price: 280, desc: '速さ +55 / 精神を研ぎ澄ます指輪' },
-  { id: 'aura_thunder', type: 'aura', name: 'はやてのリング', rank: '★3 上級', pos: '-255px -3px', icon: '💨💍', val: 85, price: 450, desc: '速さ +85 / 風の如き敏捷性' },
-  { id: 'aura_fire', type: 'aura', name: 'ガーターベルト', rank: '★4 熟練', pos: '-102px -126px', icon: '🎀', val: 120, price: 700, desc: '速さ +120 / セクシーな素早さ' },
-  { id: 'aura_rainbow', type: 'aura', name: 'エルフのおまもり', rank: '★4 熟練', pos: '-306px -3px', icon: '🧝‍♀️', val: 180, price: 950, desc: '速さ +180 / 妖精郷の加護' },
-  { id: 'aura_cosmic', type: 'aura', name: 'ほしふるうでわ', rank: '★5 覇者', pos: '-204px -201px', icon: '🌠✨', val: 260, price: 1500, desc: '速さ +260 / 素早さを倍加させる腕輪' },
-  { id: 'aura_dragon_light', type: 'aura', name: 'ロトのしるし', rank: '★4 BOSS', pos: '-127px -201px', icon: '🛡️✨', val: 365, price: 9999, isSecret: true, desc: '速さ +365 / 勇者の血を証明する紋章 (Lv.60以上)', reqLv: 60 },
-  { id: 'aura_genesis_light', type: 'aura', name: 'ひかりのたま', rank: '★5 神話', pos: '-408px -26px', icon: '🌌✨👑', val: 515, price: 99999, reqLv: 60, isSecret: true, desc: '速さ +515 / 闇を完全消滅させる神光 (Lv.60以上)' }
-];
-
-// ==================== 6. 通常クエスト・雑魚敵モンスター (全10種・完全修正版) ====================
-const NORMAL_ENEMIES = [
-  { name: "ドラキー", pos: "-46px -1px", icon: "🦇" },
-  { name: "ゴースト", pos: "-68px -1px", icon: "👻" },
-  { name: "ももんじゃ", pos: "-181px -473px", icon: "🐾" },
-  { name: "おおきづち", pos: "-123px -308px", icon: "🔨" },
-  { name: "キメラ", pos: "-136px -306px", icon: "🦅" },
-  { name: "がいこつ剣士", pos: "-240px -68px", icon: "💀" },
-  { name: "ゴーレム", pos: "-242px -1px", icon: "🧱" },
-  { name: "アークデーモン", pos: "-54px -710px", icon: "👿" },
-  { name: "ドラゴン", pos: "-306px -4px", icon: "🐉" },
-  { name: "キラーマシン", pos: "-143px -68px", icon: "🤖" }
-];
-
-// ==================== 7. 過去問ボスステージ (歴代大魔王 全11体・完全修正版) ====================
-const BOSS_STAGES = [
-  { 
-    lv: 1, 
-    name: "竜王（人型）", 
-    pos: "-280px -6px",
-    icon: "🧙‍♂️🔥", 
-    hp: 1200, 
-    atk: 25, 
-    exp: 60, 
-    gems: 15, 
-    desc: "闇の覇者。基礎英語力で突破しよう！",
-    introMsg: "もし わしの味方になれば 世界の半分を やろう…！",
-    defeatMsg: "ぐふっ…！このわしが敗れるとは…！だが真の姿を見よ！"
-  },
-  { 
-    lv: 2, 
-    name: "竜王（ドラゴン）", 
-    pos: "-306px -4px",
-    icon: "🐉🔥", 
-    hp: 3500, 
-    atk: 50, 
-    exp: 90, 
-    gems: 20, 
-    desc: "巨大な竜の姿となった竜王。3秒即答クリティカルを狙おう！",
-    introMsg: "グワァァァッ！我が炎に焼き尽くされるがよい！",
-    defeatMsg: "ギャアアッ…！邪教の神官ハーゴン様が貴様を裁くだろう…！"
-  },
-  { 
-    lv: 3, 
-    name: "邪教の使徒・ハーゴン", 
-    pos: "-280px -73px",
-    icon: "👿🔮", 
-    hp: 7000, 
-    atk: 85, 
-    exp: 130, 
-    gems: 28, 
-    desc: "破壊神を崇める大神官。Lv.20以上＆上位装備で挑もう。",
-    introMsg: "愚かなる者よ！我が破壊神への生贄となるがよい！",
-    defeatMsg: "シドー様…いまこそ いけにえを…我が命を捧げます…！"
-  },
-  { 
-    lv: 4, 
-    name: "破壊神・シドー", 
-    pos: "-320px -73px",
-    icon: "🐲⚡", 
-    hp: 12000, 
-    atk: 120, 
-    exp: 180, 
-    gems: 35, 
-    desc: "すべてを破壊し尽くす邪神。高校基礎文法で打ち破ろう！",
-    introMsg: "クハハハハ！すべてを破壊し、無に還してやる！！",
-    defeatMsg: "グオオオッ…！身体が崩れる…大魔王ゾーマ様…！"
-  },
-  { 
-    lv: 5, 
-    name: "大魔王ゾーマ", 
-    pos: "-289px -184px",
-    icon: "👑❄️", 
-    hp: 18000, 
-    atk: 165, 
-    exp: 240, 
-    gems: 45, 
-    desc: "【中ボス】氷の絶対結界を操る魔王。ミスを減らして挑もう！",
-    introMsg: "なにゆえ もがき 生きるのか…滅びこそ我が喜び！",
-    defeatMsg: "光あれ…！だが光ある限り、闇もまた消えぬのだ…！"
-  },
-  { 
-    lv: 6, 
-    name: "進化の秘法・デスピサロ", 
-    pos: "-352px -262px",
-    icon: "👹🗡️", 
-    hp: 26000, 
-    atk: 210, 
-    exp: 310, 
-    gems: 55, 
-    desc: "憎しみの力で異形の怪物となった魔族の王。",
-    introMsg: "人間どもめ…我が憎しみの力、受けるがいい！",
-    defeatMsg: "ロザリー…どこだ…わたしは…どこへ…！"
-  },
-  { 
-    lv: 7, 
-    name: "魔界の王・ミルドラース", 
-    pos: "-238px -715px",
-    icon: "🦁🔥", 
-    hp: 36000, 
-    atk: 265, 
-    exp: 400, 
-    gems: 68, 
-    desc: "魔界の深奥に君臨する神。素早さと会心が勝利の鍵！",
-    introMsg: "わたしこそが真の王、ミルドラースだ！ひれ伏すがよい！",
-    defeatMsg: "このわたしが…ただの人間ごときに…あり得ぬ…！"
-  },
-  { 
-    lv: 8, 
-    name: "幻魔王・デスタムーア", 
-    pos: "-235px -915px",
-    icon: "👺💀", 
-    hp: 48000, 
-    atk: 330, 
-    exp: 500, 
-    gems: 80, 
-    desc: "夢と現実を支配する魔王。上級装備が必須レベル！",
-    introMsg: "我が夢の世界で 永遠に朽ち果てるがよい！",
-    defeatMsg: "夢が…幻が消えてゆく…オルゴ・デミーラよ…！"
-  },
-  { 
-    lv: 9, 
-    name: "魔王オルゴ・デミーラ", 
-    pos: "-202px -752px",
-    icon: "🐉🥀", 
-    hp: 62000, 
-    atk: 400, 
-    exp: 650, 
-    gems: 100, 
-    desc: "世界を封印した邪悪の化身。最高峰のステータスが必要！",
-    introMsg: "神すら滅ぼした我が力、とくと味わうがよい！",
-    defeatMsg: "この美しき我が肉体が…！ダークドレアムよ…！"
-  },
-  { 
-    lv: 10, 
-    name: "魔戦神ダークドレアム", 
-    pos: "-192px -912px",
-    icon: "⚔️⚡", 
-    hp: 80000, 
-    atk: 500, 
-    exp: 850, 
-    gems: 150, 
-    desc: "【表ラスボス】万物を無に還す孤高の破壊神！",
-    introMsg: "我は万物を無に還す者。貴様の覚悟、見せてもらうぞ！",
-    defeatMsg: "見事だ…！貴様こそが真の英検マスター、光の勇者だ！"
-  },
-  { 
-    lv: 11, 
-    name: "地獄の帝王・エスターク", 
-    pos: "-315px -262px",
-    icon: "🗡️🔥", 
-    hp: 160000, 
-    atk: 9999, 
-    exp: 2000, 
-    gems: 300, 
-    desc: "【真・隠し裏ボス】Lv.100＆天空装備＆全問クリティカルでのみ勝てる究極神！", 
-    isSecret: true,
-    introMsg: "我が名はエスターク…眠りを妨げる者は、すべて滅ぼす…！",
-    defeatMsg: "また…深い眠りにつくのか…勇者の光は永遠なり…！"
-  }
-];
-
-// ==================== 8. 相棒スライム進化ツリー (全11段階・完全修正版) ====================
-const AVATARS = [
-  { minLv: 1, pos: "-211px -134px", emoji: '💧', rank: 'みならいスライム', name: 'スライム' },
-  { minLv: 10, pos: "-158px -134px", emoji: '🍊', rank: '元気なスライム', name: 'スライムベス' },
-  { minLv: 20, pos: "-237px -114px", emoji: '🌿', rank: '癒やしの触手', name: 'ホイミスライム' },
-  { minLv: 30, pos: "-177px -81px", emoji: '🐉', rank: '空飛ぶ竜スライム', name: 'ドラゴスライム' },
-  { minLv: 40, pos: "-219px -70px", emoji: '🛡️', rank: '勇敢なる騎士', name: 'スライムナイト' },
-  { minLv: 50, pos: "-237px -178px", emoji: '👑', rank: '王国の主', name: 'キングスライム' },
-  { minLv: 60, pos: "-261px -134px", emoji: '💎', rank: '俊足の銀結晶', name: 'メタルスライム' },
-  { minLv: 70, pos: "-108px -174px", emoji: '💨', rank: '幻影の流動金属', name: 'はぐれメタル' },
-  { minLv: 80, pos: "-394px -212px", emoji: '👑🥈', rank: '銀冠の覇王', name: 'メタルキング' },
-  { minLv: 90, pos: "-211px -244px", emoji: '🌌✨', rank: '白金の大魔王', name: 'プラチナキング' },
-  { minLv: 100, pos: "-300px -53px", emoji: '👑🌌', rank: '全次元の光神', name: 'ゴッドスライム' }
 ];
