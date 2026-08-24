@@ -2585,195 +2585,206 @@ const ACTUAL_PAST_EXAM_DATA = [
   }
 ];
 
-// ==================== 5. 着せ替え・装備データベース (隠し装備3種追加) ====================
+// ==================== 5. ドラクエ装備コレクション (全33種・HD-2D精密切抜) ====================
 const SHOP_EQUIP_DATA = [
-  { id: 'hat_grad', name: '学士帽', type: 'hat', icon: '🎓', price: 25, rank: '🌟 ノーマル', val: 50, desc: 'HP +50 / 学習の第一歩' },
-  { id: 'hat_cap', name: '冒険者のキャップ', type: 'hat', icon: '🧢', price: 45, rank: '🌟 ノーマル', val: 120, desc: 'HP +120 / 元気いっぱい' },
-  { id: 'hat_ribbon', name: '勝利のリボン', type: 'hat', icon: '🎀', price: 80, rank: '🔵 レア', val: 300, desc: 'HP +300 / やる気UP' },
-  { id: 'hat_cat', name: 'ネコミミ', type: 'hat', icon: '🐱', price: 130, rank: '🔵 レア', val: 600, desc: 'HP +600 / 集中力UP' },
-  { id: 'hat_wizard', name: '大魔導士の帽子', type: 'hat', icon: '🧙', price: 220, rank: '🟣 スーパーレア', val: 1200, desc: 'HP +1200 / 文法の魔力' },
-  { id: 'hat_fox', name: '妖狐のお面', type: 'hat', icon: '🦊', price: 320, rank: '🟣 スーパーレア', val: 2000, desc: 'HP +2000 / 精神集中' },
-  { id: 'hat_crown', name: '黄金の王冠', type: 'hat', icon: '👑', price: 550, rank: '🟡 レジェンド', val: 3500, desc: 'HP +3500 / 知識の王者' },
-  { id: 'hat_space', name: '宇宙飛行士ヘルメット', type: 'hat', icon: '🪐', price: 800, rank: '🟡 レジェンド', val: 5000, desc: 'HP +5000 / 未知の領域' },
-  { id: 'hat_tiara', name: '神話のダイヤティアラ', type: 'hat', icon: '💎', price: 1200, rank: '🌈 ゴッド', val: 8000, desc: 'HP +8000 / 完全制覇' },
-  { id: 'hat_dragon_crown', name: '竜王の覇冠', type: 'hat', icon: '🐉👑', price: 9999, rank: '🎁 ボス限定ドロップ', val: 12000, desc: 'HP +12000 / 竜王の加護 (Lv.60以上)', reqLv: 60 },
-  // 👑 完全隠し最強頭装備 (未入手時はショップに表示すらされない)
-  { id: 'hat_genesis_crown', name: '創世神の王冠', type: 'hat', icon: '👑✨🌌', price: 99999, rank: '🌌 創世神話級', val: 25000, desc: 'HP +25000 / 全次元を統べる神の王冠 (Lv.60以上)', reqLv: 60, isSecret: true },
+  // --- 👑 あたま / かぶと (HP) ---
+  { id: 'hat_grad', type: 'hat', name: 'かわのぼうし', rank: '★1 初級', pos: '-230px -175px', icon: '🧢', val: 50, price: 25, desc: 'HP +50 / 旅立ちの皮帽子' },
+  { id: 'hat_cap', type: 'hat', name: 'きのぼうし', rank: '★1 初級', pos: '-205px -175px', icon: '🪖', val: 120, price: 45, desc: 'HP +120 / 木を削り出した帽子' },
+  { id: 'hat_ribbon', type: 'hat', name: 'ぎんのサークレット', rank: '★2 中級', pos: '-180px -175px', icon: '👑', val: 300, price: 80, desc: 'HP +300 / 知性を高める銀の輪' },
+  { id: 'hat_cat', type: 'hat', name: 'まほうのターバン', rank: '★2 中級', pos: '-155px -175px', icon: '👳', val: 600, price: 130, desc: 'HP +600 / 魔力を宿す布' },
+  { id: 'hat_wizard', type: 'hat', name: 'てつかぶと', rank: '★3 上級', pos: '-130px -175px', icon: '⛑️', val: 1200, price: 220, desc: 'HP +1200 / 頑丈な鉄の兜' },
+  { id: 'hat_fox', type: 'hat', name: 'ふしぎなぼうし', rank: '★3 上級', pos: '-105px -175px', icon: '🧙‍♂️', val: 2000, price: 320, desc: 'HP +2000 / MP消費を抑える帽子' },
+  { id: 'hat_crown', type: 'hat', name: 'しあわせのぼうし', rank: '★4 熟練', pos: '-80px -175px', icon: '🎩', val: 3500, price: 550, desc: 'HP +3500 / 歩くたびに回復' },
+  { id: 'hat_space', type: 'hat', name: 'オルテガのかぶと', rank: '★4 熟練', pos: '-55px -175px', icon: '👑', val: 5000, price: 800, desc: 'HP +5000 / 伝説の勇者の遺品' },
+  { id: 'hat_tiara', type: 'hat', name: 'メタスラの兜', rank: '★5 覇者', pos: '-30px -175px', icon: '💎👑', val: 8000, price: 1200, desc: 'HP +8000 / メタル鉱石の堅甲' },
+  { id: 'hat_dragon_crown', type: 'hat', name: 'ロトのかぶと', rank: '★4 BOSS', pos: '-5px -175px', icon: '🐲👑', val: 12000, price: 9999, isSecret: true, desc: 'HP +12000 / 太陽の紋章宿る真の兜 (Lv.60以上)', reqLv: 60 },
+  { id: 'hat_genesis_crown', type: 'hat', name: '天空の兜', rank: '★5 神話', pos: '-5px -150px', icon: '🌌👑', val: 25000, price: 99999, reqLv: 60, isSecret: true, desc: 'HP +25000 / 天空城の主の神冠 (Lv.60以上)' },
 
-  { id: 'wp_pencil', name: '巨大えんぴつ', type: 'weapon', icon: '✏️', price: 20, rank: '🌟 ノーマル', val: 20, desc: '攻撃 +20 / マークシート用' },
-  { id: 'wp_wand', name: '初心者の杖', type: 'weapon', icon: '🪄', price: 50, rank: '🌟 ノーマル', val: 45, desc: '攻撃 +45 / 小さな魔法' },
-  { id: 'wp_bow', name: '精霊の弓矢', type: 'weapon', icon: '🏹', price: 90, rank: '🔵 レア', val: 100, desc: '攻撃 +100 / 正解を射抜く' },
-  { id: 'wp_sword', name: '勇者のソード', type: 'weapon', icon: '🗡️', price: 150, rank: '🔵 レア', val: 180, desc: '攻撃 +180 / 難問を断ち切る' },
-  { id: 'wp_guitar', name: 'エレキギター', type: 'weapon', icon: '🎸', price: 240, rank: '🟣 スーパーレア', val: 300, desc: '攻撃 +300 / 英語のリズム' },
-  { id: 'wp_axe', name: 'バトルアックス', type: 'weapon', icon: '🪓', price: 350, rank: '🟣 スーパーレア', val: 480, desc: '攻撃 +480 / 圧倒的粉砕' },
-  { id: 'wp_trident', name: '海神の三叉槍', type: 'weapon', icon: '🔱', price: 600, rank: '🟡 レジェンド', val: 750, desc: '攻撃 +750 / 深い知識' },
-  { id: 'wp_saber', name: '光線剣スターライト', type: 'weapon', icon: '🌌', price: 850, rank: '🟡 レジェンド', val: 1100, desc: '攻撃 +1100 / 光の剣' },
-  { id: 'wp_excalibur', name: '聖剣エクスカリバー', type: 'weapon', icon: '⚜️', price: 1500, rank: '🌈 ゴッド', val: 1700, desc: '攻撃 +1700 / 絶対合格の聖剣' },
-  { id: 'wp_dark_blade', name: '漆黒の魔剣', type: 'weapon', icon: '🗡️🖤', price: 9999, rank: '🎁 ボス限定ドロップ', val: 2400, desc: '攻撃 +2400 / ボス討伐の覇気 (Lv.60以上)', reqLv: 60 },
-  // 👑 完全隠し最強武器 (未入手時はショップに表示すらされない)
-  { id: 'wp_genesis_blade', name: '創世神の聖剣', type: 'weapon', icon: '⚔️🌟🔥', price: 99999, rank: '🌌 創世神話級', val: 4000, desc: '攻撃 +4000 / 万物を創造し消滅させる究極剣 (Lv.60以上)', reqLv: 60, isSecret: true },
+  // --- 🗡️ ぶき / つるぎ (攻撃力) ---
+  { id: 'wp_pencil', type: 'weapon', name: 'ひのきのぼう', rank: '★1 初級', pos: '-5px -25px', icon: '🪵', val: 20, price: 20, desc: '攻撃 +20 / 削り出した木の棒' },
+  { id: 'wp_wand', type: 'weapon', name: 'どうのつるぎ', rank: '★1 初級', pos: '-30px -25px', icon: '🗡️', val: 45, price: 50, desc: '攻撃 +45 / 銅で作られた剣' },
+  { id: 'wp_bow', type: 'weapon', name: 'はがねのつるぎ', rank: '★2 中級', pos: '-55px -25px', icon: '⚔️', val: 100, price: 90, desc: '攻撃 +100 / 鋭い鋼鉄の刃' },
+  { id: 'wp_sword', type: 'weapon', name: 'はじゃのつるぎ', rank: '★2 中級', pos: '-80px -25px', icon: '🗡️✨', val: 180, price: 150, desc: '攻撃 +180 / 邪悪を祓う聖なる剣' },
+  { id: 'wp_guitar', type: 'weapon', name: 'まどろみのけん', rank: '★3 上級', pos: '-105px -25px', icon: '💤🗡️', val: 300, price: 240, desc: '攻撃 +300 / 敵を眠りに誘う刃' },
+  { id: 'wp_axe', type: 'weapon', name: 'ドラゴンキラー', rank: '★3 上級', pos: '-130px -25px', icon: '🐉🗡️', val: 480, price: 350, desc: '攻撃 +480 / 竜のウロコを貫く巨剣' },
+  { id: 'wp_trident', type: 'weapon', name: 'らいめいのけん', rank: '★4 熟練', pos: '-155px -25px', icon: '⚡🗡️', val: 750, price: 600, desc: '攻撃 +750 / 稲妻を呼ぶ神剣' },
+  { id: 'wp_saber', type: 'weapon', name: 'はかいのつるぎ', rank: '★4 熟練', pos: '-180px -25px', icon: '💀🗡️', val: 1100, price: 850, desc: '攻撃 +1100 / 圧倒的な破壊の一撃' },
+  { id: 'wp_excalibur', type: 'weapon', name: 'はぐれメタルの剣', rank: '★5 覇者', pos: '-205px -25px', icon: '💨🗡️', val: 1700, price: 1500, desc: '攻撃 +1700 / メタルを切り裂く名剣' },
+  { id: 'wp_dark_blade', type: 'weapon', name: 'ロトのつるぎ', rank: '★4 BOSS', pos: '-230px -25px', icon: '⚜️🗡️', val: 2400, price: 9999, isSecret: true, desc: '攻撃 +2400 / 伝説の勇者が遺した聖剣 (Lv.60以上)', reqLv: 60 },
+  { id: 'wp_genesis_blade', type: 'weapon', name: '王者の剣・真', rank: '★5 神話', pos: '-5px -50px', icon: '⚔️🌟🔥', val: 4000, price: 99999, reqLv: 60, isSecret: true, desc: '攻撃 +4000 / オリハルコンの究極聖剣 (Lv.60以上)' },
 
-  { id: 'aura_wind', name: '若葉のそよ風', type: 'aura', icon: '🍃', price: 30, rank: '🌟 ノーマル', val: 5, desc: '速さ +5 / 爽やかな風' },
-  { id: 'aura_sakura', name: '桜の花吹雪', type: 'aura', icon: '🌸', price: 80, rank: '🔵 レア', val: 15, desc: '速さ +15 / 合格の桜' },
-  { id: 'aura_angel', name: '天使の翼', type: 'aura', icon: '🪽', price: 180, rank: '🔵 レア', val: 30, desc: '速さ +30 / 高みへ飛翔' },
-  { id: 'aura_devil', name: '暗黒の翼', type: 'aura', icon: '🦇', price: 280, rank: '🟣 スーパーレア', val: 55, desc: '速さ +55 / 秘めたる力' },
-  { id: 'aura_thunder', name: '迅雷のイナズマ', type: 'aura', icon: '⚡', price: 450, rank: '🟣 スーパーレア', val: 85, desc: '速さ +85 / 電光石火' },
-  { id: 'aura_fire', name: 'ドラゴンの炎', type: 'aura', icon: '🔥', price: 700, rank: '🟡 レジェンド', val: 120, desc: '速さ +120 / 燃える情熱' },
-  { id: 'aura_rainbow', name: '奇跡のレインボー', type: 'aura', icon: '🌈', price: 950, rank: '🟡 レジェンド', val: 180, desc: '速さ +180 / 満点の架け橋' },
-  { id: 'aura_cosmic', name: 'コズミックオーラ', type: 'aura', icon: '🌟', price: 1500, rank: '🌈 ゴッド', val: 260, desc: '速さ +260 / 全宇宙の叡智' },
-  { id: 'aura_dragon_light', name: '神龍の天光', type: 'aura', icon: '🐉✨', price: 9999, rank: '🎁 ボス限定ドロップ', val: 365, desc: '速さ +365 / 神龍の加護。極限の素早さを宿す光 (Lv.60以上)', reqLv: 60 },
-  // 👑 完全隠し最強オーラ (Lv.100装備ですばやさ600＝100%クリティカル到達！)
-  { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
+  // --- ✨ オーラ / 装飾品 (素早さ / クリティカル率) ---
+  { id: 'aura_wind', type: 'aura', name: 'りゅうのうろこ', rank: '★1 初級', pos: '-5px -75px', icon: '🐉', val: 5, price: 30, desc: '速さ +5 / 身を守る竜のウロコ' },
+  { id: 'aura_sakura', type: 'aura', name: 'うさぎのしっぽ', rank: '★2 中級', pos: '-30px -75px', icon: '🐇', val: 15, price: 80, desc: '速さ +15 / 幸運を呼ぶしっぽ' },
+  { id: 'aura_angel', type: 'aura', name: 'スライムピアス', rank: '★2 中級', pos: '-55px -75px', icon: '💧', val: 30, price: 180, desc: '速さ +30 / スライムの愛らしい飾り' },
+  { id: 'aura_devil', type: 'aura', name: 'いのりのゆびわ', rank: '★3 上級', pos: '-80px -75px', icon: '💍', val: 55, price: 280, desc: '速さ +55 / 精神を研ぎ澄ます指輪' },
+  { id: 'aura_thunder', type: 'aura', name: 'はやてのリング', rank: '★3 上級', pos: '-105px -75px', icon: '💨💍', val: 85, price: 450, desc: '速さ +85 / 風の如き敏捷性' },
+  { id: 'aura_fire', type: 'aura', name: 'ガーターベルト', rank: '★4 熟練', pos: '-130px -75px', icon: '🎀', val: 120, price: 700, desc: '速さ +120 / セクシーな素早さ' },
+  { id: 'aura_rainbow', type: 'aura', name: 'エルフのおまもり', rank: '★4 熟練', pos: '-155px -75px', icon: '🧝‍♀️', val: 180, price: 950, desc: '速さ +180 / 妖精郷の加護' },
+  { id: 'aura_cosmic', type: 'aura', name: 'ほしふるうでわ', rank: '★5 覇者', pos: '-180px -75px', icon: '🌠✨', val: 260, price: 1500, desc: '速さ +260 / 素早さを倍加させる腕輪' },
+  { id: 'aura_dragon_light', type: 'aura', name: 'ロトのしるし', rank: '★4 BOSS', pos: '-205px -75px', icon: '🛡️✨', val: 365, price: 9999, isSecret: true, desc: '速さ +365 / 勇者の血を証明する紋章 (Lv.60以上)', reqLv: 60 },
+  { id: 'aura_genesis_light', type: 'aura', name: 'ひかりのたま', rank: '★5 神話', pos: '-230px -75px', icon: '🌌✨👑', val: 515, price: 99999, reqLv: 60, isSecret: true, desc: '速さ +515 / 闇を完全消滅させる神光 (Lv.60以上)' }
 ];
 
-// ==================== 6. ボスステージ (全11段階・HP正常化版) ====================
+// ==================== 6. 過去問ボスステージ (歴代大魔王 全11体・精密座標切抜) ====================
 const BOSS_STAGES = [
   { 
     lv: 1, 
-    name: "邪竜の幼体", 
-    icon: "🐲", 
+    name: "竜王（人型）", 
+    pos: "-270px 0px",
+    icon: "🧙‍♂️🔥", 
     hp: 1200, 
     atk: 25, 
     exp: 60, 
     gems: 15, 
-    desc: "まだ幼いドラゴンの子ども。基礎力で勝てる！",
-    introMsg: "Gwaaah! (ボクの縄張りに何しに来た！キミの英語の力、見せてもらおう！)",
-    defeatMsg: "Kyuuu... (強いや...！だけど次はもっと硬いウロコを持つヤツがいるぞ...！)"
+    desc: "闇の覇者。基礎英語力で突破しよう！",
+    introMsg: "もし わしの味方になれば 世界の半分を やろう…！",
+    defeatMsg: "ぐふっ…！このわしが敗れるとは…！だが真の姿を見よ！"
   },
   { 
     lv: 2, 
-    name: "黒曜石の飛竜", 
-    icon: "🦖", 
+    name: "竜王（ドラゴン）", 
+    pos: "-300px 0px",
+    icon: "🐉🔥", 
     hp: 3500, 
     atk: 50, 
     exp: 90, 
     gems: 20, 
-    desc: "硬いウロコを持つ飛竜。全問クリティカル近くで勝利！",
-    introMsg: "You cannot pierce my black scales! (我が黒曜の鎧、貴様の英語力で貫けるかな！)",
-    defeatMsg: "My armor is broken...!? (ウロコが砕かれた...！だが紅蓮の炎に焼き尽くされるがいい...！)"
+    desc: "巨大な竜の姿となった竜王。3秒即答クリティカルを狙おう！",
+    introMsg: "グワァァァッ！我が炎に焼き尽くされるがよい！",
+    defeatMsg: "ギャアアッ…！邪教の神官ハーゴン様が貴様を裁くだろう…！"
   },
   { 
     lv: 3, 
-    name: "紅蓮のワイバーン", 
-    icon: "👺", 
+    name: "邪教の使徒・ハーゴン", 
+    pos: "-274px -67px",
+    icon: "👿🔮", 
     hp: 7000, 
     atk: 85, 
     exp: 130, 
     gems: 28, 
-    desc: "炎を吐く強敵。Lv.20以上＆上位装備が必要。",
-    introMsg: "Burn in my flame! (ここから先は灼熱の領域！貴様の覚悟を試してやろう！)",
-    defeatMsg: "My flame extinguished... (炎が消えた...！？ だが嵐を呼ぶあの竜が貴様を吹き飛ばす！)"
+    desc: "破壊神を崇める大神官。Lv.20以上＆上位装備で挑もう。",
+    introMsg: "愚かなる者よ！我が破壊神への生贄となるがよい！",
+    defeatMsg: "シドー様…いまこそ いけにえを…我が命を捧げます…！"
   },
   { 
     lv: 4, 
-    name: "嵐呼ぶ魔竜", 
-    icon: "🌪️", 
-    hp: 12000, // 🛠️ 1200 ➔ 12000 に修正
+    name: "破壊神・シドー", 
+    pos: "-314px -67px",
+    icon: "🐲⚡", 
+    hp: 12000, 
     atk: 120, 
     exp: 180, 
     gems: 35, 
-    desc: "猛烈な風を操る竜。文法でHPを強化して挑もう。",
-    introMsg: "Feel the wrath of the storm! (吹き荒れる嵐を前に、貴様の知識など無力だ！)",
-    defeatMsg: "Blown away... (嵐が切り裂かれた...！冥府の門が開くのを見るがいい...！)"
+    desc: "すべてを破壊し尽くす邪神。高校基礎文法で打ち破ろう！",
+    introMsg: "クハハハハ！すべてを破壊し、無に還してやる！！",
+    defeatMsg: "グオオオッ…！身体が崩れる…大魔王ゾーマ様…！"
   },
   { 
     lv: 5, 
-    name: "冥府の巨竜", 
-    icon: "👿", 
+    name: "大魔王ゾーマ", 
+    pos: "-283px -178px",
+    icon: "👑❄️", 
     hp: 18000, 
     atk: 165, 
     exp: 240, 
     gems: 45, 
-    desc: "【中ボス】強力な反撃を放つ。ミスを減らそう！",
-    introMsg: "Welcome to the underworld! (ここが貴様の終着駅だ。闇の底へ沈むがいい！)",
-    defeatMsg: "Light... in the dark...? (暗闇に光が...！？ だが深淵に潜む影はお前の光すら呑み込むぞ！)"
+    desc: "【中ボス】氷の絶対結界を操る魔王。ミスを減らして挑もう！",
+    introMsg: "なにゆえ もがき 生きるのか…滅びこそ我が喜び！",
+    defeatMsg: "光あれ…！だが光ある限り、闇もまた消えぬのだ…！"
   },
   { 
     lv: 6, 
-    name: "深淵の影竜", 
-    icon: "🦹", 
+    name: "進化の秘法・デスピサロ", 
+    pos: "-318px -268px",
+    icon: "👹🗡️", 
     hp: 26000, 
     atk: 210, 
     exp: 310, 
     gems: 55, 
-    desc: "闇に潜む古代の竜。装備を整えて挑もう。",
-    introMsg: "Darkness will swallow you! (実体なき我が影を捉えられるか？迷宮で朽ち果てよ！)",
-    defeatMsg: "My shadow faded... (影が消える...！破滅の双頭竜が貴様を引き裂くだろう！)"
+    desc: "憎しみの力で異形の怪物となった魔族の王。",
+    introMsg: "人間どもめ…我が憎しみの力、受けるがいい！",
+    defeatMsg: "ロザリー…どこだ…わたしは…どこへ…！"
   },
   { 
     lv: 7, 
-    name: "破滅の双頭竜", 
-    icon: "🐉", 
+    name: "魔界の王・ミルドラース", 
+    pos: "-235px -706px",
+    icon: "🦁🔥", 
     hp: 36000, 
     atk: 265, 
     exp: 400, 
     gems: 68, 
-    desc: "二つの頭を持つ凶暴な竜。素早さと会心が鍵！",
-    introMsg: "Two heads, double destruction! (我ら双頭の猛攻に耐えられるか！一瞬で消し去ってやる！)",
-    defeatMsg: "Both heads defeated...!? (二つの首が...！？ インフェルノの業火がお前を待っているぞ...！)"
+    desc: "魔界の深奥に君臨する神。素早さと会心が勝利の鍵！",
+    introMsg: "わたしこそが真の王、ミルドラースだ！ひれ伏すがよい！",
+    defeatMsg: "このわたしが…ただの人間ごときに…あり得ぬ…！"
   },
   { 
     lv: 8, 
-    name: "インフェルノ・ドレイク", 
-    icon: "🔥", 
+    name: "幻魔王・デスタムーア", 
+    pos: "-191px -747px",
+    icon: "👺💀", 
     hp: 48000, 
     atk: 330, 
     exp: 500, 
     gems: 80, 
-    desc: "灼熱の業火を纏う。上級装備が必須レベル！",
-    introMsg: "I will incinerate everything! (すべてを灰にする絶対の業火！貴様の知識ごと燃やし尽くす！)",
-    defeatMsg: "Such overwhelming power... (この炎を超えていくというのか...！終焉の闇が世界を包むぞ...！)"
+    desc: "夢と現実を支配する魔王。上級装備が必須レベル！",
+    introMsg: "我が夢の世界で 永遠に朽ち果てるがよい！",
+    defeatMsg: "夢が…幻が消えてゆく…オルゴ・デミーラよ…！"
   },
   { 
     lv: 9, 
-    name: "終焉の暗黒竜", 
-    icon: "⚡🐉", 
+    name: "魔王オルゴ・デミーラ", 
+    pos: "-219px -747px",
+    icon: "🐉🥀", 
     hp: 62000, 
     atk: 400, 
     exp: 650, 
     gems: 100, 
-    desc: "世界を闇に沈める竜。最高峰のステータスが必要！",
-    introMsg: "The end of the world begins! (世界は終わる！最後の絶望を味わうがよい！)",
-    defeatMsg: "Defeated at the end...!? (終焉が敗れるとは...！だが我が主、オメガエデン様が貴様を裁く！)"
+    desc: "世界を封印した邪悪の化身。最高峰のステータスが必要！",
+    introMsg: "神すら滅ぼした我が力、とくと味わうがよい！",
+    defeatMsg: "この美しき我が肉体が…！ダークドレアムよ…！"
   },
   { 
     lv: 10, 
-    name: "覇天神龍・オメガエデン", 
-    icon: "👑🐉✨", 
+    name: "魔戦神ダークドレアム", 
+    pos: "-187px -891px",
+    icon: "⚔️⚡", 
     hp: 80000, 
     atk: 500, 
     exp: 850, 
     gems: 150, 
-    desc: "【表ラスボス】英検4級の頂点に君臨する神龍！",
-    introMsg: "I am the supreme ruler! (我が名はオメガエデン！英検の頂点、その全てを賭けて挑んでくるがよい！)",
-    defeatMsg: "Incredible... You are the true master! (見事だ...！貴様こそが真の英検マスターだ！)"
+    desc: "【表ラスボス】万物を無に還す孤高の破壊神！",
+    introMsg: "我は万物を無に還す者。貴様の覚悟、見せてもらうぞ！",
+    defeatMsg: "見事だ…！貴様こそが真の英検マスター、光の勇者だ！"
   },
   { 
     lv: 11, 
-    name: "虚無を統べる終極神・ゼロインフィニティ", 
-    icon: "🌌👁️⚡", 
+    name: "地獄の帝王・エスターク", 
+    pos: "-306px -154px",
+    icon: "🗡️🔥", 
     hp: 160000, 
     atk: 9999, 
     exp: 2000, 
     gems: 300, 
-    desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問クリティカルでのみ勝てる究極の神！", 
+    desc: "【真・隠し裏ボス】Lv.100＆天空装備＆全問クリティカルでのみ勝てる究極神！", 
     isSecret: true,
-    introMsg: "Everything returns to nothingness... (万物は虚無へ還る...。神話の装備を纏いし者よ、存在の限界を超えてみせよ！)",
-    defeatMsg: "Light shines forever... You have conquered all dimensions! (虚無が...満たされた...。全次元の覇者よ、その栄光は永遠なり...！)"
+    introMsg: "我が名はエスターク…眠りを妨げる者は、すべて滅ぼす…！",
+    defeatMsg: "また…深い眠りにつくのか…勇者の光は永遠なり…！"
   }
 ];
 
-// ==================== 7. レベル10ごとの進化ツリー ====================
+// ==================== 7. 相棒スライム進化ツリー (全11段階・精密座標切抜) ====================
 const AVATARS = [
-  { minLv: 1, emoji: '🐣', rank: '見習いヒナ', name: 'タマゴン' },
-  { minLv: 10, emoji: '🐥', rank: '見習いバード', name: 'ピヨード' },
-  { minLv: 20, emoji: '🦅', rank: '飛翔のファルコン', name: 'スカイホーク' },
-  { minLv: 30, emoji: '⚡', rank: '雷鳴のグリフォン', name: 'サンダービーク' },
-  { minLv: 40, emoji: '🔥', rank: '炎翼のフェニックス', name: 'フレイムバード' },
-  { minLv: 50, emoji: '🐻', rank: '聖獣グリズリー', name: 'アーマーベア' },
-  { minLv: 60, emoji: '🦊', rank: '幻影の白狐', name: 'ミラージュフォックス' },
-  { minLv: 70, emoji: '🦖', rank: '天空の神龍（幼体）', name: 'ベビーレックス' },
-  { minLv: 80, emoji: '🐲', rank: '覇王の双頭ドラゴン', name: 'ツイン・ドラゴニクス' },
-  { minLv: 90, emoji: '🦁', rank: '銀河の守護星獣', name: 'コズミック・キマイラ' },
-  { minLv: 100, emoji: '👑🐉', rank: '究極英検マスター', name: 'オメガドラゴン' }
+  { minLv: 1, pos: "-200px -123px", emoji: '💧', rank: 'みならいスライム', name: 'スライム' },
+  { minLv: 10, pos: "-147px -123px", emoji: '🍊', rank: '元気なスライム', name: 'スライムベス' },
+  { minLv: 20, pos: "-226px -103px", emoji: '🌿', rank: '癒やしの触手', name: 'ホイミスライム' },
+  { minLv: 30, pos: "-166px -70px", emoji: '🐉', rank: '空飛ぶ竜スライム', name: 'ドラゴスライム' },
+  { minLv: 40, pos: "-208px -59px", emoji: '🛡️', rank: '勇敢なる騎士', name: 'スライムナイト' },
+  { minLv: 50, pos: "-226px -167px", emoji: '👑', rank: '王国の主', name: 'キングスライム' },
+  { minLv: 60, pos: "-250px -123px", emoji: '💎', rank: '俊足の銀結晶', name: 'メタルスライム' },
+  { minLv: 70, pos: "-97px -163px", emoji: '💨', rank: '幻影の流動金属', name: 'はぐれメタル' },
+  { minLv: 80, pos: "-383px -201px", emoji: '👑🥈', rank: '銀冠の覇王', name: 'メタルキング' },
+  { minLv: 90, pos: "-200px -233px", emoji: '🌌✨', rank: '白金の大魔王', name: 'プラチナキング' },
+  { minLv: 100, pos: "-289px -42px", emoji: '👑🌌', rank: '全次元の光神', name: 'ゴッドスライム' }
 ];
