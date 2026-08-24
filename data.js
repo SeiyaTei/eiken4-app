@@ -2590,62 +2590,62 @@ const SHOP_EQUIP_DATA = [
   // --- 👑 あたま / かぶと (HP) ---
   { id: 'hat_grad', type: 'hat', name: 'かわのぼうし', rank: '★1 初級', pos: '-204px -226px', icon: '🧢', val: 50, price: 25, desc: 'HP +50 / 旅立ちの皮帽子' },
   { id: 'hat_cap', type: 'hat', name: 'きのぼうし', rank: '★1 初級', pos: '-178px -226px', icon: '🪖', val: 120, price: 45, desc: 'HP +120 / 木を削り出した帽子' },
-  { id: 'hat_ribbon', type: 'hat', name: 'ぎんのサークレット', rank: '★2 中級', pos: '-204px 0px', icon: '👑', val: 300, price: 80, desc: 'HP +300 / 知性を高める銀の輪' },
-  { id: 'hat_cat', type: 'hat', name: 'まほうのターバン', rank: '★2 中級', pos: '-51px -151px', icon: '👳', val: 600, price: 130, desc: 'HP +600 / 魔力を宿す布' },
-  { id: 'hat_wizard', type: 'hat', name: 'てつかぶと', rank: '★3 上級', pos: '-25px -226px', icon: '⛑️', val: 1200, price: 220, desc: 'HP +1200 / 頑丈な鉄の兜' },
-  { id: 'hat_fox', type: 'hat', name: 'ふしぎなぼうし', rank: '★3 上級', pos: '-25px -251px', icon: '🧙‍♂️', val: 2000, price: 320, desc: 'HP +2000 / MP消費を抑える帽子' },
-  { id: 'hat_crown', type: 'hat', name: 'しあわせのぼうし', rank: '★4 熟練', pos: '-76px -201px', icon: '🎩', val: 3500, price: 550, desc: 'HP +3500 / 歩くたびに回復' },
-  { id: 'hat_space', type: 'hat', name: 'オルテガのかぶと', rank: '★4 熟練', pos: '-25px -201px', icon: '👑', val: 5000, price: 800, desc: 'HP +5000 / 伝説の勇者の遺品' },
+  { id: 'hat_ribbon', type: 'hat', name: 'ぎんのサークレット', rank: '★2 中級', pos: '-204px -3px', icon: '👑', val: 300, price: 80, desc: 'HP +300 / 知性を高める銀の輪' },
+  { id: 'hat_cat', type: 'hat', name: 'まほうのターバン', rank: '★2 中級', pos: '-54px -151px', icon: '👳', val: 600, price: 130, desc: 'HP +600 / 魔力を宿す布' },
+  { id: 'hat_wizard', type: 'hat', name: 'てつかぶと', rank: '★3 上級', pos: '-28px -226px', icon: '⛑️', val: 1200, price: 220, desc: 'HP +1200 / 頑丈な鉄の兜' },
+  { id: 'hat_fox', type: 'hat', name: 'ふしぎなぼうし', rank: '★3 上級', pos: '-28px -251px', icon: '🧙‍♂️', val: 2000, price: 320, desc: 'HP +2000 / MP消費を抑える帽子' },
+  { id: 'hat_crown', type: 'hat', name: 'しあわせのぼうし', rank: '★4 熟練', pos: '-79px -201px', icon: '🎩', val: 3500, price: 550, desc: 'HP +3500 / 歩くたびに回復' },
+  { id: 'hat_space', type: 'hat', name: 'オルテガのかぶと', rank: '★4 熟練', pos: '-28px -201px', icon: '👑', val: 5000, price: 800, desc: 'HP +5000 / 伝説の勇者の遺品' },
   { id: 'hat_tiara', type: 'hat', name: 'メタスラの兜', rank: '★5 覇者', pos: '-561px -201px', icon: '💎👑', val: 8000, price: 1200, desc: 'HP +8000 / メタル鉱石の堅甲' },
-  { id: 'hat_dragon_crown', type: 'hat', name: 'ロトのかぶと', rank: '★4 BOSS', pos: '-51px -201px', icon: '🐲👑', val: 12000, price: 9999, isSecret: true, desc: 'HP +12000 / 太陽の紋章宿る真の兜 (Lv.60以上)', reqLv: 60 },
-  { id: 'hat_genesis_crown', type: 'hat', name: '天空の兜', rank: '★5 神話', pos: '-51px -226px', icon: '🌌👑', val: 25000, price: 99999, reqLv: 60, isSecret: true, desc: 'HP +25000 / 天空城の主の神冠 (Lv.60以上)' },
+  { id: 'hat_dragon_crown', type: 'hat', name: 'ロトのかぶと', rank: '★4 BOSS', pos: '-54px -201px', icon: '🐲👑', val: 12000, price: 9999, isSecret: true, desc: 'HP +12000 / 太陽の紋章宿る真の兜 (Lv.60以上)', reqLv: 60 },
+  { id: 'hat_genesis_crown', type: 'hat', name: '天空の兜', rank: '★5 神話', pos: '-54px -226px', icon: '🌌👑', val: 25000, price: 99999, reqLv: 60, isSecret: true, desc: 'HP +25000 / 天空城の主の神冠 (Lv.60以上)' },
 
   // --- 🗡️ ぶき / つるぎ (攻撃力) ---
   { id: 'wp_pencil', type: 'weapon', name: 'ひのきのぼう', rank: '★1 初級', pos: '-484px -100px', icon: '🪵', val: 20, price: 20, desc: '攻撃 +20 / 削り出した木の棒' },
-  { id: 'wp_wand', type: 'weapon', name: 'どうのつるぎ', rank: '★1 初級', pos: '0px -25px', icon: '🗡️', val: 45, price: 50, desc: '攻撃 +45 / 銅で作られた剣' },
-  { id: 'wp_bow', type: 'weapon', name: 'はがねのつるぎ', rank: '★2 中級', pos: '0px -50px', icon: '⚔️', val: 100, price: 90, desc: '攻撃 +100 / 鋭い鋼鉄の刃' },
-  { id: 'wp_sword', type: 'weapon', name: 'はじゃのつるぎ', rank: '★2 中級', pos: '0px -75px', icon: '🗡️✨', val: 180, price: 150, desc: '攻撃 +180 / 邪悪を祓う聖なる剣' },
-  { id: 'wp_guitar', type: 'weapon', name: 'まどろみのけん', rank: '★3 上級', pos: '-561px -50px', icon: '💤🗡️', val: 300, price: 240, desc: '攻撃 +300 / 敵を眠りに誘う刃' },
-  { id: 'wp_axe', type: 'weapon', name: 'ドラゴンキラー', rank: '★3 上級', pos: '-25px -50px', icon: '🐉🗡️', val: 480, price: 350, desc: '攻撃 +480 / 竜のウロコを貫く巨剣' },
-  { id: 'wp_trident', type: 'weapon', name: 'らいめいのけん', rank: '★4 熟練', pos: '-25px -25px', icon: '⚡🗡️', val: 750, price: 600, desc: '攻撃 +750 / 稲妻を呼ぶ神剣' },
-  { id: 'wp_saber', type: 'weapon', name: 'はかいのつるぎ', rank: '★4 熟練', pos: '-357px -25px', icon: '💀🗡️', val: 1100, price: 850, desc: '攻撃 +1100 / 圧倒的な破壊の一撃' },
-  { id: 'wp_excalibur', type: 'weapon', name: 'はぐれメタルの剣', rank: '★5 覇者', pos: '-178px -50px', icon: '💨🗡️', val: 1700, price: 1500, desc: '攻撃 +1700 / メタルを切り裂く名剣' },
-  { id: 'wp_dark_blade', type: 'weapon', name: 'ロトのつるぎ', rank: '★4 BOSS', pos: '-51px -25px', icon: '⚜️🗡️', val: 2400, price: 9999, isSecret: true, desc: '攻撃 +2400 / 伝説の勇者が遺した聖剣 (Lv.60以上)', reqLv: 60 },
-  { id: 'wp_genesis_blade', type: 'weapon', name: '王者の剣・真', rank: '★5 神話', pos: '-76px -25px', icon: '⚔️🌟🔥', val: 4000, price: 99999, reqLv: 60, isSecret: true, desc: '攻撃 +4000 / オリハルコンの究極聖剣 (Lv.60以上)' },
+  { id: 'wp_wand', type: 'weapon', name: 'どうのつるぎ', rank: '★1 初級', pos: '-3px -26px', icon: '🗡️', val: 45, price: 50, desc: '攻撃 +45 / 銅で作られた剣' },
+  { id: 'wp_bow', type: 'weapon', name: 'はがねのつるぎ', rank: '★2 中級', pos: '-3px -51px', icon: '⚔️', val: 100, price: 90, desc: '攻撃 +100 / 鋭い鋼鉄の刃' },
+  { id: 'wp_sword', type: 'weapon', name: 'はじゃのつるぎ', rank: '★2 中級', pos: '-3px -76px', icon: '🗡️✨', val: 180, price: 150, desc: '攻撃 +180 / 邪悪を祓う聖なる剣' },
+  { id: 'wp_guitar', type: 'weapon', name: 'まどろみのけん', rank: '★3 上級', pos: '-561px -51px', icon: '💤🗡️', val: 300, price: 240, desc: '攻撃 +300 / 敵を眠りに誘う刃' },
+  { id: 'wp_axe', type: 'weapon', name: 'ドラゴンキラー', rank: '★3 上級', pos: '-28px -51px', icon: '🐉🗡️', val: 480, price: 350, desc: '攻撃 +480 / 竜のウロコを貫く巨剣' },
+  { id: 'wp_trident', type: 'weapon', name: 'らいめいのけん', rank: '★4 熟練', pos: '-28px -26px', icon: '⚡🗡️', val: 750, price: 600, desc: '攻撃 +750 / 稲妻を呼ぶ神剣' },
+  { id: 'wp_saber', type: 'weapon', name: 'はかいのつるぎ', rank: '★4 熟練', pos: '-357px -26px', icon: '💀🗡️', val: 1100, price: 850, desc: '攻撃 +1100 / 圧倒的な破壊の一撃' },
+  { id: 'wp_excalibur', type: 'weapon', name: 'はぐれメタルの剣', rank: '★5 覇者', pos: '-178px -51px', icon: '💨🗡️', val: 1700, price: 1500, desc: '攻撃 +1700 / メタルを切り裂く名剣' },
+  { id: 'wp_dark_blade', type: 'weapon', name: 'ロトのつるぎ', rank: '★4 BOSS', pos: '-54px -26px', icon: '⚜️🗡️', val: 2400, price: 9999, isSecret: true, desc: '攻撃 +2400 / 伝説の勇者が遺した聖剣 (Lv.60以上)', reqLv: 60 },
+  { id: 'wp_genesis_blade', type: 'weapon', name: '王者の剣・真', rank: '★5 神話', pos: '-79px -26px', icon: '⚔️🌟🔥', val: 4000, price: 99999, reqLv: 60, isSecret: true, desc: '攻撃 +4000 / オリハルコンの究極聖剣 (Lv.60以上)' },
 
   // --- ✨ オーラ / 装飾品 (素早さ / クリティカル率) ---
-  { id: 'aura_wind', type: 'aura', name: 'りゅうのうろこ', rank: '★1 初級', pos: '-229px 0px', icon: '🐉', val: 5, price: 30, desc: '速さ +5 / 身を守る竜のウロコ' },
-  { id: 'aura_sakura', type: 'aura', name: 'うさぎのしっぽ', rank: '★2 中級', pos: '-127px -50px', icon: '🐇', val: 15, price: 80, desc: '速さ +15 / 幸運を呼ぶしっぽ' },
+  { id: 'aura_wind', type: 'aura', name: 'りゅうのうろこ', rank: '★1 初級', pos: '-229px -3px', icon: '🐉', val: 5, price: 30, desc: '速さ +5 / 身を守る竜のウロコ' },
+  { id: 'aura_sakura', type: 'aura', name: 'うさぎのしっぽ', rank: '★2 中級', pos: '-127px -51px', icon: '🐇', val: 15, price: 80, desc: '速さ +15 / 幸運を呼ぶしっぽ' },
   { id: 'aura_angel', type: 'aura', name: 'スライムピアス', rank: '★2 中級', pos: '-586px -100px', icon: '💧', val: 30, price: 180, desc: '速さ +30 / スライムの愛らしい飾り' },
-  { id: 'aura_devil', type: 'aura', name: 'いのりのゆびわ', rank: '★3 上級', pos: '-178px 0px', icon: '💍', val: 55, price: 280, desc: '速さ +55 / 精神を研ぎ澄ます指輪' },
-  { id: 'aura_thunder', type: 'aura', name: 'はやてのリング', rank: '★3 上級', pos: '-255px 0px', icon: '💨💍', val: 85, price: 450, desc: '速さ +85 / 風の如き敏捷性' },
-  { id: 'aura_fire', type: 'aura', name: 'ガーターベルト', rank: '★4 熟練', pos: '-102px -125px', icon: '🎀', val: 120, price: 700, desc: '速さ +120 / セクシーな素早さ' },
-  { id: 'aura_rainbow', type: 'aura', name: 'エルフのおまもり', rank: '★4 熟練', pos: '-306px 0px', icon: '🧝‍♀️', val: 180, price: 950, desc: '速さ +180 / 妖精郷の加護' },
+  { id: 'aura_devil', type: 'aura', name: 'いのりのゆびわ', rank: '★3 上級', pos: '-178px -3px', icon: '💍', val: 55, price: 280, desc: '速さ +55 / 精神を研ぎ澄ます指輪' },
+  { id: 'aura_thunder', type: 'aura', name: 'はやてのリング', rank: '★3 上級', pos: '-255px -3px', icon: '💨💍', val: 85, price: 450, desc: '速さ +85 / 風の如き敏捷性' },
+  { id: 'aura_fire', type: 'aura', name: 'ガーターベルト', rank: '★4 熟練', pos: '-102px -126px', icon: '🎀', val: 120, price: 700, desc: '速さ +120 / セクシーな素早さ' },
+  { id: 'aura_rainbow', type: 'aura', name: 'エルフのおまもり', rank: '★4 熟練', pos: '-306px -3px', icon: '🧝‍♀️', val: 180, price: 950, desc: '速さ +180 / 妖精郷の加護' },
   { id: 'aura_cosmic', type: 'aura', name: 'ほしふるうでわ', rank: '★5 覇者', pos: '-204px -201px', icon: '🌠✨', val: 260, price: 1500, desc: '速さ +260 / 素早さを倍加させる腕輪' },
   { id: 'aura_dragon_light', type: 'aura', name: 'ロトのしるし', rank: '★4 BOSS', pos: '-127px -201px', icon: '🛡️✨', val: 365, price: 9999, isSecret: true, desc: '速さ +365 / 勇者の血を証明する紋章 (Lv.60以上)', reqLv: 60 },
-  { id: 'aura_genesis_light', type: 'aura', name: 'ひかりのたま', rank: '★5 神話', pos: '-408px -25px', icon: '🌌✨👑', val: 515, price: 99999, reqLv: 60, isSecret: true, desc: '速さ +515 / 闇を完全消滅させる神光 (Lv.60以上)' }
+  { id: 'aura_genesis_light', type: 'aura', name: 'ひかりのたま', rank: '★5 神話', pos: '-408px -26px', icon: '🌌✨👑', val: 515, price: 99999, reqLv: 60, isSecret: true, desc: '速さ +515 / 闇を完全消滅させる神光 (Lv.60以上)' }
 ];
 
-// ==================== 6. 通常クエスト・雑魚敵モンスター (全10種・倍増版) ====================
+// ==================== 6. 通常クエスト・雑魚敵モンスター (全10種・完全修正版) ====================
 const NORMAL_ENEMIES = [
-  { name: "ドラキー", pos: "-55px -12px", icon: "🦇" },
-  { name: "ゴースト", pos: "-78px -10px", icon: "👻" },
-  { name: "ももんじゃ", pos: "-188px -480px", icon: "🐾" },
-  { name: "おおきづち", pos: "-130px -315px", icon: "🔨" },
-  { name: "キメラ", pos: "-142px -312px", icon: "🦅" },
-  { name: "がいこつ剣士", pos: "-246px -74px", icon: "💀" },
-  { name: "ゴーレム", pos: "-246px -8px", icon: "🧱" },
-  { name: "アークデーモン", pos: "-58px -715px", icon: "👿" },
-  { name: "ドラゴン", pos: "-308px -6px", icon: "🐉" },
-  { name: "キラーマシン", pos: "-146px -74px", icon: "🤖" }
+  { name: "ドラキー", pos: "-46px -1px", icon: "🦇" },
+  { name: "ゴースト", pos: "-68px -1px", icon: "👻" },
+  { name: "ももんじゃ", pos: "-181px -473px", icon: "🐾" },
+  { name: "おおきづち", pos: "-123px -308px", icon: "🔨" },
+  { name: "キメラ", pos: "-136px -306px", icon: "🦅" },
+  { name: "がいこつ剣士", pos: "-240px -68px", icon: "💀" },
+  { name: "ゴーレム", pos: "-242px -1px", icon: "🧱" },
+  { name: "アークデーモン", pos: "-54px -710px", icon: "👿" },
+  { name: "ドラゴン", pos: "-306px -4px", icon: "🐉" },
+  { name: "キラーマシン", pos: "-143px -68px", icon: "🤖" }
 ];
 
-// ==================== 7. 過去問ボスステージ (歴代大魔王 全11体) ====================
+// ==================== 7. 過去問ボスステージ (歴代大魔王 全11体・完全修正版) ====================
 const BOSS_STAGES = [
   { 
     lv: 1, 
     name: "竜王（人型）", 
-    pos: "-284px -8px",
+    pos: "-280px -6px",
     icon: "🧙‍♂️🔥", 
     hp: 1200, 
     atk: 25, 
@@ -2658,7 +2658,7 @@ const BOSS_STAGES = [
   { 
     lv: 2, 
     name: "竜王（ドラゴン）", 
-    pos: "-308px -6px",
+    pos: "-306px -4px",
     icon: "🐉🔥", 
     hp: 3500, 
     atk: 50, 
@@ -2671,7 +2671,7 @@ const BOSS_STAGES = [
   { 
     lv: 3, 
     name: "邪教の使徒・ハーゴン", 
-    pos: "-284px -74px",
+    pos: "-280px -73px",
     icon: "👿🔮", 
     hp: 7000, 
     atk: 85, 
@@ -2684,7 +2684,7 @@ const BOSS_STAGES = [
   { 
     lv: 4, 
     name: "破壊神・シドー", 
-    pos: "-320px -72px",
+    pos: "-320px -73px",
     icon: "🐲⚡", 
     hp: 12000, 
     atk: 120, 
@@ -2697,7 +2697,7 @@ const BOSS_STAGES = [
   { 
     lv: 5, 
     name: "大魔王ゾーマ", 
-    pos: "-290px -182px",
+    pos: "-289px -184px",
     icon: "👑❄️", 
     hp: 18000, 
     atk: 165, 
@@ -2710,7 +2710,7 @@ const BOSS_STAGES = [
   { 
     lv: 6, 
     name: "進化の秘法・デスピサロ", 
-    pos: "-350px -260px",
+    pos: "-352px -262px",
     icon: "👹🗡️", 
     hp: 26000, 
     atk: 210, 
@@ -2723,7 +2723,7 @@ const BOSS_STAGES = [
   { 
     lv: 7, 
     name: "魔界の王・ミルドラース", 
-    pos: "-235px -715px",
+    pos: "-238px -715px",
     icon: "🦁🔥", 
     hp: 36000, 
     atk: 265, 
@@ -2749,7 +2749,7 @@ const BOSS_STAGES = [
   { 
     lv: 9, 
     name: "魔王オルゴ・デミーラ", 
-    pos: "-200px -750px",
+    pos: "-202px -752px",
     icon: "🐉🥀", 
     hp: 62000, 
     atk: 400, 
@@ -2762,7 +2762,7 @@ const BOSS_STAGES = [
   { 
     lv: 10, 
     name: "魔戦神ダークドレアム", 
-    pos: "-190px -910px",
+    pos: "-192px -912px",
     icon: "⚔️⚡", 
     hp: 80000, 
     atk: 500, 
@@ -2775,7 +2775,7 @@ const BOSS_STAGES = [
   { 
     lv: 11, 
     name: "地獄の帝王・エスターク", 
-    pos: "-315px -260px",
+    pos: "-315px -262px",
     icon: "🗡️🔥", 
     hp: 160000, 
     atk: 9999, 
@@ -2788,17 +2788,17 @@ const BOSS_STAGES = [
   }
 ];
 
-// ==================== 8. 相棒スライム進化ツリー (全11段階) ====================
+// ==================== 8. 相棒スライム進化ツリー (全11段階・完全修正版) ====================
 const AVATARS = [
-  { minLv: 1, pos: "-210px -133px", emoji: '💧', rank: 'みならいスライム', name: 'スライム' },
-  { minLv: 10, pos: "-157px -133px", emoji: '🍊', rank: '元気なスライム', name: 'スライムベス' },
-  { minLv: 20, pos: "-235px -103px", emoji: '🌿', rank: '癒やしの触手', name: 'ホイミスライム' },
-  { minLv: 30, pos: "-175px -70px", emoji: '🐉', rank: '空飛ぶ竜スライム', name: 'ドラゴスライム' },
-  { minLv: 40, pos: "-218px -55px", emoji: '🛡️', rank: '勇敢なる騎士', name: 'スライムナイト' },
-  { minLv: 50, pos: "-225px -163px", emoji: '👑', rank: '王国の主', name: 'キングスライム' },
-  { minLv: 60, pos: "-260px -133px", emoji: '💎', rank: '俊足の銀結晶', name: 'メタルスライム' },
-  { minLv: 70, pos: "-108px -173px", emoji: '💨', rank: '幻影の流動金属', name: 'はぐれメタル' },
-  { minLv: 80, pos: "-379px -195px", emoji: '👑🥈', rank: '銀冠の覇王', name: 'メタルキング' },
-  { minLv: 90, pos: "-198px -230px", emoji: '🌌✨', rank: '白金の大魔王', name: 'プラチナキング' },
-  { minLv: 100, pos: "-284px -38px", emoji: '👑🌌', rank: '全次元の光神', name: 'ゴッドスライム' }
+  { minLv: 1, pos: "-211px -134px", emoji: '💧', rank: 'みならいスライム', name: 'スライム' },
+  { minLv: 10, pos: "-158px -134px", emoji: '🍊', rank: '元気なスライム', name: 'スライムベス' },
+  { minLv: 20, pos: "-237px -114px", emoji: '🌿', rank: '癒やしの触手', name: 'ホイミスライム' },
+  { minLv: 30, pos: "-177px -81px", emoji: '🐉', rank: '空飛ぶ竜スライム', name: 'ドラゴスライム' },
+  { minLv: 40, pos: "-219px -70px", emoji: '🛡️', rank: '勇敢なる騎士', name: 'スライムナイト' },
+  { minLv: 50, pos: "-237px -178px", emoji: '👑', rank: '王国の主', name: 'キングスライム' },
+  { minLv: 60, pos: "-261px -134px", emoji: '💎', rank: '俊足の銀結晶', name: 'メタルスライム' },
+  { minLv: 70, pos: "-108px -174px", emoji: '💨', rank: '幻影の流動金属', name: 'はぐれメタル' },
+  { minLv: 80, pos: "-394px -212px", emoji: '👑🥈', rank: '銀冠の覇王', name: 'メタルキング' },
+  { minLv: 90, pos: "-211px -244px", emoji: '🌌✨', rank: '白金の大魔王', name: 'プラチナキング' },
+  { minLv: 100, pos: "-300px -53px", emoji: '👑🌌', rank: '全次元の光神', name: 'ゴッドスライム' }
 ];
