@@ -7,9 +7,9 @@
 function getSpriteIconHtml(itemObj, fallbackEmoji, type) {
   if (itemObj && itemObj.pos) {
     if (type === 'slime') {
-      return `<div class="dq-slime-sprite" style="background-position: ${itemObj.pos};"></div>`;
+      return `<div class="dq-slime-box"><div class="dq-slime-sprite" style="background-position: ${itemObj.pos};"></div></div>`;
     } else if (type === 'monster') {
-      return `<div class="dq-monster-sprite" style="background-position: ${itemObj.pos};"></div>`;
+      return `<div class="dq-monster-box"><div class="dq-monster-sprite" style="background-position: ${itemObj.pos};"></div></div>`;
     } else if (type === 'item') {
       return `<div class="dq-item-sprite" style="background-position: ${itemObj.pos};"></div>`;
     }
@@ -438,8 +438,6 @@ function updateUiState() {
 
   if (typeof AVATARS !== 'undefined') {
     const currentAvatar = [...AVATARS].reverse().find(a => userData.level >= a.minLv) || AVATARS[0];
-    
-    // スライム画像スプライト描画
     const heroAvatarEl = document.getElementById('heroAvatar');
     if (heroAvatarEl) heroAvatarEl.innerHTML = getSpriteIconHtml(currentAvatar, currentAvatar.emoji, 'slime');
 
@@ -452,16 +450,23 @@ function updateUiState() {
     }
   }
 
+  // 装備アイコンの描画（文字ではなく画像として表示）
   if (typeof SHOP_EQUIP_DATA !== 'undefined') {
-    const hatEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.hat);
-    setText('equipHatIcon', hatEquip ? hatEquip.icon : '');
-    const weaponEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.weapon);
-    setText('equipWeaponIcon', weaponEquip ? weaponEquip.icon : '');
-    const auraEquip = SHOP_EQUIP_DATA.find(e => e.id === userData.equipped.aura);
-    setText('equipAuraIcon', auraEquip ? auraEquip.icon : '');
+    const setEquipIcon = (elId, equipId) => {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const found = SHOP_EQUIP_DATA.find(e => e.id === equipId);
+      if (found) {
+        el.innerHTML = getSpriteIconHtml(found, found.icon, 'item');
+      } else {
+        el.innerHTML = '';
+      }
+    };
+    setEquipIcon('equipHatIcon', userData.equipped.hat);
+    setEquipIcon('equipWeaponIcon', userData.equipped.weapon);
+    setEquipIcon('equipAuraIcon', userData.equipped.aura);
   }
 
-  // 🎯 2026年10月4日 試験日カウントダウン
   try {
     const examDate = new Date(2026, 9, 4);
     const today = new Date();
@@ -1216,7 +1221,7 @@ function renderQuestion() {
   if (isBossMode && currentBossStage) {
     enemyAvatarEl.innerHTML = getSpriteIconHtml(currentBossStage, currentBossStage.icon, 'monster');
   } else if (currentMode === 'weakBattle' || currentMode === 'weakRetry') {
-    enemyAvatarEl.innerHTML = getSpriteIconHtml({ pos: "-137px -65px" }, '🤖', 'monster');
+    enemyAvatarEl.innerHTML = getSpriteIconHtml({ pos: "-146px -74px" }, '🤖', 'monster');
   } else {
     const normalEnemy = NORMAL_ENEMIES[currentIndex % NORMAL_ENEMIES.length];
     enemyAvatarEl.innerHTML = getSpriteIconHtml(normalEnemy, normalEnemy.icon, 'monster');
