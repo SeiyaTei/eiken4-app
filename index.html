@@ -208,7 +208,19 @@
             </div>
           </div>
         </div>
-
+<!-- デイリー長文読解 -->
+          <div id="questCardReading" class="bg-indigo-950/80 border border-indigo-700 p-2 rounded-2xl flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-1">
+              <span class="text-lg flex-shrink-0">📜</span>
+              <div class="min-w-0">
+                <div class="font-bold text-[11px] text-slate-200 truncate">長文読解 (2問)</div>
+                <div class="text-[9px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
+              </div>
+            </div>
+            <div id="questActionReading" class="flex-shrink-0">
+              <button onclick="startDailyQuest('reading', 2)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
+            </div>
+          </div>
         <div id="dailyBonusArea" class="hidden pt-1">
           <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2 px-2 rounded-2xl text-[11px] shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95 animate-bounce">
             <span class="truncate">🎁 3大デイリー全制覇ボーナス受取！</span>
