@@ -799,6 +799,7 @@ function startBossBattleWithStage(lv) {
     return {
       id: item.id,
       type: item.type,
+      passage: item.passage || null,
       q: item.q,
       sub: item.sub,
       options: shuffledOptions,
