@@ -2590,5 +2590,157 @@ const ACTUAL_PAST_EXAM_DATA = [
       { speaker: 'narrator', text: "Question. What time will the museum close today?" }
     ],
     aud_complete: "What time will the museum close today? At 5:00 p.m."
+    }
+  },
+// ---------- 2026年度第1回 大問4 長文読解 (No.26 〜 No.35) ----------
+  {
+    id: "past_2026_1_26",
+    type: "reading",
+    passage: "【A Musician Will Visit Our School】\nThe famous piano player Mr. Stevens will visit the school on Friday afternoon for one hour.\nHe will first give a speech in the gym and then play three songs in the music room. After this performance, students can eat snacks in the cafeteria.\n\nDate: February 12\nTime: 4:00 p.m. to 5:00 p.m.",
+    q: "What will happen in the gym?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "A piano player will give a speech.",
+      "Students will receive free snacks.",
+      "A piano player will play songs.",
+      "Students will dance."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nHe will first give a speech in the gym...（彼はまず体育館でスピーチを行い…）とあるため、1「ピアニストがスピーチをする」が正解です。\n\n【選択肢の訳】\n1. ピアニストがスピーチをする。\n2. 生徒が無料のおやつを受け取る。\n3. ピアニストが曲を演奏する。\n4. 生徒がダンスをする。"
+  },
+  {
+    id: "past_2026_1_27",
+    type: "reading",
+    passage: "【A Musician Will Visit Our School】\nThe famous piano player Mr. Stevens will visit the school on Friday afternoon for one hour.\nHe will first give a speech in the gym and then play three songs in the music room. After this performance, students can eat snacks in the cafeteria.\n\nDate: February 12\nTime: 4:00 p.m. to 5:00 p.m.",
+    q: "How many songs will Mr. Stevens play?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "Two songs.",
+      "Three songs.",
+      "Four songs.",
+      "Five songs."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\n...and then play three songs in the music room.（そして音楽室で3曲演奏します）とあるため、2「3曲」が正解です。\n\n【選択肢の訳】\n1. 2曲。\n2. 3曲。\n3. 4曲。\n4. 5曲。"
+  },
+  {
+    id: "past_2026_1_28",
+    type: "reading",
+    passage: "From: Jimmy Cook\nTo: Cathy Cook\nDate: July 7\nSubject: How are your cats?\nDear Grandma,\nLast summer was so much fun! I enjoyed spending two weeks at your home. How is your cat, Lily? She had some babies, right? Dad told me about it. How many babies does she have? I really want to see them! Can I visit your home next month? I can stay for four days then!\nWrite soon,\nJimmy\n\nFrom: Cathy Cook\nTo: Jimmy Cook\nDate: July 7\nSubject: They are fine!\nDear Jimmy,\nOf course, come and see my cat Lily and her babies next month! She has three babies, and they are very cute. Yesterday, one of my friends visited me and saw them, too! I'll send you a picture of the babies by email tomorrow!\nLove,\nGrandma",
+    q: "When can Jimmy visit his grandmother's home?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "Tomorrow.",
+      "Next week.",
+      "Next month.",
+      "Next summer."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\n祖母の返信に Of course, come and see my cat Lily and her babies next month!（もちろん、来月リリーと子猫たちを見においで！）とあるため、3「来月」が正解です。\n\n【選択肢の訳】\n1. 明日。\n2. 来週。\n3. 来月。\n4. 次の夏。"
+  },
+  {
+    id: "past_2026_1_29",
+    type: "reading",
+    passage: "From: Jimmy Cook\nTo: Cathy Cook\nDate: July 7\nSubject: How are your cats?\nDear Grandma,\nLast summer was so much fun! I enjoyed spending two weeks at your home. How is your cat, Lily? She had some babies, right? Dad told me about it. How many babies does she have? I really want to see them! Can I visit your home next month? I can stay for four days then!\nWrite soon,\nJimmy\n\nFrom: Cathy Cook\nTo: Jimmy Cook\nDate: July 7\nSubject: They are fine!\nDear Jimmy,\nOf course, come and see my cat Lily and her babies next month! She has three babies, and they are very cute. Yesterday, one of my friends visited me and saw them, too! I'll send you a picture of the babies by email tomorrow!\nLove,\nGrandma",
+    q: "How many babies does Lily have?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "One.",
+      "Two.",
+      "Three.",
+      "Four."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\n祖母のメールに She has three babies, and they are very cute.（3匹の赤ちゃんがいて、とても可愛いのよ）と書かれているため、3「3匹」が正解です。\n\n【選択肢の訳】\n1. 1匹。\n2. 2匹。\n3. 3匹。\n4. 4匹。"
+  },
+  {
+    id: "past_2026_1_30",
+    type: "reading",
+    passage: "From: Jimmy Cook\nTo: Cathy Cook\nDate: July 7\nSubject: How are your cats?\nDear Grandma,\nLast summer was so much fun! I enjoyed spending two weeks at your home. How is your cat, Lily? She had some babies, right? Dad told me about it. How many babies does she have? I really want to see them! Can I visit your home next month? I can stay for four days then!\nWrite soon,\nJimmy\n\nFrom: Cathy Cook\nTo: Jimmy Cook\nDate: July 7\nSubject: They are fine!\nDear Jimmy,\nOf course, come and see my cat Lily and her babies next month! She has three babies, and they are very cute. Yesterday, one of my friends visited me and saw them, too! I'll send you a picture of the babies by email tomorrow!\nLove,\nGrandma",
+    q: "Who visited Jimmy's grandmother yesterday?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "Her friend.",
+      "Her daughter.",
+      "Jimmy.",
+      "Jimmy's father."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\n祖母のメールに Yesterday, one of my friends visited me and saw them, too!（昨日、友達の1人が訪ねてきて子猫たちを見たのよ）とあるため、1「彼女の友達」が正解です。\n\n【選択肢の訳】\n1. 彼女の友達。\n2. 彼女の娘。\n3. ジミー。\n4. ジミーの父。"
+  },
+  {
+    id: "past_2026_1_31",
+    type: "reading",
+    passage: "【A Visit to a History Museum】\nGeorge is thirteen years old. Recently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday. The museum was in an old building. It was eighty years old. In the museum, he saw many interesting things. The best part was an old classroom.\nGeorge walked into the classroom and saw an old blackboard. The blackboard was forty years old. He was surprised because the blackboard was green. He also saw desks and chairs. They were dark brown. Then, George saw some old history textbooks. He saw a lot of interesting things in the classroom. He liked looking at the textbooks most because they were so old.\nThe history museum was very fun. George's favorite subjects in school were English and math before, but now his favorite is history. George wants to go to more museums with his sister.",
+    q: "Why did George's family go to the museum last Saturday?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "George's father had four tickets.",
+      "George's mother works there.",
+      "George's sister wanted to go.",
+      "George likes history."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nRecently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday.（最近妹が歴史博物館に行きたがった。そのため先週土曜日に家族で行った）とあるため、3「ジョージの妹（姉）が行きたがったから」が正解です。\n\n【選択肢の訳】\n1. ジョージの父がチケットを4枚持っていた。\n2. ジョージの母がそこで働いている。\n3. ジョージの妹が行きたがった。\n4. ジョージは歴史が好きだから。"
+  },
+  {
+    id: "past_2026_1_32",
+    type: "reading",
+    passage: "【A Visit to a History Museum】\nGeorge is thirteen years old. Recently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday. The museum was in an old building. It was eighty years old. In the museum, he saw many interesting things. The best part was an old classroom.\nGeorge walked into the classroom and saw an old blackboard. The blackboard was forty years old. He was surprised because the blackboard was green. He also saw desks and chairs. They were dark brown. Then, George saw some old history textbooks. He saw a lot of interesting things in the classroom. He liked looking at the textbooks most because they were so old.\nThe history museum was very fun. George's favorite subjects in school were English and math before, but now his favorite is history. George wants to go to more museums with his sister.",
+    q: "How old was the blackboard?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "Thirteen years old.",
+      "Twenty years old.",
+      "Forty years old.",
+      "Eighty years old."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nThe blackboard was forty years old.（黒板は40年前のものでした）と明記されているため、3「40歳（40年物）」が正解です。（※建物が80年物です）\n\n【選択肢の訳】\n1. 13歳。\n2. 20歳。\n3. 40歳。\n4. 80歳。"
+  },
+  {
+    id: "past_2026_1_33",
+    type: "reading",
+    passage: "【A Visit to a History Museum】\nGeorge is thirteen years old. Recently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday. The museum was in an old building. It was eighty years old. In the museum, he saw many interesting things. The best part was an old classroom.\nGeorge walked into the classroom and saw an old blackboard. The blackboard was forty years old. He was surprised because the blackboard was green. He also saw desks and chairs. They were dark brown. Then, George saw some old history textbooks. He saw a lot of interesting things in the classroom. He liked looking at the textbooks most because they were so old.\nThe history museum was very fun. George's favorite subjects in school were English and math before, but now his favorite is history. George wants to go to more museums with his sister.",
+    q: "What color were the desks?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "Black.",
+      "Green.",
+      "Light brown.",
+      "Dark brown."
+    ],
+    ans: 3,
+    explain: "【本文の該当箇所】\nHe also saw desks and chairs. They were dark brown.（机や椅子も見た。それらはこげ茶色だった）とあるため、4「こげ茶色」が正解です。\n\n【選択肢の訳】\n1. 黒。\n2. 緑。\n3. 明るい茶色。\n4. こげ茶色。"
+  },
+  {
+    id: "past_2026_1_34",
+    type: "reading",
+    passage: "【A Visit to a History Museum】\nGeorge is thirteen years old. Recently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday. The museum was in an old building. It was eighty years old. In the museum, he saw many interesting things. The best part was an old classroom.\nGeorge walked into the classroom and saw an old blackboard. The blackboard was forty years old. He was surprised because the blackboard was green. He also saw desks and chairs. They were dark brown. Then, George saw some old history textbooks. He saw a lot of interesting things in the classroom. He liked looking at the textbooks most because they were so old.\nThe history museum was very fun. George's favorite subjects in school were English and math before, but now his favorite is history. George wants to go to more museums with his sister.",
+    q: "What did George like most in the classroom?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "The textbooks.",
+      "The desks.",
+      "The map.",
+      "The blackboard."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nHe liked looking at the textbooks most because they were so old.（とても古かったので、教科書を見るのが一番気に入った）とあるため、1「教科書」が正解です。\n\n【選択肢の訳】\n1. 教科書。\n2. 机。\n3. 地図。\n4. 黒板。"
+  },
+  {
+    id: "past_2026_1_35",
+    type: "reading",
+    passage: "【A Visit to a History Museum】\nGeorge is thirteen years old. Recently, his sister wanted to go to a history museum. So, his family went to the museum last Saturday. The museum was in an old building. It was eighty years old. In the museum, he saw many interesting things. The best part was an old classroom.\nGeorge walked into the classroom and saw an old blackboard. The blackboard was forty years old. He was surprised because the blackboard was green. He also saw desks and chairs. They were dark brown. Then, George saw some old history textbooks. He saw a lot of interesting things in the classroom. He liked looking at the textbooks most because they were so old.\nThe history museum was very fun. George's favorite subjects in school were English and math before, but now his favorite is history. George wants to go to more museums with his sister.",
+    q: "Now, George's favorite subject is ( ).",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "math.",
+      "English.",
+      "history.",
+      "music."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\n...before, but now his favorite is history.（以前は英語と数学だったが、今一番好きな科目は歴史だ）とあるため、3「歴史」が正解です。\n\n【選択肢の訳】\n1. 数学。\n2. 英語。\n3. 歴史。\n4. 音楽。"
   }
 ];
