@@ -1027,6 +1027,20 @@ function generateGrammarQuiz(item, idx) {
     audio_complete: completeSentence
   };
 }
+function generateReadingQuiz(item) {
+  const correctOption = item.options[item.ans];
+  const shuffledOptions = shuffleArray(item.options);
+  return {
+    id: item.id,
+    type: 'reading',
+    passage: item.passage,
+    q: item.q,
+    sub: item.sub || '📜 長文を読んで答えよう',
+    options: shuffledOptions,
+    ans: shuffledOptions.indexOf(correctOption),
+    explain: item.explain
+  };
+}
 
 function generateListeningQuiz(item, idx) {
   const correctOption = item.opt[item.ans];
