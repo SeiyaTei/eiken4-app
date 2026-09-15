@@ -153,7 +153,7 @@
         </div>
       </div>
 
-      <!-- 今日の3大デイリークエスト -->
+      <!-- 今日の4大デイリークエスト -->
       <div class="bg-gradient-to-br from-indigo-900 via-indigo-900 to-purple-950 border border-amber-500/60 rounded-3xl p-3.5 shadow-xl space-y-2.5">
         <div class="flex justify-between items-center">
           <div>
@@ -162,7 +162,7 @@
             </h3>
             <p class="text-[9px] text-indigo-200">1日各1回！撃破で大量ボーナス獲得</p>
           </div>
-          <span id="dailyProgressText" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold whitespace-nowrap">0 / 3</span>
+          <span id="dailyProgressText" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold whitespace-nowrap">0 / 4</span>
         </div>
 
         <div class="space-y-2 text-xs">
@@ -207,8 +207,8 @@
               <button onclick="startDailyQuest('listening', 3)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
-        </div>
-<!-- デイリー長文読解 -->
+
+          <!-- デイリー長文読解 -->
           <div id="questCardReading" class="bg-indigo-950/80 border border-indigo-700 p-2 rounded-2xl flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0 flex-1">
               <span class="text-lg flex-shrink-0">📜</span>
@@ -221,9 +221,11 @@
               <button onclick="startDailyQuest('reading', 2)" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-3 py-1 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">挑戦</button>
             </div>
           </div>
+        </div>
+
         <div id="dailyBonusArea" class="hidden pt-1">
           <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2 px-2 rounded-2xl text-[11px] shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95 animate-bounce">
-            <span class="truncate">🎁 3大デイリー全制覇ボーナス受取！</span>
+            <span class="truncate">🎁 4大デイリー全制覇ボーナス受取！</span>
             <span class="bg-indigo-950 text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+150EXP/💎+50</span>
           </button>
         </div>
@@ -239,9 +241,9 @@
             <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
               ⚔️ 通常特訓サイクル
             </h3>
-            <p class="text-[9px] text-indigo-300">3分野クリアで「にがて討伐」解放！</p>
+            <p class="text-[9px] text-indigo-300">4分野クリアで「にがて討伐」解放！</p>
           </div>
-          <span id="rotationProgressBadge" class="text-[9.5px] bg-indigo-950 text-amber-400 font-bold px-2 py-0.5 rounded-full border border-indigo-800 flex-shrink-0">0/3完了</span>
+          <span id="rotationProgressBadge" class="text-[9.5px] bg-indigo-950 text-amber-400 font-bold px-2 py-0.5 rounded-full border border-indigo-800 flex-shrink-0">0/4完了</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
@@ -431,7 +433,7 @@
           </button>
         </div>
         
-<!-- 長文読解用スクロールエリア -->
+        <!-- 長文読解用スクロールエリア -->
         <div id="quizPassageBox" class="hidden max-h-48 overflow-y-auto bg-indigo-950/95 border border-amber-400/60 p-2.5 rounded-xl text-left text-[11px] text-slate-100 whitespace-pre-line mb-1.5 leading-relaxed shadow-inner"></div>
         <div class="text-center min-h-[44px] flex items-center justify-center px-1 mb-1">
           <p id="quizQuestion" class="text-sm font-black text-white leading-snug whitespace-pre-line break-words"></p>
