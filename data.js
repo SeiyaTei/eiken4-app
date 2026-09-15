@@ -2742,5 +2742,307 @@ const ACTUAL_PAST_EXAM_DATA = [
     ],
     ans: 2,
     explain: "【本文の該当箇所】\n...before, but now his favorite is history.（以前は英語と数学だったが、今一番好きな科目は歴史だ）とあるため、3「歴史」が正解です。\n\n【選択肢の訳】\n1. 数学。\n2. 英語。\n3. 歴史。\n4. 音楽。"
+  },
+  // ---------- 2025年度第3回 大問4 長文読解 (No.26 〜 No.35) ----------
+  {
+    id: "past_2025_3_26",
+    type: "reading",
+    passage: "【Today's Special at West Juice Shop】\nGrape juice is today's special!\nA glass of grape juice is only $2.\nA glass of melon, orange, or peach juice is $5.\nFresh fruits for juice come from the farm at 6:00 a.m. every day.\nWe are open in the morning from 7:00 a.m. to 11:00 a.m.",
+    q: "What is today's special juice?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "Melon juice.",
+      "Orange juice.",
+      "Grape juice.",
+      "Peach juice."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nGrape juice is today's special!（ぶどうジュースが本日のスペシャルです！）と冒頭に書かれているため、3「ぶどうジュース」が正解です。\n\n【選択肢の訳】\n1. メロンジュース。\n2. オレンジジュース。\n3. ぶどうジュース。\n4. 桃ジュース。"
+  },
+  {
+    id: "past_2025_3_27",
+    type: "reading",
+    passage: "【Today's Special at West Juice Shop】\nGrape juice is today's special!\nA glass of grape juice is only $2.\nA glass of melon, orange, or peach juice is $5.\nFresh fruits for juice come from the farm at 6:00 a.m. every day.\nWe are open in the morning from 7:00 a.m. to 11:00 a.m.",
+    q: "What time do the fresh fruits come from the farm every day?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "At 5:00 a.m.",
+      "At 6:00 a.m.",
+      "At 7:00 a.m.",
+      "At 11:00 a.m."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nFresh fruits for juice come from the farm at 6:00 a.m. every day.（毎朝6時に農場から新鮮な果物が届きます）とあるため、2「午前6時」が正解です。\n\n【選択肢の訳】\n1. 午前5時。\n2. 午前6時。\n3. 午前7時。\n4. 午前11時。"
+  },
+  {
+    id: "past_2025_3_28",
+    type: "reading",
+    passage: "From: Emily Hill\nTo: Tina Hill\nDate: December 12\nSubject: It's too cold!\nHi Mom,\nI just got to Grandma's house. I couldn't take a bus because there were too many people near the bank's bus stop, so I came here on foot. Will you come here later? It's cold and snowy outside. I wore my sweater and coat and brought an umbrella, but I left my gloves at home. Can you bring them?\nWrite back soon,\nEmily\n\nFrom: Tina Hill\nTo: Emily Hill\nDate: December 12\nSubject: Yes!\nHi Emily,\nOK, I'll take your gloves later. I just got home by train from my office, and yes, it's very cold outside! At five o'clock, I'll go to the supermarket to buy some chocolate for your grandma. After that, I'll go to her house by taxi!\nSee you later,\nMom",
+    q: "How did Emily get to her grandmother's house?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "On foot.",
+      "By train.",
+      "By bus.",
+      "By taxi."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nエミリーのメールに ...so I came here on foot.（だから歩いてここに来たの）とあるため、1「徒歩で」が正解です。\n\n【選択肢の訳】\n1. 徒歩で。\n2. 電車で。\n3. バスで。\n4. タクシーで。"
+  },
+  {
+    id: "past_2025_3_29",
+    type: "reading",
+    passage: "From: Emily Hill\nTo: Tina Hill\nDate: December 12\nSubject: It's too cold!\nHi Mom,\nI just got to Grandma's house. I couldn't take a bus because there were too many people near the bank's bus stop, so I came here on foot. Will you come here later? It's cold and snowy outside. I wore my sweater and coat and brought an umbrella, but I left my gloves at home. Can you bring them?\nWrite back soon,\nEmily\n\nFrom: Tina Hill\nTo: Emily Hill\nDate: December 12\nSubject: Yes!\nHi Emily,\nOK, I'll take your gloves later. I just got home by train from my office, and yes, it's very cold outside! At five o'clock, I'll go to the supermarket to buy some chocolate for your grandma. After that, I'll go to her house by taxi!\nSee you later,\nMom",
+    q: "What did Emily leave at home?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "Her sweater.",
+      "Her coat.",
+      "Her gloves.",
+      "Her umbrella."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nエミリーのメールに ...but I left my gloves at home.（でも家に手袋を置いてきちゃったの）と書かれているため、3「彼女の手袋」が正解です。\n\n【選択肢の訳】\n1. 彼女のセーター。\n2. 彼女のコート。\n3. 彼女の手袋。\n4. 彼女の傘。"
+  },
+  {
+    id: "past_2025_3_30",
+    type: "reading",
+    passage: "From: Emily Hill\nTo: Tina Hill\nDate: December 12\nSubject: It's too cold!\nHi Mom,\nI just got to Grandma's house. I couldn't take a bus because there were too many people near the bank's bus stop, so I came here on foot. Will you come here later? It's cold and snowy outside. I wore my sweater and coat and brought an umbrella, but I left my gloves at home. Can you bring them?\nWrite back soon,\nEmily\n\nFrom: Tina Hill\nTo: Emily Hill\nDate: December 12\nSubject: Yes!\nHi Emily,\nOK, I'll take your gloves later. I just got home by train from my office, and yes, it's very cold outside! At five o'clock, I'll go to the supermarket to buy some chocolate for your grandma. After that, I'll go to her house by taxi!\nSee you later,\nMom",
+    q: "Where will Emily's mother go at five o'clock?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "To the bank.",
+      "To the supermarket.",
+      "To her office.",
+      "To the train station."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\n母親の返信に At five o'clock, I'll go to the supermarket...（5時にスーパーへ行って…）とあるため、2「スーパーマーケットへ」が正解です。\n\n【選択肢の訳】\n1. 銀行へ。\n2. スーパーマーケットへ。\n3. 彼女の職場へ。\n4. 鉄道の駅へ。"
+  },
+  {
+    id: "past_2025_3_31",
+    type: "reading",
+    passage: "【A Friend in Canada】\nYuki is thirteen years old. She lives in Osaka. She has a friend in Canada. Her friend's name is Paul, and he is fourteen years old.\nLast winter, Yuki and her family visited Paul and his parents in Canada for twelve days. On the first day, Paul showed Yuki and her family around Vancouver. The next day, they all went to a mountain.\nOne day during lunch, Paul asked Yuki, \"Is summer the best season in Japan?\"\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\" Paul is interested in Japanese temples, so he wants to go to Kyoto someday.\nOn the last day of the trip, Paul and Yuki looked sad. When they said goodbye, Paul's mother said, \"See you in Osaka next spring.\"\nYuki's father said, \"Yes. Please stay with us for a few days.\" Yuki and Paul were very happy. Yuki is looking forward to seeing Paul again.",
+    q: "How old is Paul?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "Twelve years old.",
+      "Thirteen years old.",
+      "Fourteen years old.",
+      "Fifteen years old."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nHer friend's name is Paul, and he is fourteen years old.（彼女の友人の名前はポールで、14歳です）とあるため、3「14歳」が正解です。（※ユキは13歳です）\n\n【選択肢の訳】\n1. 12歳。\n2. 13歳。\n3. 14歳。\n4. 15歳。"
+  },
+  {
+    id: "past_2025_3_32",
+    type: "reading",
+    passage: "【A Friend in Canada】\nYuki is thirteen years old. She lives in Osaka. She has a friend in Canada. Her friend's name is Paul, and he is fourteen years old.\nLast winter, Yuki and her family visited Paul and his parents in Canada for twelve days. On the first day, Paul showed Yuki and her family around Vancouver. The next day, they all went to a mountain.\nOne day during lunch, Paul asked Yuki, \"Is summer the best season in Japan?\"\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\" Paul is interested in Japanese temples, so he wants to go to Kyoto someday.\nOn the last day of the trip, Paul and Yuki looked sad. When they said goodbye, Paul's mother said, \"See you in Osaka next spring.\"\nYuki's father said, \"Yes. Please stay with us for a few days.\" Yuki and Paul were very happy. Yuki is looking forward to seeing Paul again.",
+    q: "When did Yuki and her family visit Canada?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "In the spring.",
+      "In the summer.",
+      "In the fall.",
+      "In the winter."
+    ],
+    ans: 3,
+    explain: "【本文の該当箇所】\nLast winter, Yuki and her family visited Paul and his parents in Canada...（去年の冬、ユキと家族はカナダのポールたちを訪ねた）とあるため、4「冬に」が正解です。\n\n【選択肢の訳】\n1. 春に。\n2. 夏に。\n3. 秋に。\n4. 冬に。"
+  },
+  {
+    id: "past_2025_3_33",
+    type: "reading",
+    passage: "【A Friend in Canada】\nYuki is thirteen years old. She lives in Osaka. She has a friend in Canada. Her friend's name is Paul, and he is fourteen years old.\nLast winter, Yuki and her family visited Paul and his parents in Canada for twelve days. On the first day, Paul showed Yuki and her family around Vancouver. The next day, they all went to a mountain.\nOne day during lunch, Paul asked Yuki, \"Is summer the best season in Japan?\"\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\" Paul is interested in Japanese temples, so he wants to go to Kyoto someday.\nOn the last day of the trip, Paul and Yuki looked sad. When they said goodbye, Paul's mother said, \"See you in Osaka next spring.\"\nYuki's father said, \"Yes. Please stay with us for a few days.\" Yuki and Paul were very happy. Yuki is looking forward to seeing Paul again.",
+    q: "What did Yuki say to Paul about spring in Japan?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "The food is not good.",
+      "The temples are crowded.",
+      "The cherry blossoms are beautiful.",
+      "The mountains are dangerous."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\"（「いいえ、桜が綺麗だから春が好きよ」と答えた）とあるため、3「桜が美しい」が正解です。\n\n【選択肢の訳】\n1. 食べ物がおいしくない。\n2. 寺が混雑している。\n3. 桜が美しい。\n4. 山が危険である。"
+  },
+  {
+    id: "past_2025_3_34",
+    type: "reading",
+    passage: "【A Friend in Canada】\nYuki is thirteen years old. She lives in Osaka. She has a friend in Canada. Her friend's name is Paul, and he is fourteen years old.\nLast winter, Yuki and her family visited Paul and his parents in Canada for twelve days. On the first day, Paul showed Yuki and her family around Vancouver. The next day, they all went to a mountain.\nOne day during lunch, Paul asked Yuki, \"Is summer the best season in Japan?\"\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\" Paul is interested in Japanese temples, so he wants to go to Kyoto someday.\nOn the last day of the trip, Paul and Yuki looked sad. When they said goodbye, Paul's mother said, \"See you in Osaka next spring.\"\nYuki's father said, \"Yes. Please stay with us for a few days.\" Yuki and Paul were very happy. Yuki is looking forward to seeing Paul again.",
+    q: "Paul wants to go to Kyoto because ( ).",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "he is interested in Japanese temples.",
+      "he loves Japanese food.",
+      "his grandparents live there.",
+      "his Japanese teacher is from there."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nPaul is interested in Japanese temples, so he wants to go to Kyoto someday.（ポールは日本のお寺に興味があるので、いつか京都に行きたいと思っている）とあるため、1「日本のお寺に興味があるから」が正解です。\n\n【選択肢の訳】\n1. 日本のお寺に興味があるから。\n2. 日本食が大好きだから。\n3. 祖父母がそこに住んでいるから。\n4. 彼の日本語の先生がそこの出身だから。"
+  },
+  {
+    id: "past_2025_3_35",
+    type: "reading",
+    passage: "【A Friend in Canada】\nYuki is thirteen years old. She lives in Osaka. She has a friend in Canada. Her friend's name is Paul, and he is fourteen years old.\nLast winter, Yuki and her family visited Paul and his parents in Canada for twelve days. On the first day, Paul showed Yuki and her family around Vancouver. The next day, they all went to a mountain.\nOne day during lunch, Paul asked Yuki, \"Is summer the best season in Japan?\"\nYuki answered, \"No, I like spring because the cherry blossoms are beautiful.\" Paul is interested in Japanese temples, so he wants to go to Kyoto someday.\nOn the last day of the trip, Paul and Yuki looked sad. When they said goodbye, Paul's mother said, \"See you in Osaka next spring.\"\nYuki's father said, \"Yes. Please stay with us for a few days.\" Yuki and Paul were very happy. Yuki is looking forward to seeing Paul again.",
+    q: "What is Yuki looking forward to?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "Visiting a different country.",
+      "Seeing Paul again.",
+      "Making dinner with Paul's mother.",
+      "Studying English in Canada."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\n最後の文 Yuki is looking forward to seeing Paul again.（ユキはポールに再会することを楽しみに待っている）とあるため、2「ポールに再会すること」が正解です。\n\n【選択肢の訳】\n1. 別の国を訪れること。\n2. ポールに再会すること。\n3. ポールの母と夕食を作ること。\n4. カナダで英語を勉強すること。"
+  },
+  // ---------- 2025年度第2回 大問4 長文読解 (No.26 〜 No.35) ----------
+  {
+    id: "past_2025_2_26",
+    type: "reading",
+    passage: "【Volunteer at the Beach】\nStudents can volunteer to clean the beach this weekend.\nDates: July 17 and July 18\nTime: 9:00 a.m. to 11:00 a.m.\nPlace: Lagoon Beach\nThe beach will be hot, so please wear a hat and bring a water bottle. Please send an e-mail to Mr. Kelsey before July 15 if you want to join.",
+    q: "What should students bring to the beach?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "A water bottle.",
+      "A bat.",
+      "A beach towel.",
+      "Money for lunch."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\n...please wear a hat and bring a water bottle.（帽子をかぶり、水筒を持ってきてください）とあるため、1「水筒」が正解です。\n\n【選択肢の訳】\n1. 水筒。\n2. バット。\n3. ビーチタオル。\n4. 昼食代のお金。"
+  },
+  {
+    id: "past_2025_2_27",
+    type: "reading",
+    passage: "【Volunteer at the Beach】\nStudents can volunteer to clean the beach this weekend.\nDates: July 17 and July 18\nTime: 9:00 a.m. to 11:00 a.m.\nPlace: Lagoon Beach\nThe beach will be hot, so please wear a hat and bring a water bottle. Please send an e-mail to Mr. Kelsey before July 15 if you want to join.",
+    q: "When should students send an e-mail to Mr. Kelsey?",
+    sub: "📜 本番過去問 大問4A (掲示・お知らせ)",
+    options: [
+      "Before July 7.",
+      "Before July 15.",
+      "On July 17.",
+      "On July 18."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nPlease send an e-mail to Mr. Kelsey before July 15 if you want to join.（参加したい場合は7月15日より前にケルシー先生にメールを送ってください）とあるため、2「7月15日より前」が正解です。\n\n【選択肢の訳】\n1. 7月7日より前。\n2. 7月15日より前。\n3. 7月17日当日。\n4. 7月18日当日。"
+  },
+  {
+    id: "past_2025_2_28",
+    type: "reading",
+    passage: "From: Kate Osmond\nTo: Lily Billings\nDate: November 29\nSubject: This weekend\nHi Lily,\nChristmas is next month! I can't wait for our Christmas party. It'll start at 9:00 a.m. on Thursday. What will you bring to the party?\nI want to give Christmas cards to our classmates. Are you free this Saturday, around 12:30 p.m.? Do you want to come to my house and make cards together?\nYour friend,\nKate\n\nFrom: Lily Billings\nTo: Kate Osmond\nDate: November 30\nSubject: Sounds good\nHi Kate,\nI'll bring some cakes to the party. My grandmother will make them. She makes Christmas cakes every year. On Saturday, I'll go to the beach with my parents. How about Sunday? I have a piano lesson until 10:30 a.m., but I can come to your house around 1:30 p.m. We can make cards then.\nBye,\nLily",
+    q: "Who does Kate want to give cards to?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "Her classmates.",
+      "Her parents.",
+      "Her grandmother.",
+      "Lily's family."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nケイトのメールに I want to give Christmas cards to our classmates.（クラスメイトにクリスマスカードを渡したいの）と書かれているため、1「彼女のクラスメイト」が正解です。\n\n【選択肢の訳】\n1. 彼女のクラスメイト。\n2. 彼女の両親。\n3. 彼女の祖母。\n4. リリーの家族。"
+  },
+  {
+    id: "past_2025_2_29",
+    type: "reading",
+    passage: "From: Kate Osmond\nTo: Lily Billings\nDate: November 29\nSubject: This weekend\nHi Lily,\nChristmas is next month! I can't wait for our Christmas party. It'll start at 9:00 a.m. on Thursday. What will you bring to the party?\nI want to give Christmas cards to our classmates. Are you free this Saturday, around 12:30 p.m.? Do you want to come to my house and make cards together?\nYour friend,\nKate\n\nFrom: Lily Billings\nTo: Kate Osmond\nDate: November 30\nSubject: Sounds good\nHi Kate,\nI'll bring some cakes to the party. My grandmother will make them. She makes Christmas cakes every year. On Saturday, I'll go to the beach with my parents. How about Sunday? I have a piano lesson until 10:30 a.m., but I can come to your house around 1:30 p.m. We can make cards then.\nBye,\nLily",
+    q: "What will Lily do on Sunday?",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "Go to a piano lesson.",
+      "Make a cake.",
+      "Go to the beach.",
+      "Visit her grandparents."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nリリーのメールに How about Sunday? I have a piano lesson until 10:30 a.m....（日曜日はどう？午前10時30分までピアノのレッスンがあるの）とあるため、1「ピアノのレッスンに行く」が正解です。\n\n【選択肢の訳】\n1. ピアノのレッスンに行く。\n2. ケーキを作る。\n3. ビーチに行く。\n4. 祖父母を訪ねる。"
+  },
+  {
+    id: "past_2025_2_30",
+    type: "reading",
+    passage: "From: Kate Osmond\nTo: Lily Billings\nDate: November 29\nSubject: This weekend\nHi Lily,\nChristmas is next month! I can't wait for our Christmas party. It'll start at 9:00 a.m. on Thursday. What will you bring to the party?\nI want to give Christmas cards to our classmates. Are you free this Saturday, around 12:30 p.m.? Do you want to come to my house and make cards together?\nYour friend,\nKate\n\nFrom: Lily Billings\nTo: Kate Osmond\nDate: November 30\nSubject: Sounds good\nHi Kate,\nI'll bring some cakes to the party. My grandmother will make them. She makes Christmas cakes every year. On Saturday, I'll go to the beach with my parents. How about Sunday? I have a piano lesson until 10:30 a.m., but I can come to your house around 1:30 p.m. We can make cards then.\nBye,\nLily",
+    q: "On Sunday, Lily can go to Kate's house around ( ).",
+    sub: "📜 本番過去問 大問4B (Eメール)",
+    options: [
+      "9:00 a.m.",
+      "10:30 a.m.",
+      "12:30 p.m.",
+      "1:30 p.m."
+    ],
+    ans: 3,
+    explain: "【本文の該当箇所】\nリリーのメールに ...but I can come to your house around 1:30 p.m.（でも午後1時30分頃ならあなたの家に行けるわ）と書かれているため、4「午後1時30分」が正解です。\n\n【選択肢の訳】\n1. 午前9時。\n2. 午前10時30分。\n3. 午後12時30分。\n4. 午後1時30分。"
+  },
+  {
+    id: "past_2025_2_31",
+    type: "reading",
+    passage: "【Studying Abroad】\nKen is a junior high school student in Kanagawa. He loves soccer. He also likes meeting people, so he enjoys traveling abroad. Last summer, he did a homestay in Australia.\nKen's host family lived in a big city with many shops and restaurants. On weekends, they sometimes drove to the beach or the mountains.\nKen went to a school in Australia, and he joined the school's soccer team. At first, he couldn't speak to his teammates in English. But he met a kind teammate. His name was John. They practiced soccer together every day, and John helped Ken with his English, too. Ken studied English and practiced soccer harder than before.\nKen played well in his last game in Australia, and his team won the game. Ken said, \"I learned a lot from you, John. Thank you.\" Now, Ken is back in Japan. Every weekend, he calls John to practice his English.",
+    q: "Why does Ken enjoy traveling abroad?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "He likes teaching people Japanese.",
+      "He likes meeting people.",
+      "He likes visiting his cousins.",
+      "He likes learning about foreign food."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\n第1段落に He also likes meeting people, so he enjoys traveling abroad.（人と出会うことも好きなので、海外旅行を楽しんでいる）とあるため、2「人と会うのが好きだから」が正解です。\n\n【選択肢の訳】\n1. 人に日本語を教えるのが好きだから。\n2. 人と会うのが好きだから。\n3. いとこを訪ねるのが好きだから。\n4. 外国の食べ物について学ぶのが好きだから。"
+  },
+  {
+    id: "past_2025_2_32",
+    type: "reading",
+    passage: "【Studying Abroad】\nKen is a junior high school student in Kanagawa. He loves soccer. He also likes meeting people, so he enjoys traveling abroad. Last summer, he did a homestay in Australia.\nKen's host family lived in a big city with many shops and restaurants. On weekends, they sometimes drove to the beach or the mountains.\nKen went to a school in Australia, and he joined the school's soccer team. At first, he couldn't speak to his teammates in English. But he met a kind teammate. His name was John. They practiced soccer together every day, and John helped Ken with his English, too. Ken studied English and practiced soccer harder than before.\nKen played well in his last game in Australia, and his team won the game. Ken said, \"I learned a lot from you, John. Thank you.\" Now, Ken is back in Japan. Every weekend, he calls John to practice his English.",
+    q: "Where did Ken's host family live?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "In a big city.",
+      "Next to the beach.",
+      "By a mountain.",
+      "Near a stadium."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\n第2段落に Ken's host family lived in a big city with many shops and restaurants.（ケンのホストファミリーは店やレストランがたくさんある大都市に住んでいた）とあるため、1「大都市に」が正解です。\n\n【選択肢の訳】\n1. 大都市に。\n2. ビーチの隣に。\n3. 山のそばに。\n4. スタジアムの近くに。"
+  },
+  {
+    id: "past_2025_2_33",
+    type: "reading",
+    passage: "【Studying Abroad】\nKen is a junior high school student in Kanagawa. He loves soccer. He also likes meeting people, so he enjoys traveling abroad. Last summer, he did a homestay in Australia.\nKen's host family lived in a big city with many shops and restaurants. On weekends, they sometimes drove to the beach or the mountains.\nKen went to a school in Australia, and he joined the school's soccer team. At first, he couldn't speak to his teammates in English. But he met a kind teammate. His name was John. They practiced soccer together every day, and John helped Ken with his English, too. Ken studied English and practiced soccer harder than before.\nKen played well in his last game in Australia, and his team won the game. Ken said, \"I learned a lot from you, John. Thank you.\" Now, Ken is back in Japan. Every weekend, he calls John to practice his English.",
+    q: "John was Ken's ( ).",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "P.E. teacher.",
+      "soccer coach in Japan.",
+      "host father.",
+      "teammate in Australia."
+    ],
+    ans: 3,
+    explain: "【本文の該当箇所】\n第3段落に But he met a kind teammate. His name was John.（しかし優しいチームメイトに出会った。彼の名前はジョンだった）とあるため、4「オーストラリアでのチームメイト」が正解です。\n\n【選択肢の訳】\n1. 体育の先生。\n2. 日本でのサッカーコーチ。\n3. ホストファーザー。\n4. オーストラリアでのチームメイト。"
+  },
+  {
+    id: "past_2025_2_34",
+    type: "reading",
+    passage: "【Studying Abroad】\nKen is a junior high school student in Kanagawa. He loves soccer. He also likes meeting people, so he enjoys traveling abroad. Last summer, he did a homestay in Australia.\nKen's host family lived in a big city with many shops and restaurants. On weekends, they sometimes drove to the beach or the mountains.\nKen went to a school in Australia, and he joined the school's soccer team. At first, he couldn't speak to his teammates in English. But he met a kind teammate. His name was John. They practiced soccer together every day, and John helped Ken with his English, too. Ken studied English and practiced soccer harder than before.\nKen played well in his last game in Australia, and his team won the game. Ken said, \"I learned a lot from you, John. Thank you.\" Now, Ken is back in Japan. Every weekend, he calls John to practice his English.",
+    q: "What did John and Ken do every day?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "They practiced soccer.",
+      "They read Japanese books.",
+      "They went to the beach.",
+      "They watched Japanese soccer games."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\n第3段落に They practiced soccer together every day...（彼らは毎日一緒にサッカーを練習した）と書かれているため、1「彼らはサッカーを練習した」が正解です。\n\n【選択肢の訳】\n1. 彼らはサッカーを練習した。\n2. 彼らは日本の本を読んだ。\n3. 彼らはビーチに行った。\n4. 彼らは日本のサッカーの試合を見た。"
+  },
+  {
+    id: "past_2025_2_35",
+    type: "reading",
+    passage: "【Studying Abroad】\nKen is a junior high school student in Kanagawa. He loves soccer. He also likes meeting people, so he enjoys traveling abroad. Last summer, he did a homestay in Australia.\nKen's host family lived in a big city with many shops and restaurants. On weekends, they sometimes drove to the beach or the mountains.\nKen went to a school in Australia, and he joined the school's soccer team. At first, he couldn't speak to his teammates in English. But he met a kind teammate. His name was John. They practiced soccer together every day, and John helped Ken with his English, too. Ken studied English and practiced soccer harder than before.\nKen played well in his last game in Australia, and his team won the game. Ken said, \"I learned a lot from you, John. Thank you.\" Now, Ken is back in Japan. Every weekend, he calls John to practice his English.",
+    q: "What does Ken do every weekend now?",
+    sub: "📜 本番過去問 大問4C (物語文)",
+    options: [
+      "He calls John.",
+      "He cooks Australian food.",
+      "He plays soccer with his parents.",
+      "He teaches Japanese."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\n最終文に Every weekend, he calls John to practice his English.（毎週末、英語を練習するためにジョンに電話をかけている）とあるため、1「彼はジョンに電話をかける」が正解です。\n\n【選択肢の訳】\n1. 彼はジョンに電話をかける。\n2. 彼はオーストラリア料理を作る。\n3. 彼は両親とサッカーをする。\n4. 彼は日本語を教える。"
   }
 ];
