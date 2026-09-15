@@ -3046,3 +3046,236 @@ const ACTUAL_PAST_EXAM_DATA = [
     explain: "【本文の該当箇所】\n最終文に Every weekend, he calls John to practice his English.（毎週末、英語を練習するためにジョンに電話をかけている）とあるため、1「彼はジョンに電話をかける」が正解です。\n\n【選択肢の訳】\n1. 彼はジョンに電話をかける。\n2. 彼はオーストラリア料理を作る。\n3. 彼は両親とサッカーをする。\n4. 彼は日本語を教える。"
   }
 ];
+// ==================== 8. 通常・デイリー用 長文読解データベース (RAW_READING_DATA) ====================
+const RAW_READING_DATA = [
+  // --- 掲示・お知らせ A (No.1 〜 No.4) ---
+  {
+    id: "read_1",
+    type: "reading",
+    passage: "【Green Park Clean-up Day】\nJoin us to make our city park clean and beautiful!\n\nDate: October 18 (Sunday)\nTime: 9:30 a.m. to 11:30 a.m.\nMeeting Place: In front of the clock tower in Green Park\n\nPlease bring your work gloves. We will give trash bags to everyone.\nIf it rains on Sunday, the event will be held on October 25.\nIf you want to join, please call Mr. Sato by October 15.",
+    q: "What should people bring to the park?",
+    sub: "📜 長文読解 (掲示・お知らせ)",
+    options: [
+      "Work gloves.",
+      "Trash bags.",
+      "Clocks.",
+      "Umbrellas."
+    ],
+    ans: 0,
+    explain: "【本文の該当箇所】\nPlease bring your work gloves.（軍手・作業用手袋を持ってきてください）と書かれているため、1「軍手（作業用手袋）」が正解です。\n\n【選択肢の訳】\n1. 軍手。\n2. ごみ袋。\n3. 時計。\n4. 傘。"
+  },
+  {
+    id: "read_2",
+    type: "reading",
+    passage: "【Green Park Clean-up Day】\nJoin us to make our city park clean and beautiful!\n\nDate: October 18 (Sunday)\nTime: 9:30 a.m. to 11:30 a.m.\nMeeting Place: In front of the clock tower in Green Park\n\nPlease bring your work gloves. We will give trash bags to everyone.\nIf it rains on Sunday, the event will be held on October 25.\nIf you want to join, please call Mr. Sato by October 15.",
+    q: "What will happen if it rains on October 18?",
+    sub: "📜 長文読解 (掲示・お知らせ)",
+    options: [
+      "The event will finish early.",
+      "The event will be held on October 25.",
+      "People will meet in the gym.",
+      "People will get free gifts."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nIf it rains on Sunday, the event will be held on October 25.（日曜日が雨の場合、イベントは10月25日に行われます）とあるため、2が正解です。\n\n【選択肢の訳】\n1. イベントが早く終わる。\n2. イベントは10月25日に開催される。\n3. 人々は体育館で集まる。\n4. 人々は無料のプレゼントをもらう。"
+  },
+  {
+    id: "read_3",
+    type: "reading",
+    passage: "【Special Cooking Class for Beginners】\nLearn how to make delicious Italian pasta and tomato soup with a professional chef!\n\nDate: Saturday, November 14\nTime: 1:30 p.m. to 3:30 p.m.\nPlace: City Community Center (Cooking Room)\nFee: 1,000 yen for adults, 500 yen for students\n\nPlease wear an apron. We will eat the pasta together after cooking!",
+    q: "How much is the cooking class for students?",
+    sub: "📜 長文読解 (掲示・お知らせ)",
+    options: [
+      "Free.",
+      "500 yen.",
+      "1,000 yen.",
+      "1,500 yen."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nFee: 1,000 yen for adults, 500 yen for students（料金：大人1,000円、生徒500円）とあるため、2「500円」が正解です。\n\n【選択肢の訳】\n1. 無料。\n2. 500円。\n3. 1,000円。\n4. 1,500円。"
+  },
+  {
+    id: "read_4",
+    type: "reading",
+    passage: "【Special Cooking Class for Beginners】\nLearn how to make delicious Italian pasta and tomato soup with a professional chef!\n\nDate: Saturday, November 14\nTime: 1:30 p.m. to 3:30 p.m.\nPlace: City Community Center (Cooking Room)\nFee: 1,000 yen for adults, 500 yen for students\n\nPlease wear an apron. We will eat the pasta together after cooking!",
+    q: "What should people wear for the class?",
+    sub: "📜 長文読解 (掲示・お知らせ)",
+    options: [
+      "A hat.",
+      "A uniform.",
+      "An apron.",
+      "A jacket."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nPlease wear an apron.（エプロンを身につけてください）と書かれているため、3「エプロン」が正解です。\n\n【選択肢の訳】\n1. 帽子。\n2. 制服。\n3. エプロン。\n4. ジャケット。"
+  },
+
+  // --- Eメール B (No.5 〜 No.10) ---
+  {
+    id: "read_5",
+    type: "reading",
+    passage: "From: Kenji Mori\nTo: Alex Smith\nDate: May 20\nSubject: Soccer game this Saturday\n\nHi Alex,\nAre you free this Saturday? Our school soccer team will have a big game against West Junior High School. The game will start at 10:00 a.m. at Central Stadium. Do you want to come and watch it with me? My father will drive us there in his car. Please let me know by Friday evening.\nYour friend,\nKenji\n\nFrom: Alex Smith\nTo: Kenji Mori\nDate: May 21\nSubject: Re: Soccer game this Saturday\n\nHi Kenji,\nThank you for inviting me! I would love to go. I have a piano lesson on Saturday morning until 9:00 a.m., but I can be ready at 9:20 a.m. Can you pick me up at my house then? I will bring some orange juice and sandwiches for us!\nSee you Saturday,\nAlex",
+    q: "What time will the soccer game start?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "At 9:00 a.m.",
+      "At 9:20 a.m.",
+      "At 10:00 a.m.",
+      "At 10:30 a.m."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nケンジのメールに The game will start at 10:00 a.m. at Central Stadium.（試合は中央競技場で午前10時に始まります）とあるため、3「午前10時」が正解です。\n\n【選択肢の訳】\n1. 午前9時。\n2. 午前9時20分。\n3. 午前10時。\n4. 午前10時30分。"
+  },
+  {
+    id: "read_6",
+    type: "reading",
+    passage: "From: Kenji Mori\nTo: Alex Smith\nDate: May 20\nSubject: Soccer game this Saturday\n\nHi Alex,\nAre you free this Saturday? Our school soccer team will have a big game against West Junior High School. The game will start at 10:00 a.m. at Central Stadium. Do you want to come and watch it with me? My father will drive us there in his car. Please let me know by Friday evening.\nYour friend,\nKenji\n\nFrom: Alex Smith\nTo: Kenji Mori\nDate: May 21\nSubject: Re: Soccer game this Saturday\n\nHi Kenji,\nThank you for inviting me! I would love to go. I have a piano lesson on Saturday morning until 9:00 a.m., but I can be ready at 9:20 a.m. Can you pick me up at my house then? I will bring some orange juice and sandwiches for us!\nSee you Saturday,\nAlex",
+    q: "How will Kenji and Alex go to Central Stadium?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "By train.",
+      "By bus.",
+      "In Kenji's father's car.",
+      "On foot."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nケンジのメールに My father will drive us there in his car.（父が車でそこへ連れて行ってくれます）とあるため、3「ケンジの父親の車で」が正解です。\n\n【選択肢の訳】\n1. 電車で。\n2. バスで。\n3. ケンジの父親の車で。\n4. 徒歩で。"
+  },
+  {
+    id: "read_7",
+    type: "reading",
+    passage: "From: Kenji Mori\nTo: Alex Smith\nDate: May 20\nSubject: Soccer game this Saturday\n\nHi Alex,\nAre you free this Saturday? Our school soccer team will have a big game against West Junior High School. The game will start at 10:00 a.m. at Central Stadium. Do you want to come and watch it with me? My father will drive us there in his car. Please let me know by Friday evening.\nYour friend,\nKenji\n\nFrom: Alex Smith\nTo: Kenji Mori\nDate: May 21\nSubject: Re: Soccer game this Saturday\n\nHi Kenji,\nThank you for inviting me! I would love to go. I have a piano lesson on Saturday morning until 9:00 a.m., but I can be ready at 9:20 a.m. Can you pick me up at my house then? I will bring some orange juice and sandwiches for us!\nSee you Saturday,\nAlex",
+    q: "What will Alex bring to the game?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "Tickets and a camera.",
+      "Sandwiches and juice.",
+      "A new soccer ball.",
+      "A piano book."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nアレックスの返信に I will bring some orange juice and sandwiches for us!（私たちのためにオレンジジュースとサンドイッチを持っていくよ！）とあるため、2が正解です。\n\n【選択肢の訳】\n1. チケットとカメラ。\n2. サンドイッチとジュース。\n3. 新しいサッカーボール。\n4. ピアノの本。"
+  },
+  {
+    id: "read_8",
+    type: "reading",
+    passage: "From: Hana Tanaka\nTo: Lisa White\nDate: August 5\nSubject: Summer holiday in Hokkaido\n\nDear Lisa,\nHow are you? I am visiting my grandparents in Hokkaido with my brother. It is much cooler here than in Tokyo! Yesterday, we went to a large flower garden and saw thousands of beautiful purple flowers. Tomorrow, my grandfather will take us fishing at a lake near his house. I want to catch a big fish!\nI bought a cute bear key chain for you at the airport gift shop. I will give it to you when school starts next month.\nWith love,\nHana",
+    q: "Where is Hana staying now?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "In Tokyo.",
+      "In Hokkaido.",
+      "In Kyoto.",
+      "In Canada."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nI am visiting my grandparents in Hokkaido...（北海道の祖父母を訪ねています）とあるため、2「北海道」が正解です。\n\n【選択肢の訳】\n1. 東京。\n2. 北海道。\n3. 京都。\n4. カナダ。"
+  },
+  {
+    id: "read_9",
+    type: "reading",
+    passage: "From: Hana Tanaka\nTo: Lisa White\nDate: August 5\nSubject: Summer holiday in Hokkaido\n\nDear Lisa,\nHow are you? I am visiting my grandparents in Hokkaido with my brother. It is much cooler here than in Tokyo! Yesterday, we went to a large flower garden and saw thousands of beautiful purple flowers. Tomorrow, my grandfather will take us fishing at a lake near his house. I want to catch a big fish!\nI bought a cute bear key chain for you at the airport gift shop. I will give it to you when school starts next month.\nWith love,\nHana",
+    q: "What will Hana do tomorrow?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "Go shopping in Tokyo.",
+      "Go to a flower garden.",
+      "Go fishing at a lake.",
+      "Buy souvenirs at the airport."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nTomorrow, my grandfather will take us fishing at a lake near his house.（明日、祖父が近くの湖へ釣りに連れて行ってくれます）とあるため、3「湖へ釣りに行く」が正解です。\n\n【選択肢の訳】\n1. 東京で買い物をする。\n2. 花畑に行く。\n3. 湖へ釣りに行く。\n4. 空港でお土産を買う。"
+  },
+  {
+    id: "read_10",
+    type: "reading",
+    passage: "From: Hana Tanaka\nTo: Lisa White\nDate: August 5\nSubject: Summer holiday in Hokkaido\n\nDear Lisa,\nHow are you? I am visiting my grandparents in Hokkaido with my brother. It is much cooler here than in Tokyo! Yesterday, we went to a large flower garden and saw thousands of beautiful purple flowers. Tomorrow, my grandfather will take us fishing at a lake near his house. I want to catch a big fish!\nI bought a cute bear key chain for you at the airport gift shop. I will give it to you when school starts next month.\nWith love,\nHana",
+    q: "What souvenir did Hana buy for Lisa?",
+    sub: "📜 長文読解 (Eメール)",
+    options: [
+      "Some purple flowers.",
+      "A box of chocolates.",
+      "A bear key chain.",
+      "A picture book."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nI bought a cute bear key chain for you...（あなたのために可愛いクマのキーホルダーを買ったの）と書かれているため、3「クマのキーホルダー」が正解です。\n\n【選択肢の訳】\n1. 紫色の花。\n2. チョコレートの箱。\n3. クマのキーホルダー。\n4. 絵本。"
+  },
+
+  // --- 物語文・説明文 C (No.11 〜 No.15) ---
+  {
+    id: "read_11",
+    type: "reading",
+    passage: "【A New Friend from New Zealand】\nDaiki is a fourteen-year-old student living in Fukuoka. Last month, a new student named Oliver came to his school from New Zealand. Oliver speaks English well, but he was very shy because he could not speak Japanese.\nDuring lunch break on his first day, Daiki saw Oliver sitting alone in the classroom. Daiki walked up to him and said in English, \"Hello! I'm Daiki. Do you like sports?\" Oliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"\nAfter school, they played soccer together in the park. Daiki taught Oliver simple Japanese words, and Oliver helped Daiki practice speaking English. Now, they are the best of friends and eat lunch together every day.",
+    q: "Where is Oliver from?",
+    sub: "📜 長文読解 (物語文)",
+    options: [
+      "Australia.",
+      "Canada.",
+      "New Zealand.",
+      "The United Kingdom."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\n...a new student named Oliver came to his school from New Zealand.（ニュージーランドからオリバーという新しい生徒がやってきた）とあるため、3「ニュージーランド」が正解です。\n\n【選択肢の訳】\n1. オーストラリア。\n2. カナダ。\n3. ニュージーランド。\n4. イギリス。"
+  },
+  {
+    id: "read_12",
+    type: "reading",
+    passage: "【A New Friend from New Zealand】\nDaiki is a fourteen-year-old student living in Fukuoka. Last month, a new student named Oliver came to his school from New Zealand. Oliver speaks English well, but he was very shy because he could not speak Japanese.\nDuring lunch break on his first day, Daiki saw Oliver sitting alone in the classroom. Daiki walked up to him and said in English, \"Hello! I'm Daiki. Do you like sports?\" Oliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"\nAfter school, they played soccer together in the park. Daiki taught Oliver simple Japanese words, and Oliver helped Daiki practice speaking English. Now, they are the best of friends and eat lunch together every day.",
+    q: "Why was Oliver shy at first?",
+    sub: "📜 長文読解 (物語文)",
+    options: [
+      "He did not like junior high school.",
+      "He could not speak Japanese.",
+      "He lost his soccer ball.",
+      "He was very hungry."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\n...he was very shy because he could not speak Japanese.（日本語を話せなかったので、彼はとても内気になっていた）とあるため、2が正解です。\n\n【選択肢の訳】\n1. 中学校が好きではなかったから。\n2. 日本語を話せなかったから。\n3. サッカーボールをなくしたから。\n4. とてもお腹が空いていたから。"
+  },
+  {
+    id: "read_13",
+    type: "reading",
+    passage: "【A New Friend from New Zealand】\nDaiki is a fourteen-year-old student living in Fukuoka. Last month, a new student named Oliver came to his school from New Zealand. Oliver speaks English well, but he was very shy because he could not speak Japanese.\nDuring lunch break on his first day, Daiki saw Oliver sitting alone in the classroom. Daiki walked up to him and said in English, \"Hello! I'm Daiki. Do you like sports?\" Oliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"\nAfter school, they played soccer together in the park. Daiki taught Oliver simple Japanese words, and Oliver helped Daiki practice speaking English. Now, they are the best of friends and eat lunch together every day.",
+    q: "What sports does Oliver love playing?",
+    sub: "📜 長文読解 (物語文)",
+    options: [
+      "Baseball and tennis.",
+      "Rugby and soccer.",
+      "Basketball and swimming.",
+      "Skiing and skating."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nOliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"（オリバーは「ラグビーとサッカーをするのが大好きだよ！」と答えた）とあるため、2が正解です。\n\n【選択肢の訳】\n1. 野球とテニス。\n2. ラグビーとサッカー。\n3. バスケットボールと水泳。\n4. スキーとスケート。"
+  },
+  {
+    id: "read_14",
+    type: "reading",
+    passage: "【A New Friend from New Zealand】\nDaiki is a fourteen-year-old student living in Fukuoka. Last month, a new student named Oliver came to his school from New Zealand. Oliver speaks English well, but he was very shy because he could not speak Japanese.\nDuring lunch break on his first day, Daiki saw Oliver sitting alone in the classroom. Daiki walked up to him and said in English, \"Hello! I'm Daiki. Do you like sports?\" Oliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"\nAfter school, they played soccer together in the park. Daiki taught Oliver simple Japanese words, and Oliver helped Daiki practice speaking English. Now, they are the best of friends and eat lunch together every day.",
+    q: "What did Daiki teach Oliver after school?",
+    sub: "📜 長文読解 (物語文)",
+    options: [
+      "How to play rugby.",
+      "Simple Japanese words.",
+      "How to cook noodles.",
+      "Math formulas."
+    ],
+    ans: 1,
+    explain: "【本文の該当箇所】\nDaiki taught Oliver simple Japanese words...（ダイキは簡単な日本語をオリバーに教えた）と書かれているため、2が正解です。\n\n【選択肢の訳】\n1. ラグビーのやり方。\n2. 簡単な日本語の言葉。\n3. 麺類の作り方。\n4. 数学の公式。"
+  },
+  {
+    id: "read_15",
+    type: "reading",
+    passage: "【A New Friend from New Zealand】\nDaiki is a fourteen-year-old student living in Fukuoka. Last month, a new student named Oliver came to his school from New Zealand. Oliver speaks English well, but he was very shy because he could not speak Japanese.\nDuring lunch break on his first day, Daiki saw Oliver sitting alone in the classroom. Daiki walked up to him and said in English, \"Hello! I'm Daiki. Do you like sports?\" Oliver smiled happily and answered, \"Yes! I love playing rugby and soccer!\"\nAfter school, they played soccer together in the park. Daiki taught Oliver simple Japanese words, and Oliver helped Daiki practice speaking English. Now, they are the best of friends and eat lunch together every day.",
+    q: "What do Daiki and Oliver do every day now?",
+    sub: "📜 長文読解 (物語文)",
+    options: [
+      "They study math in the library.",
+      "They visit New Zealand.",
+      "They eat lunch together.",
+      "They clean the classroom."
+    ],
+    ans: 2,
+    explain: "【本文の該当箇所】\nNow, they are the best of friends and eat lunch together every day.（今では大親友になり、毎日一緒に昼食を食べている）とあるため、3「一緒に昼食を食べる」が正解です。\n\n【選択肢の訳】\n1. 図書館で数学を勉強する。\n2. ニュージーランドを訪れる。\n3. 一緒に昼食を食べる。\n4. 教室を掃除する。"
+  }
+];
