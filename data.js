@@ -2590,7 +2590,6 @@ const ACTUAL_PAST_EXAM_DATA = [
       { speaker: 'narrator', text: "Question. What time will the museum close today?" }
     ],
     aud_complete: "What time will the museum close today? At 5:00 p.m."
-    }
   },
 // ---------- 2026年度第1回 大問4 長文読解 (No.26 〜 No.35) ----------
   {
