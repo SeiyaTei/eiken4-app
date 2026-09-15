@@ -1200,6 +1200,16 @@ function renderQuestion() {
     document.getElementById('enemyAvatar').innerText = MONSTERS[currentIndex % MONSTERS.length];
   }
 
+  const passageBox = document.getElementById('quizPassageBox');
+  if (passageBox) {
+    if (q.passage) {
+      passageBox.innerText = q.passage;
+      passageBox.classList.remove('hidden');
+    } else {
+      passageBox.classList.add('hidden');
+    }
+  }
+  
   document.getElementById('quizQuestion').innerText = q.q;
   document.getElementById('quizSubText').innerText = q.sub || '';
 
