@@ -272,7 +272,17 @@
             <div class="text-[8.5px] text-purple-200">対話・質問 3問</div>
           </button>
 
-          <button id="btnRotWeakBattle" onclick="startWeakBattle()" class="bg-gradient-to-br from-rose-600/90 to-red-700/90 p-2.5 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+          <!-- 長文読解ボタン -->
+          <button id="btnRotReading" onclick="openNormalQuestSelect('reading')" class="bg-gradient-to-br from-amber-600/90 to-orange-700/90 p-2.5 rounded-2xl border border-amber-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-0.5">
+              <span class="text-lg">📜</span>
+              <span id="badgeRotReading" class="text-[8px] font-bold bg-amber-950 text-amber-200 px-1.5 py-0.2 rounded border border-amber-600 whitespace-nowrap">未挑戦</span>
+            </div>
+            <div class="font-black text-[11px] text-white truncate">長文読解</div>
+            <div class="text-[8.5px] text-amber-200">掲示・メール・短文 2問</div>
+          </button>
+          
+          <button id="btnRotWeakBattle" onclick="startWeakBattle()" class="col-span-2 mt-1 bg-gradient-to-br from-rose-600/90 to-red-700/90 p-2.5 rounded-2xl border border-rose-400/30 text-left shadow transition active:scale-95 relative overflow-hidden">
             <div class="flex justify-between items-start mb-0.5">
               <span class="text-lg">👾</span>
               <span id="badgeRotWeak" class="text-[8px] font-bold bg-rose-950 text-rose-200 px-1.5 py-0.2 rounded border border-rose-600 whitespace-nowrap">🔒 ロック</span>
