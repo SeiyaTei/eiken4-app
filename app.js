@@ -617,6 +617,7 @@ function getQuizDataById(id) {
       return {
         id: found.id,
         type: found.type,
+        passage: found.passage || null,
         q: found.q,
         sub: found.sub,
         options: shuffledOptions,
