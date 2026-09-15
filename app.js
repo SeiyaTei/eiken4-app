@@ -4,6 +4,7 @@
 // ==========================================
 
 const STORAGE_KEY = 'eiken4_quest_save_v3';
+const MONSTERS = ['👾', '🦇', '🐺', '🐉', '💀', '👹', '🧙', '🧟'];
 
 // --- ユーザーデータ管理 ---
 let userData = {
@@ -25,10 +26,27 @@ let userData = {
 
 function sanitizeUserData(raw) {
   if (!raw || typeof raw !== 'object') return userData;
+
+  // ボスクリアデータの多重互換復元処理
+  let bossClearedMap = {};
+  if (raw.bossCleared) {
+    if (typeof raw.bossCleared === 'object' && !Array.isArray(raw.bossCleared)) {
+      bossClearedMap = { ...raw.bossCleared };
+    } else if (Array.isArray(raw.bossCleared)) {
+      raw.bossCleared.forEach(lv => { bossClearedMap[lv] = true; });
+    } else if (typeof raw.bossCleared === 'number') {
+      for (let i = 1; i <= raw.bossCleared; i++) bossClearedMap[i] = true;
+    }
+  }
+  const legacyProgress = Number(raw.bossProgress || raw.bossLevel || raw.maxBossLevel || 0);
+  if (legacyProgress > 0) {
+    for (let i = 1; i <= legacyProgress; i++) bossClearedMap[i] = true;
+  }
+
   return {
     level: Number(raw.level) || 1,
     exp: Number(raw.exp) || 0,
-    gems: Number(raw.gems) || 0,
+    gems: Number(raw.gems) >= 0 ? Number(raw.gems) : 30,
     streak: Number(raw.streak) || 1,
     lastLoginDate: typeof raw.lastLoginDate === 'string' ? raw.lastLoginDate : '',
     equipped: {
@@ -55,7 +73,7 @@ function sanitizeUserData(raw) {
       reading: !!raw.questRotation?.reading
     },
     weakList: Array.isArray(raw.weakList) ? raw.weakList : [],
-    bossCleared: raw.bossCleared && typeof raw.bossCleared === 'object' ? raw.bossCleared : {},
+    bossCleared: bossClearedMap,
     stats: {
       totalAnswered: Number(raw.stats?.totalAnswered) || 0,
       totalCorrect: Number(raw.stats?.totalCorrect) || 0
@@ -130,8 +148,6 @@ function getCurrentAvatar() {
 // --- サウンド & BGM ---
 let synth = window.speechSynthesis;
 let audioCtx = null;
-let bgmOsc = null;
-let bgmGain = null;
 let bgmTimer = null;
 
 function getAudioContext() {
@@ -434,13 +450,14 @@ function openBossSelectModal() {
     const isCleared = !!userData.bossCleared[stage.lv];
     const prevCleared = stage.lv === 1 || !!userData.bossCleared[stage.lv - 1];
 
+    // まだ登場していない先のボスは非表示（未登場演出）
+    if (!isCleared && !prevCleared) return;
+
     const card = document.createElement('div');
     card.className = `p-3 rounded-2xl border flex items-center justify-between gap-2 transition ${
       isCleared
         ? 'bg-indigo-950/90 border-emerald-500/70 shadow'
-        : prevCleared
-        ? 'bg-indigo-900/90 border-red-500/80 shadow-lg glow-red'
-        : 'bg-indigo-950/50 border-indigo-800 opacity-50'
+        : 'bg-indigo-900/90 border-red-500/80 shadow-lg glow-red'
     }`;
 
     card.innerHTML = `
@@ -456,9 +473,7 @@ function openBossSelectModal() {
         ${
           isCleared
             ? `<button onclick="confirmBossFight(${stage.lv})" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-2.5 py-1.5 rounded-xl text-[10.5px] shadow transition">再戦</button>`
-            : prevCleared
-            ? `<button onclick="confirmBossFight(${stage.lv})" class="bg-gradient-to-r from-red-600 to-amber-500 hover:brightness-110 text-white font-black px-3 py-1.5 rounded-xl text-[11px] shadow-lg animate-pulse whitespace-nowrap">討伐</button>`
-            : `<span class="text-[9.5px] font-bold text-slate-500 bg-indigo-950 px-2 py-1 rounded border border-indigo-800">🔒 ロック</span>`
+            : `<button onclick="confirmBossFight(${stage.lv})" class="bg-gradient-to-r from-red-600 to-amber-500 hover:brightness-110 text-white font-black px-3 py-1.5 rounded-xl text-[11px] shadow-lg animate-pulse whitespace-nowrap">討伐</button>`
         }
       </div>
     `;
@@ -503,9 +518,21 @@ function startBossBattleInternal(stage) {
   currentMode = 'boss';
   setupBattleStats(stage.hp, stage.atk);
 
-  const pool = shuffleArray(ACTUAL_PAST_EXAM_DATA);
+  // ボス難易度に応じた出題プール編成（序盤は文法中心、中盤以降にリスニングや長文が加わる）
+  let pool = [];
+  if (stage.lv <= 3) {
+    pool = ACTUAL_PAST_EXAM_DATA.filter(x => x.type === 'grammar');
+  } else if (stage.lv <= 6) {
+    pool = ACTUAL_PAST_EXAM_DATA.filter(x => x.type === 'grammar' || x.type === 'reading');
+  } else {
+    pool = ACTUAL_PAST_EXAM_DATA;
+  }
+  if (!pool || pool.length === 0) pool = ACTUAL_PAST_EXAM_DATA;
+
   const qCount = stage.lv >= 9 ? 12 : (stage.lv >= 5 ? 10 : 8);
-  currentQueue = pool.slice(0, qCount).map(item => {
+  const selected = shuffleArray(pool).slice(0, qCount);
+
+  currentQueue = selected.map(item => {
     const correctOption = item.options[item.ans];
     const shuffledOptions = shuffleArray(item.options);
     return {
@@ -666,11 +693,23 @@ function renderQuestion() {
   if (q.type === 'listening') {
     if (audioContainer) audioContainer.classList.remove('hidden');
     if (timerText) timerText.innerText = '🎧 音声を再生中...';
-    if (q.dialogue) playDialogueSpeech(q.dialogue, () => startQuestionTimer());
-    else startQuestionTimer();
+    if (q.dialogue) playDialogueSpeech(q.dialogue, () => {
+      if (isBossMode) startQuestionTimer();
+      else if (timerText) timerText.innerText = '再生完了';
+    });
+    else {
+      if (isBossMode) startQuestionTimer();
+      else if (timerText) timerText.innerText = '';
+    }
   } else {
+    // リスニング以外の通常問題では音声ボタンを隠す
     if (audioContainer) audioContainer.classList.add('hidden');
-    startQuestionTimer();
+    if (isBossMode) {
+      startQuestionTimer();
+    } else {
+      stopCriticalTimer();
+      if (timerText) timerText.innerText = '';
+    }
   }
 }
 
@@ -684,7 +723,9 @@ function playCurrentAudio() {
 
 function startQuestionTimer() {
   stopCriticalTimer();
-  const timeLimit = isBossMode ? 20 : 25;
+  if (!isBossMode) return;
+
+  const timeLimit = 20;
   bossRemainingTime = timeLimit;
   const gauge = document.getElementById('timerGauge');
   const timerText = document.getElementById('timerText');
@@ -885,7 +926,6 @@ function showResultScreen() {
       userData.bossCleared[currentBossStage.lv] = true;
       playSound('levelup');
 
-      // ボス討伐限定ドロップ
       if (currentBossStage.lv === 5 && !userData.inventory.equips.includes('wp_dark_blade')) {
         hasRareDrop = true;
         dropItemName = "【漆黒の魔剣】";
@@ -895,7 +935,6 @@ function showResultScreen() {
         dropItemName = "【竜王の覇冠】";
         userData.inventory.equips.push('hat_dragon_crown');
       } else if (currentBossStage.lv === 10) {
-        // 表ラスボス撃破 -> エンディング起動
         setTimeout(triggerNormalEnding, 1200);
       }
     } else {
@@ -942,7 +981,6 @@ function showResultScreen() {
     }
   }
 
-  // 経験値・ダイヤ反映
   addExpAndGems(earnedExp, earnedGems);
 
   setText('resultTitle', resTitle);
@@ -990,7 +1028,6 @@ function triggerNormalEnding() {
   setText('endingHeroEmoji', hero.emoji);
   setText('endingHeroName', hero.name);
 
-  // 隠し神器付与
   ['hat_genesis_crown', 'wp_genesis_blade', 'aura_genesis_light'].forEach(id => {
     if (!userData.inventory.equips.includes(id)) userData.inventory.equips.push(id);
   });
@@ -1016,13 +1053,11 @@ function finishEndingSequence() {
 
 // --- UI同期 ---
 function updateUiState() {
-  // ヘッダー
   setText('headerLevel', `Lv.${userData.level}`);
   setText('levelLabel', `Lv.${userData.level}`);
   setText('gemCount', userData.gems);
   setText('streakCount', userData.streak);
 
-  // アバター & ステータス
   const hero = getCurrentAvatar();
   const stats = getHeroStats();
   setText('heroName', hero.name);
@@ -1032,7 +1067,6 @@ function updateUiState() {
   setText('statHpVal', stats.hp);
   setText('statSpdVal', stats.spd);
 
-  // 装備アイコン
   const hat = SHOP_EQUIP_DATA.find(x => x.id === userData.equipped.hat);
   const wp = SHOP_EQUIP_DATA.find(x => x.id === userData.equipped.weapon);
   const aura = SHOP_EQUIP_DATA.find(x => x.id === userData.equipped.aura);
@@ -1040,24 +1074,21 @@ function updateUiState() {
   setText('equipWeaponIcon', wp ? wp.icon : '');
   setText('equipAuraIcon', aura ? aura.icon : '');
 
-  // EXPバー
   const reqExp = getRequiredExp(userData.level);
   const pct = Math.min(100, Math.round((userData.exp / reqExp) * 100));
   const expBar = document.getElementById('expBar');
   if (expBar) expBar.style.width = `${pct}%`;
   setText('expText', `${userData.exp} / ${reqExp}`);
 
-  // 試験カウントダウン (2026/10/4)
   const targetDate = new Date('2026-10-04T00:00:00');
   const now = new Date();
   const diffDays = Math.max(0, Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24)));
   setText('countdownDays', `${diffDays} 日`);
 
-  // ボス進捗バッジ
-  const clearedCount = Object.keys(userData.bossCleared).length;
+  // ボス進捗バッジの正確な反映
+  const clearedCount = Object.keys(userData.bossCleared).filter(k => userData.bossCleared[k]).length;
   setText('bossCurrentProgressBadge', `Lv.${Math.min(11, clearedCount + 1)} 解放中`);
 
-  // デイリー4大ミッション進捗
   let dCount = 0;
   if (userData.dailyDone.vocab) dCount++;
   if (userData.dailyDone.grammar) dCount++;
@@ -1070,7 +1101,6 @@ function updateUiState() {
   updateDailyButton('questActionListening', userData.dailyDone.listening, 'listening', 3);
   updateDailyButton('questActionReading', userData.dailyDone.reading, 'reading', 2);
 
-  // デイリー全制覇ボーナス判定
   const bArea = document.getElementById('dailyBonusArea');
   const bClaimed = document.getElementById('dailyBonusClaimedArea');
   if (bArea && bClaimed) {
@@ -1086,7 +1116,6 @@ function updateUiState() {
     }
   }
 
-  // 通常特訓サイクル進捗 (4分野)
   let rCount = 0;
   if (userData.questRotation.vocab) rCount++;
   if (userData.questRotation.grammar) rCount++;
@@ -1099,7 +1128,6 @@ function updateUiState() {
   updateRotBadge('badgeRotListening', 'btnRotListening', userData.questRotation.listening);
   updateRotBadge('badgeRotReading', 'btnRotReading', userData.questRotation.reading);
 
-  // にがて討伐ボタンのロック/解放
   const btnWeak = document.getElementById('btnRotWeakBattle');
   const badgeWeak = document.getElementById('badgeRotWeak');
   if (btnWeak && badgeWeak) {
@@ -1116,7 +1144,6 @@ function updateUiState() {
     }
   }
 
-  // にがて帳バッジ
   setText('weakBookCountBadge', `${userData.weakList.length}問`);
 }
 
@@ -1168,20 +1195,16 @@ function switchView(viewId) {
     if (btn) btn.className = "flex flex-col items-center gap-0.5 text-indigo-400 hover:text-indigo-200";
   });
 
-  if (viewId === 'viewHome') {
-    const el = document.getElementById('navHome');
-    if (el) el.className = "flex flex-col items-center gap-0.5 text-amber-400";
-  } else if (viewId === 'viewBook') {
-    const el = document.getElementById('navBook');
-    if (el) el.className = "flex flex-col items-center gap-0.5 text-amber-400";
-  } else if (viewId === 'viewWeakBook') {
-    const el = document.getElementById('navWeak');
-    if (el) el.className = "flex flex-col items-center gap-0.5 text-amber-400";
-  } else if (viewId === 'viewShop') {
-    const el = document.getElementById('navShop');
-    if (el) el.className = "flex flex-col items-center gap-0.5 text-amber-400";
-  } else if (viewId === 'viewParent') {
-    const el = document.getElementById('navParent');
+  const activeNavMap = {
+    viewHome: 'navHome',
+    viewBook: 'navBook',
+    viewWeakBook: 'navWeak',
+    viewShop: 'navShop',
+    viewParent: 'navParent'
+  };
+  const activeNavId = activeNavMap[viewId];
+  if (activeNavId) {
+    const el = document.getElementById(activeNavId);
     if (el) el.className = "flex flex-col items-center gap-0.5 text-amber-400";
   }
 }
