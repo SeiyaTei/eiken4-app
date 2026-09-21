@@ -44,15 +44,15 @@ const SHOP_EQUIP_DATA = [
   { id: 'aura_genesis_light', name: '創世神の神光', type: 'aura', icon: '🌌✨👑', price: 99999, rank: '🌌 創世神話級', val: 515, desc: '速さ +515 / 時空を超越する絶対神の輝き (Lv.60以上)', reqLv: 60, isSecret: true }
 ];
 
-// ==================== 6. ボスステージ (全11段階 - バランス調整完全版) ====================
+// ==================== 6. ボスステージ (全11段階 - 完全バランス調整版) ====================
 const BOSS_STAGES = [
   { 
     lv: 1, 
     name: "邪竜の幼体", 
     icon: "🐲", 
-    hp: 650,          // 旧1,200から適正化 (Lv.1初期装備でも全問即答なら撃破可能)
-    atk: 45,          // 3〜4問ミスで敗北する緊張感
-    exp: 250,         // 初回撃破で一気にLv.3〜4へ
+    hp: 650,          // 適正化: 初期Lvでも即答で撃破可能
+    atk: 45,          // 3〜4問ミスで敗退する緊張感
+    exp: 150,         // 約0.8レベル上昇
     gems: 20, 
     desc: "まだ幼いドラゴンの子ども。基礎力とスピードで勝てる！",
     introMsg: "Gwaaah! (ボクの縄張りに何しに来た！キミの英語の力、見せてもらおう！)",
@@ -62,9 +62,9 @@ const BOSS_STAGES = [
     lv: 2, 
     name: "黒曜石の飛竜", 
     icon: "🦖", 
-    hp: 1800,         // 旧3,500から適正化
+    hp: 1800, 
     atk: 90, 
-    exp: 500, 
+    exp: 350, 
     gems: 30, 
     desc: "硬いウロコを持つ飛竜。Lv.10進化と装備強化で挑もう！",
     introMsg: "You cannot pierce my black scales! (我が黒曜の鎧、貴様の英語力で貫けるかな！)",
@@ -74,9 +74,9 @@ const BOSS_STAGES = [
     lv: 3, 
     name: "紅蓮のワイバーン", 
     icon: "👺", 
-    hp: 3800,         // 旧7,000から適正化
+    hp: 3800, 
     atk: 160, 
-    exp: 1000, 
+    exp: 650, 
     gems: 40, 
     desc: "炎を吐く強敵。レア武器と即答クリティカルが必要！",
     introMsg: "Burn in my flame! (ここから先は灼熱の領域！貴様の覚悟を試してやろう！)",
@@ -88,7 +88,7 @@ const BOSS_STAGES = [
     icon: "🌪️", 
     hp: 7500, 
     atk: 250, 
-    exp: 1800, 
+    exp: 1100, 
     gems: 50, 
     desc: "猛烈な風を操る竜。あたま装備でHPを強化して挑もう。",
     introMsg: "Feel the wrath of the storm! (吹き荒れる嵐を前に、貴様の知識など無力だ！)",
@@ -100,7 +100,7 @@ const BOSS_STAGES = [
     icon: "👿", 
     hp: 12500, 
     atk: 380, 
-    exp: 3000, 
+    exp: 1800,        // 節目ボス: 約1レベル上昇
     gems: 65, 
     desc: "【中ボス】強力な反撃を放つ。3ミスでゲームオーバー！",
     introMsg: "Welcome to the underworld! (ここが貴様の終着駅だ。闇の底へ沈むがいい！)",
@@ -112,7 +112,7 @@ const BOSS_STAGES = [
     icon: "🦹", 
     hp: 19000, 
     atk: 550, 
-    exp: 4800, 
+    exp: 2400, 
     gems: 80, 
     desc: "闇に潜む古代の竜。スーパーレア装備を整えて挑もう。",
     introMsg: "Darkness will swallow you! (実体なき我が影を捉えられるか？迷宮で朽ち果てよ！)",
@@ -124,7 +124,7 @@ const BOSS_STAGES = [
     icon: "🐉", 
     hp: 27000, 
     atk: 780, 
-    exp: 7500, 
+    exp: 3200, 
     gems: 100, 
     desc: "二つの頭を持つ凶暴な竜。素早さと会心が勝利の鍵！",
     introMsg: "Two heads, double destruction! (我ら双頭の猛攻に耐えられるか！一瞬で消し去ってやる！)",
@@ -136,7 +136,7 @@ const BOSS_STAGES = [
     icon: "🔥", 
     hp: 36000, 
     atk: 1100, 
-    exp: 11000, 
+    exp: 4200, 
     gems: 130, 
     desc: "灼熱の業火を纏う。レジェンド装備・即答率8割が必須！",
     introMsg: "I will incinerate everything! (すべてを灰にする絶対の業火！貴様の知識ごと燃やし尽くす！)",
@@ -148,7 +148,7 @@ const BOSS_STAGES = [
     icon: "⚡🐉", 
     hp: 46000, 
     atk: 1500, 
-    exp: 16000, 
+    exp: 5500, 
     gems: 180, 
     desc: "世界を闇に沈める竜。2ミスが限界の極限バトル！",
     introMsg: "The end of the world begins! (世界は終わる！最後の絶望を味わうがよい！)",
@@ -158,9 +158,9 @@ const BOSS_STAGES = [
     lv: 10, 
     name: "覇天神龍・オメガエデン", 
     icon: "👑🐉✨", 
-    hp: 56000,         // 旧80,000から適正化 (Lv.60+聖剣エクスカリバーで全問正解・高即答率で撃破可能)
+    hp: 56000, 
     atk: 2200, 
-    exp: 25000, 
+    exp: 7500,        // 表クリア達成ボーナス
     gems: 250, 
     desc: "【表ラスボス】英検4級の頂点！全問正解と神速の解答が必須！",
     introMsg: "I am the supreme ruler! (我が名はオメガエデン！英検の頂点、その全てを賭けて挑んでくるがよい！)",
@@ -170,9 +170,9 @@ const BOSS_STAGES = [
     lv: 11, 
     name: "虚無を統べる終極神・ゼロインフィニティ", 
     icon: "🌌👁️⚡", 
-    hp: 92000,         // 旧160,000から適正化 (Lv.100+創世神装備+全問即答・フィーバーで討伐可能)
-    atk: 3800,         // 2ミス即死級の脅威
-    exp: 60000, 
+    hp: 92000, 
+    atk: 3800,        // 2ミス即死級
+    exp: 15000, 
     gems: 500, 
     desc: "【真・隠し裏ボス】Lv.100＆創世神装備＆全問即答で挑む究極の神！", 
     isSecret: true,
