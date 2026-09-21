@@ -172,7 +172,7 @@
               <span class="text-lg flex-shrink-0">📖</span>
               <div class="min-w-0">
                 <div class="font-bold text-[11px] text-slate-200 truncate">必須単語 (5問)</div>
-                <div class="text-[9px] text-amber-400 font-semibold">+50 EXP / 💎+15</div>
+                <div class="text-[9px] text-amber-400 font-semibold">+70 EXP / 💎+15</div>
               </div>
             </div>
             <div id="questActionVocab" class="flex-shrink-0">
@@ -186,7 +186,7 @@
               <span class="text-lg flex-shrink-0">🪄</span>
               <div class="min-w-0">
                 <div class="font-bold text-[11px] text-slate-200 truncate">重要文法 (3問)</div>
-                <div class="text-[9px] text-amber-400 font-semibold">+60 EXP / 💎+20</div>
+                <div class="text-[9px] text-amber-400 font-semibold">+80 EXP / 💎+20</div>
               </div>
             </div>
             <div id="questActionGrammar" class="flex-shrink-0">
@@ -200,7 +200,7 @@
               <span class="text-lg flex-shrink-0">🎧</span>
               <div class="min-w-0">
                 <div class="font-bold text-[11px] text-slate-200 truncate">対話リスニング (3問)</div>
-                <div class="text-[9px] text-amber-400 font-semibold">+80 EXP / 💎+25</div>
+                <div class="text-[9px] text-amber-400 font-semibold">+100 EXP / 💎+25</div>
               </div>
             </div>
             <div id="questActionListening" class="flex-shrink-0">
@@ -212,7 +212,7 @@
         <div id="dailyBonusArea" class="hidden pt-1">
           <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2 px-2 rounded-2xl text-[11px] shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95 animate-bounce">
             <span class="truncate">🎁 3大デイリー全制覇ボーナス受取！</span>
-            <span class="bg-indigo-950 text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+150EXP/💎+50</span>
+            <span class="bg-indigo-950 text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+250EXP/💎+50</span>
           </button>
         </div>
         <div id="dailyBonusClaimedArea" class="hidden text-center text-[9.5px] font-bold text-emerald-400 pt-1">
@@ -290,7 +290,7 @@
           <button onclick="startNormalModeWithDiff(1)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-[11px] text-emerald-400">🌟 初級（見習い・Lv1〜15）</div>
-              <div class="text-[9px] text-slate-300">敵HP: 600 / 攻撃: 15（通常クリア）</div>
+              <div class="text-[9px] text-slate-300">敵HP: 180〜600 / 攻撃: 18（通常クリア向け）</div>
             </div>
             <span class="text-[10px] bg-emerald-950 text-emerald-300 font-bold px-2 py-1 rounded-xl border border-emerald-700">出撃</span>
           </button>
@@ -298,7 +298,7 @@
           <button onclick="startNormalModeWithDiff(2)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-[11px] text-blue-400">🔵 中級（冒険者・Lv20〜35）</div>
-              <div class="text-[9px] text-slate-300">敵HP: 4,500 / 攻撃: 60（会心撃破）</div>
+              <div class="text-[9px] text-slate-300">敵HP: 1,200〜4,000 / 攻撃: 60（即答撃破）</div>
             </div>
             <span class="text-[10px] bg-blue-950 text-blue-300 font-bold px-2 py-1 rounded-xl border border-blue-700">出撃</span>
           </button>
@@ -306,7 +306,7 @@
           <button onclick="startNormalModeWithDiff(3)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-indigo-700 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left">
             <div>
               <div class="font-black text-[11px] text-purple-400">🟣 上級（勇者・Lv40〜60）</div>
-              <div class="text-[9px] text-slate-300">敵HP: 15,000 / 攻撃: 150（上位装備）</div>
+              <div class="text-[9px] text-slate-300">敵HP: 4,200〜14,000 / 攻撃: 150（上位装備）</div>
             </div>
             <span class="text-[10px] bg-purple-950 text-purple-300 font-bold px-2 py-1 rounded-xl border border-purple-700">出撃</span>
           </button>
@@ -314,7 +314,7 @@
           <button onclick="startNormalModeWithDiff(4)" class="w-full bg-indigo-950/80 hover:bg-indigo-800/80 border border-amber-500/60 p-2.5 rounded-2xl flex items-center justify-between transition active:scale-98 text-left glow-gold">
             <div>
               <div class="font-black text-[11px] text-amber-300">👑 覇級（英検マスター・Lv70〜）</div>
-              <div class="text-[9px] text-slate-300">敵HP: 45,000 / 攻撃: 350（超高難度）</div>
+              <div class="text-[9px] text-slate-300">敵HP: 10,500〜35,000 / 攻撃: 350（超高難度）</div>
             </div>
             <span class="text-[10px] bg-amber-950 text-amber-300 font-black px-2 py-1 rounded-xl border border-amber-500">出撃</span>
           </button>
@@ -461,6 +461,11 @@
           </div>
         </div>
 
+        <!-- 🧪 EXPの秘薬を使うボタン（JSで動的制御） -->
+        <button id="btnResultUsePotion" class="hidden w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-black py-2 rounded-xl text-xs shadow transition active:scale-95 flex items-center justify-center gap-1.5 mt-2">
+          <span>🧪 EXPの秘薬を使う</span>
+        </button>
+
         <button onclick="showHome()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-400 text-indigo-950 font-black py-2.5 rounded-xl text-xs shadow-lg hover:brightness-110 active:scale-95 transition">
           拠点（ホーム）にもどる 🏠
         </button>
@@ -527,7 +532,7 @@
               <span class="text-xl flex-shrink-0">🧪</span>
               <div class="min-w-0">
                 <div class="font-bold text-[11px] text-white truncate">EXPの秘薬</div>
-                <div class="text-[9px] text-indigo-300">次回EXP 2倍 (所持: <span id="shopPotionCount">0</span>個)</div>
+                <div class="text-[9px] text-indigo-300">クリア時EXP 2倍 (所持: <span id="shopPotionCount">0</span>個)</div>
               </div>
             </div>
             <button onclick="buyItem('potion', 30)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-2.5 py-1 rounded-lg text-[10px] transition active:scale-95 shadow flex-shrink-0">
