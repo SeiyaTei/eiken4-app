@@ -1,6 +1,6 @@
 // ==========================================
 // 英検4級 合格クエスト 〜50日間の冒険〜
-// ゲーム進行・ロジックファイル (app.js) - 完全統合版
+// ゲーム進行・ロジックファイル (app.js) - 殿堂入りタブ完全対応版
 // ==========================================
 
 // ==================== 音声読み上げエンジン ====================
@@ -221,7 +221,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v45'; // バージョン更新
+const STORAGE_KEY = 'eiken4_data_v46'; // バージョン更新
 let userData = {
   level: 1,
   exp: 0,
@@ -230,7 +230,7 @@ let userData = {
   bossTickets: 1, // 初期1枚プレゼント！
   lastLoginDate: getTodayString(),
   weakList: [],
-  masteredList: [],
+  masteredList: [], // 殿堂入り（克服済みリスト）
   weakStats: {},
   vocabBook: [],
   bossUnlockedLevel: 1,
@@ -248,6 +248,7 @@ let userData = {
 };
 
 let currentShopTab = 'hat';
+let currentWeakTab = 'active'; // 'active' (克服中) または 'mastered' (殿堂入り)
 let isDailyCurrentSession = false;
 let isBossMode = false;
 let isFeverMode = false;
@@ -383,7 +384,6 @@ function calculatePlayerStats() {
   return { hp: totalHp, atk: totalAtk, spd: totalSpd };
 }
 
-// 50日間の学習で適度に成長するEXP曲線
 function getExpNeededForLevel(lv) {
   return Math.round(120 + (lv * 40));
 }
@@ -420,11 +420,15 @@ function updateUiState() {
   setText('gemCount', userData.gems);
   setText('ticketCount', userData.bossTickets || 0);
   setText('modalTicketCount', userData.bossTickets || 0);
-  setText('weakBookCountBadge', `${userData.weakList.length}問`);
   setText('hintStockCount', userData.inventory.hint || 0);
   setText('shopHintCount', userData.inventory.hint || 0);
   setText('shopPotionCount', userData.inventory.potion || 0);
   setText('bossCurrentProgressBadge', `Lv.${userData.bossUnlockedLevel} 解放中`);
+
+  // にがて帳タブ用件数
+  setText('weakTabActiveCount', userData.weakList.length);
+  setText('weakTabMasteredCount', userData.masteredList.length);
+  setText('weakBookCountBadge', currentWeakTab === 'active' ? `${userData.weakList.length}問 克服中` : `${userData.masteredList.length}問 殿堂入り`);
 
   const stats = calculatePlayerStats();
   setText('statAtkVal', stats.atk);
@@ -576,7 +580,6 @@ function claimDailyAllBonus() {
   const bonusExp = 250;
   userData.gems += bonusGems;
 
-  // 🎫 デイリー全制覇でチケット+1枚プレゼント！ (上限3枚)
   let ticketMsg = "";
   if (!userData.bossTickets) userData.bossTickets = 0;
   if (userData.bossTickets < 3) {
@@ -815,13 +818,12 @@ function closeBossSelectModal() {
 }
 
 function startBossBattleWithStage(lv) {
-  // 🎫 チケットチェック
   if (!userData.bossTickets || userData.bossTickets <= 0) {
     alert("🔒 【ボス挑戦チケット】がありません！\n通常特訓サイクル（単語・文法・リスニング制覇 ➔ にがて討伐）をクリアするか、デイリークエスト全制覇でチケットを手に入れよう！");
     return;
   }
 
-  userData.bossTickets -= 1; // チケット1枚消費
+  userData.bossTickets -= 1;
   saveData();
 
   closeBossSelectModal();
@@ -864,13 +866,31 @@ function startBossBattleWithStage(lv) {
   }
 }
 
-// ==================== にがて帳 画面処理 ====================
+// ==================== にがて帳 画面処理（タブ切り替え対応） ====================
 function showWeakBook() {
   stopBattleTimers();
   hideAllViews();
   document.getElementById('viewWeakBook').classList.remove('hidden');
   stopBGM();
   updateNavHighlight('weak');
+  switchWeakTab(currentWeakTab);
+}
+
+function switchWeakTab(tab) {
+  currentWeakTab = tab;
+  const tActive = document.getElementById('tabWeakActive');
+  const tMastered = document.getElementById('tabWeakMastered');
+  
+  if (tActive && tMastered) {
+    if (tab === 'active') {
+      tActive.className = "flex-1 py-1 rounded-lg bg-rose-900 text-rose-200 shadow transition font-black";
+      tMastered.className = "flex-1 py-1 rounded-lg text-indigo-400 hover:text-white transition font-bold";
+    } else {
+      tActive.className = "flex-1 py-1 rounded-lg text-indigo-400 hover:text-white transition font-bold";
+      tMastered.className = "flex-1 py-1 rounded-lg bg-emerald-900 text-emerald-200 shadow transition font-black";
+    }
+  }
+
   renderWeakBookList();
 }
 
@@ -879,31 +899,58 @@ function renderWeakBookList() {
   const badge = document.getElementById('weakBookCountBadge');
   if (!container) return;
   container.innerHTML = '';
-  if (badge) badge.innerText = `${userData.weakList.length}問`;
 
-  if (userData.weakList.length === 0) {
-    container.innerHTML = `
+  const activeCount = userData.weakList.length;
+  const masteredCount = userData.masteredList.length;
+
+  const countActiveEl = document.getElementById('weakTabActiveCount');
+  const countMasteredEl = document.getElementById('weakTabMasteredCount');
+  if (countActiveEl) countActiveEl.innerText = activeCount;
+  if (countMasteredEl) countMasteredEl.innerText = masteredCount;
+
+  if (badge) {
+    badge.innerText = (currentWeakTab === 'active') ? `${activeCount}問 克服中` : `${masteredCount}問 殿堂入り`;
+    badge.className = (currentWeakTab === 'active')
+      ? "text-[9px] bg-indigo-950 px-2 py-0.5 rounded-full border border-rose-500 text-rose-300 font-bold flex-shrink-0"
+      : "text-[9px] bg-indigo-950 px-2 py-0.5 rounded-full border border-emerald-500 text-emerald-300 font-bold flex-shrink-0";
+  }
+
+  const targetList = (currentWeakTab === 'active') ? userData.weakList : userData.masteredList;
+
+  if (targetList.length === 0) {
+    container.innerHTML = (currentWeakTab === 'active') ? `
       <div class="bg-indigo-900/40 border border-indigo-800 p-5 rounded-2xl text-center space-y-1.5">
         <span class="text-3xl">✨</span>
         <div class="font-black text-xs text-amber-300">現在、苦手な問題はありません！</div>
         <div class="text-[10px] text-indigo-300">間違えた問題がここに自動蓄積されます。</div>
       </div>
+    ` : `
+      <div class="bg-indigo-900/40 border border-emerald-800/80 p-5 rounded-2xl text-center space-y-1.5">
+        <span class="text-3xl">💮</span>
+        <div class="font-black text-xs text-emerald-300">まだ殿堂入りした問題はありません！</div>
+        <div class="text-[10px] text-slate-300">「克服中」の問題を覚えて「覚えた」を押すとここに殿堂入りします。</div>
+      </div>
     `;
     return;
   }
 
-  userData.weakList.forEach(id => {
+  targetList.forEach(id => {
     const qData = getQuizDataById(id);
     if (qData) {
       const stats = (userData.weakStats && userData.weakStats[id]) ? userData.weakStats[id] : { cleared: 0, attempts: 0 };
       const card = document.createElement('div');
-      card.className = "bg-indigo-900/80 border border-rose-500/50 p-2.5 rounded-2xl space-y-1.5 shadow";
+      
+      const isMastered = (currentWeakTab === 'mastered');
+      card.className = isMastered 
+        ? "bg-emerald-950/40 border border-emerald-500/60 p-2.5 rounded-2xl space-y-1.5 shadow"
+        : "bg-indigo-900/80 border border-rose-500/50 p-2.5 rounded-2xl space-y-1.5 shadow";
+
       const correctText = qData.options[qData.ans];
       card.innerHTML = `
         <div class="flex justify-between items-start gap-1.5">
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1 flex-wrap mb-0.5">
-              <span class="text-[8.5px] font-black bg-rose-950 text-rose-300 px-1.5 py-0.2 rounded border border-rose-800">${qData.sub || '要復習'}</span>
+              <span class="text-[8.5px] font-black ${isMastered ? 'bg-emerald-950 text-emerald-300 border border-emerald-700' : 'bg-rose-950 text-rose-300 border border-rose-800'} px-1.5 py-0.2 rounded">${isMastered ? '💮 克服済み' : (qData.sub || '要復習')}</span>
               <span class="text-[8.5px] font-bold bg-indigo-950 px-1.5 py-0.2 rounded-full border border-indigo-700 text-amber-300">
                 🎯 ${stats.cleared} / ${stats.attempts} 回クリア
               </span>
@@ -914,9 +961,15 @@ function renderWeakBookList() {
             <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
               再挑戦
             </button>
-            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700 font-bold px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
-              覚えた ✓
-            </button>
+            ${isMastered ? `
+              <button onclick="restoreWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-950 text-rose-300 border border-rose-800/80 font-bold px-1.5 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap" title="にがて帳に戻す">
+                にがてへ戻す ↩️
+              </button>
+            ` : `
+              <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700 font-bold px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
+                覚えた ✓
+              </button>
+            `}
           </div>
         </div>
         <div class="bg-indigo-950/70 p-1.5 rounded-xl border border-indigo-800/80 text-[10px] space-y-0.5">
@@ -932,7 +985,16 @@ function renderWeakBookList() {
 function removeWeakItem(id) {
   userData.weakList = userData.weakList.filter(item => item !== id);
   if (!userData.masteredList.includes(id)) {
-    userData.masteredList.push(id);
+    userData.masteredList.push(id); // 殿堂入りリストへ保存
+  }
+  saveData();
+  renderWeakBookList();
+}
+
+function restoreWeakItem(id) {
+  userData.masteredList = userData.masteredList.filter(item => item !== id);
+  if (!userData.weakList.includes(id)) {
+    userData.weakList.push(id); // 再びにがてリストへ復帰
   }
   saveData();
   renderWeakBookList();
@@ -1145,7 +1207,6 @@ function startSession() {
     enemyCurHp = 100;
     enemyAtk = playerMaxHp;
   } else {
-    // 通常特訓（問数に応じた均等配分）
     const qCount = (selectedNormalType === 'vocab') ? 10 : (selectedNormalType === 'grammar' ? 5 : 3);
     const diffMultipliers = [
       { reqAtk: 60,   atk: 18 },
@@ -1521,7 +1582,7 @@ function proceedFinishSession() {
   } else if (isBossMode && isEnemyDefeated) {
     const isFirstClear = !userData.bossClearedLevels.includes(currentBossStage.lv);
     
-    // 周回時のEXPを40%に抑え、ボス乱獲レベリングを防止
+    // 周回時はEXP40%
     const baseBossExp = isFirstClear ? currentBossStage.exp : Math.round(currentBossStage.exp * 0.4);
     earnedExp = baseBossExp + (quizScore * 5);
     earnedGems = isFirstClear ? currentBossStage.gems : Math.max(3, Math.round(currentBossStage.gems * 0.2));
@@ -1599,7 +1660,7 @@ function proceedFinishSession() {
     document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
     document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-emerald-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に一撃で正解！「覚えた」ボタンで殿堂入り復習リストに移動できます。';
+    document.getElementById('resultComment').innerText = '見事に一撃で正解！「覚えた」ボタンで殿堂入りリストに移動できます。';
     
     earnedExp = 40;
     earnedGems = 5;
@@ -1609,7 +1670,6 @@ function proceedFinishSession() {
     document.getElementById('resultModeBadge').innerText = '🔄 通常特訓サイクルがリセット！';
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-emerald-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1 shadow';
     
-    // 🎫 通常サイクル完遂でチケット+1枚（上限3枚）
     let ticketMsg = "";
     if (!userData.bossTickets) userData.bossTickets = 0;
     if (userData.bossTickets < 3) {
