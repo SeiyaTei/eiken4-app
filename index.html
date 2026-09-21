@@ -499,7 +499,7 @@
       <div class="grid grid-cols-2 gap-1.5 text-xs max-h-[450px] overflow-y-auto pr-1" id="vocabBookList"></div>
     </div>
 
-    <!-- ==================== 5. 👾 にがて帳（復習・弱点克服専用画面） ==================== -->
+    <!-- ==================== 5. 👾 にがて帳（復習・殿堂入りタブ対応画面） ==================== -->
     <div id="viewWeakBook" class="hidden space-y-2.5">
       <div class="bg-gradient-to-br from-rose-900 via-indigo-950 to-indigo-900 border border-rose-500/60 rounded-2xl p-3 space-y-1">
         <div class="flex justify-between items-center">
@@ -507,10 +507,20 @@
             <h3 class="font-black text-xs text-rose-300 flex items-center gap-1">
               👾 にがて帳（復習・弱点チェック）
             </h3>
-            <p class="text-[9px] text-indigo-200">間違えた問題一覧。覚えたら削除しよう！</p>
+            <p class="text-[9px] text-indigo-200">間違えた問題一覧。覚えたら殿堂入りへ！</p>
           </div>
           <span id="weakBookCountBadge" class="text-[9px] bg-indigo-950 px-2 py-0.5 rounded-full border border-rose-500 text-rose-300 font-bold flex-shrink-0">0問</span>
         </div>
+      </div>
+
+      <!-- 🔥 克服中 / 💮 殿堂入り 切替タブ -->
+      <div class="flex bg-indigo-950 p-1 rounded-xl border border-indigo-800 text-[10px] font-bold">
+        <button id="tabWeakActive" onclick="switchWeakTab('active')" class="flex-1 py-1 rounded-lg bg-rose-900 text-rose-200 shadow transition font-black">
+          🔥 克服中 (<span id="weakTabActiveCount">0</span>)
+        </button>
+        <button id="tabWeakMastered" onclick="switchWeakTab('mastered')" class="flex-1 py-1 rounded-lg text-indigo-400 hover:text-white transition font-bold">
+          💮 殿堂入り (<span id="weakTabMasteredCount">0</span>)
+        </button>
       </div>
 
       <div class="space-y-2 max-h-[460px] overflow-y-auto pr-1" id="weakBookItemList"></div>
