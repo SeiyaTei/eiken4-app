@@ -1,6 +1,6 @@
 // ==========================================
 // 英検4級 合格クエスト 〜50日間の冒険〜
-// ゲーム進行・ロジックファイル (app.js) - 最適バランス改修版
+// ゲーム進行・ロジックファイル (app.js) - 完全統合版
 // ==========================================
 
 // ==================== 音声読み上げエンジン ====================
@@ -221,15 +221,16 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v44'; // バージョン更新
+const STORAGE_KEY = 'eiken4_data_v45'; // バージョン更新
 let userData = {
   level: 1,
   exp: 0,
   gems: 10,
   streak: 1,
+  bossTickets: 1, // 初期1枚プレゼント！
   lastLoginDate: getTodayString(),
   weakList: [],
-  masteredList: [], // 克服済み（殿堂入り復習用）
+  masteredList: [],
   weakStats: {},
   vocabBook: [],
   bossUnlockedLevel: 1,
@@ -254,7 +255,6 @@ let currentBossStage = null;
 let selectedNormalType = 'vocab';
 let selectedNormalDiffLevel = 1;
 
-// リザルト用の一時キャッシュ（秘薬任意使用のため）
 let lastEarnedExp = 0;
 let isPotionAlreadyUsedForCurrentResult = false;
 
@@ -268,6 +268,7 @@ function sanitizeUserData() {
   if (typeof userData.exp !== 'number' || isNaN(userData.exp)) userData.exp = 0;
   if (typeof userData.gems !== 'number' || isNaN(userData.gems)) userData.gems = 10;
   if (typeof userData.streak !== 'number' || isNaN(userData.streak)) userData.streak = 1;
+  if (typeof userData.bossTickets !== 'number' || isNaN(userData.bossTickets)) userData.bossTickets = 1;
   if (!Array.isArray(userData.weakList)) userData.weakList = [];
   if (!Array.isArray(userData.masteredList)) userData.masteredList = [];
   if (!userData.weakStats || typeof userData.weakStats !== 'object') userData.weakStats = {};
@@ -382,9 +383,9 @@ function calculatePlayerStats() {
   return { hp: totalHp, atk: totalAtk, spd: totalSpd };
 }
 
-// 50日間で無理なくLv.60〜100に到達できるよう必要EXP曲線を適正化
+// 50日間の学習で適度に成長するEXP曲線
 function getExpNeededForLevel(lv) {
-  return Math.round(60 + (lv * 35));
+  return Math.round(120 + (lv * 40));
 }
 
 function addExp(amount) {
@@ -417,6 +418,8 @@ function updateUiState() {
   setText('levelLabel', `Lv.${userData.level}`);
   setText('streakCount', userData.streak);
   setText('gemCount', userData.gems);
+  setText('ticketCount', userData.bossTickets || 0);
+  setText('modalTicketCount', userData.bossTickets || 0);
   setText('weakBookCountBadge', `${userData.weakList.length}問`);
   setText('hintStockCount', userData.inventory.hint || 0);
   setText('shopHintCount', userData.inventory.hint || 0);
@@ -572,8 +575,17 @@ function claimDailyAllBonus() {
   const bonusGems = 50;
   const bonusExp = 250;
   userData.gems += bonusGems;
+
+  // 🎫 デイリー全制覇でチケット+1枚プレゼント！ (上限3枚)
+  let ticketMsg = "";
+  if (!userData.bossTickets) userData.bossTickets = 0;
+  if (userData.bossTickets < 3) {
+    userData.bossTickets += 1;
+    ticketMsg = "\n🎫 【ボス挑戦チケット】 +1枚";
+  }
+
   playSE('bonus');
-  alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
+  alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP${ticketMsg}\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
   addExp(bonusExp);
 }
 
@@ -678,8 +690,6 @@ function startWeakBattle() {
   currentMode = 'weakBattle';
 
   currentQueue = [];
-  
-  // 1. 未克服の苦手問題から優先抽出
   if (userData.weakList.length > 0) {
     const selectedIds = shuffleArray(userData.weakList).slice(0, 5);
     selectedIds.forEach(id => {
@@ -688,7 +698,6 @@ function startWeakBattle() {
     });
   }
 
-  // 2. 枠が余っていれば、過去に「覚えた（克服した）」問題から総復習抽出！
   if (currentQueue.length < 5 && userData.masteredList.length > 0) {
     const masteredIds = shuffleArray(userData.masteredList).slice(0, 5 - currentQueue.length);
     masteredIds.forEach(id => {
@@ -697,7 +706,6 @@ function startWeakBattle() {
     });
   }
   
-  // 3. それでも枠が余っていればランダム文法問題で補完
   while (currentQueue.length < 5) {
     const randG = Math.floor(Math.random() * RAW_GRAMMAR_DATA.length);
     currentQueue.push(generateGrammarQuiz(RAW_GRAMMAR_DATA[randG], randG));
@@ -707,7 +715,6 @@ function startWeakBattle() {
   startSession();
 }
 
-// ==================== ボス専用ダイアログ表示エンジン ====================
 function showBossDialogueModal(title, icon, text, onConfirm) {
   const modal = document.getElementById('modalBossDialogue');
   const titleEl = document.getElementById('bossDialogueTitle');
@@ -737,6 +744,9 @@ function openBossSelectModal() {
   const container = document.getElementById('bossStageList');
   if (!modal || !container) return;
   container.innerHTML = '';
+
+  const ticketBadge = document.getElementById('modalTicketCount');
+  if (ticketBadge) ticketBadge.innerText = userData.bossTickets || 0;
 
   BOSS_STAGES.forEach(stage => {
     if (stage.isSecret && !userData.bossClearedLevels.includes(10)) {
@@ -772,8 +782,8 @@ function openBossSelectModal() {
           </div>
         </div>
         <div class="flex-shrink-0">
-          <button onclick="startBossBattleWithStage(${stage.lv})" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-2.5 py-1.5 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap">
-            出撃
+          <button onclick="startBossBattleWithStage(${stage.lv})" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-2.5 py-1.5 rounded-xl text-[11px] shadow transition active:scale-95 whitespace-nowrap flex items-center gap-1">
+            <span>出撃</span> <span class="text-[8px] bg-red-950/70 border border-red-400 px-1 py-0.2 rounded">🎫1</span>
           </button>
         </div>
       `;
@@ -805,6 +815,15 @@ function closeBossSelectModal() {
 }
 
 function startBossBattleWithStage(lv) {
+  // 🎫 チケットチェック
+  if (!userData.bossTickets || userData.bossTickets <= 0) {
+    alert("🔒 【ボス挑戦チケット】がありません！\n通常特訓サイクル（単語・文法・リスニング制覇 ➔ にがて討伐）をクリアするか、デイリークエスト全制覇でチケットを手に入れよう！");
+    return;
+  }
+
+  userData.bossTickets -= 1; // チケット1枚消費
+  saveData();
+
   closeBossSelectModal();
   const stage = BOSS_STAGES.find(s => s.lv === lv) || BOSS_STAGES[0];
   currentBossStage = stage;
@@ -913,7 +932,7 @@ function renderWeakBookList() {
 function removeWeakItem(id) {
   userData.weakList = userData.weakList.filter(item => item !== id);
   if (!userData.masteredList.includes(id)) {
-    userData.masteredList.push(id); // 克服済みリストへ昇格保持
+    userData.masteredList.push(id);
   }
   saveData();
   renderWeakBookList();
@@ -1126,13 +1145,13 @@ function startSession() {
     enemyCurHp = 100;
     enemyAtk = playerMaxHp;
   } else {
-    // 通常特訓（問数に応じた均等なHP配分）
+    // 通常特訓（問数に応じた均等配分）
     const qCount = (selectedNormalType === 'vocab') ? 10 : (selectedNormalType === 'grammar' ? 5 : 3);
     const diffMultipliers = [
-      { reqAtk: 60,   atk: 18 },  // 初級
-      { reqAtk: 400,  atk: 60 },  // 中級
-      { reqAtk: 1400, atk: 150 }, // 上級
-      { reqAtk: 3500, atk: 350 }  // 覇級
+      { reqAtk: 60,   atk: 18 },
+      { reqAtk: 400,  atk: 60 },
+      { reqAtk: 1400, atk: 150 },
+      { reqAtk: 3500, atk: 350 }
     ];
     const diff = diffMultipliers[selectedNormalDiffLevel - 1] || diffMultipliers[0];
     enemyMaxHp = Math.round(diff.reqAtk * qCount);
@@ -1174,23 +1193,20 @@ function updateBattleHpUi() {
   document.getElementById('battleEnemyHpText').innerText = `${enemyCurHp}/${enemyMaxHp}`;
 }
 
-// 問題形式およびSpdに応じた可変クリティカルタイマー
 function startCriticalTimer() {
   questionStartTime = Date.now();
   const q = currentQueue[currentIndex];
   const pStats = calculatePlayerStats();
 
-  // 基本猶予時間
   let baseDuration = 3000;
   if (q.type === 'vocab') {
     baseDuration = 3000;
   } else if (q.type === 'grammar') {
-    baseDuration = q.q.includes('\n') ? 6000 : 4000; // 会話文は6秒、短文は4秒
+    baseDuration = q.q.includes('\n') ? 6000 : 4000;
   } else if (q.type === 'listening') {
     baseDuration = 4500;
   }
 
-  // 素早さ（Spd）ボーナス：オーラを積むほど猶予時間が延長！
   const spdBonusMs = Math.min(3000, pStats.spd * 8);
   criticalLimitDuration = baseDuration + spdBonusMs;
 
@@ -1373,15 +1389,13 @@ function handleAnswer(selectedIdx) {
       enemyCurHp = 0;
     } else {
       let baseDmg = Math.round(pStats.atk * (0.95 + Math.random() * 0.2));
-      
-      // 素早さ会心率（最大75%）
       const critRate = Math.min(0.75, pStats.spd / 400);
       isSpdCrit = (Math.random() < critRate);
 
       let multi = 1.0;
-      if (isQuickAnswer) multi += 0.5; // 即答ボーナス +50%
-      if (isSpdCrit) multi += 1.0;     // 会心ボーナス +100%
-      if (isFeverMode) multi *= 1.5;   // フィーバー 1.5倍
+      if (isQuickAnswer) multi += 0.5;
+      if (isSpdCrit) multi += 1.0;
+      if (isFeverMode) multi *= 1.5;
 
       dmg = Math.round(baseDmg * multi);
       enemyCurHp = Math.max(0, enemyCurHp - dmg);
@@ -1505,10 +1519,14 @@ function proceedFinishSession() {
     earnedExp = isBossMode ? Math.round(currentBossStage.exp * 0.25) : Math.max(10, Math.round((quizScore * 6) * 0.5));
     earnedGems = 2;
   } else if (isBossMode && isEnemyDefeated) {
-    earnedExp = currentBossStage.exp + (quizScore * 10);
-    earnedGems = currentBossStage.gems;
+    const isFirstClear = !userData.bossClearedLevels.includes(currentBossStage.lv);
+    
+    // 周回時のEXPを40%に抑え、ボス乱獲レベリングを防止
+    const baseBossExp = isFirstClear ? currentBossStage.exp : Math.round(currentBossStage.exp * 0.4);
+    earnedExp = baseBossExp + (quizScore * 5);
+    earnedGems = isFirstClear ? currentBossStage.gems : Math.max(3, Math.round(currentBossStage.gems * 0.2));
 
-    if (!userData.bossClearedLevels.includes(currentBossStage.lv)) {
+    if (isFirstClear) {
       userData.bossClearedLevels.push(currentBossStage.lv);
     }
     if (currentBossStage.lv >= userData.bossUnlockedLevel && userData.bossUnlockedLevel < 11) {
@@ -1518,7 +1536,7 @@ function proceedFinishSession() {
     if (currentBossStage.lv === 11 && !userData.hasSeenTrueEnding) {
       userData.hasSeenTrueEnding = true;
       earnedGems = 500;
-      earnedExp = 50000;
+      earnedExp = 15000;
       userData.gems += earnedGems;
       addExp(earnedExp);
       showTrueEndingModal();
@@ -1542,7 +1560,9 @@ function proceedFinishSession() {
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full inline-block mb-1 shadow';
     document.getElementById('resultEmoji').innerText = currentBossStage.icon;
     document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
-    document.getElementById('resultComment').innerText = '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
+    document.getElementById('resultComment').innerText = isFirstClear 
+      ? '見事な英語力と攻撃力です！次のボスレベルが解放されました！'
+      : '再討伐お見事！確かな実力が身についています！';
 
     const dropChance = 0.35 + (currentBossStage.lv * 0.06);
     const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
@@ -1588,7 +1608,18 @@ function proceedFinishSession() {
     document.getElementById('resultTitle').innerText = 'にがて討伐完了！';
     document.getElementById('resultModeBadge').innerText = '🔄 通常特訓サイクルがリセット！';
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-emerald-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓（単語・文法・リスニング）に再び挑戦できます！';
+    
+    // 🎫 通常サイクル完遂でチケット+1枚（上限3枚）
+    let ticketMsg = "";
+    if (!userData.bossTickets) userData.bossTickets = 0;
+    if (userData.bossTickets < 3) {
+      userData.bossTickets += 1;
+      ticketMsg = "【🎫 ボス挑戦チケット】を獲得しました！";
+    } else {
+      ticketMsg = "ボス挑戦チケットは満杯(3枚)です！";
+    }
+
+    document.getElementById('resultComment').innerText = `見事に苦手を克服！${ticketMsg}ボスバトルへ出撃しよう！`;
     userData.questRotation = { vocab: false, grammar: false, listening: false };
     earnedExp = 150;
     earnedGems = 20;
@@ -1608,7 +1639,6 @@ function proceedFinishSession() {
     earnedGems = Math.max(2, Math.round((quizScore / 2) * (diffMulti * 0.9)));
   }
 
-  // 秘薬用の一時保存（任意使用）
   lastEarnedExp = earnedExp;
   isPotionAlreadyUsedForCurrentResult = false;
 
@@ -1617,14 +1647,12 @@ function proceedFinishSession() {
   document.getElementById('resultExp').innerText = `+${earnedExp}`;
   document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
 
-  // 秘薬使用ボタンの動的描画
   renderResultPotionButton();
 
   userData.gems += earnedGems;
   addExp(earnedExp);
 }
 
-// リザルト画面で秘薬を使う任意ボタン
 function renderResultPotionButton() {
   let btnPotion = document.getElementById('btnResultUsePotion');
   if (!btnPotion) {
@@ -1651,7 +1679,7 @@ function applyPotionToResult() {
   userData.inventory.potion--;
   isPotionAlreadyUsedForCurrentResult = true;
   playSE('bonus');
-  addExp(lastEarnedExp); // 同額をボーナス加算
+  addExp(lastEarnedExp);
   document.getElementById('resultExp').innerText = `+${lastEarnedExp * 2} (🧪2倍!)`;
   renderResultPotionButton();
   updateUiState();
