@@ -74,6 +74,10 @@
         <button id="btnBgmToggle" onclick="toggleBGM()" class="bg-indigo-800 border border-indigo-600 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-slate-300 transition whitespace-nowrap">
           🎵 OFF
         </button>
+        <!-- 🎫 ボス挑戦チケット表示 -->
+        <div class="bg-indigo-950 border border-red-500 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-red-300 whitespace-nowrap">
+          🎫 <span id="ticketCount">1</span>
+        </div>
         <div class="bg-indigo-950 border border-indigo-700 px-1.5 py-0.5 rounded-full text-[9.5px] font-bold text-amber-300 whitespace-nowrap">
           🔥 <span id="streakCount">1</span>日
         </div>
@@ -144,7 +148,7 @@
             <h3 class="text-sm font-black text-amber-300 mt-0.5 flex items-center gap-1 truncate">
               👑 過去問ボスバトル
             </h3>
-            <p class="text-[9.5px] text-indigo-200 mt-0.5 leading-tight">本番過去問10問で討伐！Lv.10神龍を目指そう！</p>
+            <p class="text-[9.5px] text-indigo-200 mt-0.5 leading-tight">通常サイクルクリアで🎫を獲得して出撃！</p>
           </div>
           <button onclick="openBossSelectModal()" class="bg-gradient-to-r from-red-500 to-amber-500 hover:brightness-110 text-white font-black px-3 py-2.5 rounded-2xl text-[11px] shadow-lg transition active:scale-95 flex flex-col items-center flex-shrink-0">
             <span class="text-lg">🐲</span>
@@ -160,7 +164,7 @@
             <h3 class="font-black text-xs text-amber-400 flex items-center gap-1">
               📜 本日の限定デイリークエスト
             </h3>
-            <p class="text-[9px] text-indigo-200">1日各1回！撃破で大量ボーナス獲得</p>
+            <p class="text-[9px] text-indigo-200">1日各1回！全制覇で🎫ボスチケット獲得！</p>
           </div>
           <span id="dailyProgressText" class="text-[10px] bg-indigo-950 px-2 py-0.5 rounded-full border border-indigo-700 text-amber-300 font-bold whitespace-nowrap">0 / 3</span>
         </div>
@@ -211,8 +215,8 @@
 
         <div id="dailyBonusArea" class="hidden pt-1">
           <button onclick="claimDailyAllBonus()" class="w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 text-indigo-950 font-black py-2 px-2 rounded-2xl text-[11px] shadow-lg glow-gold flex items-center justify-center gap-1.5 transition active:scale-95 animate-bounce">
-            <span class="truncate">🎁 3大デイリー全制覇ボーナス受取！</span>
-            <span class="bg-indigo-950 text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+250EXP/💎+50</span>
+            <span class="truncate">🎁 3大デイリー全制覇！ボーナス＆🎫受取</span>
+            <span class="bg-indigo-950 text-amber-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">+250EXP/💎+50/🎫+1</span>
           </button>
         </div>
         <div id="dailyBonusClaimedArea" class="hidden text-center text-[9.5px] font-bold text-emerald-400 pt-1">
@@ -227,7 +231,7 @@
             <h3 class="font-black text-xs text-amber-300 flex items-center gap-1">
               ⚔️ 通常特訓サイクル
             </h3>
-            <p class="text-[9px] text-indigo-300">3分野クリアで「にがて討伐」解放！</p>
+            <p class="text-[9px] text-indigo-300">3分野クリア ➔ にがて討伐で🎫ボスチケット獲得！</p>
           </div>
           <span id="rotationProgressBadge" class="text-[9.5px] bg-indigo-950 text-amber-400 font-bold px-2 py-0.5 rounded-full border border-indigo-800 flex-shrink-0">0/3完了</span>
         </div>
@@ -266,7 +270,7 @@
               <span id="badgeRotWeak" class="text-[8px] font-bold bg-rose-950 text-rose-200 px-1.5 py-0.2 rounded border border-rose-600 whitespace-nowrap">🔒 ロック</span>
             </div>
             <div class="font-black text-[11px] text-white truncate">にがて討伐</div>
-            <div class="text-[8.5px] text-rose-200">勝つとサイクル復活</div>
+            <div class="text-[8.5px] text-rose-200">勝つと🎫チケット獲得</div>
           </button>
         </div>
       </div>
@@ -327,10 +331,15 @@
       <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 border-2 border-red-500/80 rounded-3xl p-3.5 w-full max-w-sm max-h-[85vh] flex flex-col shadow-2xl space-y-2.5">
         <div class="flex justify-between items-center border-b border-indigo-800 pb-2">
           <div>
-            <h3 class="font-black text-sm text-amber-300 flex items-center gap-1">
-              🐲 過去問ボスバトル選択
-            </h3>
-            <p class="text-[9px] text-indigo-300">各レベルを撃破してLv.10神龍を目指そう！</p>
+            <div class="flex items-center gap-1.5">
+              <h3 class="font-black text-sm text-amber-300 flex items-center gap-1">
+                🐲 過去問ボスバトル
+              </h3>
+              <span class="text-[9px] font-black bg-red-950 text-red-300 border border-red-600 px-2 py-0.5 rounded-full">
+                所持: 🎫 <span id="modalTicketCount">0</span>枚
+              </span>
+            </div>
+            <p class="text-[9px] text-indigo-300">出撃時にチケットを1枚消費します。</p>
           </div>
           <button onclick="closeBossSelectModal()" class="text-slate-400 hover:text-white text-base font-bold px-2 py-0.5 bg-indigo-950 rounded-lg">✕</button>
         </div>
@@ -339,7 +348,7 @@
       </div>
     </div>
 
-    <!-- ==================== 💬 ボス会話モーダル（静的配置で不具合防止） ==================== -->
+    <!-- ==================== 💬 ボス会話モーダル ==================== -->
     <div id="modalBossDialogue" class="hidden fixed inset-0 bg-black/90 z-50 p-3 flex items-center justify-center">
       <div class="max-w-sm w-full bg-gradient-to-b from-indigo-950 via-purple-950 to-black border-2 border-amber-400/80 rounded-3xl p-4 shadow-2xl text-center space-y-3 glow-gold">
         <div class="text-4xl animate-bounce" id="bossDialogueIcon">🐲</div>
@@ -461,7 +470,7 @@
           </div>
         </div>
 
-        <!-- 🧪 EXPの秘薬を使うボタン（JSで動的制御） -->
+        <!-- 🧪 EXPの秘薬を使うボタン（任意使用） -->
         <button id="btnResultUsePotion" class="hidden w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-black py-2 rounded-xl text-xs shadow transition active:scale-95 flex items-center justify-center gap-1.5 mt-2">
           <span>🧪 EXPの秘薬を使う</span>
         </button>
