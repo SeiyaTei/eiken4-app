@@ -1,6 +1,6 @@
 // ==========================================
 // 英検4級 合格クエスト 〜50日間の冒険〜
-// ゲーム進行・ロジックファイル (app.js) - 完全版
+// ゲーム進行・ロジックファイル (app.js) - 最適バランス改修版
 // ==========================================
 
 // ==================== 音声読み上げエンジン ====================
@@ -221,7 +221,7 @@ function playSE(type) {
 }
 
 // ==================== ユーザーデータ管理 ====================
-const STORAGE_KEY = 'eiken4_data_v43';
+const STORAGE_KEY = 'eiken4_data_v44'; // バージョン更新
 let userData = {
   level: 1,
   exp: 0,
@@ -229,6 +229,7 @@ let userData = {
   streak: 1,
   lastLoginDate: getTodayString(),
   weakList: [],
+  masteredList: [], // 克服済み（殿堂入り復習用）
   weakStats: {},
   vocabBook: [],
   bossUnlockedLevel: 1,
@@ -253,6 +254,10 @@ let currentBossStage = null;
 let selectedNormalType = 'vocab';
 let selectedNormalDiffLevel = 1;
 
+// リザルト用の一時キャッシュ（秘薬任意使用のため）
+let lastEarnedExp = 0;
+let isPotionAlreadyUsedForCurrentResult = false;
+
 function getTodayString() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -264,6 +269,7 @@ function sanitizeUserData() {
   if (typeof userData.gems !== 'number' || isNaN(userData.gems)) userData.gems = 10;
   if (typeof userData.streak !== 'number' || isNaN(userData.streak)) userData.streak = 1;
   if (!Array.isArray(userData.weakList)) userData.weakList = [];
+  if (!Array.isArray(userData.masteredList)) userData.masteredList = [];
   if (!userData.weakStats || typeof userData.weakStats !== 'object') userData.weakStats = {};
   if (!Array.isArray(userData.vocabBook)) userData.vocabBook = [];
   if (!Array.isArray(userData.unlockedEquips)) userData.unlockedEquips = [];
@@ -316,6 +322,7 @@ function loadData() {
       if (parsed.inventory) userData.inventory = { ...userData.inventory, ...parsed.inventory };
       if (parsed.equipped) userData.equipped = { ...userData.equipped, ...parsed.equipped };
       if (parsed.weakStats) userData.weakStats = { ...userData.weakStats, ...parsed.weakStats };
+      if (parsed.masteredList) userData.masteredList = parsed.masteredList;
     }
   } catch(e) {
     console.error('Data load error:', e);
@@ -375,14 +382,19 @@ function calculatePlayerStats() {
   return { hp: totalHp, atk: totalAtk, spd: totalSpd };
 }
 
+// 50日間で無理なくLv.60〜100に到達できるよう必要EXP曲線を適正化
+function getExpNeededForLevel(lv) {
+  return Math.round(60 + (lv * 35));
+}
+
 function addExp(amount) {
   userData.exp += amount;
-  let needed = userData.level * 100;
+  let needed = getExpNeededForLevel(userData.level);
   let leveledUp = false;
-  while (userData.exp >= needed) {
+  while (userData.exp >= needed && userData.level < 100) {
     userData.exp -= needed;
     userData.level += 1;
-    needed = userData.level * 100;
+    needed = getExpNeededForLevel(userData.level);
     leveledUp = true;
   }
   if (leveledUp) {
@@ -416,7 +428,7 @@ function updateUiState() {
   setText('statHpVal', stats.hp);
   setText('statSpdVal', stats.spd);
 
-  const needed = userData.level * 100;
+  const needed = getExpNeededForLevel(userData.level);
   const pct = Math.min(100, Math.round((userData.exp / needed) * 100));
   const expBar = document.getElementById('expBar');
   if (expBar) expBar.style.width = `${pct}%`;
@@ -558,7 +570,7 @@ function claimDailyAllBonus() {
   if (userData.dailyDone.allClaimed) return;
   userData.dailyDone.allClaimed = true;
   const bonusGems = 50;
-  const bonusExp = 150;
+  const bonusExp = 250;
   userData.gems += bonusGems;
   playSE('bonus');
   alert(`🎉 3大デイリークエスト完全制覇！\n\n【コンプリートボーナス】\n💎 ダイヤ +${bonusGems}個\n✨ 経験値 +${bonusExp} EXP\n\n素晴らしい集中力です！明日もこの調子で続けよう！`);
@@ -666,6 +678,8 @@ function startWeakBattle() {
   currentMode = 'weakBattle';
 
   currentQueue = [];
+  
+  // 1. 未克服の苦手問題から優先抽出
   if (userData.weakList.length > 0) {
     const selectedIds = shuffleArray(userData.weakList).slice(0, 5);
     selectedIds.forEach(id => {
@@ -673,7 +687,17 @@ function startWeakBattle() {
       if (q) currentQueue.push(q);
     });
   }
+
+  // 2. 枠が余っていれば、過去に「覚えた（克服した）」問題から総復習抽出！
+  if (currentQueue.length < 5 && userData.masteredList.length > 0) {
+    const masteredIds = shuffleArray(userData.masteredList).slice(0, 5 - currentQueue.length);
+    masteredIds.forEach(id => {
+      const q = getQuizDataById(id);
+      if (q) currentQueue.push(q);
+    });
+  }
   
+  // 3. それでも枠が余っていればランダム文法問題で補完
   while (currentQueue.length < 5) {
     const randG = Math.floor(Math.random() * RAW_GRAMMAR_DATA.length);
     currentQueue.push(generateGrammarQuiz(RAW_GRAMMAR_DATA[randG], randG));
@@ -871,8 +895,8 @@ function renderWeakBookList() {
             <button onclick="startSingleWeakQuiz('${id}')" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-indigo-950 font-black px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
               再挑戦
             </button>
-            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-rose-900 text-rose-300 border border-rose-700/60 font-bold px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
-              覚えた
+            <button onclick="removeWeakItem('${id}')" class="bg-indigo-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700 font-bold px-2 py-1 rounded-lg text-[9.5px] transition active:scale-95 whitespace-nowrap">
+              覚えた ✓
             </button>
           </div>
         </div>
@@ -888,8 +912,8 @@ function renderWeakBookList() {
 
 function removeWeakItem(id) {
   userData.weakList = userData.weakList.filter(item => item !== id);
-  if (userData.weakStats && userData.weakStats[id]) {
-    delete userData.weakStats[id];
+  if (!userData.masteredList.includes(id)) {
+    userData.masteredList.push(id); // 克服済みリストへ昇格保持
   }
   saveData();
   renderWeakBookList();
@@ -962,6 +986,7 @@ let enemyMaxHp = 100;
 let enemyCurHp = 100;
 let enemyAtk = 20;
 let questionStartTime = 0;
+let criticalLimitDuration = 3000;
 let timerGaugeInterval = null;
 
 const MONSTERS = ['👹', '👾', '🧟', '🎃', '🐺'];
@@ -1088,33 +1113,30 @@ function startSession() {
     enemyCurHp = currentBossStage.hp;
     enemyAtk = currentBossStage.atk;
   } else if (isDailyCurrentSession) {
-    // ⚔️ デイリーミッション動的難易度調整（問数・攻撃力・HPに応じたバランス）
     const qCount = currentQueue.length || (currentMode === 'vocab' ? 5 : 3);
     enemyMaxHp = Math.round(pStats.atk * qCount * 1.25);
-    enemyAtk = Math.max(15, Math.round(playerMaxHp * 0.38));
+    enemyAtk = Math.max(25, Math.round(playerMaxHp * 0.35));
     enemyCurHp = enemyMaxHp;
   } else if (currentMode === 'weakBattle') {
-    enemyMaxHp = 800;
-    enemyCurHp = 800;
-    enemyAtk = 25;
+    enemyMaxHp = Math.round(pStats.atk * 5 * 1.2);
+    enemyCurHp = enemyMaxHp;
+    enemyAtk = Math.round(playerMaxHp * 0.35);
   } else if (currentMode === 'weakRetry') {
     enemyMaxHp = 100;
     enemyCurHp = 100;
     enemyAtk = playerMaxHp;
   } else {
-    if (selectedNormalDiffLevel === 1) {
-      enemyMaxHp = (selectedNormalType === 'vocab') ? 600 : ((selectedNormalType === 'grammar') ? 350 : 250);
-      enemyAtk = 15;
-    } else if (selectedNormalDiffLevel === 2) {
-      enemyMaxHp = (selectedNormalType === 'vocab') ? 4500 : ((selectedNormalType === 'grammar') ? 2300 : 1400);
-      enemyAtk = 60;
-    } else if (selectedNormalDiffLevel === 3) {
-      enemyMaxHp = (selectedNormalType === 'vocab') ? 15000 : ((selectedNormalType === 'grammar') ? 8000 : 5000);
-      enemyAtk = 150;
-    } else {
-      enemyMaxHp = (selectedNormalType === 'vocab') ? 45000 : ((selectedNormalType === 'grammar') ? 24000 : 15000);
-      enemyAtk = 350;
-    }
+    // 通常特訓（問数に応じた均等なHP配分）
+    const qCount = (selectedNormalType === 'vocab') ? 10 : (selectedNormalType === 'grammar' ? 5 : 3);
+    const diffMultipliers = [
+      { reqAtk: 60,   atk: 18 },  // 初級
+      { reqAtk: 400,  atk: 60 },  // 中級
+      { reqAtk: 1400, atk: 150 }, // 上級
+      { reqAtk: 3500, atk: 350 }  // 覇級
+    ];
+    const diff = diffMultipliers[selectedNormalDiffLevel - 1] || diffMultipliers[0];
+    enemyMaxHp = Math.round(diff.reqAtk * qCount);
+    enemyAtk = diff.atk;
     enemyCurHp = enemyMaxHp;
   }
 
@@ -1152,17 +1174,38 @@ function updateBattleHpUi() {
   document.getElementById('battleEnemyHpText').innerText = `${enemyCurHp}/${enemyMaxHp}`;
 }
 
+// 問題形式およびSpdに応じた可変クリティカルタイマー
 function startCriticalTimer() {
   questionStartTime = Date.now();
+  const q = currentQueue[currentIndex];
+  const pStats = calculatePlayerStats();
+
+  // 基本猶予時間
+  let baseDuration = 3000;
+  if (q.type === 'vocab') {
+    baseDuration = 3000;
+  } else if (q.type === 'grammar') {
+    baseDuration = q.q.includes('\n') ? 6000 : 4000; // 会話文は6秒、短文は4秒
+  } else if (q.type === 'listening') {
+    baseDuration = 4500;
+  }
+
+  // 素早さ（Spd）ボーナス：オーラを積むほど猶予時間が延長！
+  const spdBonusMs = Math.min(3000, pStats.spd * 8);
+  criticalLimitDuration = baseDuration + spdBonusMs;
+
   const gauge = document.getElementById('timerGauge');
   const timerText = document.getElementById('timerText');
   if (gauge) gauge.style.width = '100%';
-  if (timerText) timerText.innerText = (currentMode === 'weakRetry') ? '⚡ 正解で一撃撃破！' : '⚡ 3秒以内即答でクリティカル！';
+  if (timerText) {
+    const secStr = (criticalLimitDuration / 1000).toFixed(1);
+    timerText.innerText = (currentMode === 'weakRetry') ? '⚡ 正解で一撃撃破！' : `⚡ ${secStr}秒以内即答でボーナス！`;
+  }
 
   if (timerGaugeInterval) clearInterval(timerGaugeInterval);
   timerGaugeInterval = setInterval(() => {
     const elapsed = Date.now() - questionStartTime;
-    const remainPct = Math.max(0, 100 - (elapsed / 3000) * 100);
+    const remainPct = Math.max(0, 100 - (elapsed / criticalLimitDuration) * 100);
     if (gauge) gauge.style.width = `${remainPct}%`;
     if (remainPct <= 0) {
       clearInterval(timerGaugeInterval);
@@ -1294,7 +1337,7 @@ function handleAnswer(selectedIdx) {
   const q = currentQueue[currentIndex];
   const isCorrect = (selectedIdx === q.ans);
   const answerDuration = Date.now() - questionStartTime;
-  const isQuickAnswer = (answerDuration <= 3000);
+  const isQuickAnswer = (answerDuration <= criticalLimitDuration);
   
   answeredQuestionsCount += 1;
   userData.totalAnswered += 1;
@@ -1323,25 +1366,35 @@ function handleAnswer(selectedIdx) {
     }
 
     let dmg = 0;
-    let isCrit = false;
+    let isSpdCrit = false;
 
     if (currentMode === 'weakRetry') {
       dmg = enemyCurHp;
       enemyCurHp = 0;
-      isCrit = true;
     } else {
-      dmg = Math.round(pStats.atk * (0.9 + Math.random() * 0.3));
-      const critRate = Math.min(1.0, pStats.spd / 600);
-      isCrit = isQuickAnswer || (Math.random() < critRate);
-      if (isCrit) dmg = Math.round(dmg * 2.0);
-      if (isFeverMode) dmg = Math.round(dmg * 1.5);
+      let baseDmg = Math.round(pStats.atk * (0.95 + Math.random() * 0.2));
+      
+      // 素早さ会心率（最大75%）
+      const critRate = Math.min(0.75, pStats.spd / 400);
+      isSpdCrit = (Math.random() < critRate);
+
+      let multi = 1.0;
+      if (isQuickAnswer) multi += 0.5; // 即答ボーナス +50%
+      if (isSpdCrit) multi += 1.0;     // 会心ボーナス +100%
+      if (isFeverMode) multi *= 1.5;   // フィーバー 1.5倍
+
+      dmg = Math.round(baseDmg * multi);
       enemyCurHp = Math.max(0, enemyCurHp - dmg);
     }
     updateBattleHpUi();
 
-    if (currentMode === 'weakRetry' || isCrit) {
+    const isFullCritical = (isQuickAnswer && isSpdCrit) || currentMode === 'weakRetry';
+    if (isFullCritical) {
       playSE('critical');
-      showDamagePopup(`💥 ${currentMode === 'weakRetry' ? '一撃粉砕!' : 'CRITICAL!'} -${dmg} HP`, true, true);
+      showDamagePopup(`💥 超会心撃!! -${dmg} HP`, true, true);
+    } else if (isQuickAnswer || isSpdCrit) {
+      playSE('critical');
+      showDamagePopup(`⚡ CRITICAL! -${dmg} HP`, true, true);
     } else {
       playSE('correct');
       showDamagePopup(`⚔️ -${dmg} HP`, false, true);
@@ -1354,7 +1407,7 @@ function handleAnswer(selectedIdx) {
     feedbackIcon.innerText = '⭕';
     feedbackTitle.innerText = (currentMode === 'weakRetry') 
       ? `🎯 苦手克服撃破！ Excellent!` 
-      : (isCrit ? `⚡ クリティカル正解！ Excellent! (${combo}連続)` : `正解！ Great! (${combo}連続)`);
+      : (isFullCritical ? `💥 超絶会心！ Excellent! (${combo}連続)` : (isQuickAnswer ? `⚡ 即答撃破！ Great! (${combo}連続)` : `正解！ (${combo}連続)`));
     feedbackTitle.className = "text-xs font-black text-amber-400";
 
     if (q.audio_complete) {
@@ -1373,11 +1426,11 @@ function handleAnswer(selectedIdx) {
       enemyDmg = playerCurHp;
       playerCurHp = 0;
     } else {
-      enemyDmg = Math.round(enemyAtk * (0.8 + Math.random() * 0.4));
+      enemyDmg = Math.round(enemyAtk * (0.85 + Math.random() * 0.3));
       playerCurHp = Math.max(0, playerCurHp - enemyDmg);
     }
     updateBattleHpUi();
-    showDamagePopup(`⚠️ 即死反撃被弾! -${enemyDmg} HP`, false, false);
+    showDamagePopup(`⚠️ 反撃被弾! -${enemyDmg} HP`, false, false);
 
     if (!userData.weakList.includes(q.id)) {
       userData.weakList.push(q.id);
@@ -1438,35 +1491,21 @@ function proceedFinishSession() {
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-rose-700 text-white px-2 py-0.5 rounded-full inline-block mb-1';
     document.getElementById('resultEmoji').innerText = '🪦';
     document.getElementById('resultTitle').innerText = (currentMode === 'weakRetry') ? '一撃でやられてしまった！' : '力尽きてしまった！';
-    document.getElementById('resultComment').innerText = (currentMode === 'weakRetry') ? '解説をよく読んで、もう一度にがて帳から再挑戦しよう！' : '敵の攻撃に耐えきれなかった。HPや装備を強化してリベンジしよう！';
+    document.getElementById('resultComment').innerText = 'ボスの猛攻に耐えきれなかった！あたま装備(HP)や復習でリベンジしよう！';
     
-    earnedExp = Math.max(5, Math.round(quizScore * 2));
+    earnedExp = Math.max(5, Math.round(quizScore * 3));
     earnedGems = 1;
-
-    if (currentMode === 'weakRetry') {
-      const targetId = currentQueue[0]?.id;
-      if (targetId) {
-        if (!userData.weakStats) userData.weakStats = {};
-        if (!userData.weakStats[targetId]) userData.weakStats[targetId] = { cleared: 0, attempts: 0 };
-        userData.weakStats[targetId].attempts += 1;
-      }
-    }
   } else if (!isEnemyDefeated) {
     document.getElementById('resultModeBadge').innerText = '💨 討伐失敗 (時間切れ)';
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-slate-700 text-slate-200 px-2 py-0.5 rounded-full inline-block mb-1';
     document.getElementById('resultEmoji').innerText = '💨';
     document.getElementById('resultTitle').innerText = '敵が逃げてしまった！';
-    document.getElementById('resultComment').innerText = '出題数内にHPを削りきれなかった！3秒即答クリティカルや攻撃力UPで討伐を目指そう！';
+    document.getElementById('resultComment').innerText = '出題数内にHPを削りきれなかった！武器の強化や即答クリティカルで撃破を目指そう！';
 
-    if (isBossMode) {
-      earnedExp = Math.round(currentBossStage.exp * 0.25);
-      earnedGems = 2;
-    } else {
-      earnedExp = Math.max(10, Math.round((quizScore * 5) * 0.5));
-      earnedGems = 1;
-    }
+    earnedExp = isBossMode ? Math.round(currentBossStage.exp * 0.25) : Math.max(10, Math.round((quizScore * 6) * 0.5));
+    earnedGems = 2;
   } else if (isBossMode && isEnemyDefeated) {
-    earnedExp = currentBossStage.exp + (quizScore * 5);
+    earnedExp = currentBossStage.exp + (quizScore * 10);
     earnedGems = currentBossStage.gems;
 
     if (!userData.bossClearedLevels.includes(currentBossStage.lv)) {
@@ -1479,11 +1518,7 @@ function proceedFinishSession() {
     if (currentBossStage.lv === 11 && !userData.hasSeenTrueEnding) {
       userData.hasSeenTrueEnding = true;
       earnedGems = 500;
-      earnedExp = 5000;
-      if (userData.inventory.potion > 0) {
-        earnedExp *= 2;
-        userData.inventory.potion--;
-      }
+      earnedExp = 50000;
       userData.gems += earnedGems;
       addExp(earnedExp);
       showTrueEndingModal();
@@ -1497,10 +1532,6 @@ function proceedFinishSession() {
       });
       userData.hasSeenEnding = true;
       userData.bossUnlockedLevel = 11;
-      if (userData.inventory.potion > 0) {
-        earnedExp *= 2;
-        userData.inventory.potion--;
-      }
       userData.gems += earnedGems;
       addExp(earnedExp);
       showEndingModal();
@@ -1511,11 +1542,9 @@ function proceedFinishSession() {
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-red-600 text-white px-2 py-0.5 rounded-full inline-block mb-1 shadow';
     document.getElementById('resultEmoji').innerText = currentBossStage.icon;
     document.getElementById('resultTitle').innerText = `【${currentBossStage.name}】を完全撃破！`;
-    document.getElementById('resultComment').innerText = (currentBossStage.lv === 11) 
-      ? '信じられない快挙です！真・隠し裏ボスを討ち滅ぼし、全次元を制覇しました！'
-      : '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
+    document.getElementById('resultComment').innerText = '見事な英語力と攻撃力です！次のボスレベルが解放されました！';
 
-    const dropChance = 0.3 + (currentBossStage.lv * 0.07);
+    const dropChance = 0.35 + (currentBossStage.lv * 0.06);
     const bossDrops = ['hat_dragon_crown', 'wp_dark_blade', 'aura_dragon_light'];
     const availableDrops = bossDrops.filter(id => !userData.unlockedEquips.includes(id));
     if (availableDrops.length > 0 && Math.random() < dropChance) {
@@ -1534,15 +1563,15 @@ function proceedFinishSession() {
 
     if (currentMode === 'vocab') {
       userData.dailyDone.vocab = true;
-      earnedExp = 50 + (quizScore * 5);
+      earnedExp = 70 + (quizScore * 8);
       earnedGems = 15;
     } else if (currentMode === 'grammar') {
       userData.dailyDone.grammar = true;
-      earnedExp = 60 + (quizScore * 10);
+      earnedExp = 80 + (quizScore * 12);
       earnedGems = 20;
     } else if (currentMode === 'listening') {
       userData.dailyDone.listening = true;
-      earnedExp = 80 + (quizScore * 10);
+      earnedExp = 100 + (quizScore * 15);
       earnedGems = 25;
     }
   } else if (currentMode === 'weakRetry' && isEnemyDefeated) {
@@ -1550,17 +1579,9 @@ function proceedFinishSession() {
     document.getElementById('resultTitle').innerText = '一撃粉砕！特訓クリア！';
     document.getElementById('resultModeBadge').innerText = '✨ 苦手特訓 討伐成功！';
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-emerald-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1 shadow';
-    document.getElementById('resultComment').innerText = '見事に一撃で正解！何度も反復して定着させよう！完全に覚えたら「覚えた」ボタンで削除できます。';
+    document.getElementById('resultComment').innerText = '見事に一撃で正解！「覚えた」ボタンで殿堂入り復習リストに移動できます。';
     
-    const targetId = currentQueue[0]?.id;
-    if (targetId) {
-      if (!userData.weakStats) userData.weakStats = {};
-      if (!userData.weakStats[targetId]) userData.weakStats[targetId] = { cleared: 0, attempts: 0 };
-      userData.weakStats[targetId].attempts += 1;
-      userData.weakStats[targetId].cleared += 1;
-    }
-
-    earnedExp = 30;
+    earnedExp = 40;
     earnedGems = 5;
   } else if (currentMode === 'weakBattle' && isEnemyDefeated) {
     document.getElementById('resultEmoji').innerText = '🎉';
@@ -1569,7 +1590,7 @@ function proceedFinishSession() {
     document.getElementById('resultModeBadge').className = 'text-[9px] font-black bg-emerald-500 text-indigo-950 px-2 py-0.5 rounded-full inline-block mb-1 shadow';
     document.getElementById('resultComment').innerText = '見事に苦手を克服しました！通常特訓（単語・文法・リスニング）に再び挑戦できます！';
     userData.questRotation = { vocab: false, grammar: false, listening: false };
-    earnedExp = 100;
+    earnedExp = 150;
     earnedGems = 20;
   } else if (isEnemyDefeated) {
     document.getElementById('resultEmoji').innerText = '🏆';
@@ -1581,26 +1602,60 @@ function proceedFinishSession() {
       userData.questRotation[selectedNormalType] = true;
     }
 
-    const diffMulti = [1.0, 1.5, 2.3, 3.8][selectedNormalDiffLevel - 1] || 1.0;
-    const baseExp = (quizScore * 8 + (maxCombo * 2));
+    const diffMulti = [1.0, 1.6, 2.5, 4.0][selectedNormalDiffLevel - 1] || 1.0;
+    const baseExp = (quizScore * 10 + (maxCombo * 3));
     earnedExp = Math.round(baseExp * diffMulti);
-    earnedGems = Math.max(1, Math.round((quizScore / 2) * (diffMulti * 0.8)));
+    earnedGems = Math.max(2, Math.round((quizScore / 2) * (diffMulti * 0.9)));
   }
 
-  let potionUsed = false;
-  if (userData.inventory.potion > 0 && earnedExp > 0) {
-    earnedExp *= 2;
-    userData.inventory.potion--;
-    potionUsed = true;
-  }
+  // 秘薬用の一時保存（任意使用）
+  lastEarnedExp = earnedExp;
+  isPotionAlreadyUsedForCurrentResult = false;
 
   const totalDone = Math.max(1, answeredQuestionsCount);
   document.getElementById('resultScore').innerText = `${quizScore} / ${totalDone}`;
-  document.getElementById('resultExp').innerText = potionUsed ? `+${earnedExp} (🧪2倍!)` : `+${earnedExp}`;
+  document.getElementById('resultExp').innerText = `+${earnedExp}`;
   document.getElementById('resultGems').innerText = `💎+${earnedGems}`;
+
+  // 秘薬使用ボタンの動的描画
+  renderResultPotionButton();
 
   userData.gems += earnedGems;
   addExp(earnedExp);
+}
+
+// リザルト画面で秘薬を使う任意ボタン
+function renderResultPotionButton() {
+  let btnPotion = document.getElementById('btnResultUsePotion');
+  if (!btnPotion) {
+    btnPotion = document.createElement('button');
+    btnPotion.id = 'btnResultUsePotion';
+    btnPotion.className = "w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-black py-2 rounded-xl text-xs shadow transition active:scale-95 flex items-center justify-center gap-1.5 mt-2";
+    const box = document.getElementById('resultCardBox');
+    if (box) {
+      box.insertBefore(btnPotion, box.lastElementChild);
+    }
+  }
+
+  if (userData.inventory.potion > 0 && !isPotionAlreadyUsedForCurrentResult && lastEarnedExp > 0) {
+    btnPotion.classList.remove('hidden');
+    btnPotion.innerHTML = `<span>🧪 EXPの秘薬を使う (所持: ${userData.inventory.potion}個)</span> <span class="bg-indigo-950 px-1.5 py-0.5 rounded text-[10px] text-amber-300">+${lastEarnedExp} EXP</span>`;
+    btnPotion.onclick = applyPotionToResult;
+  } else {
+    btnPotion.classList.add('hidden');
+  }
+}
+
+function applyPotionToResult() {
+  if (userData.inventory.potion <= 0 || isPotionAlreadyUsedForCurrentResult) return;
+  userData.inventory.potion--;
+  isPotionAlreadyUsedForCurrentResult = true;
+  playSE('bonus');
+  addExp(lastEarnedExp); // 同額をボーナス加算
+  document.getElementById('resultExp').innerText = `+${lastEarnedExp * 2} (🧪2倍!)`;
+  renderResultPotionButton();
+  updateUiState();
+  alert(`🧪 EXPの秘薬を使用しました！\n追加で +${lastEarnedExp} EXP を獲得！`);
 }
 
 function confirmExitQuiz() {
@@ -1781,7 +1836,7 @@ function renderShopEquips() {
             ボス限定
           </span>
         ` : `
-          <button onclick="buyEquip('${eq.id}', ${eq.price})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-1 rounded-lg text-[9.5px] flex items-center justify-center gap-1 transition active:scale-95 shadow">
+          <button onclick="buyEquip('${eq.id}',${eq.price})" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-1 rounded-lg text-[9.5px] flex items-center justify-center gap-1 transition active:scale-95 shadow">
             <span>💎 ${eq.price}</span> <span>購入</span>
           </button>
         `))}
